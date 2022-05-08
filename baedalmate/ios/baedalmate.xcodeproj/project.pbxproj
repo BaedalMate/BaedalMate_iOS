@@ -8,12 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* baedalmateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* baedalmateTests.m */; };
+		0A2411B1098C4B42AFF3F3A5 /* AppleSDGothicNeo.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 6EB43E106DBB4667A74E75D4 /* AppleSDGothicNeo.ttc */; };
 		0C80B921A6F3F58F76C31292 /* libPods-baedalmate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-baedalmate.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-baedalmate-baedalmateTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-baedalmate-baedalmateTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		8F9C2553F8E7472F876688FB /* SFProDisplay-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4658699EC14D4B1297812D3C /* SFProDisplay-Regular.otf */; };
+		B7D7835F74C8403D82FAE333 /* SF-Pro-Display-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 225CEC4EAB6640C992A37819 /* SF-Pro-Display-Regular.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,10 +40,13 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = baedalmate/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = baedalmate/main.m; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-baedalmate-baedalmateTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-baedalmate-baedalmateTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		225CEC4EAB6640C992A37819 /* SF-Pro-Display-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Display-Regular.otf"; path = "../src/assets/fonts/SF-Pro-Display-Regular.otf"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-baedalmate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baedalmate.debug.xcconfig"; path = "Target Support Files/Pods-baedalmate/Pods-baedalmate.debug.xcconfig"; sourceTree = "<group>"; };
+		4658699EC14D4B1297812D3C /* SFProDisplay-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProDisplay-Regular.otf"; path = "../src/assets/fonts/SFProDisplay-Regular.otf"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-baedalmate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baedalmate.release.xcconfig"; path = "Target Support Files/Pods-baedalmate/Pods-baedalmate.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-baedalmate-baedalmateTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baedalmate-baedalmateTests.debug.xcconfig"; path = "Target Support Files/Pods-baedalmate-baedalmateTests/Pods-baedalmate-baedalmateTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-baedalmate.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-baedalmate.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6EB43E106DBB4667A74E75D4 /* AppleSDGothicNeo.ttc */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = AppleSDGothicNeo.ttc; path = ../src/assets/fonts/AppleSDGothicNeo.ttc; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = baedalmate/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-baedalmate-baedalmateTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baedalmate-baedalmateTests.release.xcconfig"; path = "Target Support Files/Pods-baedalmate-baedalmateTests/Pods-baedalmate-baedalmateTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -106,6 +112,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		2F59BBF56BDF498394FAF393 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				225CEC4EAB6640C992A37819 /* SF-Pro-Display-Regular.otf */,
+				6EB43E106DBB4667A74E75D4 /* AppleSDGothicNeo.ttc */,
+				4658699EC14D4B1297812D3C /* SFProDisplay-Regular.otf */,
+			);
+			name = Resources;
+			path = "";
+			sourceTree = "<group>";
+		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -122,6 +139,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				2F59BBF56BDF498394FAF393 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -244,6 +262,9 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				B7D7835F74C8403D82FAE333 /* SF-Pro-Display-Regular.otf in Resources */,
+				0A2411B1098C4B42AFF3F3A5 /* AppleSDGothicNeo.ttc in Resources */,
+				8F9C2553F8E7472F876688FB /* SFProDisplay-Regular.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
