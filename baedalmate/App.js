@@ -7,105 +7,58 @@
  */
 
 import React from 'react';
-import type {Node} from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   useColorScheme,
   View,
+  Button,
+  TouchableOpacity,
 } from 'react-native';
-
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
+import {NavigationContainer} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import BtnFloating from './src/components/atoms/BtnFloating';
+import BtnHorizontal2 from './src/components/molecules/BtnHorizontal2';
+import BtnHorizontal3 from './src/components/molecules/BtnHorizontal3';
+import BtnVertical from './src/components/molecules/BtnVertical';
+import {Fonts} from './src/assets/Fonts';
+const Tab = createBottomTabNavigator();
+const App = () => {
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
-
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+    <NavigationContainer>
+      <Tab.Navigator
+        sceneContainerStyle={{
+          backgroundColor: '#fff',
+        }}
+        screenOptions={{}}>
+        <Tab.Screen name="BtnHorizontal2" component={BtnHorizontal2} />
+        <Tab.Screen name="BtnHorizontal3" component={BtnHorizontal3} />
+        <Tab.Screen name="BtnVertical" component={BtnVertical} />
+        <Tab.Screen name="BtnFloating" component={BtnFloating} />
+        <Tab.Screen name="BtnFloating2" component={BtnFloating} />
+      </Tab.Navigator>
+      {/* <View>
+        <View style={styles.sectionContainer}>
+          <BtnHorizontal2></BtnHorizontal2>
         </View>
-      </ScrollView>
-    </SafeAreaView>
+        <View style={styles.sectionContainer}>
+          <BtnHorizontal3></BtnHorizontal3>
+        </View>
+        <View style={styles.sectionContainer}>
+          <BtnVertical></BtnVertical>
+        </View>
+        <View style={styles.floatingBtn}>
+          <BtnFloating></BtnFloating>
+        </View>
+      </View> */}
+    </NavigationContainer>
   );
 };
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
+  floatingBtn: {
+    bottom: -100,
+    marginHorizontal: '5%',
   },
 });
 
