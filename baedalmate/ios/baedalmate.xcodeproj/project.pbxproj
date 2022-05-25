@@ -9,14 +9,22 @@
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* baedalmateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* baedalmateTests.m */; };
 		0A2411B1098C4B42AFF3F3A5 /* AppleSDGothicNeo.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 6EB43E106DBB4667A74E75D4 /* AppleSDGothicNeo.ttc */; };
-		0C80B921A6F3F58F76C31292 /* libPods-baedalmate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-baedalmate.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		7699B88040F8A987B510C191 /* libPods-baedalmate-baedalmateTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-baedalmate-baedalmateTests.a */; };
+		3CBFE5684ED87F2FA5D85AC3 /* libPods-baedalmate-baedalmateTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 925DB0D304423A3328151056 /* libPods-baedalmate-baedalmateTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8F9C2553F8E7472F876688FB /* SFProDisplay-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4658699EC14D4B1297812D3C /* SFProDisplay-Regular.otf */; };
 		B7D7835F74C8403D82FAE333 /* SF-Pro-Display-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 225CEC4EAB6640C992A37819 /* SF-Pro-Display-Regular.otf */; };
+		C6434A68283E9228005F2EBF /* Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6434A67283E9228005F2EBF /* Swift.swift */; };
+		C6434A69283E9228005F2EBF /* Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6434A67283E9228005F2EBF /* Swift.swift */; };
+		C6434A6B283E92BE005F2EBF /* KakaoOpenSDK-1.23.10 in Resources */ = {isa = PBXBuildFile; fileRef = C6434A6A283E92BE005F2EBF /* KakaoOpenSDK-1.23.10 */; };
+		C6434A6C283E92BE005F2EBF /* KakaoOpenSDK-1.23.10 in Resources */ = {isa = PBXBuildFile; fileRef = C6434A6A283E92BE005F2EBF /* KakaoOpenSDK-1.23.10 */; };
+		C6434A6E283E9335005F2EBF /* KakaoCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6434A6D283E9335005F2EBF /* KakaoCommon.framework */; };
+		C6434A70283E9345005F2EBF /* KakaoLink.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6434A6F283E9345005F2EBF /* KakaoLink.framework */; };
+		C6434A72283EA017005F2EBF /* KakaoOpenSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6434A71283EA017005F2EBF /* KakaoOpenSDK.framework */; };
+		C6434A73283EA017005F2EBF /* KakaoOpenSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6434A71283EA017005F2EBF /* KakaoOpenSDK.framework */; };
+		F8D6401C124BE4720B990C96 /* libPods-baedalmate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A055B1B0D837047C4BE1CE33 /* libPods-baedalmate.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,22 +41,29 @@
 		00E356EE1AD99517003FC87E /* baedalmateTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = baedalmateTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* baedalmateTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = baedalmateTests.m; sourceTree = "<group>"; };
+		00F02319E4D90FB0BB9D3821 /* Pods-baedalmate-baedalmateTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baedalmate-baedalmateTests.debug.xcconfig"; path = "Target Support Files/Pods-baedalmate-baedalmateTests/Pods-baedalmate-baedalmateTests.debug.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* baedalmate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = baedalmate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = baedalmate/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = baedalmate/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = baedalmate/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = baedalmate/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = baedalmate/main.m; sourceTree = "<group>"; };
-		19F6CBCC0A4E27FBF8BF4A61 /* libPods-baedalmate-baedalmateTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-baedalmate-baedalmateTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		225CEC4EAB6640C992A37819 /* SF-Pro-Display-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Display-Regular.otf"; path = "../src/assets/fonts/SF-Pro-Display-Regular.otf"; sourceTree = "<group>"; };
-		3B4392A12AC88292D35C810B /* Pods-baedalmate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baedalmate.debug.xcconfig"; path = "Target Support Files/Pods-baedalmate/Pods-baedalmate.debug.xcconfig"; sourceTree = "<group>"; };
-		4658699EC14D4B1297812D3C /* SFProDisplay-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProDisplay-Regular.otf"; path = "../src/assets/fonts/SFProDisplay-Regular.otf"; sourceTree = "<group>"; };
-		5709B34CF0A7D63546082F79 /* Pods-baedalmate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baedalmate.release.xcconfig"; path = "Target Support Files/Pods-baedalmate/Pods-baedalmate.release.xcconfig"; sourceTree = "<group>"; };
-		5B7EB9410499542E8C5724F5 /* Pods-baedalmate-baedalmateTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baedalmate-baedalmateTests.debug.xcconfig"; path = "Target Support Files/Pods-baedalmate-baedalmateTests/Pods-baedalmate-baedalmateTests.debug.xcconfig"; sourceTree = "<group>"; };
-		5DCACB8F33CDC322A6C60F78 /* libPods-baedalmate.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-baedalmate.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6EB43E106DBB4667A74E75D4 /* AppleSDGothicNeo.ttc */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = AppleSDGothicNeo.ttc; path = ../src/assets/fonts/AppleSDGothicNeo.ttc; sourceTree = "<group>"; };
+		225CEC4EAB6640C992A37819 /* SF-Pro-Display-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Display-Regular.otf"; path = "../src/assets/fonts/SF-Pro-Display-Regular.otf"; sourceTree = "<group>"; };
+		4658699EC14D4B1297812D3C /* SFProDisplay-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProDisplay-Regular.otf"; path = "../src/assets/fonts/SFProDisplay-Regular.otf"; sourceTree = "<group>"; };
+		6EB43E106DBB4667A74E75D4 /* AppleSDGothicNeo.ttc */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AppleSDGothicNeo.ttc; path = ../src/assets/fonts/AppleSDGothicNeo.ttc; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = baedalmate/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		89C6BE57DB24E9ADA2F236DE /* Pods-baedalmate-baedalmateTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baedalmate-baedalmateTests.release.xcconfig"; path = "Target Support Files/Pods-baedalmate-baedalmateTests/Pods-baedalmate-baedalmateTests.release.xcconfig"; sourceTree = "<group>"; };
+		925DB0D304423A3328151056 /* libPods-baedalmate-baedalmateTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-baedalmate-baedalmateTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A055B1B0D837047C4BE1CE33 /* libPods-baedalmate.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-baedalmate.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD11A7A772C91D3F4D6918EB /* Pods-baedalmate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baedalmate.release.xcconfig"; path = "Target Support Files/Pods-baedalmate/Pods-baedalmate.release.xcconfig"; sourceTree = "<group>"; };
+		C15B60019A15CCC3F7D5DA74 /* Pods-baedalmate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baedalmate.debug.xcconfig"; path = "Target Support Files/Pods-baedalmate/Pods-baedalmate.debug.xcconfig"; sourceTree = "<group>"; };
+		C6434A65283E9227005F2EBF /* baedalmate-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "baedalmate-Bridging-Header.h"; sourceTree = "<group>"; };
+		C6434A66283E9227005F2EBF /* baedalmateTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "baedalmateTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		C6434A67283E9228005F2EBF /* Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Swift.swift; path = baedalmate/Swift.swift; sourceTree = "<group>"; };
+		C6434A6A283E92BE005F2EBF /* KakaoOpenSDK-1.23.10 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "KakaoOpenSDK-1.23.10"; sourceTree = "<group>"; };
+		C6434A6D283E9335005F2EBF /* KakaoCommon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KakaoCommon.framework; path = "KakaoOpenSDK-1.23.10/KakaoCommon.framework"; sourceTree = "<group>"; };
+		C6434A6F283E9345005F2EBF /* KakaoLink.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KakaoLink.framework; path = "KakaoOpenSDK-1.23.10/KakaoLink.framework"; sourceTree = "<group>"; };
+		C6434A71283EA017005F2EBF /* KakaoOpenSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = KakaoOpenSDK.framework; sourceTree = "<group>"; };
+		E461FCA58249162C651655DD /* Pods-baedalmate-baedalmateTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baedalmate-baedalmateTests.release.xcconfig"; path = "Target Support Files/Pods-baedalmate-baedalmateTests/Pods-baedalmate-baedalmateTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -57,7 +72,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7699B88040F8A987B510C191 /* libPods-baedalmate-baedalmateTests.a in Frameworks */,
+				C6434A73283EA017005F2EBF /* KakaoOpenSDK.framework in Frameworks */,
+				3CBFE5684ED87F2FA5D85AC3 /* libPods-baedalmate-baedalmateTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,7 +81,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C80B921A6F3F58F76C31292 /* libPods-baedalmate.a in Frameworks */,
+				C6434A70283E9345005F2EBF /* KakaoLink.framework in Frameworks */,
+				C6434A72283EA017005F2EBF /* KakaoOpenSDK.framework in Frameworks */,
+				C6434A6E283E9335005F2EBF /* KakaoCommon.framework in Frameworks */,
+				F8D6401C124BE4720B990C96 /* libPods-baedalmate.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,6 +117,9 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				C6434A67283E9228005F2EBF /* Swift.swift */,
+				C6434A65283E9227005F2EBF /* baedalmate-Bridging-Header.h */,
+				C6434A66283E9227005F2EBF /* baedalmateTests-Bridging-Header.h */,
 			);
 			name = baedalmate;
 			sourceTree = "<group>";
@@ -105,9 +127,13 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C6434A71283EA017005F2EBF /* KakaoOpenSDK.framework */,
+				C6434A6F283E9345005F2EBF /* KakaoLink.framework */,
+				C6434A6D283E9335005F2EBF /* KakaoCommon.framework */,
+				C6434A6A283E92BE005F2EBF /* KakaoOpenSDK-1.23.10 */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				5DCACB8F33CDC322A6C60F78 /* libPods-baedalmate.a */,
-				19F6CBCC0A4E27FBF8BF4A61 /* libPods-baedalmate-baedalmateTests.a */,
+				A055B1B0D837047C4BE1CE33 /* libPods-baedalmate.a */,
+				925DB0D304423A3328151056 /* libPods-baedalmate-baedalmateTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -120,7 +146,6 @@
 				4658699EC14D4B1297812D3C /* SFProDisplay-Regular.otf */,
 			);
 			name = Resources;
-			path = "";
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -158,10 +183,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3B4392A12AC88292D35C810B /* Pods-baedalmate.debug.xcconfig */,
-				5709B34CF0A7D63546082F79 /* Pods-baedalmate.release.xcconfig */,
-				5B7EB9410499542E8C5724F5 /* Pods-baedalmate-baedalmateTests.debug.xcconfig */,
-				89C6BE57DB24E9ADA2F236DE /* Pods-baedalmate-baedalmateTests.release.xcconfig */,
+				C15B60019A15CCC3F7D5DA74 /* Pods-baedalmate.debug.xcconfig */,
+				BD11A7A772C91D3F4D6918EB /* Pods-baedalmate.release.xcconfig */,
+				00F02319E4D90FB0BB9D3821 /* Pods-baedalmate-baedalmateTests.debug.xcconfig */,
+				E461FCA58249162C651655DD /* Pods-baedalmate-baedalmateTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -173,12 +198,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "baedalmateTests" */;
 			buildPhases = (
-				A55EABD7B0C7F3A422A6CC61 /* [CP] Check Pods Manifest.lock */,
+				F1044BA7899576356D7AFA68 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				C59DA0FBD6956966B86A3779 /* [CP] Embed Pods Frameworks */,
-				F6A41C54EA430FDDC6A6ED99 /* [CP] Copy Pods Resources */,
+				3818982E8D6518100844C305 /* [CP] Embed Pods Frameworks */,
+				D5B60AF260C2D82CFAF9BCD8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -194,14 +219,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "baedalmate" */;
 			buildPhases = (
-				C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */,
+				ADB90C509E4AF3CD71857728 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */,
-				E235C05ADACE081382539298 /* [CP] Copy Pods Resources */,
+				3331F5B2AB7136BC5B990AB6 /* [CP] Embed Pods Frameworks */,
+				F18C958D4C6A6A3CAE2C7458 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -222,10 +247,11 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
+						LastSwiftMigration = 1340;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1340;
 					};
 				};
 			};
@@ -253,6 +279,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C6434A6C283E92BE005F2EBF /* KakaoOpenSDK-1.23.10 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,6 +292,7 @@
 				B7D7835F74C8403D82FAE333 /* SF-Pro-Display-Regular.otf in Resources */,
 				0A2411B1098C4B42AFF3F3A5 /* AppleSDGothicNeo.ttc in Resources */,
 				8F9C2553F8E7472F876688FB /* SFProDisplay-Regular.otf in Resources */,
+				C6434A6B283E92BE005F2EBF /* KakaoOpenSDK-1.23.10 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,7 +313,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */ = {
+		3331F5B2AB7136BC5B990AB6 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -302,29 +330,24 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-baedalmate/Pods-baedalmate-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A55EABD7B0C7F3A422A6CC61 /* [CP] Check Pods Manifest.lock */ = {
+		3818982E8D6518100844C305 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-baedalmate-baedalmateTests/Pods-baedalmate-baedalmateTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
+			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-baedalmate-baedalmateTests-checkManifestLockResult.txt",
+				"${PODS_ROOT}/Target Support Files/Pods-baedalmate-baedalmateTests/Pods-baedalmate-baedalmateTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-baedalmate-baedalmateTests/Pods-baedalmate-baedalmateTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */ = {
+		ADB90C509E4AF3CD71857728 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -346,41 +369,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C59DA0FBD6956966B86A3779 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-baedalmate-baedalmateTests/Pods-baedalmate-baedalmateTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-baedalmate-baedalmateTests/Pods-baedalmate-baedalmateTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-baedalmate-baedalmateTests/Pods-baedalmate-baedalmateTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E235C05ADACE081382539298 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-baedalmate/Pods-baedalmate-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-baedalmate/Pods-baedalmate-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-baedalmate/Pods-baedalmate-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F6A41C54EA430FDDC6A6ED99 /* [CP] Copy Pods Resources */ = {
+		D5B60AF260C2D82CFAF9BCD8 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -395,6 +384,45 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-baedalmate-baedalmateTests/Pods-baedalmate-baedalmateTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F1044BA7899576356D7AFA68 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-baedalmate-baedalmateTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F18C958D4C6A6A3CAE2C7458 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-baedalmate/Pods-baedalmate-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-baedalmate/Pods-baedalmate-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-baedalmate/Pods-baedalmate-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -424,6 +452,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				00E356F31AD99517003FC87E /* baedalmateTests.m in Sources */,
+				C6434A69283E9228005F2EBF /* Swift.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -432,6 +461,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
+				C6434A68283E9228005F2EBF /* Swift.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -449,9 +479,15 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-baedalmate-baedalmateTests.debug.xcconfig */;
+			baseConfigurationReference = 00F02319E4D90FB0BB9D3821 /* Pods-baedalmate-baedalmateTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -470,16 +506,25 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "baedalmateTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/baedalmate.app/baedalmate";
 			};
 			name = Debug;
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 89C6BE57DB24E9ADA2F236DE /* Pods-baedalmate-baedalmateTests.release.xcconfig */;
+			baseConfigurationReference = E461FCA58249162C651655DD /* Pods-baedalmate-baedalmateTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = baedalmateTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -494,18 +539,28 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "baedalmateTests-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/baedalmate.app/baedalmate";
 			};
 			name = Release;
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-baedalmate.debug.xcconfig */;
+			baseConfigurationReference = C15B60019A15CCC3F7D5DA74 /* Pods-baedalmate.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
+				EXCLUDED_ARCHS = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/KakaoOpenSDK-1.23.10",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = baedalmate/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -516,8 +571,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mate.baedalmate;
 				PRODUCT_NAME = baedalmate;
+				SWIFT_OBJC_BRIDGING_HEADER = "baedalmate-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -526,11 +582,19 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-baedalmate.release.xcconfig */;
+			baseConfigurationReference = BD11A7A772C91D3F4D6918EB /* Pods-baedalmate.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				EXCLUDED_ARCHS = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/KakaoOpenSDK-1.23.10",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = baedalmate/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -541,8 +605,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mate.baedalmate;
 				PRODUCT_NAME = baedalmate;
+				SWIFT_OBJC_BRIDGING_HEADER = "baedalmate-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -551,6 +616,7 @@
 		83CBBA201A601CBA00E9B192 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
@@ -581,6 +647,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				EXCLUDED_ARCHS = "";
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -622,6 +689,7 @@
 		83CBBA211A601CBA00E9B192 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
@@ -652,6 +720,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				EXCLUDED_ARCHS = "";
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
