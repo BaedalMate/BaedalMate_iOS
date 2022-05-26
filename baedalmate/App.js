@@ -22,6 +22,7 @@ import BtnHorizontal2 from './src/components/molecules/BtnHorizontal2';
 import BtnHorizontal3 from './src/components/molecules/BtnHorizontal3';
 import BtnVertical from './src/components/molecules/BtnVertical';
 import {Fonts} from './src/assets/Fonts';
+import {Intro} from './intro';
 const Tab = createBottomTabNavigator();
 const App = () => {
   return (
@@ -31,7 +32,7 @@ const App = () => {
           backgroundColor: '#fff',
         }}
         screenOptions={{}}>
-        <Tab.Screen name="BtnHorizontal2" component={BtnHorizontal2} />
+        <Tab.Screen name="BtnHorizontal2" component={Intro} />
         <Tab.Screen name="BtnHorizontal3" component={BtnHorizontal3} />
         <Tab.Screen name="BtnVertical" component={BtnVertical} />
         <Tab.Screen name="BtnFloating" component={BtnFloating} />
