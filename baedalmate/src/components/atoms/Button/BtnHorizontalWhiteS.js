@@ -8,18 +8,18 @@
 
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {Fonts} from '../../assets/Fonts';
-const BtnHorizontalWhite = () => {
+import {Fonts} from '../../../assets/Fonts';
+const BtnHorizontalWhiteS = () => {
   return (
-    <TouchableOpacity style={styles.btnHorizontalWhiteWrapper}>
-      <Text style={styles.btnHorizontalWhiteText}>메뉴변경</Text>
+    <TouchableOpacity style={styles.btnHorizontalWhiteSWrapper}>
+      <Text style={styles.btnHorizontalWhiteSText}>메뉴변경</Text>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  btnHorizontalWhiteWrapper: {
-    width: 150,
+  btnHorizontalWhiteSWrapper: {
+    width: 75,
     flex: 1,
     backgroundColor: '#FFFFFF',
     borderWidth: 1,
@@ -29,15 +29,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginRight: 5,
   },
-  btnHorizontalWhiteText: {
+  btnHorizontalWhiteSText: {
     fontFamily: Fonts.Ko,
     fontWeight: '400',
-    fontSize: 20,
-    lineHeight: 28,
+    fontSize: 14,
+    lineHeight: 20,
     textAlign: 'center',
     textAlignVertical: 'center',
     color: '#FB6C1C',
   },
 });
 
-export default BtnHorizontalWhite;
+export default BtnHorizontalWhiteS;

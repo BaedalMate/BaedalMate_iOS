@@ -8,35 +8,33 @@
 
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {Fonts} from '../../assets/Fonts';
-const BtnHorizontalOrangeS = () => {
+import {Fonts} from '../../../assets/Fonts';
+const BtnVerticalOrange = () => {
   return (
-    <TouchableOpacity style={styles.btnHorizontalOrangeSWrapper}>
-      <Text style={styles.btnHorizontalOrangeSText}>메뉴변경</Text>
+    <TouchableOpacity style={styles.btnVerticalOrangeWrapper}>
+      <Text style={styles.btnVerticalOrangeText}>메뉴변경</Text>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  btnHorizontalOrangeSWrapper: {
-    width: 75,
-    flex: 1,
+  btnVerticalOrangeWrapper: {
+    width: 300,
+    height: 53,
     backgroundColor: '#FB6C1C',
     borderRadius: 10,
     textAlign: 'center',
     justifyContent: 'center',
-    marginLeft: 5,
   },
-  btnHorizontalOrangeSText: {
+  btnVerticalOrangeText: {
     fontFamily: Fonts.Ko,
-    fontStyle: 'normal',
     fontWeight: '400',
-    fontSize: 14,
-    lineHeight: 20,
+    fontSize: 20,
+    lineHeight: 28,
     textAlign: 'center',
     textAlignVertical: 'center',
     color: '#FFFFFF',
   },
 });
 
-export default BtnHorizontalOrangeS;
+export default BtnVerticalOrange;

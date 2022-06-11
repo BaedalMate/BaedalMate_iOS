@@ -8,28 +8,27 @@
 
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import BtnHorizontalGrayS from '../atoms/BtnHorizontalGrayS';
-import BtnHorizontalOrangeS from '../atoms/BtnHorizontalOrangeS';
-import BtnHorizontalWhiteS from '../atoms/BtnHorizontalWhiteS';
-
+import BtnHorizontalGrayS from '../../atoms/Button/BtnHorizontalGrayS';
+import BtnHorizontalOrangeS from '../../atoms/Button/BtnHorizontalOrangeS';
+import BtnHorizontalWhiteS from '../../atoms/Button/BtnHorizontalWhiteS';
 const BtnHorizontal3 = () => {
   return (
     <View style={styles.btnHorizontalWrapper}>
       <BtnHorizontalWhiteS></BtnHorizontalWhiteS>
       <BtnHorizontalGrayS></BtnHorizontalGrayS>
       <BtnHorizontalOrangeS></BtnHorizontalOrangeS>
-          </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-    btnHorizontalWrapper:{
-        width: '100%',
-        height: 36,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingHorizontal: '5%',
-    }
+  btnHorizontalWrapper: {
+    width: '100%',
+    height: 36,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: '5%',
+  },
 });
 
 export default BtnHorizontal3;

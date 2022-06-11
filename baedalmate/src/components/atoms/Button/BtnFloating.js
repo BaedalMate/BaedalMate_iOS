@@ -8,7 +8,7 @@
 
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {Fonts} from '../../assets/Fonts';
+import {Fonts} from '../../../assets/Fonts';
 const BtnFloating = () => {
   return (
     <TouchableOpacity style={styles.btnFloatingWrapper}>
