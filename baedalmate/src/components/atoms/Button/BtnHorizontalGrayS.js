@@ -9,6 +9,7 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {Fonts} from '../../../assets/Fonts';
+
 const BtnHorizontalGrayS = props => {
   return (
     <TouchableOpacity
