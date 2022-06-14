@@ -8,7 +8,7 @@ import {
   logout,
   unlink,
 } from '@react-native-seoul/kakao-login';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 // import Button from '../uis/Button';
 // import {IC_MASK} from '../../utils/Icons';
@@ -22,28 +22,9 @@ import {
   Platform,
 } from 'react-native';
 
-// import styled from 'styled-components/native';
-// import {withScreen} from '../../utils/wrapper';
-// const Container = styled.View`
-//   flex: 1;
-//   align-self: stretch;
-//   overflow: scroll;
-//   background-color: ${({theme}) => theme.background};
-//   flex-direction: column;
-//   justify-content: flex-start;
-//   align-items: center;
-//   overflow: hidden;
-// `;
+import BtnVerticalOrange from '../atoms/Button/BtnVerticalOrange';
 
-// const ButtonWrapper = styled.View`
-//   position: absolute;
-//   flex-direction: column;
-//   bottom: 40px;
-//   width: 85%;
-//   align-self: center;
-// `;
-
-function Intro(): React.ReactElement {
+function Login({navigation}): React.ReactElement {
   const [result, setResult] = useState<string>('');
 
   const signInWithKakao = async (): Promise<void> => {
@@ -70,73 +51,52 @@ function Intro(): React.ReactElement {
   };
 
   return (
-    <View>
-      <Button
-        testID="btn-login"
-        // style={{
-        //   backgroundColor: '#FEE500',
-        //   borderRadius: 40,
-        //   borderWidth: 1,
-        // }}
-        // textStyle={{
-        //   color: 'black',
-        //   fontSize: 16,
-        // }}
-        // imgLeftSrc={IC_MASK}
-        onPress={() => signInWithKakao()}
-        title={'카카오 로그인'}
+    <View
+      style={{
+        marginTop: 50,
+        marginHorizontal: '5%',
+        alignItems: 'center',
+        height: '100%',
+        justifyContent: 'space-evenly',
+      }}>
+      <View
+        style={{
+          width: 200,
+          height: 200,
+          backgroundColor: 'gray',
+          justifyContent: 'center',
+        }}>
+        <Text
+          style={{
+            color: 'white',
+            textAlign: 'center',
+            fontSize: 50,
+            lineHeight: 50,
+          }}>
+          LOGO
+        </Text>
+      </View>
+      {/* <View>
+        <Text>result:{result}</Text>
+      </View> */}
+      <BtnVerticalOrange
+        text={'카카오 로그인'}
+        onPress={() =>
+          signInWithKakao()
+            .then(navigation.navigate('AppTabComponent', {}))
+            .catch(err => {
+              alert('에러 발생');
+            })
+        }
       />
-      <View style={{marginTop: 12}} />
       <Button
-        testID="btn-login"
-        // style={{
-        //   backgroundColor: '#FEE500',
-        //   borderRadius: 40,
-        //   borderWidth: 1,
-        // }}
-        // textStyle={{
-        //   color: 'black',
-        //   fontSize: 16,
-        // }}
-        // imgLeftSrc={IC_MASK}
-        onPress={() => getProfile()}
-        title={'프로필 조회'}
+        title="비회원"
+        onPress={() => {
+          navigation.navigate('AppTabComponent', {});
+        }}
       />
-      <View style={{marginTop: 12}} />
-      <Button
-        testID="btn-login"
-        // style={{
-        //   backgroundColor: '#FEE500',
-        //   borderRadius: 40,
-        //   borderWidth: 1,
-        // }}
-        // textStyle={{
-        //   color: 'black',
-        //   fontSize: 16,
-        // }}
-        // imgLeftSrc={IC_MASK}
-        onPress={() => unlinkKakao()}
-        title={'링크 해제'}
-      />
-      <View style={{marginTop: 12}} />
-      <Button
-        testID="btn-login"
-        // style={{
-        //   backgroundColor: '#FEE500',
-        //   borderRadius: 40,
-        //   borderWidth: 1,
-        // }}
-        // textStyle={{
-        //   color: 'black',
-        //   fontSize: 16,
-        // }}
-        // imgLeftSrc={IC_MASK}
-        onPress={() => signOutWithKakao()}
-        title={'카카오 로그아웃'}
-      />
-      <View style={{marginTop: 40}} />
     </View>
   );
 }
 
-export default Intro;
+export default Login;

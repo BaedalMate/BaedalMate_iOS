@@ -17,17 +17,19 @@ import {
 } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import BtnFloating from './src/components/atoms/BtnFloating';
-import BtnHorizontal2 from './src/components/molecules/BtnHorizontal2';
-import BtnHorizontal3 from './src/components/molecules/BtnHorizontal3';
-import BtnVertical from './src/components/molecules/BtnVertical';
+import BtnFloating from './src/components/atoms/Button/BtnFloating';
+import BtnHorizontal2 from './src/components/molecules/Button/BtnHorizontal2';
+import BtnHorizontal3 from './src/components/molecules/Button/BtnHorizontal3';
+import BtnVertical from './src/components/molecules/Button/BtnVertical';
 import {Fonts} from './src/assets/Fonts';
 import {Intro} from './intro';
+import {RootNavigator} from './src/routes';
 const Tab = createBottomTabNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Tab.Navigator
+      <RootNavigator></RootNavigator>
+      {/* <Tab.Navigator
         sceneContainerStyle={{
           backgroundColor: '#fff',
         }}
@@ -37,7 +39,7 @@ const App = () => {
         <Tab.Screen name="BtnVertical" component={BtnVertical} />
         <Tab.Screen name="BtnFloating" component={BtnFloating} />
         <Tab.Screen name="BtnFloating2" component={BtnFloating} />
-      </Tab.Navigator>
+      </Tab.Navigator> */}
       {/* <View>
         <View style={styles.sectionContainer}>
           <BtnHorizontal2></BtnHorizontal2>
