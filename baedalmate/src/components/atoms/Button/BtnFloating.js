@@ -8,10 +8,10 @@
 
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {Fonts} from '../../assets/Fonts';
-const BtnFloating = () => {
+import {Fonts} from '../../../assets/Fonts';
+const BtnFloating = props => {
   return (
-    <TouchableOpacity style={styles.btnFloatingWrapper}>
+    <TouchableOpacity style={styles.btnFloatingWrapper} onPress={props.onPress}>
       <Text style={styles.btnFloatingText}>+</Text>
     </TouchableOpacity>
   );

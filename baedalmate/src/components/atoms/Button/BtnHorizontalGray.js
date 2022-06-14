@@ -8,36 +8,37 @@
 
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {Fonts} from '../../assets/Fonts';
-const BtnHorizontalWhite = () => {
+
+const BtnHorizontalGray = props => {
   return (
-    <TouchableOpacity style={styles.btnHorizontalWhiteWrapper}>
-      <Text style={styles.btnHorizontalWhiteText}>메뉴변경</Text>
+    <TouchableOpacity
+      style={styles.btnHorizontalGrayWrapper}
+      onPress={props.onPress}>
+      <Text style={styles.btnHorizontalGrayText}>{props.text}</Text>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  btnHorizontalWhiteWrapper: {
+  btnHorizontalGrayWrapper: {
     width: 150,
     flex: 1,
-    backgroundColor: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: '#FB6C1C',
+    backgroundColor: '#F2F3F6',
     borderRadius: 10,
     textAlign: 'center',
     justifyContent: 'center',
-    marginRight: 5,
+    marginHorizontal: 5,
   },
-  btnHorizontalWhiteText: {
+  btnHorizontalGrayText: {
     fontFamily: Fonts.Ko,
+    fontStyle: 'normal',
     fontWeight: '400',
     fontSize: 20,
     lineHeight: 28,
     textAlign: 'center',
     textAlignVertical: 'center',
-    color: '#FB6C1C',
+    color: '#3B3B3D',
   },
 });
 
-export default BtnHorizontalWhite;
+export default BtnHorizontalGray;

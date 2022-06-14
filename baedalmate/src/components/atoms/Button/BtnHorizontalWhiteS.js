@@ -8,11 +8,13 @@
 
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {Fonts} from '../../assets/Fonts';
-const BtnHorizontalWhiteS = () => {
+import {Fonts} from '../../../assets/Fonts';
+const BtnHorizontalWhiteS = props => {
   return (
-    <TouchableOpacity style={styles.btnHorizontalWhiteSWrapper}>
-      <Text style={styles.btnHorizontalWhiteSText}>메뉴변경</Text>
+    <TouchableOpacity
+      style={styles.btnHorizontalWhiteSWrapper}
+      onPress={props.onPress}>
+      <Text style={styles.btnHorizontalWhiteSText}>{props.text}</Text>
     </TouchableOpacity>
   );
 };
