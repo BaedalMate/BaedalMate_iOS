@@ -23,7 +23,10 @@ const isLoggedIn = false;
 
 const AppTabComponent = () => {
   return (
-    <MainScreenTab.Navigator>
+    <MainScreenTab.Navigator
+      sceneContainerStyle={{
+        backgroundColor: '#fff',
+      }}>
       <MainScreenTab.Screen name="Home" component={BtnHorizontal2} />
       <MainScreenTab.Screen name="Board" component={BtnHorizontal3} />
     </MainScreenTab.Navigator>
@@ -31,7 +34,11 @@ const AppTabComponent = () => {
 };
 export const RootNavigator = () => {
   return (
-    <AuthStack.Navigator screenOptions={{headerShown: false}}>
+    <AuthStack.Navigator
+      screenOptions={{headerShown: false}}
+      sceneContainerStyle={{
+        backgroundColor: '#fff',
+      }}>
       {isLoggedIn ? (
         <AuthStack.Screen name="Main" component={AppTabComponent} />
       ) : (
