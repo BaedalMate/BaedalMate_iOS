@@ -7,12 +7,10 @@ import {
   login,
   logout,
   unlink,
+  getAccessToken,
 } from '@react-native-seoul/kakao-login';
 import React, {useEffect, useState} from 'react';
 
-// import Button from '../uis/Button';
-// import {IC_MASK} from '../../utils/Icons';
-// import ResultView from '../uis/IntroTemp';
 import {
   StyleSheet,
   View,
@@ -22,32 +20,70 @@ import {
   Platform,
 } from 'react-native';
 
-import BtnVerticalOrange from '../atoms/Button/BtnVerticalOrange';
+import BtnKakaoLoginWrapper from '../atoms/Button/BtnKakaoLogin';
 
 function Login({navigation}): React.ReactElement {
   const [result, setResult] = useState<string>('');
+  const [accessToken, setAccessToken] = useState<string>('');
+  const [JWTtoken, setJWTData] = useState([]);
+  const url = 'http://3.35.27.107:8080/login/oauth2/kakao';
 
+  // accessToken 갱신 시마다 서버에 accessToken 보내고 JWT token 받아옴
+  useEffect(() => {
+    getData();
+  }, [accessToken]);
+
+  // 로그인
   const signInWithKakao = async (): Promise<void> => {
-    const token: KakaoOAuthToken = await login();
-
-    setResult(JSON.stringify(token));
+    try {
+      const token: KakaoOAuthToken = await login();
+      setAccessToken(token.accessToken);
+      setResult(JSON.stringify(token));
+      // JWTtoken 받아온 후 메인 페이지 이동
+      if (JWTtoken) {
+        navigation.navigate('AppTabComponent');
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
+  //로그아웃
   const signOutWithKakao = async (): Promise<void> => {
     const message = await logout();
 
     setResult(message);
   };
 
+  // 프로필 가져오기 (에러 해결 필요)
   const getProfile = async (): Promise<void> => {
     // const profile: KakaoProfile = await getKakaoProfile();
     // setResult(JSON.stringify(profile));
   };
 
+  // 카카오 로그인 연결 끊기
   const unlinkKakao = async (): Promise<void> => {
     const message = await unlink();
-
     setResult(message);
+  };
+
+  // 서버에 accessToken을 포함한 request르 보내고 JWT token을 받아옴
+  const getData = async () => {
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          Authorization: accessToken,
+        },
+      });
+      const token = await response.json();
+      setJWTData(token);
+      console.log(JWTtoken);
+      return response;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
   };
 
   return (
@@ -76,25 +112,16 @@ function Login({navigation}): React.ReactElement {
           LOGO
         </Text>
       </View>
-      {/* <View>
-        <Text>result:{result}</Text>
-      </View> */}
-      <BtnVerticalOrange
+      <BtnKakaoLoginWrapper
         text={'카카오 로그인'}
-        onPress={() =>
-          signInWithKakao()
-            .then(navigation.navigate('AppTabComponent', {}))
-            .catch(err => {
-              alert('에러 발생');
-            })
-        }
+        onPress={() => signInWithKakao()}
       />
-      <Button
+      {/* <Button
         title="비회원"
         onPress={() => {
           navigation.navigate('AppTabComponent', {});
         }}
-      />
+      /> */}
     </View>
   );
 }
