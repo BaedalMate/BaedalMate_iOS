@@ -23,7 +23,7 @@ import BtnHorizontal3 from './src/components/molecules/Button/BtnHorizontal3';
 import BtnVertical from './src/components/molecules/Button/BtnVertical';
 import {Fonts} from './src/assets/Fonts';
 import {Intro} from './intro';
-import {RootNavigator} from './src/routes';
+import {RootNavigator} from './src/Routes';
 const Tab = createBottomTabNavigator();
 const App = () => {
   return (
