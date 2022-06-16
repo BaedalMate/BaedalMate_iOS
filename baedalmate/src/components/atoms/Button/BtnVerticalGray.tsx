@@ -9,37 +9,36 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {Fonts} from '../../../assets/Fonts';
+import {BtnWithTextProps} from './BtnHorizontalGray';
 
-const BtnHorizontalGrayS = props => {
+const BtnVerticalGray = (props: BtnWithTextProps) => {
   return (
     <TouchableOpacity
-      style={styles.btnHorizontalGraySWrapper}
+      style={styles.btnVerticalGrayWrapper}
       onPress={props.onPress}>
-      <Text style={styles.btnHorizontalGraySText}>{props.text}</Text>
+      <Text style={styles.btnVerticalGrayText}>{props.text}</Text>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  btnHorizontalGraySWrapper: {
-    width: 75,
-    flex: 1,
+  btnVerticalGrayWrapper: {
+    width: 300,
+    height: 53,
     backgroundColor: '#F2F3F6',
     borderRadius: 10,
     textAlign: 'center',
     justifyContent: 'center',
-    marginHorizontal: 5,
   },
-  btnHorizontalGraySText: {
+  btnVerticalGrayText: {
     fontFamily: Fonts.Ko,
-    fontStyle: 'normal',
     fontWeight: '400',
-    fontSize: 14,
-    lineHeight: 20,
+    fontSize: 20,
+    lineHeight: 28,
     textAlign: 'center',
     textAlignVertical: 'center',
     color: '#3B3B3D',
   },
 });
 
-export default BtnHorizontalGrayS;
+export default BtnVerticalGray;

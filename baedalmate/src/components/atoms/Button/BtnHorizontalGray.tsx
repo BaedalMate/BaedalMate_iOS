@@ -8,8 +8,14 @@
 
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {Fonts} from '../../../assets/Fonts';
 
-const BtnHorizontalGray = props => {
+export type BtnWithTextProps = {
+  onPress(): void;
+  text: string;
+};
+
+const BtnHorizontalGray = (props: BtnWithTextProps) => {
   return (
     <TouchableOpacity
       style={styles.btnHorizontalGrayWrapper}

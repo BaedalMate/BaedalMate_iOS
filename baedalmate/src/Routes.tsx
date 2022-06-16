@@ -18,8 +18,7 @@ const MainScreenTab = createBottomTabNavigator();
             - Tab Screen C
 
 */
-
-const isLoggedIn = false;
+const isLoggedIn = true;
 
 const AppTabComponent = () => {
   return (
@@ -34,11 +33,7 @@ const AppTabComponent = () => {
 };
 export const RootNavigator = () => {
   return (
-    <AuthStack.Navigator
-      screenOptions={{headerShown: false}}
-      sceneContainerStyle={{
-        backgroundColor: '#fff',
-      }}>
+    <AuthStack.Navigator screenOptions={{headerShown: false}}>
       {isLoggedIn ? (
         <AuthStack.Screen name="Main" component={AppTabComponent} />
       ) : (

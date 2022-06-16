@@ -9,36 +9,38 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {Fonts} from '../../../assets/Fonts';
-const BtnHorizontalOrange = props => {
+import {BtnWithTextProps} from './BtnHorizontalGray';
+const BtnHorizontalWhiteS = (props: BtnWithTextProps) => {
   return (
     <TouchableOpacity
-      style={styles.btnHorizontalOrangeWrapper}
+      style={styles.btnHorizontalWhiteSWrapper}
       onPress={props.onPress}>
-      <Text style={styles.btnHorizontalOrangeText}>{props.text}</Text>
+      <Text style={styles.btnHorizontalWhiteSText}>{props.text}</Text>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  btnHorizontalOrangeWrapper: {
-    width: 150,
+  btnHorizontalWhiteSWrapper: {
+    width: 75,
     flex: 1,
-    backgroundColor: '#FB6C1C',
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#FB6C1C',
     borderRadius: 10,
     textAlign: 'center',
     justifyContent: 'center',
-    marginLeft: 5,
+    marginRight: 5,
   },
-  btnHorizontalOrangeText: {
+  btnHorizontalWhiteSText: {
     fontFamily: Fonts.Ko,
-    fontStyle: 'normal',
     fontWeight: '400',
-    fontSize: 20,
-    lineHeight: 28,
+    fontSize: 14,
+    lineHeight: 20,
     textAlign: 'center',
     textAlignVertical: 'center',
-    color: '#FFFFFF',
+    color: '#FB6C1C',
   },
 });
 
-export default BtnHorizontalOrange;
+export default BtnHorizontalWhiteS;

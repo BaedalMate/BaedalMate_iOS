@@ -1,4 +1,8 @@
-import {useNavigation} from '@react-navigation/native';
+import {
+  NavigationProp,
+  ParamListBase,
+  useNavigation,
+} from '@react-navigation/native';
 
 import {
   KakaoOAuthToken,
@@ -21,8 +25,15 @@ import {
 } from 'react-native';
 
 import BtnKakaoLoginWrapper from '../atoms/Button/BtnKakaoLogin';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+// export type LoginProps = {
+//   navigation: NavigationProp<ParamListBase>;
+// };
 
-function Login({navigation}): React.ReactElement {
+interface LoginProps {
+  navigation: NavigationProp<any, any>;
+}
+function Login({navigation}: LoginProps): React.ReactElement {
   const [result, setResult] = useState<string>('');
   const [accessToken, setAccessToken] = useState<string>('');
   const [JWTtoken, setJWTData] = useState([]);
@@ -44,7 +55,8 @@ function Login({navigation}): React.ReactElement {
         navigation.navigate('AppTabComponent');
       }
     } catch (error) {
-      console.error(error);
+      console.log(error);
+      return;
     }
   };
 
@@ -112,10 +124,7 @@ function Login({navigation}): React.ReactElement {
           LOGO
         </Text>
       </View>
-      <BtnKakaoLoginWrapper
-        text={'카카오 로그인'}
-        onPress={() => signInWithKakao()}
-      />
+      <BtnKakaoLoginWrapper onPress={() => signInWithKakao()} />
       {/* <Button
         title="비회원"
         onPress={() => {

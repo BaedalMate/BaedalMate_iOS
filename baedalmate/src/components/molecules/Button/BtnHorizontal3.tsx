@@ -11,12 +11,19 @@ import {StyleSheet, View} from 'react-native';
 import BtnHorizontalGrayS from '../../atoms/Button/BtnHorizontalGrayS';
 import BtnHorizontalOrangeS from '../../atoms/Button/BtnHorizontalOrangeS';
 import BtnHorizontalWhiteS from '../../atoms/Button/BtnHorizontalWhiteS';
-const BtnHorizontal3 = () => {
+import {BtnWithTextProps} from './BtnHorizontal2';
+const BtnHorizontal3: React.FunctionComponent<BtnWithTextProps> = props => {
   return (
     <View style={styles.btnHorizontalWrapper}>
-      <BtnHorizontalWhiteS></BtnHorizontalWhiteS>
-      <BtnHorizontalGrayS></BtnHorizontalGrayS>
-      <BtnHorizontalOrangeS></BtnHorizontalOrangeS>
+      <BtnHorizontalWhiteS
+        onPress={props.onPress}
+        text={props.text}></BtnHorizontalWhiteS>
+      <BtnHorizontalGrayS
+        onPress={props.onPress}
+        text={props.text}></BtnHorizontalGrayS>
+      <BtnHorizontalOrangeS
+        onPress={props.onPress}
+        text={props.text}></BtnHorizontalOrangeS>
     </View>
   );
 };

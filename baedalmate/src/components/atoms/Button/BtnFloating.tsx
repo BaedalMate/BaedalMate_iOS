@@ -7,9 +7,19 @@
  */
 
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {
+  GestureResponderEvent,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
 import {Fonts} from '../../../assets/Fonts';
-const BtnFloating = props => {
+
+export type BtnWithoutTextProps = {
+  onPress(): void;
+};
+
+const BtnFloating = (props: BtnWithoutTextProps) => {
   return (
     <TouchableOpacity style={styles.btnFloatingWrapper} onPress={props.onPress}>
       <Text style={styles.btnFloatingText}>+</Text>

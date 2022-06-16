@@ -9,36 +9,37 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {Fonts} from '../../../assets/Fonts';
-const BtnVerticalWhite = props => {
+import {BtnWithTextProps} from './BtnHorizontalGray';
+const BtnHorizontalOrange = (props: BtnWithTextProps) => {
   return (
     <TouchableOpacity
-      style={styles.btnVerticalWhiteWrapper}
+      style={styles.btnHorizontalOrangeWrapper}
       onPress={props.onPress}>
-      <Text style={styles.btnVerticalWhiteText}>{props.text}</Text>
+      <Text style={styles.btnHorizontalOrangeText}>{props.text}</Text>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  btnVerticalWhiteWrapper: {
-    width: 300,
-    height: 53,
-    backgroundColor: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: '#FB6C1C',
+  btnHorizontalOrangeWrapper: {
+    width: 150,
+    flex: 1,
+    backgroundColor: '#FB6C1C',
     borderRadius: 10,
     textAlign: 'center',
     justifyContent: 'center',
+    marginLeft: 5,
   },
-  btnVerticalWhiteText: {
+  btnHorizontalOrangeText: {
     fontFamily: Fonts.Ko,
+    fontStyle: 'normal',
     fontWeight: '400',
     fontSize: 20,
     lineHeight: 28,
     textAlign: 'center',
     textAlignVertical: 'center',
-    color: '#FB6C1C',
+    color: '#FFFFFF',
   },
 });
 
-export default BtnVerticalWhite;
+export default BtnHorizontalOrange;

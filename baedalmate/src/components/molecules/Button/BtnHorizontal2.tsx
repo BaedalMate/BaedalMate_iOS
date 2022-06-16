@@ -10,11 +10,21 @@ import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import BtnHorizontalOrange from '../../atoms/Button/BtnHorizontalOrange';
 import BtnHorizontalWhite from '../../atoms/Button/BtnHorizontalWhite';
-const BtnHorizontal2 = () => {
+
+export interface BtnWithTextProps {
+  onPress(): void;
+  text: string;
+}
+
+const BtnHorizontal2: React.FunctionComponent<BtnWithTextProps> = props => {
   return (
     <View style={styles.btnHorizontal2Wrapper}>
-      <BtnHorizontalWhite></BtnHorizontalWhite>
-      <BtnHorizontalOrange></BtnHorizontalOrange>
+      <BtnHorizontalWhite
+        onPress={props.onPress}
+        text={props.text}></BtnHorizontalWhite>
+      <BtnHorizontalOrange
+        onPress={props.onPress}
+        text={props.text}></BtnHorizontalOrange>
     </View>
   );
 };
