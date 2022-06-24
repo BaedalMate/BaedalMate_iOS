@@ -3,13 +3,13 @@ import {
   ParamListBase,
   useNavigation,
 } from '@react-navigation/native';
-import Category from 'components/atoms/Main/Category';
-import Header from 'components/atoms/Main/Header';
+import Category from 'components/molecules/Main/Category';
+import Header from 'components/atoms/Header/Header';
 import Slider from 'components/atoms/Main/Slider';
 import ImageSlider from 'components/atoms/Main/Slider';
 import TodayMenuItem from 'components/atoms/Main/Slider';
 import UserInfoTitle from 'components/atoms/Main/UserInfoTitle';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -33,8 +33,10 @@ import {
   WHITE_COLOR,
 } from 'themes/theme';
 import {TextKRBold, TextKRReg} from 'themes/text';
-import NowGathering from 'components/atoms/Main/NowGathering';
-import TodayMenu from 'components/atoms/Main/TodayMenu';
+import NowGathering from 'components/molecules/Main/NowGathering';
+import TodayMenu from 'components/molecules/Main/TodayMenu';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import BaedalMateRecommendation from 'components/molecules/Main/BaedalMateRecommendation';
 interface MainProps {
   navigation: NavigationProp<any, any>;
   user: {
@@ -45,33 +47,37 @@ interface MainProps {
 
 const Main: React.FunctionComponent<MainProps> = props => {
   return (
-    <View style={{flex: 1}}>
+    <SafeAreaView style={{flex: 1}}>
       <ScrollView
-        nestedScrollEnabled={true}
-        contentContainerStyle={{
-          flexGrow: 1,
-          height: '100%',
-        }}
-        style={{
-          marginTop: 50,
-          // marginHorizontal: '5%',
-          // alignItems: 'center',
-          // justifyContent: 'space-evenly',
-        }}>
-        {/* <TodayMenu /> */}
-        {/* <Category></Category> */}
+      // showsVerticalScrollIndicator={true}
+      // showsHorizontalScrollIndicator={true}
+      // nestedScrollEnabled={true}
+      // contentContainerStyle={{
+      //   flexGrow: 1,
+      //   height: '100%',
+      // }}
+      // style={{
+      //   marginTop: 50,
+      // marginHorizontal: '5%',
+      // alignItems: 'center',
+      // justifyContent: 'space-evenly',
+      // }}
+      >
+        <TodayMenu />
+        <Category />
         <View
           style={{
             width: '95%',
             height: 1,
             borderColor: LINE_GRAY_COLOR,
             borderWidth: 1,
-            marginVertical: 16,
+            marginTop: 24,
+            marginBottom: 16,
           }}
         />
         <View
           style={{
-            height: 298,
+            height: 260,
             paddingHorizontal: '5%',
           }}>
           <TextKRBold
@@ -85,7 +91,20 @@ const Main: React.FunctionComponent<MainProps> = props => {
           </TextKRBold>
           <NowGathering></NowGathering>
         </View>
-        <View>
+        <View
+          style={{
+            width: '95%',
+            height: 1,
+            borderColor: LINE_GRAY_COLOR,
+            borderWidth: 1,
+            marginTop: 20,
+            marginBottom: 16,
+          }}
+        />
+        <View
+          style={{
+            paddingHorizontal: '5%',
+          }}>
           <TextKRBold
             style={{
               fontSize: 16,
@@ -94,9 +113,10 @@ const Main: React.FunctionComponent<MainProps> = props => {
             }}>
             배달메이트 추천
           </TextKRBold>
+          <BaedalMateRecommendation></BaedalMateRecommendation>
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
