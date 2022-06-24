@@ -3,7 +3,7 @@ import {
   ParamListBase,
   useNavigation,
 } from '@react-navigation/native';
-import Slider from 'components/atoms/Main/Slider';
+import Slider, {data} from 'components/atoms/Main/Slider';
 import ImageSlider from 'components/atoms/Main/Slider';
 import TodayMenuItem from 'components/atoms/Main/Slider';
 import {wrap} from 'module';
@@ -27,9 +27,9 @@ import {
   SEARCH_WHITE,
   WHITE_COLOR,
 } from 'themes/theme';
-import CategoryItem from './CategoryItem';
+import CategoryItem from '../../atoms/Main/CategoryItem';
 import {TextKRBold, TextKRReg} from 'themes/text';
-import NowGatheringItem from './NowGatheringItem';
+import NowGatheringItem from '../../atoms/Main/NowGatheringItem';
 
 // interface CategoryProps {
 //   navigation: NavigationProp<any, any>;
@@ -41,24 +41,17 @@ import NowGatheringItem from './NowGatheringItem';
 
 const NowGathering = () => {
   return (
-    <View
-      style={{
-        justifyContent: 'space-between',
-      }}>
+    <View>
       <ScrollView
         horizontal={true}
-        // style={{
-        //   justifyContent: 'space-between',
-        // }}
         contentContainerStyle={{
           flexGrow: 1,
-          marginHorizontal: 15,
         }}>
-        <NowGatheringItem></NowGatheringItem>
-        <NowGatheringItem></NowGatheringItem>
-        <NowGatheringItem></NowGatheringItem>
-        <NowGatheringItem></NowGatheringItem>
-        <NowGatheringItem></NowGatheringItem>
+        <NowGatheringItem item={data[0]}></NowGatheringItem>
+        <NowGatheringItem item={data[1]}></NowGatheringItem>
+        <NowGatheringItem item={data[2]}></NowGatheringItem>
+        <NowGatheringItem item={data[3]}></NowGatheringItem>
+        <NowGatheringItem item={data[4]}></NowGatheringItem>
       </ScrollView>
     </View>
   );
