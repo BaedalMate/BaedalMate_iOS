@@ -27,10 +27,10 @@ import {
   SEARCH_WHITE,
   WHITE_COLOR,
 } from 'themes/theme';
-import CategoryItem from './CategoryItem';
+import CategoryItem from '../../atoms/Main/CategoryItem';
 import {TextKRBold, TextKRReg} from 'themes/text';
-import Header from './Header';
-import UserInfoTitle from './UserInfoTitle';
+import Header from '../../atoms/Header/Header';
+import UserInfoTitle from '../../atoms/Main/UserInfoTitle';
 
 // interface CategoryProps {
 //   navigation: NavigationProp<any, any>;
@@ -51,7 +51,7 @@ const TodayMenu = () => {
       }}>
       <Header />
       <UserInfoTitle userName="캡스톤" userAddress="서울과기대 누리학사" />
-      <Slider key={0} data="data"></Slider>
+      <Slider key={0}></Slider>
     </View>
   );
 };

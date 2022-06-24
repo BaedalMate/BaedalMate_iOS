@@ -16,9 +16,9 @@ export type TodayMenuItemProps = {
 import {STAR_PRIMARY} from 'themes/theme';
 import Tag from './Tag';
 import TodayMenuItemOngoing from './TodayMenuItemOngoing';
-import TodayMenuItemCompleted from './TodayMenuCompleted';
+import TodayMenuItemCompleted from './TodayMenuItemCompleted';
 import {status} from './Slider';
-import TodayMenuItemCreate from './TodayMenuCreate';
+import TodayMenuItemCreate from './TodayMenuItemCreate';
 const TagComponent = ({item}) => {
   return (
     <View
@@ -41,7 +41,7 @@ const TodayMenuItem = ({item, index}) => {
   } else if (item.state === status.COMPLETED) {
     itemStatus = <TodayMenuItemCompleted item={item} />;
   } else {
-    itemStatus = <TodayMenuItemCreate item={item} />;
+    itemStatus = <TodayMenuItemCreate />;
   }
 
   return (
@@ -49,7 +49,7 @@ const TodayMenuItem = ({item, index}) => {
       <TagComponent item={item} />
       {/* {itemStatus} */}
       {index === 4 ? (
-        <TodayMenuItemCreate item={item} />
+        <TodayMenuItemCreate />
       ) : item.state === status.ONGOING ? (
         <TodayMenuItemOngoing item={item} />
       ) : (

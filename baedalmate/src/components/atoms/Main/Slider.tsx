@@ -25,90 +25,121 @@ export enum status {
   ONGOING = '진행중',
   CREATE = '글 작성하러 가기',
 }
-const data = [
+export const data = [
   {
     title: 'Salady 공릉점',
+    user: {
+      userName: '김수한무거북이삼천갑자김수한무거',
+      userAddress: 'KB학사',
+      userStarRate: 4.1,
+    },
     body: {
-      starRate: 4.1,
       baedalTips: 0,
       minCost: 12000,
       minTime: 20,
       maxTime: 30,
+      curruntPeople: 2,
+      maxPeople: 4,
     },
     tag1: '간편식',
     tag2: '배달팁 무료',
-    state: status.ONGOING,
     imgUrl:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSt559x4ig-wTTMPcj3W9LD0dLvY6Ggi1E4L0WAP3IWcQ&s',
+    state: status.ONGOING,
   },
   {
     title: 'title1',
+    user: {
+      userName: 'name1',
+      userAddress: '누리학사',
+      userStarRate: 4.1,
+    },
     body: {
-      starRate: 4.1,
       baedalTips: 0,
       minCost: 12000,
       minTime: 20,
       maxTime: 30,
+      curruntPeople: 2,
+      maxPeople: 4,
     },
     tag1: '간편식',
     tag2: '배달팁 무료',
-    state: status.COMPLETED,
     imgUrl:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ6yI5v-1UCyMx8CdTpABg9QzItPHcPLZh7_1ZnzOpTg&s',
+    state: status.COMPLETED,
   },
   {
     title: 'title2',
+    user: {
+      userName: 'name1',
+      userAddress: '누리학사',
+      userStarRate: 4.1,
+    },
     body: {
       starRate: 4.1,
       baedalTips: 0,
       minCost: 12000,
       minTime: 20,
       maxTime: 30,
+      curruntPeople: 2,
+      maxPeople: 4,
     },
     tag1: '간편식',
     tag2: '배달팁 무료',
-    state: status.COMPLETED,
     imgUrl:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSt559x4ig-wTTMPcj3W9LD0dLvY6Ggi1E4L0WAP3IWcQ&s',
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ6yI5v-1UCyMx8CdTpABg9QzItPHcPLZh7_1ZnzOpTg&s',
+    state: status.COMPLETED,
   },
   {
     title: 'title3',
+    user: {
+      userName: 'name1',
+      userAddress: '누리학사',
+      userStarRate: 4.1,
+    },
     body: {
       starRate: 4.1,
       baedalTips: 0,
       minCost: 12000,
       minTime: 20,
       maxTime: 30,
+      curruntPeople: 2,
+      maxPeople: 4,
     },
     tag1: '간편식',
     tag2: '배달팁 무료',
-    state: status.ONGOING,
     imgUrl:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSt559x4ig-wTTMPcj3W9LD0dLvY6Ggi1E4L0WAP3IWcQ&s',
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ6yI5v-1UCyMx8CdTpABg9QzItPHcPLZh7_1ZnzOpTg&s',
+    state: status.COMPLETED,
   },
   {
-    title: '지금 먹고 싶은 메뉴가 생겼다면?',
+    title: 'title4',
+    user: {
+      userName: 'name1',
+      userAddress: '누리학사',
+      userStarRate: 4.1,
+    },
     body: {
       starRate: 4.1,
       baedalTips: 0,
       minCost: 12000,
       minTime: 20,
       maxTime: 30,
+      curruntPeople: 2,
+      maxPeople: 4,
     },
-    tag1: '글 작성하기',
-    tag2: '',
-    description: '합리적으로 배달시키세요!',
-    move: '글 작성하러 가기',
-    state: status.CREATE,
+    tag1: '간편식',
+    tag2: '배달팁 무료',
     imgUrl:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSt559x4ig-wTTMPcj3W9LD0dLvY6Ggi1E4L0WAP3IWcQ&s',
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ6yI5v-1UCyMx8CdTpABg9QzItPHcPLZh7_1ZnzOpTg&s',
+    state: status.COMPLETED,
   },
 ];
 // const SliderItem = ({item, index}) => {
 //   return <TodayMenuItem />;
 // };
 
-const Slider = (props: ImageSliderProps) => {
+const Slider = () => {
   const isCarousel = React.useRef(null);
   const [index, setIndex] = React.useState(0);
   return (

@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {BLACK_COLOR, WHITE_COLOR} from 'themes/theme';
+import {BLACK_COLOR, RightArrowBlack, WHITE_COLOR} from 'themes/theme';
 import {Fonts} from '../../../assets/Fonts';
 import {wrap} from 'module';
 export type TodayMenuItemProps = {
@@ -15,13 +15,22 @@ export type TodayMenuItemProps = {
 };
 import {STAR_PRIMARY} from 'themes/theme';
 import {TextKRBold, TextKRReg} from 'themes/text';
-const RightArrowBlack = require('../../../assets/icons/arrow/right_arrow_black.png');
 
-const TodayMenuItemCreate = ({item}) => {
+const TodayMenuItemCreate = () => {
+  const createItemData = {
+    title: '지금 먹고 싶은 메뉴가 생겼다면?',
+    tag1: '글 작성하기',
+    tag2: '',
+    description: '합리적으로 배달시키세요!',
+    move: '글 작성하러 가기',
+    imgUrl:
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSt559x4ig-wTTMPcj3W9LD0dLvY6Ggi1E4L0WAP3IWcQ&s',
+    // temporal imgUrl
+  };
   return (
     <View style={styles.imageSliderWrapper}>
       <Image
-        source={{uri: item.imgUrl}}
+        source={{uri: createItemData.imgUrl}}
         style={{
           width: 180,
           height: 114,
@@ -49,7 +58,7 @@ const TodayMenuItemCreate = ({item}) => {
             padding: 15,
             fontSize: 16,
           }}>
-          {item.title}
+          {createItemData.title}
           {'\n'}
           <TextKRBold
             style={{
@@ -59,7 +68,7 @@ const TodayMenuItemCreate = ({item}) => {
               lineHeight: 18,
               fontWeight: '400',
             }}>
-            {item.description}
+            {createItemData.description}
           </TextKRBold>
         </TextKRBold>
       </View>
@@ -79,7 +88,7 @@ const TodayMenuItemCreate = ({item}) => {
             padding: 8,
             fontSize: 12,
           }}>
-          {item.move}{' '}
+          {createItemData.move}{' '}
         </TextKRBold>
         <Image
           source={RightArrowBlack}
@@ -93,26 +102,6 @@ const TodayMenuItemCreate = ({item}) => {
             justifyContent: 'center',
           }}
         />
-
-        {/* <TextKRBold style={{textAlignVertical: 'center'}}>
-          <Image source={STAR_PRIMARY} style={{width: 10, height: 10}}></Image>
-          {item.body.starRate}
-        </TextKRBold>
-        <TextKRBold>
-          배달팁{' '}
-          <TextKRBold style={{fontWeight: 'bold'}}>
-            {item.body.baedalTips}원
-          </TextKRBold>
-        </TextKRBold>
-        <TextKRBold>
-          최소주문{' '}
-          <TextKRBold style={{fontWeight: 'bold'}}>
-            {item.body.minCost}원
-          </TextKRBold>
-        </TextKRBold>
-        <TextKRBold style={{fontWeight: 'bold'}}>
-          {item.body.minTime}분 ~ {item.body.maxTime}분
-        </TextKRBold> */}
       </View>
     </View>
   );

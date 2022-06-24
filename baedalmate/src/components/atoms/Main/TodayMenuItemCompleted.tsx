@@ -41,18 +41,24 @@ const TodayMenuItemCompleted = ({item}) => {
             <Image
               source={STAR_PRIMARY}
               style={{width: 10, height: 10}}></Image>
-            {item.body.starRate}
+            {item.user.userStarRate}
           </TextKRBold>
           <TextKRBold>
             배달팁{' '}
             <TextKRBold style={{fontWeight: 'bold'}}>
-              {item.body.baedalTips}원
+              {item.body.baedalTips
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              원
             </TextKRBold>
           </TextKRBold>
           <TextKRBold>
             최소주문{' '}
             <TextKRBold style={{fontWeight: 'bold'}}>
-              {item.body.minCost}원
+              {item.body.minCost
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              원
             </TextKRBold>
           </TextKRBold>
           <TextKRBold style={{fontWeight: 'bold'}}>
