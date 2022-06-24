@@ -8,9 +8,9 @@
 
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, Image} from 'react-native';
+import {KaKaoLoginBtnImage} from 'themes/theme';
 import {Fonts} from '../../../assets/Fonts';
 import {BtnWithoutTextProps} from './BtnFloating';
-const KaKaoLoginBtnImage = require('../../../assets/images/kakao_login_medium_wide.png');
 const BtnKakaoLoginWrapper = (props: BtnWithoutTextProps) => {
   return (
     <TouchableOpacity onPress={props.onPress}>
