@@ -37,6 +37,9 @@ import NowGathering from 'components/molecules/Main/NowGathering';
 import TodayMenu from 'components/molecules/Main/TodayMenu';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import BaedalMateRecommendation from 'components/molecules/Main/BaedalMateRecommendation';
+import BtnFloating from 'components/atoms/Button/BtnFloating';
+import BtnHorizontal3 from 'components/molecules/Button/BtnHorizontal3';
+import CreateBoard from './CreateBoard';
 interface MainProps {
   navigation: NavigationProp<any, any>;
   user: {
@@ -48,21 +51,12 @@ interface MainProps {
 const Main: React.FunctionComponent<MainProps> = props => {
   return (
     <SafeAreaView style={{flex: 1}}>
-      <ScrollView
-      // showsVerticalScrollIndicator={true}
-      // showsHorizontalScrollIndicator={true}
-      // nestedScrollEnabled={true}
-      // contentContainerStyle={{
-      //   flexGrow: 1,
-      //   height: '100%',
-      // }}
-      // style={{
-      //   marginTop: 50,
-      // marginHorizontal: '5%',
-      // alignItems: 'center',
-      // justifyContent: 'space-evenly',
-      // }}
-      >
+      <BtnFloating
+        onPress={() => {
+          props.navigation.navigate('채팅');
+        }}
+      />
+      <ScrollView>
         <TodayMenu />
         <Category />
         <View
