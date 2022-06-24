@@ -29,6 +29,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 // export type LoginProps = {
 //   navigation: NavigationProp<ParamListBase>;
 // };
+import {TextKRBold, TextKRReg} from 'themes/text';
 
 interface LoginProps {
   navigation: NavigationProp<any, any>;
@@ -114,7 +115,7 @@ function Login({navigation}: LoginProps): React.ReactElement {
           backgroundColor: 'gray',
           justifyContent: 'center',
         }}>
-        <Text
+        <TextKRBold
           style={{
             color: 'white',
             textAlign: 'center',
@@ -122,7 +123,7 @@ function Login({navigation}: LoginProps): React.ReactElement {
             lineHeight: 50,
           }}>
           LOGO
-        </Text>
+        </TextKRBold>
       </View>
       <BtnKakaoLoginWrapper onPress={() => signInWithKakao()} />
       {/* <Button

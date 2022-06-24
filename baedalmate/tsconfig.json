@@ -16,7 +16,8 @@
       "*": ["src/*"],
       "tests": ["tests/*"],
       "@components/*": ["src/components/*"]
-    }
+    },
+    "noImplicitAny": false
   },
   "exclude": [
     "node_modules",
