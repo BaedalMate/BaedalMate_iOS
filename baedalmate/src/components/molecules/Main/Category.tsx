@@ -27,7 +27,7 @@ import {
   SEARCH_WHITE,
   WHITE_COLOR,
 } from 'themes/theme';
-import CategoryItem from './CategoryItem';
+import CategoryItem from '../../atoms/Main/CategoryItem';
 import {TextKRBold, TextKRReg} from 'themes/text';
 
 // interface CategoryProps {

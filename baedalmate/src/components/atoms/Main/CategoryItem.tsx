@@ -16,6 +16,8 @@ import {
   Button,
   Platform,
   Image,
+  TouchableOpacity,
+  TouchableHighlight,
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {
@@ -38,24 +40,56 @@ const CategoryItem: React.FunctionComponent<CategoryItemProps> = ({
   categoryName,
   img,
 }) => {
+  const [active, setActive] = useState(false);
+  const [backgroundColor, setBackgroundColor] = useState(LIGHT_GRAY_COLOR);
+  const [borderColor, setBorderColor] = useState(WHITE_COLOR);
+  const onPress = () => {
+    setActive(!active);
+  };
+
+  // const touchProps = {
+  //   onPress: {onPress},
+  //   style: {
+  //     width: 75,
+  //     height: 75,
+  //     borderRadius: 10,
+  //     alignItems: 'center',
+  //     justifyContent: 'space-around',
+  //     borderColor: {active} ? PRIMARY_COLOR : WHITE_COLOR,
+  //     backgroundColor: {active} ? WHITE_COLOR : LIGHT_GRAY_COLOR,
+  //   },
+  // };
+
   return (
     <View style={{marginBottom: 15}}>
-      <View
+      <TouchableOpacity
+        activeOpacity={1}
+        onPressIn={onPress}
+        onPressOut={onPress}
         style={{
-          width: 75,
-          height: 75,
-          backgroundColor: LIGHT_GRAY_COLOR,
+          borderWidth: 1,
           borderRadius: 10,
-          alignItems: 'center',
-          justifyContent: 'space-around',
+          borderColor: active ? PRIMARY_COLOR : WHITE_COLOR,
+          backgroundColor: active ? WHITE_COLOR : LIGHT_GRAY_COLOR,
         }}>
-        <Image
-          source={{uri: img}}
-          style={{width: 45, height: 45, borderRadius: 45 / 2}}></Image>
-        <TextKRReg style={{}}>{categoryName}</TextKRReg>
-      </View>
+        <View style={styles.itemStyle}>
+          <Image
+            source={{uri: img}}
+            style={{width: 45, height: 45, borderRadius: 45 / 2}}></Image>
+          <TextKRReg style={{}}>{categoryName}</TextKRReg>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 };
 
+const styles = StyleSheet.create({
+  itemStyle: {
+    width: 75,
+    height: 75,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'space-around',
+  },
+});
 export default CategoryItem;
