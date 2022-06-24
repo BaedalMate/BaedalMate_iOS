@@ -7,9 +7,9 @@ const LINE_GRAY_COLOR = '#EBEBEB';
 const LIGHT_GRAY_COLOR = '#F9F9F9';
 const BLACK_COLOR = '#000000';
 const WHITE_COLOR = '#FFFFFF';
+const LINE_ORANGE_COLOR = '#FFA077';
 
 // icon
-const STAR_PRIMARY = require('../assets/icons/star/star_primary.png');
 
 const HOME_GRAY = require('../assets/icons/profile/profile_gray.png');
 const CHATTIING_GRAY = require('../assets/icons/chatting/chatting_gray.png');
@@ -32,6 +32,7 @@ const OPTION_PRIMARY = require('../assets/icons/option/option_primary.png');
 const CAMERA_PRIMARY = require('../assets/icons/camera/camera_primary.png');
 const BACK_PRIMARY = require('../assets/icons/back/back_primary.png');
 const SEND_PRIMARY = require('../assets/icons/send/send_primary.png');
+const STAR_PRIMARY = require('../assets/icons/star/star_primary.png');
 
 const HOME_REGULAR = require('../assets/icons/profile/profile_regular.png');
 const CHATTIING_REGULAR = require('../assets/icons/chatting/chatting_regular.png');
@@ -68,6 +69,17 @@ const SEND_PRIMARY_OUTLINE = require('../assets/icons/send/send_primary_outline.
 
 const SEARCH_WHITE = require('../assets/icons/search/search_white.png');
 const ALARM_WHITE = require('../assets/icons/alarm/alarm_white.png');
+const PEOPLE_WHITE = require('../assets/icons/profile/people_white.png');
+const TIMER_WHITE = require('../assets/icons/time/timer_white.png');
+const STAR_WHITE = require('../assets/icons/star/star_white.png');
+
+const RightArrowBlack = require('../assets/icons/arrow/right_arrow_black.png');
+const PEOPLE_BLACK = require('../assets/icons/profile/people_black.png');
+const TIMER_BLACK = require('../assets/icons/time/timer_black.png');
+const STAR_BLACK = require('../assets/icons/star/star_black.png');
+
+const KaKaoLoginBtnImage = require('../assets/images/kakao_login_medium_wide.png');
+
 export {
   PRIMARY_COLOR,
   TEXT_COLOR,
@@ -77,6 +89,7 @@ export {
   LIGHT_GRAY_COLOR,
   BLACK_COLOR,
   WHITE_COLOR,
+  LINE_ORANGE_COLOR,
   HOME_BOLD,
   HOME_GRAY,
   HOME_PRIMARY,
@@ -130,4 +143,12 @@ export {
   ALARM_WHITE,
   SEARCH_WHITE,
   STAR_PRIMARY,
+  PEOPLE_WHITE,
+  TIMER_WHITE,
+  STAR_WHITE,
+  TIMER_BLACK,
+  PEOPLE_BLACK,
+  STAR_BLACK,
+  RightArrowBlack,
+  KaKaoLoginBtnImage,
 };
