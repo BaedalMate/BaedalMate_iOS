@@ -62,8 +62,8 @@ export const data = [
       curruntPeople: 2,
       maxPeople: 4,
     },
-    tag1: '간편식',
-    tag2: '배달팁 무료',
+    tag1: '1인분',
+    tag2: '배달팁 반값',
     imgUrl:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ6yI5v-1UCyMx8CdTpABg9QzItPHcPLZh7_1ZnzOpTg&s',
     state: status.COMPLETED,
@@ -84,8 +84,8 @@ export const data = [
       curruntPeople: 2,
       maxPeople: 4,
     },
-    tag1: '간편식',
-    tag2: '배달팁 무료',
+    tag1: '치킨',
+    tag2: '브랜드 할인',
     imgUrl:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ6yI5v-1UCyMx8CdTpABg9QzItPHcPLZh7_1ZnzOpTg&s',
     state: status.COMPLETED,
@@ -106,8 +106,8 @@ export const data = [
       curruntPeople: 2,
       maxPeople: 4,
     },
-    tag1: '간편식',
-    tag2: '배달팁 무료',
+    tag1: '한식',
+    tag2: '간편식',
     imgUrl:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ6yI5v-1UCyMx8CdTpABg9QzItPHcPLZh7_1ZnzOpTg&s',
     state: status.COMPLETED,
@@ -128,7 +128,7 @@ export const data = [
       curruntPeople: 2,
       maxPeople: 4,
     },
-    tag1: '간편식',
+    tag1: '1인분',
     tag2: '배달팁 무료',
     imgUrl:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ6yI5v-1UCyMx8CdTpABg9QzItPHcPLZh7_1ZnzOpTg&s',

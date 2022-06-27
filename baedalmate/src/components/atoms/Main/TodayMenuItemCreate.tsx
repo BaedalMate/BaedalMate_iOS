@@ -15,6 +15,7 @@ export type TodayMenuItemProps = {
 };
 import {STAR_PRIMARY} from 'themes/theme';
 import {TextKRBold, TextKRReg} from 'themes/text';
+import {TagComponent} from './TodayMenuItem';
 
 const TodayMenuItemCreate = () => {
   const createItemData = {
@@ -28,82 +29,86 @@ const TodayMenuItemCreate = () => {
     // temporal imgUrl
   };
   return (
-    <View style={styles.imageSliderWrapper}>
-      <Image
-        source={{uri: createItemData.imgUrl}}
-        style={{
-          width: 180,
-          height: 114,
-          borderTopLeftRadius: 10,
-          borderBottomLeftRadius: 10,
-        }}
-      />
-      <View
-        style={{
-          position: 'absolute',
-          width: 180,
-          height: 114,
-          backgroundColor:
-            'linear-gradient(0deg, rgba(33, 33, 35, 0.5), rgba(33, 33, 35, 0.5))',
-          padding: 15,
-          borderTopLeftRadius: 10,
-          borderBottomLeftRadius: 10,
-        }}>
-        <TextKRBold
+    <>
+      <TagComponent item={createItemData} />
+
+      <View style={styles.imageSliderWrapper}>
+        <Image
+          source={{uri: createItemData.imgUrl}}
+          style={{
+            width: 180,
+            height: 114,
+            borderTopLeftRadius: 10,
+            borderBottomLeftRadius: 10,
+          }}
+        />
+        <View
           style={{
             position: 'absolute',
             width: 180,
             height: 114,
-            color: WHITE_COLOR,
+            backgroundColor:
+              'linear-gradient(0deg, rgba(33, 33, 35, 0.5), rgba(33, 33, 35, 0.5))',
             padding: 15,
-            fontSize: 16,
+            borderTopLeftRadius: 10,
+            borderBottomLeftRadius: 10,
           }}>
-          {createItemData.title}
-          {'\n'}
           <TextKRBold
             style={{
-              color: WHITE_COLOR,
-              fontSize: 12,
               position: 'absolute',
-              lineHeight: 18,
-              fontWeight: '400',
+              width: 180,
+              height: 114,
+              color: WHITE_COLOR,
+              padding: 15,
+              fontSize: 16,
             }}>
-            {createItemData.description}
+            {createItemData.title}
+            {'\n'}
+            <TextKRBold
+              style={{
+                color: WHITE_COLOR,
+                fontSize: 12,
+                position: 'absolute',
+                lineHeight: 18,
+                fontWeight: '400',
+              }}>
+              {createItemData.description}
+            </TextKRBold>
           </TextKRBold>
-        </TextKRBold>
-      </View>
+        </View>
 
-      <View
-        style={{
-          width: 120,
-          height: 114,
-        }}>
-        <TextKRBold
+        <View
           style={{
-            height: 30,
-            position: 'absolute',
-            bottom: 0,
-            color: BLACK_COLOR,
-            width: 100,
-            padding: 8,
-            fontSize: 12,
+            width: 120,
+            height: 114,
           }}>
-          {createItemData.move}{' '}
-        </TextKRBold>
-        <Image
-          source={RightArrowBlack}
-          style={{
-            position: 'absolute',
-            bottom: 7,
-            right: 12,
-            width: 15,
-            height: 15,
-            resizeMode: 'contain',
-            justifyContent: 'center',
-          }}
-        />
+          <TextKRBold
+            style={{
+              height: 30,
+              position: 'absolute',
+              bottom: 0,
+              color: BLACK_COLOR,
+              width: 100,
+              padding: 8,
+              fontSize: 12,
+            }}>
+            {createItemData.move}{' '}
+          </TextKRBold>
+          <Image
+            source={RightArrowBlack}
+            style={{
+              position: 'absolute',
+              bottom: 7,
+              right: 12,
+              width: 15,
+              height: 15,
+              resizeMode: 'contain',
+              justifyContent: 'center',
+            }}
+          />
+        </View>
       </View>
-    </View>
+    </>
   );
 };
 

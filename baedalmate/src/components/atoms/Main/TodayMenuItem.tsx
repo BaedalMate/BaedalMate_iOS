@@ -19,7 +19,7 @@ import TodayMenuItemOngoing from './TodayMenuItemOngoing';
 import TodayMenuItemCompleted from './TodayMenuItemCompleted';
 import {status} from './Slider';
 import TodayMenuItemCreate from './TodayMenuItemCreate';
-const TagComponent = ({item}) => {
+export const TagComponent = ({item}) => {
   return (
     <View
       style={{
@@ -46,8 +46,6 @@ const TodayMenuItem = ({item, index}) => {
 
   return (
     <View>
-      <TagComponent item={item} />
-      {/* {itemStatus} */}
       {index === 4 ? (
         <TodayMenuItemCreate />
       ) : item.state === status.ONGOING ? (

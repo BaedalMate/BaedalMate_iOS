@@ -15,52 +15,61 @@ export type TodayMenuItemProps = {
 };
 import {STAR_PRIMARY} from 'themes/theme';
 import {TextKRBold, TextKRReg} from 'themes/text';
+import {TagComponent} from './TodayMenuItem';
 const TodayMenuItemOngoing = ({item}) => {
   return (
-    <View style={styles.imageSliderWrapper}>
-      <Image
-        source={{uri: item.imgUrl}}
-        style={{
-          width: 150,
-          height: 114,
-          borderTopLeftRadius: 10,
-          borderBottomLeftRadius: 10,
-        }}
-      />
-      <View
-        style={{
-          width: 150,
-          height: 114,
-          padding: 12,
-          justifyContent: 'space-evenly',
-        }}>
-        <TextKRBold style={{fontSize: 16}}>{item.title} </TextKRBold>
+    <>
+      <TagComponent item={item} />
 
-        <TextKRBold style={{textAlignVertical: 'center'}}>
-          <Image source={STAR_PRIMARY} style={{width: 10, height: 10}}></Image>
-          {item.user.userStarRate}
-        </TextKRBold>
-        <TextKRBold style={{fontWeight: '400'}}>
-          배달팁{' '}
-          <TextKRBold style={{fontWeight: 'bold'}}>
-            {item.body.baedalTips
-              .toString()
-              .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-            원
+      <View style={styles.imageSliderWrapper}>
+        <Image
+          source={{uri: item.imgUrl}}
+          style={{
+            width: 150,
+            height: 114,
+            borderTopLeftRadius: 10,
+            borderBottomLeftRadius: 10,
+          }}
+        />
+        <View
+          style={{
+            width: 150,
+            height: 114,
+            padding: 12,
+            justifyContent: 'space-evenly',
+          }}>
+          <TextKRBold style={{fontSize: 16}}>{item.title} </TextKRBold>
+
+          <TextKRBold style={{textAlignVertical: 'center'}}>
+            <Image
+              source={STAR_PRIMARY}
+              style={{width: 10, height: 10}}></Image>
+            {item.user.userStarRate}
           </TextKRBold>
-        </TextKRBold>
-        <TextKRBold style={{fontWeight: '400'}}>
-          최소주문{' '}
-          <TextKRBold style={{fontWeight: 'bold'}}>
-            {item.body.minCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-            원
+          <TextKRBold style={{fontWeight: '400'}}>
+            배달팁{' '}
+            <TextKRBold style={{fontWeight: 'bold'}}>
+              {item.body.baedalTips
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              원
+            </TextKRBold>
           </TextKRBold>
-        </TextKRBold>
-        <TextKRBold style={{fontWeight: 'bold'}}>
-          {item.body.minTime}분 ~ {item.body.maxTime}분
-        </TextKRBold>
+          <TextKRBold style={{fontWeight: '400'}}>
+            최소주문{' '}
+            <TextKRBold style={{fontWeight: 'bold'}}>
+              {item.body.minCost
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              원
+            </TextKRBold>
+          </TextKRBold>
+          <TextKRBold style={{fontWeight: 'bold'}}>
+            {item.body.minTime}분 ~ {item.body.maxTime}분
+          </TextKRBold>
+        </View>
       </View>
-    </View>
+    </>
   );
 };
 
