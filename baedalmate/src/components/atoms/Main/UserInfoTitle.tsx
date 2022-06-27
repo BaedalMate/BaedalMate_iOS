@@ -36,15 +36,16 @@ const UserInfoTitle = ({userName, userAddress}) => {
             }}>
             <TextKRBold
               style={{
-                alignSelf: 'center',
-                padding: 5,
+                padding: 3,
+                paddingBottom: 0,
                 fontSize: 24,
                 color: PRIMARY_COLOR,
                 fontWeight: 'bold',
+                lineHeight: 30,
               }}>
               {userName}
             </TextKRBold>
-          </View>{' '}
+          </View>
           님을 위한{'\n'}오늘의 메뉴
         </TextKRBold>
       </View>
