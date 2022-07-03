@@ -8,19 +8,16 @@ import Login from './components/pages/Login';
 import Main from './components/pages/Main';
 import {Image} from 'react-native';
 import {
-  BLACK_COLOR,
-  CHATTIING_PRIMARY,
   CHATTIING_PRIMARY_OUTLINE,
   CHATTIING_REGULAR,
   DARK_GRAY_COLOR,
-  HOME_PRIMARY,
   HOME_PRIMARY_OUTLINE,
   HOME_REGULAR,
   PRIMARY_COLOR,
-  PROFILE_PRIMARY,
   PROFILE_PRIMARY_OUTLINE,
   PROFILE_REGULAR,
 } from './themes/theme';
+
 const AuthStack = createNativeStackNavigator();
 const MainScreenTab = createBottomTabNavigator();
 
@@ -34,7 +31,8 @@ const MainScreenTab = createBottomTabNavigator();
             - Tab Screen C
 
 */
-const isLoggedIn = true;
+
+const isLoggedIn = false;
 
 const AppTabComponent = () => {
   return (
@@ -65,6 +63,7 @@ const AppTabComponent = () => {
     </MainScreenTab.Navigator>
   );
 };
+
 export const RootNavigator = () => {
   return (
     <AuthStack.Navigator screenOptions={{headerShown: false}}>

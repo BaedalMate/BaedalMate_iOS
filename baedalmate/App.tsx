@@ -23,36 +23,13 @@ import BtnHorizontal3 from './src/components/molecules/Button/BtnHorizontal3';
 import BtnVertical from './src/components/molecules/Button/BtnVertical';
 import {Fonts} from './src/assets/Fonts';
 import {RootNavigator} from './src/Routes';
+export const url = 'http://3.35.27.107:8080';
 const Tab = createBottomTabNavigator();
+
 const App = () => {
   return (
     <NavigationContainer>
       <RootNavigator></RootNavigator>
-      {/* <Tab.Navigator
-        sceneContainerStyle={{
-          backgroundColor: '#fff',
-        }}
-        screenOptions={{}}>
-        <Tab.Screen name="BtnHorizontal2" component={Intro} />
-        <Tab.Screen name="BtnHorizontal3" component={BtnHorizontal3} />
-        <Tab.Screen name="BtnVertical" component={BtnVertical} />
-        <Tab.Screen name="BtnFloating" component={BtnFloating} />
-        <Tab.Screen name="BtnFloating2" component={BtnFloating} />
-      </Tab.Navigator> */}
-      {/* <View>
-        <View style={styles.sectionContainer}>
-          <BtnHorizontal2></BtnHorizontal2>
-        </View>
-        <View style={styles.sectionContainer}>
-          <BtnHorizontal3></BtnHorizontal3>
-        </View>
-        <View style={styles.sectionContainer}>
-          <BtnVertical></BtnVertical>
-        </View>
-        <View style={styles.floatingBtn}>
-          <BtnFloating></BtnFloating>
-        </View>
-      </View> */}
     </NavigationContainer>
   );
 };
