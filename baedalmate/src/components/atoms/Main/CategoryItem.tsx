@@ -47,19 +47,6 @@ const CategoryItem: React.FunctionComponent<CategoryItemProps> = ({
     setActive(!active);
   };
 
-  // const touchProps = {
-  //   onPress: {onPress},
-  //   style: {
-  //     width: 75,
-  //     height: 75,
-  //     borderRadius: 10,
-  //     alignItems: 'center',
-  //     justifyContent: 'space-around',
-  //     borderColor: {active} ? PRIMARY_COLOR : WHITE_COLOR,
-  //     backgroundColor: {active} ? WHITE_COLOR : LIGHT_GRAY_COLOR,
-  //   },
-  // };
-
   return (
     <View style={{marginBottom: 15}}>
       <TouchableOpacity
