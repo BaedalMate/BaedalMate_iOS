@@ -1,14 +1,6 @@
 import React, {useState} from 'react';
-import {
-  GestureResponderEvent,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {LINE_ORANGE_COLOR, PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
-import {Fonts} from '../../../assets/Fonts';
-import {TextKRBold, TextKRReg} from 'themes/text';
 import BtnRadio from 'components/atoms/Button/BtnRadio';
 export type TagProps = {
   text: string;
@@ -16,7 +8,7 @@ export type TagProps = {
 };
 
 const BtnSelectSort = () => {
-  const data = [{value: '마감순'}, {value: '인기순'}, {value: '가격순'}];
+  const data = [{value: '마감순'}, {value: '인기순'}, {value: '평점순'}];
   const [option, setOption] = useState(null);
 
   return (
