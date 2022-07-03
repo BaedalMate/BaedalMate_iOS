@@ -1,46 +1,22 @@
-import {
-  NavigationProp,
-  ParamListBase,
-  useNavigation,
-} from '@react-navigation/native';
 import Slider from 'components/atoms/Main/Slider';
-import ImageSlider from 'components/atoms/Main/Slider';
-import TodayMenuItem from 'components/atoms/Main/Slider';
-import {wrap} from 'module';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 
-import {
-  StyleSheet,
-  View,
-  Text,
-  TextInput,
-  Button,
-  Platform,
-  Image,
-} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
-import {
-  ALARM_WHITE,
-  BLACK_COLOR,
-  LIGHT_GRAY_COLOR,
-  PRIMARY_COLOR,
-  SEARCH_WHITE,
-  WHITE_COLOR,
-} from 'themes/theme';
-import CategoryItem from '../../atoms/Main/CategoryItem';
-import {TextKRBold, TextKRReg} from 'themes/text';
+import {View} from 'react-native';
+import {PRIMARY_COLOR} from 'themes/theme';
 import Header from '../../atoms/Header/Header';
 import UserInfoTitle from '../../atoms/Main/UserInfoTitle';
 
-// interface CategoryProps {
-//   navigation: NavigationProp<any, any>;
-//   user: {
-//     userName: string;
-//     userAddress: string;
-//   };
-// }
+interface UserDataProps {
+  dormitory: string;
+  nickname: string;
+  profileImage: string;
+}
 
-const TodayMenu = () => {
+const TodayMenu: React.FunctionComponent<UserDataProps> = ({
+  dormitory,
+  nickname,
+  profileImage,
+}) => {
   return (
     <View
       style={{
@@ -50,7 +26,7 @@ const TodayMenu = () => {
         paddingHorizontal: '5%',
       }}>
       <Header />
-      <UserInfoTitle userName="캡스톤" userAddress="서울과기대 누리학사" />
+      <UserInfoTitle userName={nickname} userAddress={dormitory} />
       <Slider key={0}></Slider>
     </View>
   );
