@@ -1,53 +1,20 @@
-import {
-  NavigationProp,
-  ParamListBase,
-  useNavigation,
-} from '@react-navigation/native';
+import {NavigationProp} from '@react-navigation/native';
 import Category from 'components/molecules/Main/Category';
-import Header from 'components/atoms/Header/Header';
-import Slider from 'components/atoms/Main/Slider';
-import ImageSlider from 'components/atoms/Main/Slider';
-import TodayMenuItem from 'components/atoms/Main/Slider';
-import UserInfoTitle from 'components/atoms/Main/UserInfoTitle';
-import React, {useEffect, useRef, useState} from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  TextInput,
-  Button,
-  Platform,
-  Image,
-  StatusBar,
-} from 'react-native';
-import {
-  ScrollView,
-  TouchableWithoutFeedback,
-} from 'react-native-gesture-handler';
-import {
-  ALARM_WHITE,
-  BLACK_COLOR,
-  LIGHT_GRAY_COLOR,
-  LINE_GRAY_COLOR,
-  PRIMARY_COLOR,
-  SEARCH_WHITE,
-  WHITE_COLOR,
-} from 'themes/theme';
-import {TextKRBold, TextKRReg} from 'themes/text';
+import React, {useEffect, useState} from 'react';
+import {View, Platform, StatusBar} from 'react-native';
+import {ScrollView} from 'react-native-gesture-handler';
+import {LINE_GRAY_COLOR, PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
+import {TextKRBold} from 'themes/text';
 import NowGathering from 'components/molecules/Main/NowGathering';
 import TodayMenu from 'components/molecules/Main/TodayMenu';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import BaedalMateRecommendation from 'components/molecules/Main/BaedalMateRecommendation';
 import BtnFloating from 'components/atoms/Button/BtnFloating';
-import BtnHorizontal3 from 'components/molecules/Button/BtnHorizontal3';
-import CreateBoard from './CreateBoard';
 import axios from 'axios';
 import {url} from '../../../App';
-import {toUSVString} from 'util';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const userURL = url + '/api/v1/user';
-const recruitListURL = url + '/api/v1/recruit/list';
+export const recruitListURL = url + '/api/v1/recruit/list';
 
 interface MainProps {
   navigation: NavigationProp<any, any>;
@@ -88,7 +55,7 @@ const Main: React.FunctionComponent<MainProps> = props => {
           },
         })
         .then(function (response) {
-          console.log(response);
+          // console.log(response);
           // AsyncStorage에 유저 이름과 배달 거점 저장
           AsyncStorage.setItem('@BaedalMate_UserName', response.data.nickname);
           AsyncStorage.setItem(
@@ -111,36 +78,38 @@ const Main: React.FunctionComponent<MainProps> = props => {
       return false;
     }
   };
-  // 모집글 리스트 Api 받아옴
-  const getRecruitList = async () => {
-    const JWTAccessToken = await getJWTToken();
-    try {
-      const RecruitListData = axios
-        .get(recruitListURL, {
-          headers: {
-            Authorization: 'Bearer ' + JWTAccessToken,
-          },
-        })
-        .then(function (response) {
-          console.log(response);
-          setRecruitList(response.data.data);
-          return response.data;
-        })
-        .catch(function (error) {
-          console.log(error);
-          return false;
-        });
-      console.log(RecruitListData);
-      return RecruitListData;
-    } catch (error) {
-      console.log(error);
-      return false;
-    }
-  };
+  // // 모집글 리스트 Api 받아옴
+  // const getRecruitList = async () => {
+  //   const JWTAccessToken = await getJWTToken();
+  //   try {
+  //     const RecruitListData = axios
+  //       .get(recruitListURL, {
+  //         params: {
+  //           page: 0,
+  //           size: 10,
+  //           sort: 'deadlineDate,ASC',
+  //         },
+  //       })
+  //       .then(function (response) {
+  //         console.log(response);
+  //         // setRecruitList(response.data.data);
+  //         return response.data;
+  //       })
+  //       .catch(function (error) {
+  //         console.log(error);
+  //         return false;
+  //       });
+  //     console.log(RecruitListData);
+  //     return RecruitListData;
+  //   } catch (error) {
+  //     console.log(error);
+  //     return false;
+  //   }
+  // };
 
   // 스크롤바 위치에 따른 status bar 화면 배경 색상 변경 코드
   useEffect(() => {
-    console.log(StatusBGColor);
+    // console.log(StatusBGColor);
     yOffset <= 387
       ? setStatusBGColor(PRIMARY_COLOR)
       : setStatusBGColor(WHITE_COLOR);
@@ -149,8 +118,8 @@ const Main: React.FunctionComponent<MainProps> = props => {
   // 렌더링 시 유저 정보 받아오기
   useEffect(() => {
     getUserData();
-    getRecruitList();
-  }, []);
+    // getRecruitList();
+  }, [nickname, dormitory]);
 
   return (
     <>
@@ -165,13 +134,12 @@ const Main: React.FunctionComponent<MainProps> = props => {
       <View style={{flex: 1}}>
         <BtnFloating
           onPress={() => {
-            props.navigation.navigate('채팅');
+            props.navigation.navigate('상세 설정');
             // 임시 값. 변경 필요
           }}
         />
         <ScrollView
           onScroll={event => {
-            console.log(event.nativeEvent.contentOffset.y);
             setYOffset(event.nativeEvent.contentOffset.y);
           }}>
           <TodayMenu
@@ -179,7 +147,12 @@ const Main: React.FunctionComponent<MainProps> = props => {
             nickname={nickname}
             profileImage={profileImage}
           />
-          <Category />
+          <Category
+            navigation={props.navigation}
+            // onPress={() => {
+            //   props.navigation.navigate('카테고리');
+            // }}
+          />
           <View
             style={{
               width: '95%',

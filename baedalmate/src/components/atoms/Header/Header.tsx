@@ -17,13 +17,13 @@ const Header = () => {
           marginBottom: 0,
         }}
       />
-      <Image
+      {/* <Image
         source={ALARM_WHITE}
         style={{
           margin: 13,
           marginBottom: 0,
         }}
-      />
+      /> */}
     </View>
   );
 };

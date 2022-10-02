@@ -1,47 +1,8 @@
-import {
-  NavigationProp,
-  ParamListBase,
-  useNavigation,
-} from '@react-navigation/native';
-import Slider, {status} from 'components/atoms/Main/Slider';
-import ImageSlider from 'components/atoms/Main/Slider';
-import TodayMenuItem from 'components/atoms/Main/Slider';
-import {wrap} from 'module';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 
-import {
-  StyleSheet,
-  View,
-  Text,
-  TextInput,
-  Button,
-  Platform,
-  Image,
-  ImageBackground,
-} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
-import {
-  ALARM_WHITE,
-  BLACK_COLOR,
-  LIGHT_GRAY_COLOR,
-  PEOPLE_WHITE,
-  PRIMARY_COLOR,
-  SEARCH_WHITE,
-  STAR_PRIMARY,
-  STAR_WHITE,
-  TIMER_WHITE,
-  WHITE_COLOR,
-} from 'themes/theme';
-import CategoryItem from './CategoryItem';
+import {View, Image, ImageBackground} from 'react-native';
+import {PEOPLE_WHITE, STAR_WHITE, TIMER_WHITE, WHITE_COLOR} from 'themes/theme';
 import {TextKRBold, TextKRReg} from 'themes/text';
-
-// interface CategoryProps {
-//   navigation: NavigationProp<any, any>;
-//   user: {
-//     userName: string;
-//     userAddress: string;
-//   };
-// }
 
 const NowGatheringItem = ({item}) => {
   return (
