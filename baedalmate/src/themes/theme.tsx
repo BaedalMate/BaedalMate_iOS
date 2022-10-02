@@ -33,6 +33,7 @@ const CAMERA_PRIMARY = require('../assets/icons/camera/camera_primary.png');
 const BACK_PRIMARY = require('../assets/icons/back/back_primary.png');
 const SEND_PRIMARY = require('../assets/icons/send/send_primary.png');
 const STAR_PRIMARY = require('../assets/icons/star/star_primary.png');
+const STAR_LINEORANGE = require('../assets/icons/star/star_lineorange.png');
 
 const HOME_REGULAR = require('../assets/icons/profile/profile_regular.png');
 const CHATTIING_REGULAR = require('../assets/icons/chatting/chatting_regular.png');
@@ -80,7 +81,24 @@ const STAR_BLACK = require('../assets/icons/star/star_black.png');
 
 const KaKaoLoginBtnImage = require('../assets/images/kakao_login_medium_wide.png');
 
+const MARKER_BLACK = require('../assets/icons/location/marker.png');
+const MAP_ORANGE = require('../assets/icons/location/map_orange.png');
+const MAP_GRAY = require('../assets/icons/location/map_gray.png');
+
+const QUESTION_MARK = require('../assets/icons/more/question_mark.png');
+
+const STORE_BLACK = require('../assets/icons/store/store_black.png');
+
+const DECREASE_ACTIVE = require('../assets/icons/counter/decrease_active.png');
+const DECREASE_DEACTIVE = require('../assets/icons/counter/decrease_deactive.png');
+const INCREASE_ACTIVE = require('../assets/icons/counter/increase_active.png');
+
+const BOTTOM_ARROW = require('../assets/icons/arrow/bottom_arrow.png');
 export {
+  BOTTOM_ARROW,
+  DECREASE_ACTIVE,
+  DECREASE_DEACTIVE,
+  INCREASE_ACTIVE,
   PRIMARY_COLOR,
   TEXT_COLOR,
   DARK_GRAY_COLOR,
@@ -143,6 +161,7 @@ export {
   ALARM_WHITE,
   SEARCH_WHITE,
   STAR_PRIMARY,
+  STAR_LINEORANGE,
   PEOPLE_WHITE,
   TIMER_WHITE,
   STAR_WHITE,
@@ -151,4 +170,9 @@ export {
   STAR_BLACK,
   RightArrowBlack,
   KaKaoLoginBtnImage,
+  MARKER_BLACK,
+  MAP_GRAY,
+  MAP_ORANGE,
+  QUESTION_MARK,
+  STORE_BLACK,
 };
