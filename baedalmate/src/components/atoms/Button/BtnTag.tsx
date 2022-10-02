@@ -9,35 +9,36 @@
 import {BtnWithTextProps} from 'components/molecules/Button/BtnHorizontal2';
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {LINE_GRAY_COLOR, MAIN_GRAY_COLOR, WHITE_COLOR} from 'themes/theme';
 import {Fonts} from '../../../assets/Fonts';
-
-const BtnVerticalOrange = (props: BtnWithTextProps) => {
+const BtnTag = (props: BtnWithTextProps) => {
   return (
-    <TouchableOpacity
-      style={styles.btnVerticalOrangeWrapper}
-      onPress={props.onPress}>
-      <Text style={styles.btnVerticalOrangeText}>{props.text}</Text>
+    <TouchableOpacity style={styles.btnTagWrapper} onPress={props.onPress}>
+      <Text style={styles.btnTagText}>{props.text}</Text>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  btnVerticalOrangeWrapper: {
-    width: '100%',
-    height: 53,
-    backgroundColor: '#FB6C1C',
+  btnTagWrapper: {
+    width: 75,
+    height: 41,
+    backgroundColor: WHITE_COLOR,
+    borderWidth: 1,
+    borderColor: LINE_GRAY_COLOR,
     borderRadius: 10,
     textAlign: 'center',
     justifyContent: 'center',
   },
-  btnVerticalOrangeText: {
+  btnTagText: {
     fontFamily: Fonts.Ko,
-    fontSize: 20,
-    lineHeight: 28,
+    fontWeight: '700',
+    fontSize: 14,
+    lineHeight: 17,
     textAlign: 'center',
     textAlignVertical: 'center',
-    color: '#FFFFFF',
+    color: MAIN_GRAY_COLOR,
   },
 });
 
-export default BtnVerticalOrange;
+export default BtnTag;

@@ -6,31 +6,35 @@
  * @flow strict-local
  */
 
+import {Fonts} from 'assets/Fonts';
 import {BtnWithTextProps} from 'components/molecules/Button/BtnHorizontal2';
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {Fonts} from '../../../assets/Fonts';
+import BtnVerticalOrange from './BtnVerticalOrange';
 
-const BtnVerticalOrange = (props: BtnWithTextProps) => {
+const BtnCreateFloating = (props: BtnWithTextProps) => {
   return (
     <TouchableOpacity
-      style={styles.btnVerticalOrangeWrapper}
+      style={styles.btnCreateFloatingWrapper}
       onPress={props.onPress}>
-      <Text style={styles.btnVerticalOrangeText}>{props.text}</Text>
+      <Text style={styles.btnCreateFloatingText}>{props.text}</Text>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  btnVerticalOrangeWrapper: {
+  btnCreateFloatingWrapper: {
+    position: 'absolute',
+    bottom: 50,
     width: '100%',
-    height: 53,
+    height: 60,
     backgroundColor: '#FB6C1C',
     borderRadius: 10,
-    textAlign: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 500,
   },
-  btnVerticalOrangeText: {
+  btnCreateFloatingText: {
     fontFamily: Fonts.Ko,
     fontSize: 20,
     lineHeight: 28,
@@ -40,4 +44,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BtnVerticalOrange;
+export default BtnCreateFloating;

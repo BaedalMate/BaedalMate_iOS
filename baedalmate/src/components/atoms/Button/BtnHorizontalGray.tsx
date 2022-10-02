@@ -6,14 +6,16 @@
  * @flow strict-local
  */
 
+import {BtnWithTextProps} from 'components/molecules/Button/BtnHorizontal2';
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {Fonts} from '../../../assets/Fonts';
 
-export type BtnWithTextProps = {
-  onPress(): void;
-  text: string;
-};
+// export type BtnWithTextProps = {
+//   navigation: any;
+//   onPress(): void;
+//   text: string;
+// };
 
 const BtnHorizontalGray = (props: BtnWithTextProps) => {
   return (
