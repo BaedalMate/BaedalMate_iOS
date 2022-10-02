@@ -1,18 +1,13 @@
-import {
-  NavigationProp,
-  ParamListBase,
-  useNavigation,
-} from '@react-navigation/native';
+import {NavigationProp} from '@react-navigation/native';
 
 import {
   KakaoOAuthToken,
-  getProfile as getKakaoProfile,
   login,
   logout,
   unlink,
 } from '@react-native-seoul/kakao-login';
-import React, {useEffect, useState} from 'react';
 
+import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 
 import BtnKakaoLoginWrapper from '../atoms/Button/BtnKakaoLogin';
@@ -49,7 +44,7 @@ function Login({navigation}: LoginProps): React.ReactElement {
       if (JWTTokens[0][1]) {
         console.log(JWTTokens);
         console.log(JWTTokens[0][1]);
-        navigation.navigate('AppTabComponent');
+        navigation.navigate('BoardStackComponent');
       }
     } catch (error) {
       console.log(error);
