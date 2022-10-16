@@ -33,23 +33,23 @@ NS_ASSUME_NONNULL_BEGIN
 DEPRECATED_ATTRIBUTE
 /// 메시지 전송 수신자 타입
 typedef NS_ENUM(NSInteger, KOTalkMessageReceiverType) {
-    /// KOUser
-    KOTalkMessageReceiverTypeUser = 0,
-    /// KOFriend
-    KOTalkMessageReceiverTypeFriend = 1,
-    /// KOChat
-    KOTalkMessageReceiverTypeChat = 2
+  /// KOUser
+  KOTalkMessageReceiverTypeUser = 0,
+  /// KOFriend
+  KOTalkMessageReceiverTypeFriend = 1,
+  /// KOChat
+  KOTalkMessageReceiverTypeChat = 2
 };
 
 /// 메시지 수신 대상 지정 방법
 /// @discussion **제휴를 통해 권한이 부여된 특정 앱에서만 사용 가능합니다.*
 typedef NS_ENUM(NSInteger, KOTalkMessageReceiverIDType) {
-    /// 메시지 수신 대상의 UUID [KOUserInfo uuid]
-    KOTalkMessageReceiverIDTypeUser = 1,
-    /// 메시지 수신 대상의 사용자 ID [KOUserInfo ID]
-    KOTalkMessageReceiverIDTypeChat = 2,
-    /// 메시지 수신 대상 채팅방 ID [KOChat ID]
-    KOTalkMessageReceiverIDTypeUUID = 3,
+  /// 메시지 수신 대상의 UUID [KOUserInfo uuid]
+  KOTalkMessageReceiverIDTypeUser = 1,
+  /// 메시지 수신 대상의 사용자 ID [KOUserInfo ID]
+  KOTalkMessageReceiverIDTypeChat = 2,
+  /// 메시지 수신 대상 채팅방 ID [KOChat ID]
+  KOTalkMessageReceiverIDTypeUUID = 3,
 };
 
 /// 채팅방 멤버 API 완료 핸들러
@@ -58,11 +58,11 @@ typedef NS_ENUM(NSInteger, KOTalkMessageReceiverIDType) {
 /// @param activeMembersCount 내려받은 멤버 목록의 수 (최대 500). friendsOnly가 false이면 nil
 /// @param activeFriendsCount 내려받은 멤버 중 친구의 수. friendsOnly가 false이면 nil
 /// @param error API 호출 도중 발생한 에러
-typedef void(^KOSessionTaskTalkMembersCompletionHandler)(NSArray<KOChatMember *> *_Nullable members,
-                                                         NSString *_Nullable type,
-                                                         NSNumber *_Nullable activeMembersCount,
-                                                         NSNumber *_Nullable activeFriendsCount,
-                                                         NSError *_Nullable error);
+typedef void (^KOSessionTaskTalkMembersCompletionHandler)(NSArray<KOChatMember *> *_Nullable members,
+                                                          NSString *_Nullable type,
+                                                          NSNumber *_Nullable activeMembersCount,
+                                                          NSNumber *_Nullable activeFriendsCount,
+                                                          NSError *_Nullable error);
 
 /// 카카오톡 채널 추가상태 조회 API 완료 핸들러
 /// @param plusFriends 카카오톡 채널 정보 목록
@@ -126,8 +126,6 @@ typedef void (^KOSessionTaskTalkPlusFriendsCompletionHandler)(KOTalkPlusFriends 
                                                 receiverId:(id)receiverId
                                          completionHandler:(nullable void (^)(NSError *_Nullable error))completionHandler;
 
-
-
 #pragma mark - Send Memo v2
 
 /// @abstract 기본 제공되는 템플릿을 이용하여, 카카오톡의 "나와의 채팅방"으로 메시지를 전송합니다.
@@ -161,14 +159,11 @@ typedef void (^KOSessionTaskTalkPlusFriendsCompletionHandler)(KOTalkPlusFriends 
                                            templateArgs:(nullable NSDictionary<NSString *, NSString *> *)templateArgs
                                       completionHandler:(nullable void (^)(NSError *_Nullable error))completionHandler;
 
-
-
 #pragma mark - Profile
 
 /// @abstract 현재 로그인된 사용자의 카카오톡 프로필 정보를 얻을 수 있습니다.
 /// @param completionHandler 카카오톡 프로필 정보를 얻어 처리하는 핸들러
 + (instancetype)talkProfileTaskWithCompletionHandler:(nullable KOSessionTaskCompletionHandler)completionHandler;
-
 
 #pragma mark - Chat List
 

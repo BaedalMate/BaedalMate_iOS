@@ -25,12 +25,12 @@
 
 /// 스토리 포스팅 공개 범위
 typedef NS_ENUM(NSInteger, KOStoryPostPermission) {
-    /// 전체공개
-    KOStoryPostPermissionPublic = 0,
-    /// 친구공개
-    KOStoryPostPermissionFriend = 1,
-    /// 나만보기
-    KOStoryPostPermissionOnlyMe = 2
+  /// 전체공개
+  KOStoryPostPermissionPublic = 0,
+  /// 친구공개
+  KOStoryPostPermissionFriend = 1,
+  /// 나만보기
+  KOStoryPostPermissionOnlyMe = 2
 };
 
 @interface KOSessionTask (StoryAPI)
@@ -232,7 +232,6 @@ typedef NS_ENUM(NSInteger, KOStoryPostPermission) {
 /// @param completionHandler 내스토리 정보에 대한 삭제의 결과를 얻어 처리하는 핸들러
 + (instancetype)storyDeleteMyStoryTaskWithMyStoryId:(NSString *)myStoryId
                                   completionHandler:(void (^)(NSError *error))completionHandler;
-
 
 + (instancetype)storyImageUploadTaskWithImage:(UIImage *)image
                             completionHandler:(KOSessionTaskCompletionHandler)completionHandler DEPRECATED_MSG_ATTRIBUTE("Replaced by storyMultiImageUploadTaskWithImages in v1.0.7");
