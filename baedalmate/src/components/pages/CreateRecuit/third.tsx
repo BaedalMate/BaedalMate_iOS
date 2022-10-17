@@ -14,6 +14,7 @@ import {TextKRBold, TextKRReg} from 'themes/text';
 import {Fonts} from 'assets/Fonts';
 import {
   DARK_GRAY_COLOR,
+  ERROR_COLOR,
   LINE_GRAY_COLOR,
   PRIMARY_COLOR,
   WHITE_COLOR,
@@ -21,6 +22,14 @@ import {
 import BtnCreateFloating from 'components/atoms/Button/BtnCreateFloating';
 import BtnTag from 'components/atoms/Button/BtnTag';
 import WhiteTag from 'components/atoms/CreateRecruit/Tags';
+import {useFieldArray, useForm} from 'react-hook-form';
+import {
+  DescriptionInput,
+  TitleInput,
+} from 'components/atoms/CreateRecruit/Input';
+import Tag from 'components/atoms/Main/Tag';
+import {OrangeTag} from 'components/atoms/BoardList/Tags';
+import RecruitTag from 'components/atoms/CreateRecruit/Tags';
 
 export interface RecruitItemProps {
   createDate: string;
@@ -39,10 +48,41 @@ export interface RecruitItemProps {
   userScore: number;
   username: string;
 }
+
 const CreateRecruit3 = props => {
-  const [minPrice, setMinPrice] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    formState: {errors},
+  } = useForm({
+    defaultValues: {
+      title: '',
+      description: '',
+      tags: [{tagname: ''}],
+    },
+  });
+  console.log('098765432', props.route.params);
+
+  // const {
+  //   fileds: tagFields,
+  //   append: tagAppend,
+  //   remove: tagRemove,
+  // } = useFieldArray({
+  //   control,
+  //   name: 'tags',
+  // });
+  const onSubmit = data => {
+    console.log(data);
+    console.log(tagList);
+    props.navigation.navigate('상세 설정4', {
+      ...data,
+      tags: tagList,
+      ...props.route.params,
+    });
+  };
+  const [newTag, setNewTag] = useState('');
+  const [tagList, setTagList] = useState<{tagname: string}[]>([]);
   return (
     <View
       style={{
@@ -68,8 +108,20 @@ const CreateRecruit3 = props => {
               borderBottomWidth: 5,
               borderBottomColor: WHITE_COLOR,
             }}>
-            <TextKRBold style={styles.Label}>제목</TextKRBold>
-            <TextInput
+            <View style={{flexDirection: 'row'}}>
+              <TextKRBold style={styles.Label}>제목</TextKRBold>
+              {errors.title && (
+                <Text style={styles.Validation}>제목을 적어주세요</Text>
+              )}
+            </View>
+
+            <TitleInput
+              error={errors}
+              name={'title'}
+              control={control}
+              rules={{required: true}}
+            />
+            {/* <TextInput
               style={{
                 backgroundColor: WHITE_COLOR,
                 width: '100%',
@@ -80,13 +132,7 @@ const CreateRecruit3 = props => {
               value={title}
               onChangeText={setTitle}
               maxLength={20}
-            />
-            <View style={{paddingTop: 5, alignItems: 'flex-end'}}>
-              <Text>
-                <Text style={styles.LengthCnt}>{title.length}</Text>
-                /20
-              </Text>
-            </View>
+            /> */}
           </View>
           <View
             style={{
@@ -97,31 +143,18 @@ const CreateRecruit3 = props => {
               borderBottomWidth: 5,
               borderBottomColor: WHITE_COLOR,
             }}>
-            <TextKRBold style={styles.Label}>모집글 설명</TextKRBold>
-            <View
-              style={{
-                alignItems: 'flex-end',
-              }}>
-              <TextInput
-                style={{
-                  backgroundColor: WHITE_COLOR,
-                  width: '100%',
-                  height: 212,
-                  borderRadius: 10,
-                  padding: 15,
-                }}
-                maxLength={200}
-                value={description}
-                onChangeText={setDescription}
-                multiline
-              />
-              <View style={{paddingTop: 5, alignItems: 'flex-end'}}>
-                <Text>
-                  <Text style={styles.LengthCnt}>{description.length}</Text>
-                  /200
-                </Text>
-              </View>
+            <View style={{flexDirection: 'row'}}>
+              <TextKRBold style={styles.Label}>모집글 설명</TextKRBold>
+              {errors.title && (
+                <Text style={styles.Validation}>설명을 적어주세요</Text>
+              )}
             </View>
+            <DescriptionInput
+              error={errors}
+              name={'description'}
+              control={control}
+              rules={{required: true}}
+            />
           </View>
           <View
             style={{
@@ -132,7 +165,6 @@ const CreateRecruit3 = props => {
               borderBottomColor: WHITE_COLOR,
             }}>
             <TextKRBold style={styles.Label}>태그쓰기</TextKRBold>
-
             <View
               style={{
                 flexDirection: 'row',
@@ -146,16 +178,24 @@ const CreateRecruit3 = props => {
                   borderRadius: 10,
                   padding: 15,
                 }}
+                onChangeText={text => {
+                  setNewTag(text);
+                }}
+                // value={}
                 placeholder="#태그를 입력해주세요"></TextInput>
               <BtnTag
-                onPress={function (): void {
-                  throw new Error('Function not implemented.');
-                }}
                 text={'태그입력'}
+                onPress={() => {
+                  if (newTag !== '') {
+                    setTagList([...tagList, {tagname: newTag}]);
+                  }
+                }}
               />
             </View>
             <View style={{flexDirection: 'row', marginVertical: 15}}>
-              <WhiteTag text={'태그입력'} />
+              {tagList.map((data, index) => (
+                <RecruitTag text={data.tagname} key={index} />
+              ))}
             </View>
           </View>
         </View>
@@ -167,8 +207,9 @@ const CreateRecruit3 = props => {
         <View>
           <View></View>
           <BtnCreateFloating
-            onPress={() => props.navigation.navigate('상세 설정4')}
+            onPress={handleSubmit(onSubmit)}
             text={'다음으로'}
+            id={3}
           />
         </View>
       </View>
@@ -177,6 +218,16 @@ const CreateRecruit3 = props => {
 };
 
 const styles = StyleSheet.create({
+  Validation: {
+    fontFamily: Fonts.Ko,
+    fontStyle: 'normal',
+    fontWeight: '400',
+    fontSize: 14,
+    lineHeight: 24,
+    textAlignVertical: 'center',
+    color: ERROR_COLOR,
+    marginLeft: 20,
+  },
   margin: {
     marginLeft: 10,
   },

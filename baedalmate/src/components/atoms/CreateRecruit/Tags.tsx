@@ -10,7 +10,7 @@ import {
   WHITE_COLOR,
 } from 'themes/theme';
 
-const WhiteTag = ({text}: {text: string}) => {
+const RecruitTag = ({text}: {text: string}) => {
   return (
     <View
       style={{
@@ -58,4 +58,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default WhiteTag;
+export default RecruitTag;
