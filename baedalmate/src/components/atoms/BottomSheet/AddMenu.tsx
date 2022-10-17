@@ -10,7 +10,7 @@ export const DormitoryList = [
   {id: 3, value: '누리학사'},
   {id: 4, value: '수림학사'},
 ];
-const ChangeDormitory = userDormitory => {
+const AddMenu = userDormitory => {
   const [modal, setModal] = useState(false);
   const [selectedDormitory, setSelectedDormitory] = useState(userDormitory);
   const handleModal = () => {
@@ -116,4 +116,4 @@ const ChangeDormitory = userDormitory => {
   );
 };
 
-export default ChangeDormitory;
+export default AddMenu;
