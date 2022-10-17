@@ -106,7 +106,6 @@ const DECREASE_DEACTIVE = require('../assets/icons/counter/decrease_deactive.png
 const INCREASE_ACTIVE = require('../assets/icons/counter/increase_active.png');
 
 const BOTTOM_ARROW = require('../assets/icons/arrow/bottom_arrow.png');
-<<<<<<< HEAD
 
 const BAEMIN_ICON = require('../assets/images/baemin.png');
 const YOGIYO_ICON = require('../assets/images/yogiyo.png');
@@ -140,9 +139,6 @@ export {
   BAEMIN_ICON,
   YOGIYO_ICON,
   COUPANGEATS_ICON,
-=======
-export {
->>>>>>> 6e3ac1c37fc6c3be4af8399b161b6c5f11a59512
   BOTTOM_ARROW,
   DECREASE_ACTIVE,
   DECREASE_DEACTIVE,
