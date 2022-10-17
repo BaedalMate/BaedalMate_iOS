@@ -35,6 +35,7 @@ import {
   DARK_GRAY_COLOR,
   LINE_GRAY_COLOR,
   ERROR_COLOR,
+  BLACK_COLOR,
 } from 'themes/theme';
 import {Fonts} from 'assets/Fonts';
 import MenuItem from 'components/atoms/CreateRecruit/MenuItem';
@@ -193,17 +194,13 @@ const BoardItemDetail: React.FC<DetailProps> = props => {
           marginTop: 30,
           marginBottom: 62,
         }}>
-        {itemDetaildata?.host ? (
+        {itemDetaildata?.host === true ? (
           <BtnVerticalDeactive onPress={() => {}} text="모집 참여하기" />
+        ) : itemDetaildata?.participate ? (
+          <BtnVerticalOrange onPress={handleModal} text="모집 나가기" />
         ) : (
           <BtnVerticalOrange onPress={handleModal} text="모집 참여하기" />
         )}
-        {!itemDetaildata?.host &&
-          (itemDetaildata?.participate ? (
-            <BtnVerticalOrange onPress={handleModal} text="모집 나가기" />
-          ) : (
-            <BtnVerticalOrange onPress={handleModal} text="모집 참여하기" />
-          ))}
       </View>
       <View>
         <Modal
@@ -222,6 +219,13 @@ const BoardItemDetail: React.FC<DetailProps> = props => {
               justifyContent: 'flex-end',
               alignItems: 'center',
             }}>
+            <View
+              onTouchStart={handleModal}
+              style={{
+                width: '100%',
+                height: '100%',
+              }}
+            />
             <KeyboardAvoidingView
               // style={styles.avoidingView}
               behavior={Platform.select({ios: 'padding'})}
