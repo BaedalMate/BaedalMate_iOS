@@ -1,4 +1,5 @@
 import Slider from 'components/atoms/Main/Slider';
+import {mainTagRecruitListI} from 'components/pages/Main';
 import React from 'react';
 
 import {View} from 'react-native';
@@ -10,12 +11,16 @@ interface UserDataProps {
   dormitory: string;
   nickname: string;
   profileImage: string;
+  mainTagRecruitList: mainTagRecruitListI;
+  setDormitory: Function;
 }
 
 const TodayMenu: React.FunctionComponent<UserDataProps> = ({
   dormitory,
   nickname,
   profileImage,
+  mainTagRecruitList,
+  setDormitory,
 }) => {
   return (
     <View
@@ -26,8 +31,13 @@ const TodayMenu: React.FunctionComponent<UserDataProps> = ({
         paddingHorizontal: '5%',
       }}>
       <Header />
-      <UserInfoTitle userName={nickname} userAddress={dormitory} />
-      <Slider key={0}></Slider>
+      <UserInfoTitle
+        userName={nickname}
+        userAddress={dormitory}
+        setDormitory={setDormitory}
+      />
+
+      <Slider mainTagRecruitList={mainTagRecruitList} />
     </View>
   );
 };

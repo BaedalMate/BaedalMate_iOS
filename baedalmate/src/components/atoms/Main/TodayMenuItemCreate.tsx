@@ -16,20 +16,35 @@ export type TodayMenuItemProps = {
 import {STAR_PRIMARY} from 'themes/theme';
 import {TextKRBold, TextKRReg} from 'themes/text';
 import {TagComponent} from './TodayMenuItem';
+import {useNavigation} from '@react-navigation/native';
+
+export interface tagI {
+  tagname: string;
+}
+export interface CreateTagI {
+  tags: tagI[];
+}
 
 const TodayMenuItemCreate = () => {
   const createItemData = {
-    title: '지금 먹고 싶은 메뉴가 생겼다면?',
-    tag1: '글 작성하기',
-    tag2: '',
+    place: '지금 먹고 싶은 메뉴가 생겼다면?',
+    tags: [
+      {
+        tagname: '글 작성하기',
+      },
+    ],
     description: '합리적으로 배달시키세요!',
     move: '글 작성하러 가기',
     imgUrl:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSt559x4ig-wTTMPcj3W9LD0dLvY6Ggi1E4L0WAP3IWcQ&s',
     // temporal imgUrl
   };
+  const navigation = useNavigation();
   return (
-    <>
+    <TouchableOpacity
+      onPress={() => {
+        navigation.navigate('상세 설정' as never);
+      }}>
       <TagComponent item={createItemData} />
 
       <View style={styles.imageSliderWrapper}>
@@ -62,7 +77,7 @@ const TodayMenuItemCreate = () => {
               padding: 15,
               fontSize: 16,
             }}>
-            {createItemData.title}
+            {createItemData.place}
             {'\n'}
             <TextKRBold
               style={{
@@ -108,7 +123,7 @@ const TodayMenuItemCreate = () => {
           />
         </View>
       </View>
-    </>
+    </TouchableOpacity>
   );
 };
 

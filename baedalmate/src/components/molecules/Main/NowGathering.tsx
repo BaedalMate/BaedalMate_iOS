@@ -1,34 +1,8 @@
-import {
-  NavigationProp,
-  ParamListBase,
-  useNavigation,
-} from '@react-navigation/native';
-import Slider, {data} from 'components/atoms/Main/Slider';
-import ImageSlider from 'components/atoms/Main/Slider';
-import TodayMenuItem from 'components/atoms/Main/Slider';
-import {wrap} from 'module';
-import React, {useEffect, useState} from 'react';
+import {mainRecruitListI} from 'components/pages/Main';
+import React from 'react';
 
-import {
-  StyleSheet,
-  View,
-  Text,
-  TextInput,
-  Button,
-  Platform,
-  Image,
-} from 'react-native';
+import {View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import {
-  ALARM_WHITE,
-  BLACK_COLOR,
-  LIGHT_GRAY_COLOR,
-  PRIMARY_COLOR,
-  SEARCH_WHITE,
-  WHITE_COLOR,
-} from 'themes/theme';
-import CategoryItem from '../../atoms/Main/CategoryItem';
-import {TextKRBold, TextKRReg} from 'themes/text';
 import NowGatheringItem from '../../atoms/Main/NowGatheringItem';
 
 // interface CategoryProps {
@@ -39,7 +13,11 @@ import NowGatheringItem from '../../atoms/Main/NowGatheringItem';
 //   };
 // }
 
-const NowGathering = () => {
+const NowGathering = ({
+  mainRecruitList,
+}: {
+  mainRecruitList: mainRecruitListI;
+}) => {
   return (
     <View>
       <ScrollView
@@ -47,11 +25,11 @@ const NowGathering = () => {
         contentContainerStyle={{
           flexGrow: 1,
         }}>
-        <NowGatheringItem item={data[0]}></NowGatheringItem>
-        <NowGatheringItem item={data[1]}></NowGatheringItem>
-        <NowGatheringItem item={data[2]}></NowGatheringItem>
-        <NowGatheringItem item={data[3]}></NowGatheringItem>
-        <NowGatheringItem item={data[4]}></NowGatheringItem>
+        <NowGatheringItem item={mainRecruitList[0]}></NowGatheringItem>
+        <NowGatheringItem item={mainRecruitList[1]}></NowGatheringItem>
+        <NowGatheringItem item={mainRecruitList[2]}></NowGatheringItem>
+        <NowGatheringItem item={mainRecruitList[3]}></NowGatheringItem>
+        <NowGatheringItem item={mainRecruitList[4]}></NowGatheringItem>
       </ScrollView>
     </View>
   );

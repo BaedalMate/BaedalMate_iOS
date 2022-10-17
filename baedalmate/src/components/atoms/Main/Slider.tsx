@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   GestureResponderEvent,
   StyleSheet,
@@ -10,6 +10,9 @@ import {BLACK_COLOR, PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
 import {Fonts} from '../../../assets/Fonts';
 import TodayMenuItem from './TodayMenuItem';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
+import axios from 'axios';
+import {mainRecruitListURL, mainTagRecruitListI} from 'components/pages/Main';
+import {getJWTToken} from 'components/utils/Main';
 export type ImageSliderProps = {
   data: string;
   key: number;
@@ -25,123 +28,128 @@ export enum status {
   ONGOING = '진행중',
   CREATE = '글 작성하러 가기',
 }
-export const data = [
-  {
-    title: 'Salady 공릉점',
-    user: {
-      userName: '김수한무거북이삼천갑자김수한무거',
-      userAddress: 'KB학사',
-      userStarRate: 4.1,
-    },
-    body: {
-      baedalTips: 0,
-      minCost: 12000,
-      minTime: 20,
-      maxTime: 30,
-      curruntPeople: 2,
-      maxPeople: 4,
-    },
-    tag1: '간편식',
-    tag2: '배달팁 무료',
-    imgUrl:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSt559x4ig-wTTMPcj3W9LD0dLvY6Ggi1E4L0WAP3IWcQ&s',
-    state: status.ONGOING,
-  },
-  {
-    title: 'title1',
-    user: {
-      userName: 'name1',
-      userAddress: '누리학사',
-      userStarRate: 4.1,
-    },
-    body: {
-      baedalTips: 0,
-      minCost: 12000,
-      minTime: 20,
-      maxTime: 30,
-      curruntPeople: 2,
-      maxPeople: 4,
-    },
-    tag1: '1인분',
-    tag2: '배달팁 반값',
-    imgUrl:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ6yI5v-1UCyMx8CdTpABg9QzItPHcPLZh7_1ZnzOpTg&s',
-    state: status.COMPLETED,
-  },
-  {
-    title: 'title2',
-    user: {
-      userName: 'name1',
-      userAddress: '누리학사',
-      userStarRate: 4.1,
-    },
-    body: {
-      starRate: 4.1,
-      baedalTips: 0,
-      minCost: 12000,
-      minTime: 20,
-      maxTime: 30,
-      curruntPeople: 2,
-      maxPeople: 4,
-    },
-    tag1: '치킨',
-    tag2: '브랜드 할인',
-    imgUrl:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ6yI5v-1UCyMx8CdTpABg9QzItPHcPLZh7_1ZnzOpTg&s',
-    state: status.COMPLETED,
-  },
-  {
-    title: 'title3',
-    user: {
-      userName: 'name1',
-      userAddress: '누리학사',
-      userStarRate: 4.1,
-    },
-    body: {
-      starRate: 4.1,
-      baedalTips: 0,
-      minCost: 12000,
-      minTime: 20,
-      maxTime: 30,
-      curruntPeople: 2,
-      maxPeople: 4,
-    },
-    tag1: '한식',
-    tag2: '간편식',
-    imgUrl:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ6yI5v-1UCyMx8CdTpABg9QzItPHcPLZh7_1ZnzOpTg&s',
-    state: status.COMPLETED,
-  },
-  {
-    title: 'title4',
-    user: {
-      userName: 'name1',
-      userAddress: '누리학사',
-      userStarRate: 4.1,
-    },
-    body: {
-      starRate: 4.1,
-      baedalTips: 0,
-      minCost: 12000,
-      minTime: 20,
-      maxTime: 30,
-      curruntPeople: 2,
-      maxPeople: 4,
-    },
-    tag1: '1인분',
-    tag2: '배달팁 무료',
-    imgUrl:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ6yI5v-1UCyMx8CdTpABg9QzItPHcPLZh7_1ZnzOpTg&s',
-    state: status.COMPLETED,
-  },
-];
+// export const data = [
+//   {
+//     title: 'Salady 공릉점',
+//     user: {
+//       userName: '김수한무거북이삼천갑자김수한무거',
+//       userAddress: 'KB학사',
+//       userStarRate: 4.1,
+//     },
+//     body: {
+//       baedalTips: 0,
+//       minCost: 12000,
+//       minTime: 20,
+//       maxTime: 30,
+//       curruntPeople: 2,
+//       maxPeople: 4,
+//     },
+//     tag1: '간편식',
+//     tag2: '배달팁 무료',
+//     imgUrl:
+//       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSt559x4ig-wTTMPcj3W9LD0dLvY6Ggi1E4L0WAP3IWcQ&s',
+//     state: status.ONGOING,
+//   },
+//   {
+//     title: 'title1',
+//     user: {
+//       userName: 'name1',
+//       userAddress: '누리학사',
+//       userStarRate: 4.1,
+//     },
+//     body: {
+//       baedalTips: 0,
+//       minCost: 12000,
+//       minTime: 20,
+//       maxTime: 30,
+//       curruntPeople: 2,
+//       maxPeople: 4,
+//     },
+//     tag1: '1인분',
+//     tag2: '배달팁 반값',
+//     imgUrl:
+//       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ6yI5v-1UCyMx8CdTpABg9QzItPHcPLZh7_1ZnzOpTg&s',
+//     state: status.COMPLETED,
+//   },
+//   {
+//     title: 'title2',
+//     user: {
+//       userName: 'name1',
+//       userAddress: '누리학사',
+//       userStarRate: 4.1,
+//     },
+//     body: {
+//       starRate: 4.1,
+//       baedalTips: 0,
+//       minCost: 12000,
+//       minTime: 20,
+//       maxTime: 30,
+//       curruntPeople: 2,
+//       maxPeople: 4,
+//     },
+//     tag1: '치킨',
+//     tag2: '브랜드 할인',
+//     imgUrl:
+//       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ6yI5v-1UCyMx8CdTpABg9QzItPHcPLZh7_1ZnzOpTg&s',
+//     state: status.COMPLETED,
+//   },
+//   {
+//     title: 'title3',
+//     user: {
+//       userName: 'name1',
+//       userAddress: '누리학사',
+//       userStarRate: 4.1,
+//     },
+//     body: {
+//       starRate: 4.1,
+//       baedalTips: 0,
+//       minCost: 12000,
+//       minTime: 20,
+//       maxTime: 30,
+//       curruntPeople: 2,
+//       maxPeople: 4,
+//     },
+//     tag1: '한식',
+//     tag2: '간편식',
+//     imgUrl:
+//       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ6yI5v-1UCyMx8CdTpABg9QzItPHcPLZh7_1ZnzOpTg&s',
+//     state: status.COMPLETED,
+//   },
+//   {
+//     title: 'title4',
+//     user: {
+//       userName: 'name1',
+//       userAddress: '누리학사',
+//       userStarRate: 4.1,
+//     },
+//     body: {
+//       starRate: 4.1,
+//       baedalTips: 0,
+//       minCost: 12000,
+//       minTime: 20,
+//       maxTime: 30,
+//       curruntPeople: 2,
+//       maxPeople: 4,
+//     },
+//     tag1: '1인분',
+//     tag2: '배달팁 무료',
+//     imgUrl:
+//       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ6yI5v-1UCyMx8CdTpABg9QzItPHcPLZh7_1ZnzOpTg&s',
+//     state: status.COMPLETED,
+//   },
+// ];
 // const SliderItem = ({item, index}) => {
 //   return <TodayMenuItem />;
 // };
 
-const Slider = () => {
+const Slider = ({
+  mainTagRecruitList,
+}: {
+  mainTagRecruitList: mainTagRecruitListI;
+}) => {
   const isCarousel = React.useRef(null);
   const [index, setIndex] = React.useState(0);
+
   return (
     <View
       style={{
@@ -152,7 +160,7 @@ const Slider = () => {
         paddingVertical: 0,
       }}>
       <Carousel
-        data={data}
+        data={mainTagRecruitList.recruitList}
         layoutCardOffset={0}
         ref={isCarousel}
         renderItem={TodayMenuItem}
@@ -165,9 +173,8 @@ const Slider = () => {
           marginBottom: 10,
         }}
       />
-
       <Pagination
-        dotsLength={data.length}
+        dotsLength={mainTagRecruitList?.recruitList?.length}
         activeDotIndex={index}
         dotStyle={{
           width: 7,

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {View, Modal, FlatList} from 'react-native';
 import {LINE_GRAY_COLOR, PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
@@ -7,6 +7,10 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import ChangeDormitory, {
   DormitoryList,
 } from '../BottomSheet/ChangeDormitoryBottomSheet';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import {userURL} from 'components/pages/Main';
+import {getJWTToken} from 'components/utils/Main';
 
 const Item = ({title}) => null;
 export type UserAddressProps = {
@@ -14,11 +18,59 @@ export type UserAddressProps = {
   text: string;
 };
 
-const UserInfoTitle = ({userName, userAddress}) => {
+const UserInfoTitle = ({userName, userAddress, setDormitory}) => {
   const [modal, setModal] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState(userAddress);
   const handleModal = () => {
     modal ? setModal(false) : setModal(true);
+  };
+
+  // User dormitory 변경
+  const putUserDormitory = async () => {
+    let changedDormitory =
+      selectedAddress === 'KB학사'
+        ? 'KB'
+        : selectedAddress === '성림학사'
+        ? 'SUNGLIM'
+        : selectedAddress === '수림학사'
+        ? 'SULIM'
+        : selectedAddress === '불암학사'
+        ? 'BURAM'
+        : 'NURI';
+    const JWTAccessToken = await getJWTToken();
+    console.log(changedDormitory, JWTAccessToken);
+    try {
+      const {data} = await axios
+        .put(
+          userURL,
+          {},
+          {
+            params: {
+              dormitory: changedDormitory,
+            },
+            headers: {
+              Authorization: 'Bearer ' + JWTAccessToken,
+            },
+          },
+        )
+        .then(function (response) {
+          console.log('put dormitory', response);
+          console.log(response);
+          // AsyncStorage에 유저 이름과 배달 거점 저장
+          AsyncStorage.setItem('@BaedalMate_Dormitory', changedDormitory);
+          // 해당 페이지는 렌더링 문제로 state 설정 후 사용
+          setDormitory(changedDormitory);
+          return response.data;
+        })
+        .catch(function (error) {
+          console.log('put dormitory', error);
+          return false;
+        });
+      return data;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
   };
   const renderItem = ({item}) => {
     return (
@@ -46,6 +98,10 @@ const UserInfoTitle = ({userName, userAddress}) => {
       </TouchableOpacity>
     );
   };
+
+  useEffect(() => {
+    putUserDormitory();
+  }, [selectedAddress]);
 
   return (
     <>

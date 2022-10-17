@@ -1,7 +1,13 @@
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
 
-import {StyleSheet, View, Image, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Image,
+  TouchableOpacity,
+  ImageSourcePropType,
+} from 'react-native';
 import {LIGHT_GRAY_COLOR, PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
 import {TextKRReg} from 'themes/text';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -9,13 +15,17 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 interface CategoryItemProps {
   // navigation: NavigationProp<any, any>;
   navigation: any;
-  categoryName: string;
-  img: string;
+  category: {
+    categoryId: number;
+    categoryName: string;
+    categoryImg: ImageSourcePropType;
+  };
+  // img: string;
 }
 
 const CategoryItem: React.FunctionComponent<CategoryItemProps> = ({
-  categoryName,
-  img,
+  category,
+  // img,
   navigation,
   // onPress
 }) => {
@@ -25,7 +35,9 @@ const CategoryItem: React.FunctionComponent<CategoryItemProps> = ({
 
   const goToCategory = () => {
     setActive(!active);
-    navigation.navigate('카테고리');
+    navigation.navigate('카테고리', {
+      categoryId: category.categoryId,
+    });
   };
   const onPress = () => {
     setActive(!active);
@@ -46,9 +58,9 @@ const CategoryItem: React.FunctionComponent<CategoryItemProps> = ({
         }}>
         <View style={styles.itemStyle}>
           <Image
-            source={{uri: img}}
+            source={category.categoryImg}
             style={{width: 45, height: 45, borderRadius: 45 / 2}}></Image>
-          <TextKRReg style={{}}>{categoryName}</TextKRReg>
+          <TextKRReg style={{}}>{category.categoryName}</TextKRReg>
         </View>
       </TouchableOpacity>
     </View>
