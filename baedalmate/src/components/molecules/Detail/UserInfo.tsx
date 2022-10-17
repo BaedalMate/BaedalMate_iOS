@@ -37,8 +37,11 @@ const UserInfo = ({item}: {item: RecruitItemProps | undefined}) => {
           marginLeft: 11,
           justifyContent: 'space-around',
         }}>
-        <TextKRBold>유현영</TextKRBold>
-        <Image source={STAR_LINEORANGE} />
+        <TextKRBold>{item?.username}</TextKRBold>
+        <View style={{flexDirection: 'row'}}>
+          <Image source={STAR_LINEORANGE} />
+          <TextKRBold>{item?.score}</TextKRBold>
+        </View>
       </View>
       <View
         style={{
@@ -51,7 +54,7 @@ const UserInfo = ({item}: {item: RecruitItemProps | undefined}) => {
         }}>
         <Text>
           <Image source={MARKER_BLACK} />
-          누리학사
+          {item?.userDormitory}
         </Text>
         <TouchableOpacity
           style={{

@@ -1,5 +1,6 @@
 import UserProfileImage from 'components/atoms/Image/UserImage';
 import {RecruitItemProps} from 'components/pages/Detail';
+import {formPrice} from 'components/utils/Main';
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {TextKRBold} from 'themes/text';
@@ -18,6 +19,11 @@ export type BtnWithoutTextProps = {
 };
 
 const ItemInfo = ({item}: {item: RecruitItemProps | undefined}) => {
+  const deadline = item?.deadlineDate ? new Date(item?.deadlineDate) : '';
+  const durationHour = deadline !== '' ? deadline.getHours() : '';
+  const durationMinutes = deadline !== '' ? deadline.getMinutes() : '';
+  const timeText = durationHour + '시 ' + durationMinutes + '분';
+
   return (
     <View
       style={{
@@ -58,7 +64,7 @@ const ItemInfo = ({item}: {item: RecruitItemProps | undefined}) => {
               lineHeight: 20,
               textAlign: 'center',
             }}>
-            18시 30분
+            {timeText}
           </TextKRBold>
         </View>
         <View
@@ -91,7 +97,7 @@ const ItemInfo = ({item}: {item: RecruitItemProps | undefined}) => {
               lineHeight: 20,
               textAlign: 'center',
             }}>
-            15,000원
+            {item?.shippingFee && formPrice(item?.shippingFee)}원
           </TextKRBold>
         </View>
         <View
@@ -113,7 +119,7 @@ const ItemInfo = ({item}: {item: RecruitItemProps | undefined}) => {
               lineHeight: 20,
               textAlign: 'center',
             }}>
-            1명 / 4명
+            {item?.currentPeople}명 / {item?.minPeople}명
           </TextKRBold>
         </View>
         <View
@@ -135,7 +141,7 @@ const ItemInfo = ({item}: {item: RecruitItemProps | undefined}) => {
               lineHeight: 20,
               textAlign: 'center',
             }}>
-            수림학사
+            {item?.dormitory}
           </TextKRBold>
         </View>
       </View>

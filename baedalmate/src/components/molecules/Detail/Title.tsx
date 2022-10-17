@@ -35,7 +35,7 @@ const Title = ({item}: {item: RecruitItemProps | undefined}) => {
           fontSize: 24,
           lineHeight: 33,
         }}>
-        유기택 피자 중랑구점
+        {item?.title}
       </TextKRBold>
     </View>
   );

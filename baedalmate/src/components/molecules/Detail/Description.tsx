@@ -39,9 +39,7 @@ const Description = ({item}: {item: RecruitItemProps | undefined}) => {
             fontSize: 16,
             lineHeight: 24,
           }}>
-          글에 대한 내용이 적힐 부분입니다. 글에 대한 내용이 적힐 부분입니다.
-          글에 대한 내용이 적힐 부분입니다. 글에 대한 내용이 적힐 부분입니다.
-          글에 대한 내용이 적힐 부분입니다. 글에 대한 내용이 적힐 부분입니다.
+          {item?.description}
         </Text>
       </View>
     </View>
