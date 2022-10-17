@@ -7,9 +7,13 @@ export type TagProps = {
   active: boolean;
 };
 
-const BtnSelectSort = () => {
-  const data = [{value: '마감순'}, {value: '인기순'}, {value: '평점순'}];
-  const [option, setOption] = useState(null);
+const BtnSelectSort = ({option, setOption}) => {
+  const data = [
+    {name: '마감순', value: 'deadlineDate'},
+    {name: '인기순', value: 'view'},
+    {name: '평점순', value: 'score'},
+  ];
+  // const [option, setOption] = useState(null);
 
   return (
     <View>

@@ -9,16 +9,86 @@
 import {Fonts} from 'assets/Fonts';
 import {BtnWithTextProps} from 'components/molecules/Button/BtnHorizontal2';
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Pagination} from 'react-native-snap-carousel';
+import {
+  BLACK_COLOR,
+  PRIMARY_COLOR,
+  SELECT_RADIO,
+  UNSELECT_RADIO,
+  WHITE_COLOR,
+} from 'themes/theme';
 import BtnVerticalOrange from './BtnVerticalOrange';
 
-const BtnCreateFloating = (props: BtnWithTextProps) => {
+export interface BtnCreateFloatingProps {
+  onPress(): void;
+  text: string;
+  id: number;
+}
+const BtnCreateFloating = (props: BtnCreateFloatingProps) => {
   return (
-    <TouchableOpacity
-      style={styles.btnCreateFloatingWrapper}
-      onPress={props.onPress}>
-      <Text style={styles.btnCreateFloatingText}>{props.text}</Text>
-    </TouchableOpacity>
+    <View
+      style={{
+        width: '100%',
+        flexDirection: 'row',
+      }}>
+      {/* <View>
+        <Pagination
+          dotsLength={4}
+          activeDotIndex={0}
+          dotStyle={{
+            width: 7,
+            height: 7,
+            borderRadius: 7 / 2,
+            marginHorizontal: -5,
+            backgroundColor: WHITE_COLOR,
+          }}
+          inactiveDotOpacity={1}
+          inactiveDotScale={1}
+          inactiveDotStyle={{
+            backgroundColor: PRIMARY_COLOR,
+            borderColor: WHITE_COLOR,
+            borderWidth: 1,
+          }}
+          containerStyle={{
+            marginBottom: -20,
+            paddingVertical: 5,
+          }}
+        />
+      </View> */}
+      <View
+        style={{
+          top: -120,
+          position: 'relative',
+          flexDirection: 'row',
+          width: '100%',
+          height: 10,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Image
+          source={props.id === 1 ? SELECT_RADIO : UNSELECT_RADIO}
+          style={{width: 10, height: 10, margin: 3}}
+        />
+        <Image
+          source={props.id === 2 ? SELECT_RADIO : UNSELECT_RADIO}
+          style={{width: 10, height: 10, margin: 3}}
+        />
+        <Image
+          source={props.id === 3 ? SELECT_RADIO : UNSELECT_RADIO}
+          style={{width: 10, height: 10, margin: 3}}
+        />
+        <Image
+          source={props.id === 4 ? SELECT_RADIO : UNSELECT_RADIO}
+          style={{width: 10, height: 10, margin: 3}}
+        />
+      </View>
+      <TouchableOpacity
+        style={styles.btnCreateFloatingWrapper}
+        onPress={props.onPress}>
+        <Text style={styles.btnCreateFloatingText}>{props.text}</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 

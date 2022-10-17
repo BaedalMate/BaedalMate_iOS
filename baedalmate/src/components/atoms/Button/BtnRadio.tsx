@@ -46,7 +46,7 @@ const BtnRadio = ({data, onSelect}) => {
                     item.value === userOption ? WHITE_COLOR : LINE_ORANGE_COLOR,
                 },
               ]}>
-              {item.value}
+              {item.name}
             </Text>
           </Pressable>
         );

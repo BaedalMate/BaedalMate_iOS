@@ -6,10 +6,10 @@
  * @flow strict-local
  */
 
+import {BtnWithTextProps} from 'components/molecules/Button/BtnHorizontal2';
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {Fonts} from '../../../assets/Fonts';
-import {BtnWithTextProps} from './BtnHorizontalGray';
 
 const BtnVerticalGray = (props: BtnWithTextProps) => {
   return (
@@ -23,7 +23,7 @@ const BtnVerticalGray = (props: BtnWithTextProps) => {
 
 const styles = StyleSheet.create({
   btnVerticalGrayWrapper: {
-    width: 300,
+    width: '100%',
     height: 53,
     backgroundColor: '#F2F3F6',
     borderRadius: 10,
