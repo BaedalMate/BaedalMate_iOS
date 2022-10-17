@@ -5,25 +5,26 @@ import {TextKRBold} from 'themes/text';
 import {url} from '../../../App';
 import {getJWTToken} from 'components/utils/Main';
 import axios from 'axios';
-import {chatRoomListI, chatRoomURL} from 'components/utils/Chat';
+import {
+  chatRoomListI,
+  chatRoomURL,
+  eachChatRoomURL,
+  eachDetailChatRoomI,
+} from 'components/utils/Chat';
 import ChatListItem from 'components/atoms/Chat/ChatListItem';
+import ChatHeader from 'components/atoms/Header/ChatHeader';
 // import {getChatRoomAPI} from 'components/utils/\bChat';
 
-export const Chat = () => {
-  const [chatRooms, setChatRooms] = useState<chatRoomListI>();
-  const getChatRoomAPI = async () => {
-    const JWTAccessToken = await getJWTToken();
+export const DetailChatRoom = props => {
+  const [detailChat, setDetailChat] = useState<eachDetailChatRoomI>();
+  const getEachChatRoomAPI = async () => {
     try {
       const chatRooms = await axios
-        .get(chatRoomURL, {
-          headers: {
-            Authorization: 'Bearer ' + JWTAccessToken,
-          },
-        })
+        .get(eachChatRoomURL + props.route.params.id)
         .then(function (response) {
           if (response.status === 200) {
             console.log(response.data);
-            setChatRooms(response.data);
+            setDetailChat(response.data);
             return response.data.recruitList;
           }
           return false;
@@ -39,25 +40,23 @@ export const Chat = () => {
     }
   };
   useEffect(() => {
-    getChatRoomAPI();
+    console.log(props.route.params.id);
+    getEachChatRoomAPI();
   }, []);
   return (
-    <ScrollView>
-      <View>
-        {/* <TextKRBold>진행중인 모집글</TextKRBold> */}
+    <View>
+      {detailChat && <ChatHeader item={detailChat} />}
+      <ScrollView>
         <View>
-          {chatRooms?.rooms.map((v, i) => (
+          <View>
+            {/* {chatRooms?.rooms.map((v, i) => (
             <ChatListItem item={v} key={i} />
-          ))}
+          ))} */}
+          </View>
         </View>
-      </View>
-      {/* <View>
-        <TextKRBold>마감된 모집글</TextKRBold>
-        <View></View>
-      </View> */}
-      {/* <Message /> */}
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 };
 
-export default Chat;
+export default DetailChatRoom;
