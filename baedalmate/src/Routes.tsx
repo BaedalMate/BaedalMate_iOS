@@ -1,12 +1,13 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import BtnHorizontal3 from './components/molecules/Button/BtnHorizontal3';
 import Login from './components/pages/Login';
 import Main from './components/pages/Main';
-import {Image} from 'react-native';
+import {Button, Image} from 'react-native';
 import {
+  BACK_REGULAR,
   CHATTIING_PRIMARY_OUTLINE,
   CHATTIING_REGULAR,
   DARK_GRAY_COLOR,
@@ -19,16 +20,21 @@ import {
 import BoardItemDetail from 'components/pages/Detail';
 import Chat from 'components/pages/Chat';
 import BoardListPage from 'components/pages/BoardListPage';
-import CreateRecruit1 from 'components/pages/CreateRecuit/first';
-import CreateRecruit2 from 'components/pages/CreateRecuit/second';
-import CreateRecruit3 from 'components/pages/CreateRecuit/third';
-import CreateRecruit4 from 'components/pages/CreateRecuit/fourth';
+import CreateRecruit1 from 'components/pages/CreateRecuit/First';
+import CreateRecruit2 from 'components/pages/CreateRecuit/Second';
+import CreateRecruit3 from 'components/pages/CreateRecuit/Third';
+import CreateRecruit4 from 'components/pages/CreateRecuit/Fourth';
+import {getAccessToken} from '@react-native-seoul/kakao-login';
+import PlaceSearch from 'components/pages/CreateRecuit/PlaceSearch';
+import SelectCategoryPage from 'components/pages/CreateRecuit/CategorySelect';
+import {useNavigation} from '@react-navigation/native';
+import DetailChatRoom from 'components/pages/DetailChatRoom';
 
 const AuthStack = createNativeStackNavigator();
 const MainScreenTab = createBottomTabNavigator();
 const BoardScreenStack = createNativeStackNavigator();
 const CategoryStack = createNativeStackNavigator();
-const CreateRecruitStack = createNativeStackNavigator();
+const ChatStack = createNativeStackNavigator();
 /*
     Stack Navigator
         - Stack Screen A
@@ -39,8 +45,6 @@ const CreateRecruitStack = createNativeStackNavigator();
             - Tab Screen C
 
 */
-
-const isLoggedIn = true;
 
 const AppTabComponent = () => {
   return (
@@ -72,7 +76,13 @@ const AppTabComponent = () => {
           headerShown: false,
         }}
       />
-      <MainScreenTab.Screen name="채팅" component={Chat} />
+      <MainScreenTab.Screen
+        name="채팅"
+        component={ChatStackComponent}
+        options={{
+          headerShown: false,
+        }}
+      />
       <MainScreenTab.Screen name="마이페이지" component={BtnHorizontal3} />
     </MainScreenTab.Navigator>
   );
@@ -102,7 +112,7 @@ export const BoardStackComponent = () => {
   return (
     <BoardScreenStack.Navigator>
       <BoardScreenStack.Screen
-        name="Main"
+        name="홈"
         component={AppTabComponent}
         options={{
           headerShown: false,
@@ -124,6 +134,13 @@ export const BoardStackComponent = () => {
       <BoardScreenStack.Screen
         name="상세 설정"
         component={CreateRecruitStackComponent}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <BoardScreenStack.Screen
+        name="채팅방"
+        component={DetailChatRoom}
         options={
           {
             // headerShown: false,
@@ -134,9 +151,25 @@ export const BoardStackComponent = () => {
   );
 };
 
-const CreateRecruitStackComponent = () => {
+export const CreateRecruitStackComponent = () => {
+  const navigation = useNavigation();
   return (
     <CategoryStack.Navigator>
+      <CategoryStack.Screen
+        name="카테고리 선택"
+        component={SelectCategoryPage}
+        options={{
+          headerLeft: () => (
+            <Button
+              title="뒤로 가기"
+              onPress={() => {
+                navigation.goBack();
+              }}
+            />
+          ),
+          // headerShown: false,
+        }}
+      />
       <CategoryStack.Screen
         name="상세 설정1"
         component={CreateRecruit1}
@@ -173,15 +206,58 @@ const CreateRecruitStackComponent = () => {
           }
         }
       />
+      <CategoryStack.Screen
+        name="배달 가게 선택"
+        component={PlaceSearch}
+        options={
+          {
+            // headerTitle: '',
+            // headerSearchBarOptions: {
+            // },
+            // headerShown: false,
+            // headerShown: false,
+          }
+        }
+      />
     </CategoryStack.Navigator>
+  );
+};
+export const ChatStackComponent = () => {
+  const navigation = useNavigation();
+  return (
+    <ChatStack.Navigator>
+      <ChatStack.Screen name="채팅" component={Chat} options={{}} />
+      {/* <ChatStack.Screen
+        name="채팅방"
+        component={DetailChatRoom}
+        options={
+          {
+            // headerShown: false,
+          }
+        }
+      /> */}
+    </ChatStack.Navigator>
   );
 };
 
 export const RootNavigator = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // useEffect(() => {
+  //   const JWTToken = async () => {
+  //     const data = await getAccessToken();
+  //     if (data) {
+  //       setIsLoggedIn(true);
+  //     } else {
+  //       setIsLoggedIn(false);
+  //     }
+  //   };
+  //   JWTToken();
+  // }, []);
   return (
     <AuthStack.Navigator screenOptions={{headerShown: false}}>
       {isLoggedIn ? (
-        <AuthStack.Screen name="홈" component={BoardStackComponent} />
+        <AuthStack.Screen name="Home" component={BoardStackComponent} />
       ) : (
         <>
           <AuthStack.Screen name="Login" component={Login} />
