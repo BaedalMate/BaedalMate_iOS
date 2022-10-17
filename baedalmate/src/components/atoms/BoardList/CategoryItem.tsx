@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FlatList, Text, Touchable, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {LINE_GRAY_COLOR, PRIMARY_COLOR} from 'themes/theme';
@@ -116,8 +116,12 @@ const Item = ({
 };
 
 const CategoryList = ({categoryId, setCategoryId}) => {
-  console.log(categoryId);
+  console.log('cateogryID', categoryId);
   const [selectedId, setSelectedId] = useState<number>(categoryId);
+  useEffect(() => {
+    setSelectedId(categoryId);
+    console.log('asdf', categoryId, selectedId);
+  }, [categoryId]);
   const renderItem = ({item}: {item: CategoryProps}) => {
     const borderBottomWidth = item.id === selectedId ? 4 : 0;
     const borderBottomColor = item.id === selectedId ? PRIMARY_COLOR : '';
