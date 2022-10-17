@@ -92,7 +92,6 @@ function Login({navigation}: LoginProps): React.ReactElement {
         ['@BaedalMate_JWTAccessToken', token],
         ['@BaedalMate_JWTRefreshToken', refToken],
       ]);
-
       return response;
     } catch (error) {
       console.log(error);
