@@ -19,7 +19,7 @@ const DetailImage = ({item}: {item: RecruitItemProps | undefined}) =>
           }}></View> */}
         <Image
           source={{
-            uri: item?.thumbnailImage,
+            uri: item?.image,
           }}
           style={{
             width: '100%',
