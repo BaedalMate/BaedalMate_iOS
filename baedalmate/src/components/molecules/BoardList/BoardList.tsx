@@ -6,58 +6,58 @@ import {recruitListURL} from 'components/pages/Main';
 
 export interface BoardListProps {
   id: number;
-  restaurantName: string;
-  minPrice: number;
+  place: string;
   minPeople: number;
   currentPeople: number;
-  deliveryFee: number;
+  criteria: string;
   createDate: string;
   deadlineDate: string;
-  username: string;
   userScore: number;
   dormitory: string;
   title: string;
-  thumbnailImage: string;
+  minPrice: number;
+  // deliveryFee?: number;
+  // username?: string;
+  image: string | null;
 }
 
-const renderItem = () => {
-  const [boardList, setBoardList] = useState<BoardListProps[]>();
+const renderItem = boardList => {
+  // const [boardList, setBoardList] = useState<BoardListProps[]>(boardList);
   const date = new Date().getDate();
   const time = new Date().getTime();
   console.log(date);
   console.log(time);
-  // 모집글 리스트 Api 받아옴
-  const getBoardListData = async () => {
-    try {
-      const BoardListData = axios
-        .get(recruitListURL, {
-          params: {
-            page: 0,
-            size: 10,
-            sort: 'deadlineDate,ASC',
-          },
-        })
-        .then(function (response) {
-          if (response.status === 200) {
-            setBoardList(response.data.recruitList);
-            return response.data.recruitList;
-          }
-          return false;
-        })
-        .catch(function (error) {
-          console.log(error);
-          return false;
-        });
-      return BoardListData;
-    } catch (error) {
-      console.log(error);
-      return false;
-    }
-  };
+  // // 모집글 리스트 Api 받아옴
+  // const getBoardListData = async () => {
+  //   try {
+  //     const BoardListData = axios
+  //       .get(recruitListURL, {
+  //         params: {
+  //           // page: 0,
+  //           // size: 10,
+  //         },
+  //       })
+  //       .then(function (response) {
+  //         if (response.status === 200) {
+  //           setBoardList(response.data.recruitList);
+  //           return response.data.recruitList;
+  //         }
+  //         return false;
+  //       })
+  //       .catch(function (error) {
+  //         console.log(error);
+  //         return false;
+  //       });
+  //     return BoardListData;
+  //   } catch (error) {
+  //     console.log(error);
+  //     return false;
+  //   }
+  // };
 
-  useEffect(() => {
-    getBoardListData();
-  }, []);
+  // useEffect(() => {
+  //   getBoardListData();
+  // }, []);
 
   return (
     <View>
@@ -98,8 +98,14 @@ const renderItem = () => {
     </View>
   );
 };
-const BoardList = () => {
-  return <ScrollView>{renderItem()}</ScrollView>;
+const BoardList = ({
+  categoryId,
+  boardList,
+}: {
+  categoryId: number;
+  boardList;
+}) => {
+  return <ScrollView>{renderItem(boardList)}</ScrollView>;
 };
 
 export default BoardList;

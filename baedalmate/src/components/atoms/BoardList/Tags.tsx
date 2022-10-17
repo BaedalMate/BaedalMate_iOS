@@ -1,4 +1,6 @@
 import {BoardListProps} from 'components/molecules/BoardList/BoardList';
+import {eachDetailChatRoomI, recruitI} from 'components/utils/Chat';
+import {formPrice} from 'components/utils/Main';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {TextKRBold, TextKRReg} from 'themes/text';
@@ -9,7 +11,14 @@ import {
   WHITE_COLOR,
 } from 'themes/theme';
 
-const GrayTag = ({item}: {item: BoardListProps}) => {
+export type criteria = 'PRICE' | 'NUMBER' | 'TIME';
+const GrayTag = ({item}: {item: BoardListProps | recruitI}) => {
+  const criteriaText =
+    item.criteria === 'PRICE'
+      ? '최소주문'
+      : item.criteria === 'NUMBER'
+      ? '최소인원'
+      : '마감시간';
   return (
     <View
       style={{
@@ -28,13 +37,40 @@ const GrayTag = ({item}: {item: BoardListProps}) => {
           lineHeight: 24,
           color: MAIN_GRAY_COLOR,
         }}>
-        최소인원
+        {criteriaText}
       </TextKRReg>
     </View>
   );
 };
 
-const OrangeTag = ({item}: {item: BoardListProps}) => {
+const OrangeTag = ({item}: {item: BoardListProps | recruitI}) => {
+  // const endCriteria =
+  //   item.criteria === 'PRICE'
+  //     ? item.minPrice.toString + '원'
+  //     : item.criteria === 'NUMBER'
+  //     ? item.minPeople + '인 모집'
+  //     : item.deadlineDate;
+  const now = new Date();
+  const deadline = new Date(item.deadlineDate);
+  const time = deadline.getTime() - now.getTime();
+  const durationYear = deadline.getFullYear() - now.getFullYear();
+  const durationMonth = deadline.getMonth() - now.getMonth();
+  const durationDate = deadline.getDate() - now.getDate();
+  const durationHour = deadline.getHours() - now.getHours();
+  const durationMinutes = deadline.getMinutes() - now.getMinutes();
+  const durationSeconds = deadline.getSeconds() - now.getSeconds();
+  const timeText =
+    durationYear > 0
+      ? durationYear + '년'
+      : durationMonth > 0
+      ? durationMonth + '달'
+      : durationDate > 0
+      ? durationDate + '일'
+      : durationHour > 0
+      ? durationHour + '시간'
+      : durationMinutes > 0
+      ? durationMinutes + '분'
+      : '마감 임박';
   return (
     <View
       style={{
@@ -53,7 +89,12 @@ const OrangeTag = ({item}: {item: BoardListProps}) => {
           lineHeight: 24,
           color: LINE_ORANGE_COLOR,
         }}>
-        {item.minPeople}인 모집 |{' '}
+        {item.criteria === 'PRICE'
+          ? formPrice(item.minPrice) + '원'
+          : item.criteria === 'NUMBER'
+          ? item.minPeople + '인 모집'
+          : deadline.getHours() + ':' + deadline.getMinutes()}{' '}
+        | {/* {item.minPeople}인 모집 |{' '} */}
       </TextKRReg>
       <TextKRBold
         style={{
@@ -61,7 +102,12 @@ const OrangeTag = ({item}: {item: BoardListProps}) => {
           lineHeight: 24,
           color: LINE_ORANGE_COLOR,
         }}>
-        현재인원 {item.currentPeople}인
+        {item.criteria === 'PRICE'
+          ? '현재 ' + formPrice(item.minPrice) + '원'
+          : item.criteria === 'NUMBER'
+          ? '현재인원' + item.minPeople + '인'
+          : timeText + ' 남음'}
+        {/* 현재인원 {item.currentPeople}인 */}
       </TextKRBold>
     </View>
   );

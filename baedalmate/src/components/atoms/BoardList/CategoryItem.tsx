@@ -17,27 +17,69 @@ const categoryData = [
   },
   {
     id: 1,
-    text: '1인분',
+    text: '한식',
     isActive: false,
     key: '1',
   },
   {
     id: 2,
-    text: '치킨',
+    text: '중식',
     isActive: false,
     key: '2',
   },
   {
     id: 3,
-    text: '한식',
+    text: '일식',
     isActive: false,
     key: '3',
   },
   {
     id: 4,
-    text: '중식',
+    text: '양식',
     isActive: false,
     key: '4',
+  },
+  {
+    id: 5,
+    text: '패스트푸드',
+    isActive: false,
+    key: '5',
+  },
+  {
+    id: 6,
+    text: '분식',
+    isActive: false,
+    key: '6',
+  },
+  {
+    id: 7,
+    text: '카페디저트',
+    isActive: false,
+    key: '7',
+  },
+  {
+    id: 8,
+    text: '치킨',
+    isActive: false,
+    key: '8',
+  },
+  {
+    id: 9,
+    text: '피자',
+    isActive: false,
+    key: '9',
+  },
+  {
+    id: 10,
+    text: '아시안',
+    isActive: false,
+    key: '10',
+  },
+  {
+    id: 11,
+    text: '도시락',
+    isActive: false,
+    key: '11',
   },
 ];
 
@@ -73,8 +115,9 @@ const Item = ({
   );
 };
 
-const CategoryList = () => {
-  const [selectedId, setSelectedId] = useState<number>(0);
+const CategoryList = ({categoryId, setCategoryId}) => {
+  console.log(categoryId);
+  const [selectedId, setSelectedId] = useState<number>(categoryId);
   const renderItem = ({item}: {item: CategoryProps}) => {
     const borderBottomWidth = item.id === selectedId ? 4 : 0;
     const borderBottomColor = item.id === selectedId ? PRIMARY_COLOR : '';
@@ -83,6 +126,7 @@ const CategoryList = () => {
         item={item}
         onPress={() => {
           setSelectedId(item.id);
+          setCategoryId(item.id);
         }}
         borderBottomWidth={borderBottomWidth}
         borderBottomColor={borderBottomColor}

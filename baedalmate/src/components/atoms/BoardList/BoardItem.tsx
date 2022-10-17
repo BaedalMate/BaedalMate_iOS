@@ -1,19 +1,11 @@
 import {useNavigation} from '@react-navigation/native';
 import {BoardListProps} from 'components/molecules/BoardList/BoardList';
 import React, {useState} from 'react';
-import {
-  Image,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Image, StyleSheet, TouchableHighlight, View} from 'react-native';
 import {TextKRBold, TextKRReg} from 'themes/text';
 import {
   DARK_GRAY_COLOR,
   LINE_GRAY_COLOR,
-  LINE_ORANGE_COLOR,
   MARKER_BLACK,
   STORE_BLACK,
   WHITE_COLOR,
@@ -32,15 +24,26 @@ const BoardItem = ({item}: {item: BoardListProps}) => {
       activeOpacity={0.6}
       underlayColor="#FFF3F0"
       onPress={() => {
-        navigation.navigate('글 상세 보기' as any);
+        navigation.navigate(
+          '글 상세 보기' as never,
+          {
+            id: item.id,
+          } as never,
+        );
       }}>
       <>
         <Image
           source={{
-            uri: item.thumbnailImage,
+            uri: item.image !== null ? item.image : '',
           }}
           style={styles.storeImg}
         />
+        {/* <Image
+          source={{
+            uri: item.image !== null ? item.image : '',
+          }}
+          style={styles.storeImg}
+        /> */}
         <View
           style={{
             display: 'flex',
@@ -80,7 +83,7 @@ const BoardItem = ({item}: {item: BoardListProps}) => {
                 lineHeight: 24,
                 flex: 1,
               }}>
-              <Image source={STORE_BLACK} /> {item.restaurantName}{' '}
+              <Image source={STORE_BLACK} /> {item.place}{' '}
             </TextKRReg>
             <TextKRReg
               style={{
