@@ -118,7 +118,15 @@ const DELETE_ICON = require('../assets/icons/delete/delete_icon.png');
 const UNSELECT_RADIO = require('../assets/icons/radio/unselect_radio.png');
 const SELECT_RADIO = require('../assets/icons/radio/select_radio.png');
 
+const CAMERA_GRAY_FILLED_ICON = require('../assets/icons/camera/camera_gray_filled.png');
+const SEND_GRAY_FILLED_ICON = require('../assets/icons/send/send_gray_filled.png');
+
+const RIGHT_ARROW_GRAY = require('../assets/icons/arrow/right_arrow_gray.png');
+
 export {
+  RIGHT_ARROW_GRAY,
+  SEND_GRAY_FILLED_ICON,
+  CAMERA_GRAY_FILLED_ICON,
   CATEGORY_ASIAN_IMG,
   CATEGORY_BUNSIK_IMG,
   CATEGORY_CHICKEN_IMG,
