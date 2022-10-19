@@ -19,29 +19,30 @@ import {TagComponent} from './TodayMenuItem';
 import {eachMainTagRecruitListI} from 'components/pages/Main';
 import {formPrice} from 'components/utils/Main';
 import {useNavigation} from '@react-navigation/native';
+import {url} from '../../../../App';
 const TodayMenuItemCompleted = ({item}: {item: eachMainTagRecruitListI}) => {
   const navigation = useNavigation();
-  const now = new Date();
-  const deadline = new Date(item.deadlineDate);
-  const time = deadline.getTime() - now.getTime();
-  const durationYear = deadline.getFullYear() - now.getFullYear();
-  const durationMonth = deadline.getMonth() - now.getMonth();
-  const durationDate = deadline.getDate() - now.getDate();
-  const durationHour = deadline.getHours() - now.getHours();
-  const durationMinutes = deadline.getMinutes() - now.getMinutes();
-  const durationSeconds = deadline.getSeconds() - now.getSeconds();
-  const timeText =
-    durationYear > 0
-      ? durationYear + '년'
-      : durationMonth > 0
-      ? durationMonth + '달'
-      : durationDate > 0
-      ? durationDate + '일'
-      : durationHour > 0
-      ? durationHour + '시간'
-      : durationMinutes > 0
-      ? durationMinutes + '분'
-      : '모집 마감';
+  // const now = new Date();
+  // const deadline = new Date(item.deadlineDate);
+  // const time = deadline.getTime() - now.getTime();
+  // const durationYear = deadline.getFullYear() - now.getFullYear();
+  // const durationMonth = deadline.getMonth() - now.getMonth();
+  // const durationDate = deadline.getDate() - now.getDate();
+  // const durationHour = deadline.getHours() - now.getHours();
+  // const durationMinutes = deadline.getMinutes() - now.getMinutes();
+  // const durationSeconds = deadline.getSeconds() - now.getSeconds();
+  // const timeText =
+  //   durationYear > 0
+  //     ? durationYear + '년'
+  //     : durationMonth > 0
+  //     ? durationMonth + '달'
+  //     : durationDate > 0
+  //     ? durationDate + '일'
+  //     : durationHour > 0
+  //     ? durationHour + '시간'
+  //     : durationMinutes > 0
+  //     ? durationMinutes + '분'
+  //     : '모집 마감';
 
   return (
     <TouchableOpacity
@@ -57,7 +58,7 @@ const TodayMenuItemCompleted = ({item}: {item: eachMainTagRecruitListI}) => {
       <View>
         <View style={styles.imageSliderWrapper}>
           <Image
-            source={{uri: item.image}}
+            source={{uri: url + '/images/' + item.image}}
             style={{
               width: 150,
               height: 114,
@@ -92,7 +93,7 @@ const TodayMenuItemCompleted = ({item}: {item: eachMainTagRecruitListI}) => {
                 {formPrice(item.minPrice)}원
               </TextKRBold>
             </TextKRBold>
-            <TextKRBold style={{fontWeight: 'bold'}}>{timeText}</TextKRBold>
+            <TextKRBold style={{fontWeight: 'bold'}}>모집마감</TextKRBold>
           </View>
           <View style={styles.imageSliderInactiveWrapper}>
             <Text

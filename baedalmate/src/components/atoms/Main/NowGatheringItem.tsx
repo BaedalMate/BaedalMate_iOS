@@ -7,6 +7,7 @@ import {eachMainRecruitListI} from 'components/pages/Main';
 import {formPrice} from 'components/utils/Main';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
+import {url} from '../../../../App';
 
 // export interface mainRecruitListI {
 //   id: number;
@@ -65,7 +66,7 @@ const NowGatheringItem = ({item}: {item: eachMainRecruitListI}) => {
         }}>
         <ImageBackground
           resizeMode="cover"
-          source={{uri: item.image ? item.image : ''}}
+          source={{uri: url + '/images/' + item.image}}
           style={{
             width: '100%',
             height: '100%',

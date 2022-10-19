@@ -1,28 +1,16 @@
-import React, {useEffect} from 'react';
-import {
-  GestureResponderEvent,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React from 'react';
+import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {WHITE_COLOR} from 'themes/theme';
-import {Fonts} from '../../../assets/Fonts';
-import {wrap} from 'module';
 export type TodayMenuItemProps = {
   text: string;
 };
 import {STAR_PRIMARY} from 'themes/theme';
-import {TextKRBold, TextKRReg} from 'themes/text';
+import {TextKRBold} from 'themes/text';
 import {TagComponent} from './TodayMenuItem';
-import {
-  arrayBufferToBase64,
-  eachMainTagRecruitListI,
-  getImages,
-} from 'components/pages/Main';
+import {eachMainTagRecruitListI} from 'components/pages/Main';
 import {formPrice} from 'components/utils/Main';
 import {useNavigation} from '@react-navigation/native';
+import {url} from '../../../../App';
 const TodayMenuItemOngoing = ({item}: {item: eachMainTagRecruitListI}) => {
   const navigation = useNavigation();
   const now = new Date();
@@ -47,15 +35,16 @@ const TodayMenuItemOngoing = ({item}: {item: eachMainTagRecruitListI}) => {
       ? durationMinutes + '분'
       : time.toString();
 
-  let convertedImg;
-  useEffect(() => {
-    const getImg = async () => {
-      const img = await getImages(item.image);
-      console.log('image', img);
-      return 'data:image/jpeg;base64,' + arrayBufferToBase64(img);
-    };
-    convertedImg = getImg();
-  }, []);
+  // console.log('asdf', url + '/' + item.image);
+  // let convertedImg;
+  // useEffect(() => {
+  //   const getImg = async () => {
+  //     const img = await getImages(item.image);
+  //     console.log('image', img);
+  //     return 'data:image/jpeg;base64,' + arrayBufferToBase64(img);
+  //   };
+  //   convertedImg = getImg();
+  // }, []);
   // console.log(
   //   'data:image/jpeg;base64,' + arrayBufferToBase64(getImages(item.image)),
   // );
@@ -74,9 +63,7 @@ const TodayMenuItemOngoing = ({item}: {item: eachMainTagRecruitListI}) => {
       <View style={styles.imageSliderWrapper}>
         <Image
           source={{
-            uri: convertedImg,
-            // 'data:image/jpeg;base64,' +
-            // arrayBufferToBase64(getImages(item.image)),
+            uri: url + '/images/' + item.image,
           }}
           style={{
             width: 150,

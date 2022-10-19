@@ -12,6 +12,7 @@ import {eachMainRecruitListI} from 'components/pages/Main';
 import {formPrice} from 'components/utils/Main';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
+import {url} from '../../../../App';
 
 const BaedalMateRecommendationItem = ({item}: {item: eachMainRecruitListI}) => {
   const now = new Date();
@@ -55,7 +56,7 @@ const BaedalMateRecommendationItem = ({item}: {item: eachMainRecruitListI}) => {
           borderRadius: 10,
         }}>
         <Image
-          source={{uri: item.image ? item.image : ''}}
+          source={{uri: url + '/images/' + item.image}}
           resizeMode="cover"
           // source={{uri: item.imgUrl}}
           style={{

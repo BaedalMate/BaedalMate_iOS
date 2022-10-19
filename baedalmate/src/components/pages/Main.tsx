@@ -1,7 +1,7 @@
 import {NavigationProp} from '@react-navigation/native';
 import Category from 'components/molecules/Main/Category';
 import React, {useEffect, useState} from 'react';
-import {View, Platform, StatusBar, Image} from 'react-native';
+import {View, Platform, StatusBar} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {LINE_GRAY_COLOR, PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
 import {TextKRBold} from 'themes/text';
@@ -13,7 +13,6 @@ import axios from 'axios';
 import {url} from '../../../App';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getJWTToken} from 'components/utils/Main';
-import {Blob} from 'buffer';
 export const userURL = url + '/api/v1/user';
 export const recruitListURL = url + '/api/v1/recruit/list';
 export const mainRecruitListURL = url + '/api/v1/recruit/main/list';
@@ -94,30 +93,9 @@ export const getImages = async fileOriginName => {
     .get(imageURL + `${fileOriginName}`)
     .then(function (response) {
       if (response.status === 200) {
-        // const blob = response.data.blob();
-
-        // const imageURL = URL.createObjectURL(blob);
-        // return btoa(binary);
-        // console.log(response.data);
-        // imageURLList.push(
-        //   Buffer.from(response.data, 'binary').toString('base64'),
-        // );
-        // console.log(imageURLList);
-        // console.log('data', response.data);
-        // let img = 'data:image/jpeg;base64,' + response.data;
-
-        // console.log(img);
-        console.log(response.data);
-        const Buffer = require('buffer').Buffer;
-        let encoded = new Buffer(response.data).toString('base64');
-        console.log('encoded', encoded);
-        return encoded;
-
-        // return response.data;
-        // return response.data;
+        return response.data;
       }
       return false;
-      // return response.data;
     })
     .catch(function (error) {
       console.log(error);
@@ -170,18 +148,26 @@ const Main: React.FunctionComponent<MainProps> = props => {
             Authorization: 'Bearer ' + JWTAccessToken,
           },
         })
-        .then(function (response) {
-          // console.log(response);
+        .then(async function (response) {
+          console.log(response);
           // AsyncStorage에 유저 이름과 배달 거점 저장
           AsyncStorage.setItem('@BaedalMate_UserName', response.data.nickname);
           AsyncStorage.setItem(
             '@BaedalMate_Dormitory',
             response.data.dormitory,
           );
+          AsyncStorage.setItem(
+            '@BaedalMate_UserId',
+            response.data.userId.toString(),
+          );
+          const profile = await AsyncStorage.getItem(
+            '@BaedalMate_ProfileImage',
+          );
+
           // 해당 페이지는 렌더링 문제로 state 설정 후 사용
           setNickname(response.data.nickname);
           setDormitory(response.data.dormitory);
-          setProfileImage(response.data.profileImage);
+          profile && setProfileImage(profile);
           return response.data;
         })
         .catch(function (error) {
@@ -211,7 +197,7 @@ const Main: React.FunctionComponent<MainProps> = props => {
           if (response.status === 200) {
             // setMainRecruitList(response.data.recruitList);
 
-            response.data.recruitList.map(async (v, i) => {
+            response.data.recruitList.map(async v => {
               // const image = await getImages(v.image);
 
               // setMainRecruitImgList([...mainRecruitImgList, image]);

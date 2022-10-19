@@ -111,6 +111,7 @@ const Category = ({navigation}) => {
         }}>
         {categoryData.map((v, i) => (
           <CategoryItem
+            key={i}
             category={v}
             // img={v.categoryImg}
             navigation={navigation}

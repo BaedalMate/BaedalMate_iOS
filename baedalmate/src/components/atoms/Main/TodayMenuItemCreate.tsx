@@ -36,7 +36,7 @@ const TodayMenuItemCreate = () => {
     description: '합리적으로 배달시키세요!',
     move: '글 작성하러 가기',
     imgUrl:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSt559x4ig-wTTMPcj3W9LD0dLvY6Ggi1E4L0WAP3IWcQ&s',
+      'https://user-images.githubusercontent.com/49120917/196333036-2b4188bb-c7ba-421b-86a4-d8afbb0a40dc.jpeg',
     // temporal imgUrl
   };
   const navigation = useNavigation();

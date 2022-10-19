@@ -1,27 +1,21 @@
-import React, {useEffect, useState} from 'react';
-import {
-  GestureResponderEvent,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {BLACK_COLOR, PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
-import {Fonts} from '../../../assets/Fonts';
+import React, {useEffect} from 'react';
+import {StyleSheet, View} from 'react-native';
+import {PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
 import TodayMenuItem from './TodayMenuItem';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
-import axios from 'axios';
-import {mainRecruitListURL, mainTagRecruitListI} from 'components/pages/Main';
-import {getJWTToken} from 'components/utils/Main';
+import {
+  eachMainTagRecruitListI,
+  mainTagRecruitListI,
+} from 'components/pages/Main';
 export type ImageSliderProps = {
   data: string;
   key: number;
 };
 
-interface BannerSectionProps {
-  key: number;
-  data: string;
-}
+// interface BannerSectionProps {
+//   key: number;
+//   data: string;
+// }
 
 export enum status {
   COMPLETED = '모집완료',
@@ -149,6 +143,19 @@ const Slider = ({
 }) => {
   const isCarousel = React.useRef(null);
   const [index, setIndex] = React.useState(0);
+  let newListItem: eachMainTagRecruitListI = {
+    createDate: '',
+    deadlineDate: '',
+    dormitory: '',
+    id: -1,
+    image: '',
+    minPrice: 0,
+    place: '',
+    shippingFee: 0,
+    tags: [{tagname: ''}],
+    userScore: 0,
+    username: '',
+  };
 
   return (
     <View
@@ -160,7 +167,7 @@ const Slider = ({
         paddingVertical: 0,
       }}>
       <Carousel
-        data={mainTagRecruitList.recruitList}
+        data={[...mainTagRecruitList.recruitList, newListItem]}
         layoutCardOffset={0}
         ref={isCarousel}
         renderItem={TodayMenuItem}

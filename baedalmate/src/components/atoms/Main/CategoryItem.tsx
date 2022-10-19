@@ -1,4 +1,3 @@
-import {NavigationProp, useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
 
 import {
@@ -10,7 +9,6 @@ import {
 } from 'react-native';
 import {LIGHT_GRAY_COLOR, PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
 import {TextKRReg} from 'themes/text';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 interface CategoryItemProps {
   // navigation: NavigationProp<any, any>;

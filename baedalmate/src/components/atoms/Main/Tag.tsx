@@ -1,14 +1,7 @@
 import React from 'react';
-import {
-  GestureResponderEvent,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
-import {Fonts} from '../../../assets/Fonts';
-import {TextKRBold, TextKRReg} from 'themes/text';
+import {TextKRBold} from 'themes/text';
 export type TagProps = {
   text: string;
 };

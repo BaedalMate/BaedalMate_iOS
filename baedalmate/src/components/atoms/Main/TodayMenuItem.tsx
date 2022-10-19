@@ -1,23 +1,12 @@
 import React from 'react';
-import {
-  GestureResponderEvent,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {WHITE_COLOR} from 'themes/theme';
-import {Fonts} from '../../../assets/Fonts';
-import {wrap} from 'module';
 export type TodayMenuItemProps = {
   text: string;
 };
-import {STAR_PRIMARY} from 'themes/theme';
 import Tag from './Tag';
 import TodayMenuItemOngoing from './TodayMenuItemOngoing';
 import TodayMenuItemCompleted from './TodayMenuItemCompleted';
-import {status} from './Slider';
 import TodayMenuItemCreate, {CreateTagI} from './TodayMenuItemCreate';
 import {eachMainTagRecruitListI} from 'components/pages/Main';
 export interface tagI {
@@ -79,13 +68,18 @@ export const TodayMenuItem = ({
 
   return (
     <View>
-      {index === 4 ? (
+      {item.id === -1 ? (
+        <TodayMenuItemCreate />
+      ) : (
+        <TodayMenuItemOngoing item={item} />
+      )}
+      {/* {index === 4 ? (
         <TodayMenuItemCreate />
       ) : time > 0 ? (
         <TodayMenuItemOngoing item={item} />
       ) : (
         <TodayMenuItemCompleted item={item} />
-      )}
+      )} */}
     </View>
   );
 };
