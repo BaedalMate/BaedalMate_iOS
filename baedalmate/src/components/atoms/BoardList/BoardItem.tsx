@@ -1,4 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
+import {url} from '../../../../App';
 import {BoardListProps} from 'components/molecules/BoardList/BoardList';
 import React, {useState} from 'react';
 import {Image, StyleSheet, TouchableHighlight, View} from 'react-native';
@@ -34,7 +35,7 @@ const BoardItem = ({item}: {item: BoardListProps}) => {
       <>
         <Image
           source={{
-            uri: item.image !== null ? item.image : '',
+            uri: url + '/images/' + item.image,
           }}
           style={styles.storeImg}
         />

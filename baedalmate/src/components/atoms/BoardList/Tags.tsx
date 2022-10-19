@@ -60,7 +60,9 @@ const OrangeTag = ({item}: {item: BoardListProps | recruitI}) => {
   const durationMinutes = deadline.getMinutes() - now.getMinutes();
   const durationSeconds = deadline.getSeconds() - now.getSeconds();
   const timeText =
-    durationYear > 0
+    time < 0
+      ? '마감'
+      : durationYear > 0
       ? durationYear + '년'
       : durationMonth > 0
       ? durationMonth + '달'
@@ -106,6 +108,8 @@ const OrangeTag = ({item}: {item: BoardListProps | recruitI}) => {
           ? '현재 ' + formPrice(item.minPrice) + '원'
           : item.criteria === 'NUMBER'
           ? '현재인원' + item.minPeople + '인'
+          : timeText.includes('마감')
+          ? timeText
           : timeText + ' 남음'}
         {/* 현재인원 {item.currentPeople}인 */}
       </TextKRBold>
