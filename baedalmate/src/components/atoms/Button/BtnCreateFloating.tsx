@@ -7,18 +7,9 @@
  */
 
 import {Fonts} from 'assets/Fonts';
-import {BtnWithTextProps} from 'components/molecules/Button/BtnHorizontal2';
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {Pagination} from 'react-native-snap-carousel';
-import {
-  BLACK_COLOR,
-  PRIMARY_COLOR,
-  SELECT_RADIO,
-  UNSELECT_RADIO,
-  WHITE_COLOR,
-} from 'themes/theme';
-import BtnVerticalOrange from './BtnVerticalOrange';
+import {SELECT_RADIO, UNSELECT_RADIO} from 'themes/theme';
 
 export interface BtnCreateFloatingProps {
   onPress(): void;
@@ -32,30 +23,6 @@ const BtnCreateFloating = (props: BtnCreateFloatingProps) => {
         width: '100%',
         flexDirection: 'row',
       }}>
-      {/* <View>
-        <Pagination
-          dotsLength={4}
-          activeDotIndex={0}
-          dotStyle={{
-            width: 7,
-            height: 7,
-            borderRadius: 7 / 2,
-            marginHorizontal: -5,
-            backgroundColor: WHITE_COLOR,
-          }}
-          inactiveDotOpacity={1}
-          inactiveDotScale={1}
-          inactiveDotStyle={{
-            backgroundColor: PRIMARY_COLOR,
-            borderColor: WHITE_COLOR,
-            borderWidth: 1,
-          }}
-          containerStyle={{
-            marginBottom: -20,
-            paddingVertical: 5,
-          }}
-        />
-      </View> */}
       <View
         style={{
           top: -120,

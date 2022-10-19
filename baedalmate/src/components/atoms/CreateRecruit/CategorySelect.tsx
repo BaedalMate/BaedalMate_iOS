@@ -1,48 +1,24 @@
-import React, {useEffect, useRef, useState} from 'react';
-import DetailImage from 'components/atoms/Image/DetailImage';
+import React from 'react';
 import {
   Image,
-  KeyboardAvoidingView,
   NativeModules,
-  Platform,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-import UserInfo from 'components/molecules/Detail/UserInfo';
-import Title from 'components/molecules/Detail/Title';
-import ItemInfo from 'components/molecules/Detail/ItemInfo';
-import Description from 'components/molecules/Detail/Description';
-import BtnVerticalOrange from 'components/atoms/Button/BtnVerticalOrange';
-import axios from 'axios';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import UserProfileImage from 'components/atoms/Image/UserImage';
-import {TextKRBold, TextKRReg} from 'themes/text';
+import {TextKRReg} from 'themes/text';
 import {Fonts} from 'assets/Fonts';
 import {
   BLACK_COLOR,
   DARK_GRAY_COLOR,
-  DECREASE_ACTIVE,
-  DECREASE_DEACTIVE,
-  INCREASE_ACTIVE,
-  LINE_GRAY_COLOR,
-  MAIN_GRAY_COLOR,
   PRIMARY_COLOR,
   WHITE_COLOR,
 } from 'themes/theme';
 import {useNavigation} from '@react-navigation/native';
-import BtnHorizontal3 from 'components/molecules/Button/BtnHorizontal3';
-import BtnRadio from 'components/atoms/Button/BtnRadio';
-import {BtnActive, BtnDeactive} from 'components/atoms/Button/BtnEndStandard';
-import BtnCreateFloating from 'components/atoms/Button/BtnCreateFloating';
-import {RadioButton} from 'react-native-paper';
-import BtnAddDeliveryFee from 'components/atoms/Button/BtnAddDeliveryFee';
-import {Controller, useController, useForm} from 'react-hook-form';
-import {categoryData} from 'components/molecules/Main/Category';
+import {useController} from 'react-hook-form';
 
 export interface RecruitItemProps {
   createDate: string;
@@ -70,63 +46,6 @@ export interface deliveryFeeProps {
   setCnt: (cnt: number) => void;
 }
 
-const Input = ({name, control}) => {
-  const {field} = useController({
-    control,
-    defaultValue: '',
-    name,
-  });
-  return (
-    <View
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingTop: 15,
-      }}>
-      <TextKRReg
-        style={{
-          fontSize: 14,
-          lineHeight: 24,
-          fontStyle: 'normal',
-          display: 'flex',
-          alignItems: 'center',
-        }}>
-        금액
-      </TextKRReg>
-      {/* <Controller
-        control={control}
-        rules={{required: true}}
-        name={'minPrice'}
-        render={({field: {onChange, onBlur, value}}) => ( */}
-      <TextInput
-        style={{
-          backgroundColor: WHITE_COLOR,
-          width: 300,
-          height: 45,
-          borderRadius: 10,
-          padding: 15,
-          textAlign: 'right',
-          fontFamily: Fonts.Ko,
-          fontStyle: 'normal',
-          fontWeight: '700',
-          fontSize: 16,
-          lineHeight: 19,
-          // textAlign: 'center',
-          textAlignVertical: 'center',
-        }}
-        keyboardType={'number-pad'}
-        // ref={ref}
-        value={field.value.toString().split('원')[0]}
-        onChangeText={field.onChange}>
-        원
-      </TextInput>
-      {/* )}
-      />
-      {errors.minPrice && <Text>최소 주문 금액을 입력해주세요</Text>} */}
-    </View>
-  );
-};
 export interface CategoryProps {
   categoryId: number;
   categoryName: string;
@@ -154,23 +73,33 @@ const SelectCategoryItem = ({item}: {item: CategoryProps}) => {
             backgroundColor: WHITE_COLOR,
             borderWidth: 1,
             borderColor: BLACK_COLOR,
-            opacity: 0.5,
+            // opacity: 0.8,
           }}
         />
-        <Text
+        <View
           style={{
             position: 'absolute',
-            top: 90,
-            fontWeight: '900',
-            fontSize: 18,
-            lineHeight: 21,
-            // color: WHITE_COLOR,
-            // textAlign: 'center',
-            justifyContent: 'center',
-            alignItems: 'center',
+            top: 80,
+            borderRadius: 10,
+            backgroundColor: WHITE_COLOR,
+            padding: 5,
           }}>
-          {item.categoryName}
-        </Text>
+          <Text
+            style={{
+              fontWeight: '900',
+              fontSize: 18,
+              lineHeight: 21,
+              color: BLACK_COLOR,
+              // textShadowColor: BLACK_COLOR,
+              // backgroundColor: WHITE_COLOR,
+              borderRadius: 10,
+              // textAlign: 'center',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            {item.categoryName}
+          </Text>
+        </View>
       </View>
     </TouchableOpacity>
   );

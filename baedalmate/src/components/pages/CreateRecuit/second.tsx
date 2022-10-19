@@ -370,54 +370,12 @@ const CreateRecruit2 = props => {
                   flexDirection: 'row',
                 }}>
                 <PlatformSelect
-                  platform={platform}
                   setPlatform={setPlatform}
                   control={control}
-                  error={errors}
                   name={'platform'}
                   rules={{required: true}}
                   setValue={setValue}
                 />
-                {/* <PlatformSelect
-                onPress={() => {
-                  setPlatform('BAEMIN');
-                }}
-                platform={'BAEMIN'}
-                checkedPlatform={platform}
-                isChecked={platform === 'BAEMIN'}
-              />
-              <BtnPlatform
-                onPress={() => {
-                  setPlatform('YOGIYO');
-                }}
-                platform={'YOGIYO'}
-                checkedPlatform={platform}
-                isChecked={platform === 'YOGIYO'}
-              />
-              <BtnPlatform
-                onPress={() => {
-                  setPlatform('COUPANGEATS');
-                }}
-                checkedPlatform={platform}
-                platform={'COUPANGEATS'}
-                isChecked={platform === 'COUPANGEATS'}
-              />
-              <BtnPlatform
-                onPress={() => {
-                  setPlatform('DDANGYO');
-                }}
-                platform={'DDANGYO'}
-                checkedPlatform={platform}
-                isChecked={platform === 'DDANGYO'}
-              />
-              <BtnPlatform
-                onPress={() => {
-                  setPlatform('ETC');
-                }}
-                platform={'ETC'}
-                checkedPlatform={platform}
-                isChecked={platform === 'ETC'}
-              /> */}
               </View>
             </View>
             <View

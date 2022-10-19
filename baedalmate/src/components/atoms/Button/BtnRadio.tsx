@@ -28,9 +28,10 @@ const BtnRadio = ({data, onSelect}) => {
         flexDirection: 'row',
         marginVertical: 15,
       }}>
-      {data.map(item => {
+      {data.map((item, i) => {
         return (
           <Pressable
+            key={i}
             onPress={() => selectHandler(item.value)}
             style={[
               item.value === userOption ? styles.selected : styles.unselected,

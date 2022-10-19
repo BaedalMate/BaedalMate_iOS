@@ -8,7 +8,6 @@ import {
   Text,
   View,
 } from 'react-native';
-
 import {TextKRBold, TextKRReg} from 'themes/text';
 import {Fonts} from 'assets/Fonts';
 import {

@@ -1,34 +1,20 @@
-import React, {useEffect, useState} from 'react';
-import DetailImage from 'components/atoms/Image/DetailImage';
+import React, {useState} from 'react';
 import {ScrollView, StyleSheet, Text, TextInput, View} from 'react-native';
-import UserInfo from 'components/molecules/Detail/UserInfo';
-import Title from 'components/molecules/Detail/Title';
-import ItemInfo from 'components/molecules/Detail/ItemInfo';
-import Description from 'components/molecules/Detail/Description';
-import BtnVerticalOrange from 'components/atoms/Button/BtnVerticalOrange';
-import axios from 'axios';
-
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import UserProfileImage from 'components/atoms/Image/UserImage';
-import {TextKRBold, TextKRReg} from 'themes/text';
+import {TextKRBold} from 'themes/text';
 import {Fonts} from 'assets/Fonts';
 import {
   DARK_GRAY_COLOR,
   ERROR_COLOR,
-  LINE_GRAY_COLOR,
   PRIMARY_COLOR,
   WHITE_COLOR,
 } from 'themes/theme';
 import BtnCreateFloating from 'components/atoms/Button/BtnCreateFloating';
 import BtnTag from 'components/atoms/Button/BtnTag';
-import WhiteTag from 'components/atoms/CreateRecruit/Tags';
-import {useFieldArray, useForm} from 'react-hook-form';
+import {useForm} from 'react-hook-form';
 import {
   DescriptionInput,
   TitleInput,
 } from 'components/atoms/CreateRecruit/Input';
-import Tag from 'components/atoms/Main/Tag';
-import {OrangeTag} from 'components/atoms/BoardList/Tags';
 import RecruitTag from 'components/atoms/CreateRecruit/Tags';
 
 export interface RecruitItemProps {
@@ -64,14 +50,6 @@ const CreateRecruit3 = props => {
   });
   console.log('098765432', props.route.params);
 
-  // const {
-  //   fileds: tagFields,
-  //   append: tagAppend,
-  //   remove: tagRemove,
-  // } = useFieldArray({
-  //   control,
-  //   name: 'tags',
-  // });
   const onSubmit = data => {
     console.log(data);
     console.log(tagList);
@@ -121,18 +99,6 @@ const CreateRecruit3 = props => {
               control={control}
               rules={{required: true}}
             />
-            {/* <TextInput
-              style={{
-                backgroundColor: WHITE_COLOR,
-                width: '100%',
-                height: 45,
-                borderRadius: 10,
-                padding: 15,
-              }}
-              value={title}
-              onChangeText={setTitle}
-              maxLength={20}
-            /> */}
           </View>
           <View
             style={{

@@ -1,17 +1,9 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {
-  NativeModules,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  TextInput,
-  View,
-} from 'react-native';
+import React from 'react';
+import {NativeModules, ScrollView, StyleSheet, View} from 'react-native';
 
-import {TextKRReg} from 'themes/text';
 import {Fonts} from 'assets/Fonts';
 import {DARK_GRAY_COLOR, PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
-import {useController, useForm} from 'react-hook-form';
+import {useForm} from 'react-hook-form';
 import {categoryData} from 'components/molecules/Main/Category';
 import SelectCategoryItem from 'components/atoms/CreateRecruit/CategorySelect';
 

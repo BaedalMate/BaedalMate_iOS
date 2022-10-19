@@ -1,31 +1,16 @@
 import React, {useState} from 'react';
-import {
-  Button,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
-
+import {ScrollView, StyleSheet, Text, TextInput, View} from 'react-native';
 import {TextKRBold, TextKRReg} from 'themes/text';
 import {Fonts} from 'assets/Fonts';
 import {
-  BOTTOM_ARROW,
   DARK_GRAY_COLOR,
   LINE_GRAY_COLOR,
-  MAP_GRAY,
   PRIMARY_COLOR,
   WHITE_COLOR,
 } from 'themes/theme';
-import BtnCreateFloating from 'components/atoms/Button/BtnCreateFloating';
-import SelectDropdown from 'react-native-select-dropdown';
-import BtnPlatform from 'components/atoms/Button/BtnPlatform';
 import {useForm} from 'react-hook-form';
 import axios from 'axios';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 export type dormitory =
   | '누리학사'
   | '성림학사'

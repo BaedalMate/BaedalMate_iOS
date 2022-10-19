@@ -1,13 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {
-  FlatList,
   KeyboardAvoidingView,
-  Modal,
-  NativeModules,
   Platform,
   ScrollView,
   StyleSheet,
-  TouchableOpacity,
   View,
 } from 'react-native';
 
@@ -20,8 +16,7 @@ import {
   WHITE_COLOR,
 } from 'themes/theme';
 import BtnCreateFloating from 'components/atoms/Button/BtnCreateFloating';
-import MenuList, {menuListI} from 'components/molecules/CreateRecruit/MenuList';
-import {DormitoryList} from 'components/atoms/BottomSheet/ChangeDormitoryBottomSheet';
+import MenuList from 'components/molecules/CreateRecruit/MenuList';
 import {
   menuI,
   postRecruitAPI,

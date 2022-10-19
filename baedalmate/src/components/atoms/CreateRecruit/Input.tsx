@@ -8,6 +8,7 @@ import {
   TextInput,
   Text,
   StyleSheet,
+  Button,
 } from 'react-native';
 import {TextKRBold} from 'themes/text';
 import {
@@ -20,6 +21,10 @@ import {
   PRIMARY_COLOR,
   BOTTOM_ARROW,
   LINE_GRAY_COLOR,
+  CAMERA_GRAY,
+  SEND_GRAY,
+  SEND_GRAY_FILLED_ICON,
+  CAMERA_GRAY_FILLED_ICON,
 } from 'themes/theme';
 import {onChange} from 'react-native-reanimated';
 import SelectDropdown from 'react-native-select-dropdown';
@@ -343,10 +348,6 @@ export const PriceInput = ({error, name, control, rules}) => {
     name,
     rules,
   });
-  // const {fields} = useFieldArray({
-  //   control,
-  //   name: 'shippingFee',
-  // });
   return (
     <>
       <TextInput
@@ -450,10 +451,6 @@ export const TimeInput = ({error, name, control, rules}) => {
     name,
     rules,
   });
-  // const {fields} = useFieldArray({
-  //   control,
-  //   name: 'shippingFee',
-  // });
   return (
     <>
       <TextInput
@@ -521,6 +518,88 @@ export const TimeInput = ({error, name, control, rules}) => {
         </Text>
       </View>
     </>
+  );
+};
+
+export const MessageInput = ({
+  error,
+  name,
+  control,
+  rules,
+  sendMessage,
+  handleSubmit,
+}) => {
+  const {field} = useController({
+    control,
+    defaultValue: '',
+    name,
+    rules,
+  });
+  return (
+    <View
+      style={{
+        position: 'absolute',
+        bottom: 100,
+        backgroundColor: LINE_GRAY_COLOR,
+        width: '100%',
+        paddingBottom: 42,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 15,
+      }}>
+      <TouchableOpacity>
+        <Image source={CAMERA_GRAY_FILLED_ICON} />
+      </TouchableOpacity>
+      <TextInput
+        style={{
+          borderWidth: error.title ? 1 : 0,
+          borderColor: error.title ? ERROR_COLOR : WHITE_COLOR,
+          backgroundColor: WHITE_COLOR,
+          // width: '100%',
+          flex: 1,
+          height: 45,
+          borderRadius: 10,
+          padding: 15,
+          margin: 15,
+          textAlign: 'right',
+        }}
+        value={field.value}
+        onChangeText={field.onChange}
+        maxLength={20}
+      />
+      <TouchableOpacity onPress={handleSubmit(d => sendMessage(d))}>
+        <Image source={SEND_GRAY_FILLED_ICON} />
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+export const MessageTextInput = ({error, name, control, rules}) => {
+  const {field} = useController({
+    control,
+    defaultValue: '',
+    name,
+    rules,
+  });
+  return (
+    <TextInput
+      style={{
+        borderWidth: error.title ? 1 : 0,
+        borderColor: error.title ? ERROR_COLOR : WHITE_COLOR,
+        backgroundColor: WHITE_COLOR,
+        // width: '100%',
+        flex: 1,
+        height: 45,
+        borderRadius: 10,
+        padding: 15,
+        margin: 15,
+        textAlign: 'right',
+      }}
+      value={field.value}
+      onChangeText={field.onChange}
+      multiline
+    />
   );
 };
 
