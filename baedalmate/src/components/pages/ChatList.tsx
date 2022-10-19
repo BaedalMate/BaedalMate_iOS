@@ -1,13 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {ScrollView, View} from 'react-native';
-import {Message} from 'components/molecules/Chat/Message';
 import {TextKRBold} from 'themes/text';
 import {url} from '../../../App';
 import {getJWTToken} from 'components/utils/Main';
 import axios from 'axios';
 import {chatRoomListI, chatRoomURL} from 'components/utils/Chat';
 import ChatListItem from 'components/atoms/Chat/ChatListItem';
-// import {getChatRoomAPI} from 'components/utils/\bChat';
 
 export const Chat = () => {
   const [chatRooms, setChatRooms] = useState<chatRoomListI>();

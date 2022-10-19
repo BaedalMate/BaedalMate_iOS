@@ -5,6 +5,7 @@ import {getJWTToken} from './Main';
 
 export interface eachChatRoomI {
   id: number;
+  image: string;
   lastMessage: {
     id: number;
     message: string;
@@ -19,8 +20,8 @@ export interface chatRoomListI {
 export interface messageI {
   id: number;
   message: string;
-  sendDate: string;
   sender: string;
+  sendDate: string;
 }
 
 export interface recruitI {
@@ -51,4 +52,32 @@ export const getChatRoomAPI = async () => {
     },
   });
   return result;
+};
+
+// export const formTime = (time) => {
+//   return
+// }
+
+export const formDate = (time: string) => {
+  let date = new Date(time);
+
+  let dateText =
+    date.getFullYear() +
+    '년 ' +
+    date.getMonth() +
+    '월 ' +
+    date.getDate() +
+    '일';
+  return dateText;
+};
+
+export const formTime = (time: string) => {
+  let date = new Date(time);
+
+  let timeText =
+    (date.getHours() < 12 ? '오전 ' : '오후 ') +
+    date.getHours() +
+    ':' +
+    date.getMinutes();
+  return timeText;
 };

@@ -1,17 +1,114 @@
 import React from 'react';
-import {MessageOrange, MessgaeGray} from 'components/atoms/Chat/Message';
-import {StyleSheet, View} from 'react-native';
-import {PRIMARY_COLOR} from 'themes/theme';
+import {
+  ChatProfileImage,
+  MessageGray,
+  MessageOrange,
+} from 'components/atoms/Chat/Message';
+import {StyleSheet, Text, View} from 'react-native';
+import {PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
+import {formTime, messageI} from 'components/utils/Chat';
+import {recvI, sendI} from 'components/pages/DetailChatRoom';
 
-const Message = () => {
+export const MyMessage = ({message}: {message: messageI}) => {
   return (
-    <View>
-      <MessageOrange text={'안녕하세요!'} />
-      <MessgaeGray text={'계좌번호 알려주세요!'} />
-      <MessageOrange text={'국민은행 1004-xxxxxxxxxxxxxxx 보내주세요~'} />
+    <View
+      style={{
+        flexDirection: 'row',
+        width: '100%',
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end',
+      }}>
+      <Text
+        style={{
+          textAlign: 'center',
+          textAlignVertical: 'bottom',
+          marginRight: 15,
+        }}>
+        {formTime(message.sendDate.toString())}
+      </Text>
+      <MessageOrange text={message.message} />
     </View>
   );
 };
+
+export const OpponentMessage = ({message}: {message: messageI}) => {
+  return (
+    <View
+      style={{
+        flexDirection: 'row',
+        width: '100%',
+        alignItems: 'baseline',
+        justifyContent: 'flex-start',
+      }}>
+      <ChatProfileImage image={''} />
+      <MessageGray text={formTime(message.sendDate.toString())} />
+      <Text
+        style={{
+          textAlign: 'center',
+          textAlignVertical: 'bottom',
+          marginLeft: 15,
+        }}>
+        {message.sendDate}
+      </Text>
+    </View>
+  );
+};
+
+export const LiveMyMessage = ({message}: {message: recvI}) => {
+  const currentTime = new Date();
+  return (
+    <View
+      style={{
+        flexDirection: 'row',
+        width: '100%',
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end',
+      }}>
+      <Text
+        style={{
+          textAlign: 'center',
+          textAlignVertical: 'bottom',
+          marginRight: 15,
+        }}>
+        {formTime(new Date().toString())}
+      </Text>
+      <MessageOrange text={message.message} />
+    </View>
+  );
+};
+
+export const LiveOpponentMessage = ({message}: {message: recvI}) => {
+  const currentTime = new Date();
+  return (
+    <View
+      style={{
+        flexDirection: 'row',
+        width: '100%',
+        alignItems: 'baseline',
+        justifyContent: 'flex-start',
+      }}>
+      <ChatProfileImage image={message.senderImage} />
+      <MessageGray text={message.message} />
+      <Text
+        style={{
+          textAlign: 'center',
+          textAlignVertical: 'bottom',
+          marginLeft: 15,
+        }}>
+        {currentTime.toTimeString()}
+      </Text>
+    </View>
+  );
+};
+// const Message = () => {
+//   return (
+//     <View>
+//       <MyMessage text={'안녕하세요'} />
+//       <OpponentMessage text={'반갑습니다ㄴ'} />
+//       <MessageOrange text={'국민은행 1004-xxxxxxxxxxxxxxx 보내주세요~'} />
+//     </View>
+//   );
+// };
 
 const styles = StyleSheet.create({
   message: {},
@@ -29,4 +126,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export {Message};
+// export {Message};

@@ -1,24 +1,14 @@
 import {useNavigation} from '@react-navigation/native';
-import {BoardListProps} from 'components/molecules/BoardList/BoardList';
-import {chatRoomListI, eachChatRoomI} from 'components/utils/Chat';
-import React, {useState} from 'react';
+import {url} from '../../../../App';
+import {eachChatRoomI} from 'components/utils/Chat';
+import React from 'react';
 import {Image, StyleSheet, TouchableHighlight, View} from 'react-native';
 import {TextKRBold, TextKRReg} from 'themes/text';
-import {
-  DARK_GRAY_COLOR,
-  LINE_GRAY_COLOR,
-  MARKER_BLACK,
-  STORE_BLACK,
-  WHITE_COLOR,
-} from 'themes/theme';
+import {DARK_GRAY_COLOR, LINE_GRAY_COLOR} from 'themes/theme';
 
 export const ChatListItem = ({item}: {item: eachChatRoomI}) => {
   console.log(item);
   const navigation = useNavigation();
-  const [colour, setColour] = useState(WHITE_COLOR);
-  const handlePress = () => {
-    setColour('#FFF3F0');
-  };
   return (
     <TouchableHighlight
       style={styles.boardItemWrapper}
@@ -34,11 +24,7 @@ export const ChatListItem = ({item}: {item: eachChatRoomI}) => {
       }}>
       <>
         <Image
-          source={
-            {
-              // uri: item !== null ? item.image : '',
-            }
-          }
+          source={{uri: url + '/images/' + item.image}}
           style={styles.storeImg}
         />
         <View
@@ -85,7 +71,7 @@ export const ChatListItem = ({item}: {item: eachChatRoomI}) => {
                 flex: 1,
                 color: DARK_GRAY_COLOR,
               }}>
-              {item.lastMessage.message}asdf
+              {item.lastMessage.message}
               {/* <Image source={STORE_BLACK} /> {item.lastMessage.sendDate}{' '} */}
             </TextKRReg>
             {/* <TextKRReg
