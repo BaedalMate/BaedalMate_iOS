@@ -18,7 +18,6 @@ import {
   PROFILE_REGULAR,
 } from './themes/theme';
 import BoardItemDetail from 'components/pages/Detail';
-import Chat from 'components/pages/Chat';
 import BoardListPage from 'components/pages/BoardListPage';
 import CreateRecruit1 from 'components/pages/CreateRecuit/First';
 import CreateRecruit2 from 'components/pages/CreateRecuit/Second';
@@ -29,6 +28,9 @@ import PlaceSearch from 'components/pages/CreateRecuit/PlaceSearch';
 import SelectCategoryPage from 'components/pages/CreateRecuit/CategorySelect';
 import {useNavigation} from '@react-navigation/native';
 import DetailChatRoom from 'components/pages/DetailChatRoom';
+import Chat from 'components/pages/ChatList';
+import {Map} from 'components/molecules/Detail/Map';
+import MyPage from 'components/pages/Setting/MyPage';
 
 const AuthStack = createNativeStackNavigator();
 const MainScreenTab = createBottomTabNavigator();
@@ -83,7 +85,7 @@ const AppTabComponent = () => {
           headerShown: false,
         }}
       />
-      <MainScreenTab.Screen name="마이페이지" component={BtnHorizontal3} />
+      <MainScreenTab.Screen name="마이페이지" component={MyPage} />
     </MainScreenTab.Navigator>
   );
 };
@@ -131,6 +133,7 @@ export const BoardStackComponent = () => {
         name="글 상세 보기"
         component={BoardItemDetail}
       />
+      <BoardScreenStack.Screen name="지도" component={Map} />
       <BoardScreenStack.Screen
         name="상세 설정"
         component={CreateRecruitStackComponent}
