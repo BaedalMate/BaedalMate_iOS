@@ -2,9 +2,11 @@ import {NavigationProp} from '@react-navigation/native';
 
 import {
   KakaoOAuthToken,
+  KakaoProfile,
   login,
   logout,
   unlink,
+  getProfile as getKakaoProfile,
 } from '@react-native-seoul/kakao-login';
 
 import React, {useEffect, useState} from 'react';
@@ -30,6 +32,7 @@ function Login({navigation}: LoginProps): React.ReactElement {
   // accessToken 갱신 시마다 서버에 accessToken 보내고 JWT token 받아옴
   useEffect(() => {
     getJWTTokens_server();
+    getProfile();
   }, [kakaoAccessToken]);
 
   // 로그인
@@ -61,8 +64,15 @@ function Login({navigation}: LoginProps): React.ReactElement {
 
   // 프로필 가져오기 (에러 해결 필요)
   const getProfile = async (): Promise<void> => {
-    // const profile: KakaoProfile = await getKakaoProfile();
-    // setResult(JSON.stringify(profile));
+    try {
+      const profile: any = await getKakaoProfile();
+      console.log(JSON.stringify(profile.profileImageUrl));
+      setResult(JSON.stringify(profile));
+      AsyncStorage.setItem('@BaedalMate_ProfileImg', profile.profileImageUrl);
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error('signOut error', err);
+    }
   };
 
   // 카카오 로그인 연결 끊기
