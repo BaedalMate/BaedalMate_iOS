@@ -1,4 +1,4 @@
-import UserProfileImage from 'components/atoms/Image/UserImage';
+import {UserProfileImage} from 'components/atoms/Image/UserImage';
 import {RecruitItemProps} from 'components/pages/Detail';
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
@@ -30,7 +30,7 @@ const UserInfo = ({item}: {item: RecruitItemProps | undefined}) => {
         flexDirection: 'row',
         borderColor: BLACK_COLOR,
       }}>
-      <UserProfileImage />
+      <UserProfileImage item={item} />
       <View
         style={{
           height: 41,

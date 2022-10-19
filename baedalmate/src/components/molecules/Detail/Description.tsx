@@ -1,18 +1,8 @@
-import UserProfileImage from 'components/atoms/Image/UserImage';
 import {RecruitItemProps} from 'components/pages/Detail';
 import React from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {TextKRBold} from 'themes/text';
-import {
-  BLACK_COLOR,
-  DARK_GRAY_COLOR,
-  LINE_GRAY_COLOR,
-  MARKER_BLACK,
-  PRIMARY_COLOR,
-  QUESTION_MARK,
-  STAR_LINEORANGE,
-  STAR_PRIMARY,
-} from 'themes/theme';
+import {PRIMARY_COLOR} from 'themes/theme';
 
 export type BtnWithoutTextProps = {
   onPress(): void;

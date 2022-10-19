@@ -1,3 +1,4 @@
+import {url} from '../../../../App';
 import {RecruitItemProps} from 'components/pages/Detail';
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
@@ -19,7 +20,7 @@ const DetailImage = ({item}: {item: RecruitItemProps | undefined}) =>
           }}></View> */}
         <Image
           source={{
-            uri: item?.image,
+            uri: url + '/images/' + item?.image,
           }}
           style={{
             width: '100%',

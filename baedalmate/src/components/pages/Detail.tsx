@@ -6,7 +6,6 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -16,10 +15,7 @@ import ItemInfo from 'components/molecules/Detail/ItemInfo';
 import Description from 'components/molecules/Detail/Description';
 import BtnVerticalOrange from 'components/atoms/Button/BtnVerticalOrange';
 import axios from 'axios';
-import {recruitListURL} from './Main';
 import {url} from '../../../App';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {BtnWithTextProps} from 'components/molecules/Button/BtnHorizontal2';
 import {getJWTToken, postParticipateRecruitAPI} from 'components/utils/Main';
 import {menuListI} from 'components/molecules/CreateRecruit/MenuList';
 import {useForm} from 'react-hook-form';
@@ -35,13 +31,13 @@ import {
   DARK_GRAY_COLOR,
   LINE_GRAY_COLOR,
   ERROR_COLOR,
-  BLACK_COLOR,
 } from 'themes/theme';
 import {Fonts} from 'assets/Fonts';
 import MenuItem from 'components/atoms/CreateRecruit/MenuItem';
 import BtnAddMenu from 'components/atoms/Button/BtnAddMenu';
-import BtnVerticalGray from 'components/atoms/Button/BtnVerticalGray';
 import BtnVerticalDeactive from 'components/atoms/Button/BtnVerticalDeactive';
+import PlatformImage from 'components/atoms/Image/PlatformImage';
+import BtnMap from 'components/atoms/Button/BtnMap';
 
 export interface RecruitItemProps {
   active: boolean;
@@ -76,22 +72,6 @@ export interface RecruitItemProps {
   title: string;
   userDormitory: string;
   username: string;
-
-  // createDate: string;
-  // deadlineDate: string;
-  // deliveryFee: number;
-  // description: string;
-  // dormitory: string;
-  // id: number;
-  // minPeople: number;
-  // minPrice: number;
-  // participate: false;
-  // platform: string;
-  // thumbnailImage: string;
-  // title: string;
-  // userImage: string;
-  // userScore: number;
-  // username: string;
 }
 export interface DetailProps {
   onPress(): void;
@@ -150,20 +130,16 @@ const BoardItemDetail: React.FC<DetailProps> = props => {
   };
   const getDetailData = async () => {
     const JWTAccessToken = await getJWTToken();
-    console.log(JWTAccessToken);
     try {
       const DetailData = axios
         .get(detailURL, {
           headers: {
             Authorization: 'Bearer ' + JWTAccessToken,
           },
-          params: {
-            id: props.route.params.id,
-          },
         })
         .then(function (response) {
           setItemDetailData(response.data);
-          console.log(itemDetaildata);
+          console.log(response.data);
           return response.data;
         })
         .catch(function (error) {
@@ -184,6 +160,8 @@ const BoardItemDetail: React.FC<DetailProps> = props => {
   return (
     <ScrollView>
       <DetailImage item={itemDetaildata} />
+      <PlatformImage item={itemDetaildata} />
+      <BtnMap item={itemDetaildata} />
       <UserInfo item={itemDetaildata} />
       <Title item={itemDetaildata} />
       <ItemInfo item={itemDetaildata} />
