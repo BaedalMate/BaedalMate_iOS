@@ -64,7 +64,7 @@ const renderItem = boardList => {
       {boardList === undefined ? (
         <View></View>
       ) : (
-        boardList.map(item => {
+        boardList.map((item, i) => {
           console.log(item.createDate);
           const dateString = item.createDate;
           const time = dateString.replace(' ', 'T');
@@ -92,7 +92,7 @@ const renderItem = boardList => {
             ? (item = {...item, createDate: durationMinutes + '분 전'})
             : (item = {...item, createDate: '방금 전'});
 
-          return <BoardItem item={item} />;
+          return <BoardItem item={item} key={i} />;
         })
       )}
     </View>
