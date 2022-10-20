@@ -10,13 +10,14 @@ import {
 } from '@react-native-seoul/kakao-login';
 
 import React, {useEffect, useState} from 'react';
-import {View} from 'react-native';
+import {Image, View} from 'react-native';
 
 import BtnKakaoLoginWrapper from '../atoms/Button/BtnKakaoLogin';
 import {TextKRBold} from 'themes/text';
 import axios from 'axios';
 import {url} from '../../../App';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {LOGO, LOGO_WITH_TEXT} from 'themes/theme';
 
 const loginURL = url + '/login/oauth2/kakao';
 
@@ -128,29 +129,29 @@ function Login({navigation}: LoginProps): React.ReactElement {
   return (
     <View
       style={{
-        marginTop: 50,
+        // marginTop: 50,
         marginHorizontal: '5%',
         alignItems: 'center',
         height: '100%',
-        justifyContent: 'space-evenly',
+        justifyContent: 'center',
       }}>
-      <View
+      {/* <View
         style={{
           width: 200,
           height: 200,
           backgroundColor: 'gray',
           justifyContent: 'center',
-        }}>
-        <TextKRBold
-          style={{
-            color: 'white',
-            textAlign: 'center',
-            fontSize: 50,
-            lineHeight: 50,
-          }}>
-          LOGO
-        </TextKRBold>
-      </View>
+        }}> */}
+      <Image
+        source={LOGO_WITH_TEXT}
+        style={{
+          marginBottom: 100,
+          width: 400,
+          height: 400,
+          justifyContent: 'center',
+        }}
+      />
+      {/* </View> */}
       <BtnKakaoLoginWrapper onPress={() => signInWithKakao()} />
     </View>
   );
