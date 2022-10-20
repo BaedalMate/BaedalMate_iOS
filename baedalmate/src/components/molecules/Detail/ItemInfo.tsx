@@ -1,9 +1,10 @@
 import {RecruitItemProps} from 'components/pages/Detail';
 import {formPrice} from 'components/utils/Main';
-import React from 'react';
+import React, {useState} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {TextKRBold} from 'themes/text';
 import {DARK_GRAY_COLOR, LINE_GRAY_COLOR, QUESTION_MARK} from 'themes/theme';
+import DeliveryFeeModal from './DeliveryFeeModal';
 
 export type BtnWithoutTextProps = {
   onPress(): void;
@@ -14,7 +15,10 @@ const ItemInfo = ({item}: {item: RecruitItemProps | undefined}) => {
   const durationHour = deadline !== '' ? deadline.getHours() : '';
   const durationMinutes = deadline !== '' ? deadline.getMinutes() : '';
   const timeText = durationHour + '시 ' + durationMinutes + '분';
-
+  const [modal, setModal] = useState(false);
+  const handleModal = () => {
+    modal ? setModal(false) : setModal(true);
+  };
   return (
     <View
       style={{
@@ -62,7 +66,7 @@ const ItemInfo = ({item}: {item: RecruitItemProps | undefined}) => {
           style={{
             justifyContent: 'space-between',
           }}>
-          <Text
+          {/* <Text
             style={{
               color: DARK_GRAY_COLOR,
               fontSize: 14,
@@ -73,7 +77,8 @@ const ItemInfo = ({item}: {item: RecruitItemProps | undefined}) => {
             <TouchableOpacity
               style={{
                 paddingLeft: 3,
-              }}>
+              }}
+              onPress={() => {}}>
               <Image
                 source={QUESTION_MARK}
                 style={{
@@ -81,7 +86,8 @@ const ItemInfo = ({item}: {item: RecruitItemProps | undefined}) => {
                 }}
               />
             </TouchableOpacity>
-          </Text>
+          </Text> */}
+          <DeliveryFeeModal item={item} />
           <TextKRBold
             style={{
               fontSize: 14,

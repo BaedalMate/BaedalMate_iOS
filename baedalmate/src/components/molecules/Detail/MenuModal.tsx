@@ -2,19 +2,16 @@ import {Fonts} from 'assets/Fonts';
 import BtnAddMenu from 'components/atoms/Button/BtnAddMenu';
 import {
   CntInput,
-  DescriptionInput,
   DormitoryDescriptionInput,
   PriceInput,
 } from 'components/atoms/CreateRecruit/Input';
-import MenuItem, {MenuType} from 'components/atoms/CreateRecruit/MenuItem';
-import {menuProps} from 'components/pages/CreateRecuit/Fourth';
+import MenuItem from 'components/atoms/CreateRecruit/MenuItem';
 import React, {useState} from 'react';
 import {useForm} from 'react-hook-form';
 
 import {
   KeyboardAvoidingView,
   Modal,
-  NativeModules,
   Platform,
   StyleSheet,
   TouchableOpacity,
@@ -29,16 +26,6 @@ import {
   DARK_GRAY_COLOR,
   ERROR_COLOR,
 } from 'themes/theme';
-import NowGatheringItem from '../../atoms/Main/NowGatheringItem';
-import {BtnWithoutTextProps} from './UserInfo';
-
-// interface CategoryProps {
-//   navigation: NavigationProp<any, any>;
-//   user: {
-//     userName: string;
-//     userAddress: string;
-//   };
-// }
 
 interface menuListProps {
   menuList: menuListI[] | undefined;

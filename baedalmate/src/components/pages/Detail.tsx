@@ -38,6 +38,7 @@ import BtnAddMenu from 'components/atoms/Button/BtnAddMenu';
 import BtnVerticalDeactive from 'components/atoms/Button/BtnVerticalDeactive';
 import PlatformImage from 'components/atoms/Image/PlatformImage';
 import BtnMap from 'components/atoms/Button/BtnMap';
+import {useNavigation} from '@react-navigation/native';
 
 export interface RecruitItemProps {
   active: boolean;
@@ -84,6 +85,7 @@ export interface DetailProps {
 
 const BoardItemDetail: React.FC<DetailProps> = props => {
   console.log(props.route.params.id);
+  const navigation = useNavigation();
   const detailURL = url + `/api/v1/recruit/${props.route.params.id}`;
   const [statusBarHeight, setStatusBarHeight] = useState(0);
   const [itemDetaildata, setItemDetailData] = useState<RecruitItemProps>();
@@ -110,13 +112,21 @@ const BoardItemDetail: React.FC<DetailProps> = props => {
     // console.log(data);
     // menuList ? setMenuList([...menuList, data]) : setMenuList([data]);
     console.log(menuList);
-    const result = await postParticipateRecruitAPI(
+    const result: any = await postParticipateRecruitAPI(
       menuList ? menuList : [],
       props.route.params.id,
     );
     console.log('post new recruit', result);
-    // props.navigation.navigate('홈');
-    handleModal();
+    if (result.status === 200) {
+      handleModal();
+
+      navigation.navigate(
+        '채팅방' as never,
+        {
+          id: props.route.params.id,
+        } as never,
+      );
+    }
   };
   const handleModal = () => {
     modal ? setModal(false) : setModal(true);

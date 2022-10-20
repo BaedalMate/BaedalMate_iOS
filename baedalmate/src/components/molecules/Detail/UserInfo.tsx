@@ -54,7 +54,7 @@ const UserInfo = ({item}: {item: RecruitItemProps | undefined}) => {
         }}>
         <Text>
           <Image source={MARKER_BLACK} />
-          {item?.userDormitory}
+          {item?.dormitory}
         </Text>
         <TouchableOpacity
           style={{
