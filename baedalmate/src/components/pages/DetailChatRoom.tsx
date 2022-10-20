@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   Image,
   KeyboardAvoidingView,
@@ -246,10 +246,16 @@ export const DetailChatRoom = props => {
   // }, [messageText]);
   const [statusBarHeight, setStatusBarHeight] = useState(0);
 
+  const scrollViewRef = useRef<any>(null);
   return (
     <View style={{flex: 1}}>
       {detailChat && <ChatHeader item={detailChat} />}
       <ScrollView
+        ref={scrollViewRef}
+        onContentSizeChange={() =>
+          scrollViewRef.current &&
+          scrollViewRef.current.scrollToEnd({animated: true})
+        }
         style={{
           backgroundColor: WHITE_COLOR,
           width: '100%',
@@ -329,9 +335,9 @@ export const DetailChatRoom = props => {
             alignItems: 'center',
             paddingHorizontal: 15,
           }}>
-          <TouchableOpacity>
+          {/* <TouchableOpacity>
             <Image source={CAMERA_GRAY_FILLED_ICON} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <MessageTextInput
             error={errors}
             name={'message'}
