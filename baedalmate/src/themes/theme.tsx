@@ -10,7 +10,12 @@ const WHITE_COLOR = '#FFFFFF';
 const LINE_ORANGE_COLOR = '#FFA077';
 const ERROR_COLOR = '#FF0000';
 
+// logo
+const LOGO = require('../assets/icons/logo/logo.png');
+const LOGO_BG_WHITE = require('../assets/icons/logo/logo_bg_white.jpg');
+
 // icon
+const CATEGORY_ALL_IMG = require('../assets/images/categoryImages/img_category_all.png');
 const CATEGORY_ASIAN_IMG = require('../assets/images/categoryImages/img_category_asia.png');
 const CATEGORY_BUNSIK_IMG = require('../assets/images/categoryImages/img_category_bunsik.png');
 const CATEGORY_CHICKEN_IMG = require('../assets/images/categoryImages/img_category_chicken.png');
@@ -111,7 +116,8 @@ const BAEMIN_ICON = require('../assets/images/baemin.png');
 const YOGIYO_ICON = require('../assets/images/yogiyo.png');
 const COUPANGEATS_ICON = require('../assets/images/coupang_eats.png');
 const DDANGYO_ICON = require('../assets/images/ddangyo.png');
-const ETC_ICON = require('../assets/images/etc.png');
+// const ETC_ICON = require('../assets/images/etc.png');
+const ETC_ICON = require('../assets/images/etc_icon.png');
 
 const DELETE_ICON = require('../assets/icons/delete/delete_icon.png');
 
@@ -124,6 +130,9 @@ const SEND_GRAY_FILLED_ICON = require('../assets/icons/send/send_gray_filled.png
 const RIGHT_ARROW_GRAY = require('../assets/icons/arrow/right_arrow_gray.png');
 
 export {
+  CATEGORY_ALL_IMG,
+  LOGO,
+  LOGO_BG_WHITE,
   RIGHT_ARROW_GRAY,
   SEND_GRAY_FILLED_ICON,
   CAMERA_GRAY_FILLED_ICON,
