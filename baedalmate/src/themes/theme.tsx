@@ -11,9 +11,11 @@ const LINE_ORANGE_COLOR = '#FFA077';
 const ERROR_COLOR = '#FF0000';
 
 // logo
-const LOGO = require('../assets/icons/logo/logo.png');
-const LOGO_BG_WHITE = require('../assets/icons/logo/logo_bg_white.jpg');
-
+const LOGO_WITH_TEXT = require('../assets/icons/logo/logo_with_text/logo.png');
+const LOGO_WITH_TEXT_BG_WHITE = require('../assets/icons/logo/logo_with_text/logo_bg_white.jpg');
+const LOGO_SOLID_MAIN = require('../assets/icons/logo/logo_without_text/baedalmate_logo_solid_main.png');
+const LOGO_SOLID_WHITE = require('../assets/icons/logo/logo_without_text/baedalmate_logo_solid_white.png');
+const LOGO = require('../assets/icons/logo/logo_without_text/baedalmate_logo.png');
 // icon
 const CATEGORY_ALL_IMG = require('../assets/images/categoryImages/img_category_all.png');
 const CATEGORY_ASIAN_IMG = require('../assets/images/categoryImages/img_category_asia.png');
@@ -132,7 +134,10 @@ const RIGHT_ARROW_GRAY = require('../assets/icons/arrow/right_arrow_gray.png');
 export {
   CATEGORY_ALL_IMG,
   LOGO,
-  LOGO_BG_WHITE,
+  LOGO_SOLID_MAIN,
+  LOGO_SOLID_WHITE,
+  LOGO_WITH_TEXT,
+  LOGO_WITH_TEXT_BG_WHITE,
   RIGHT_ARROW_GRAY,
   SEND_GRAY_FILLED_ICON,
   CAMERA_GRAY_FILLED_ICON,
