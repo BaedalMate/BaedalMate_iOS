@@ -4,6 +4,7 @@ import {View} from 'react-native';
 import CategoryItem from '../../atoms/Main/CategoryItem';
 import {TextKRBold} from 'themes/text';
 import {
+  CATEGORY_ALL_IMG,
   CATEGORY_ASIAN_IMG,
   CATEGORY_BUNSIK_IMG,
   CATEGORY_CHICKEN_IMG,
@@ -28,7 +29,7 @@ export const categoryData = [
   {
     categoryId: 0,
     categoryName: '전체보기',
-    categoryImg: '',
+    categoryImg: CATEGORY_ALL_IMG,
   },
   {
     categoryId: 1,

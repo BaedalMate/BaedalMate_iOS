@@ -25,17 +25,19 @@ const BaedalMateRecommendationItem = ({item}: {item: eachMainRecruitListI}) => {
   const durationMinutes = deadline.getMinutes() - now.getMinutes();
   const durationSeconds = deadline.getSeconds() - now.getSeconds();
   const timeText =
-    durationYear > 0
-      ? durationYear + '년'
-      : durationMonth > 0
-      ? durationMonth + '달'
-      : durationDate > 0
-      ? durationDate + '일'
-      : durationHour > 0
-      ? durationHour + '시간'
-      : durationMinutes > 0
-      ? durationMinutes + '분'
-      : '마감 임박';
+    time > 0
+      ? durationYear > 0
+        ? durationYear + '년'
+        : durationMonth > 0
+        ? durationMonth + '달'
+        : durationDate > 0
+        ? durationDate + '일'
+        : durationHour > 0
+        ? durationHour + '시간'
+        : durationMinutes > 0
+        ? durationMinutes + '분'
+        : '마감 임박'
+      : '마감';
 
   const navigation = useNavigation();
   return (

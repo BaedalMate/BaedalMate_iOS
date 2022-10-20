@@ -167,7 +167,11 @@ const Slider = ({
         paddingVertical: 0,
       }}>
       <Carousel
-        data={[...mainTagRecruitList.recruitList, newListItem]}
+        data={
+          mainTagRecruitList.recruitList.length === 5
+            ? mainTagRecruitList.recruitList
+            : [...mainTagRecruitList.recruitList, newListItem]
+        }
         layoutCardOffset={0}
         ref={isCarousel}
         renderItem={TodayMenuItem}
