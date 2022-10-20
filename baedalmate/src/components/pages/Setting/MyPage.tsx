@@ -10,50 +10,58 @@ import MypageUserInfo from 'components/atoms/Setting/MyPageUserInfo';
 import MyPageListItem from 'components/atoms/Setting/MyPageListItem';
 import MyPageBar from 'components/atoms/Setting/MyPageBar';
 import MyPageBottom from 'components/atoms/Bottom/MyPageBottom';
+import {useNavigation} from '@react-navigation/native';
 
 export interface MyPageI {
   profileImage: string;
   userName: string;
   score: string;
+  dormitory: string;
 }
 const MyPageUserDummyData = {
   profileImage:
     'https://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg',
   userName: '김예빈',
   score: '4.3',
+  dormitory: '성림학사',
 };
 
-const MyPageRecruitDummyData = [
-  {
-    name: '주최한 모집',
-    onPress: () => {},
-  },
-  {
-    name: '참여한 모집',
-    onPress: () => {},
-  },
-];
-
-const MyPageSettingDummyData = [
-  {
-    name: '이벤트',
-    onPress: () => {},
-  },
-  {
-    name: '공지사항',
-    onPress: () => {},
-  },
-  {
-    name: '1:1 문의',
-    onPress: () => {},
-  },
-  {
-    name: '설정',
-    onPress: () => {},
-  },
-];
-
 const MyPage = ({route, navigation}) => {
+  // const navigation = useNavigation();
+
+  const MyPageRecruitDummyData = [
+    {
+      name: '주최한 모집',
+      onPress: () => {
+        navigation.navigate('주최한 모집' as never);
+      },
+    },
+    {
+      name: '참여한 모집',
+      onPress: () => {
+        navigation.navigate('참여한 모집' as never);
+      },
+    },
+  ];
+  const MyPageSettingDummyData = [
+    {
+      name: '이벤트',
+      onPress: () => {},
+    },
+    {
+      name: '공지사항',
+      onPress: () => {},
+    },
+    {
+      name: '1:1 문의',
+      onPress: () => {},
+    },
+    {
+      name: '설정',
+      onPress: () => {},
+    },
+  ];
+
   return (
     <View
       style={{
@@ -63,18 +71,18 @@ const MyPage = ({route, navigation}) => {
       }}>
       <MypageUserInfo item={MyPageUserDummyData} />
       {MyPageRecruitDummyData.map((v, i) => (
-        <>
+        <View key={i}>
           <MyPageBar height={3} />
           <MyPageListItem item={v} />
-        </>
+        </View>
       ))}
       <MyPageBar height={12} />
 
       {MyPageSettingDummyData.map((v, i) => (
-        <>
+        <View key={i}>
           {i !== 0 && <MyPageBar height={3} />}
           <MyPageListItem item={v} />
-        </>
+        </View>
       ))}
       <MyPageBottom />
     </View>
