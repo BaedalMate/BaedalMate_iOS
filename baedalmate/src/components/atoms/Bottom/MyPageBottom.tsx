@@ -25,7 +25,7 @@ const MyPageBottom = () => {
           style={{
             paddingVertical: 15,
             textAlign: 'center',
-            borderWidth: 1,
+            // borderWidth: 1,
             borderRadius: 10,
           }}>
           고객센터
@@ -39,7 +39,7 @@ const MyPageBottom = () => {
           style={{
             paddingVertical: 15,
             textAlign: 'center',
-            borderWidth: 1,
+            // borderWidth: 1,
             borderRadius: 10,
           }}>
           문의사항

@@ -33,6 +33,7 @@ const MyPageUserInfo = ({item}: {item: MyPageI | undefined}) => {
         borderColor: BLACK_COLOR,
       }}>
       <MyPageUserProfileImage item={item} />
+
       <View
         style={{
           height: 41,
@@ -47,13 +48,26 @@ const MyPageUserInfo = ({item}: {item: MyPageI | undefined}) => {
       </View>
       <View
         style={{
+          height: 41,
+          marginLeft: 50,
+          justifyContent: 'flex-end',
+          bottom: 5,
+          // justifyContent: 'flex-start',
+        }}>
+        <Text>
+          <Image source={MARKER_BLACK} />
+          {item?.dormitory}
+        </Text>
+      </View>
+      {/* <View
+        style={{
           position: 'absolute',
           right: 15,
           height: 41,
           marginLeft: 11,
           justifyContent: 'space-around',
           alignItems: 'flex-end',
-        }}></View>
+        }}></View> */}
     </View>
   );
 };

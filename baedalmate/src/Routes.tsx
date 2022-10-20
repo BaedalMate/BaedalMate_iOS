@@ -1,13 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import BtnHorizontal3 from './components/molecules/Button/BtnHorizontal3';
 import Login from './components/pages/Login';
 import Main from './components/pages/Main';
-import {Button, Image} from 'react-native';
+import {Image, TouchableOpacity} from 'react-native';
 import {
-  BACK_REGULAR,
+  BACK_GRAY,
   CHATTIING_PRIMARY_OUTLINE,
   CHATTIING_REGULAR,
   DARK_GRAY_COLOR,
@@ -23,7 +22,6 @@ import CreateRecruit1 from 'components/pages/CreateRecuit/First';
 import CreateRecruit2 from 'components/pages/CreateRecuit/Second';
 import CreateRecruit3 from 'components/pages/CreateRecuit/Third';
 import CreateRecruit4 from 'components/pages/CreateRecuit/Fourth';
-import {getAccessToken} from '@react-native-seoul/kakao-login';
 import PlaceSearch from 'components/pages/CreateRecuit/PlaceSearch';
 import SelectCategoryPage from 'components/pages/CreateRecuit/CategorySelect';
 import {useNavigation} from '@react-navigation/native';
@@ -31,12 +29,15 @@ import DetailChatRoom from 'components/pages/DetailChatRoom';
 import Chat from 'components/pages/ChatList';
 import {Map} from 'components/molecules/Detail/Map';
 import MyPage from 'components/pages/Setting/MyPage';
+import HostingRecruitList from 'components/pages/Setting/HostingRecruitList';
+import ParticipateRecruitList from 'components/pages/Setting/ParticipateRecruitList';
 
 const AuthStack = createNativeStackNavigator();
 const MainScreenTab = createBottomTabNavigator();
 const BoardScreenStack = createNativeStackNavigator();
 const CategoryStack = createNativeStackNavigator();
 const ChatStack = createNativeStackNavigator();
+const SettingStack = createNativeStackNavigator();
 /*
     Stack Navigator
         - Stack Screen A
@@ -66,7 +67,6 @@ const AppTabComponent = () => {
           }
           return <Image source={iconName} />;
         },
-        // headerShown: false,
       })}
       sceneContainerStyle={{
         backgroundColor: '#fff',
@@ -85,7 +85,15 @@ const AppTabComponent = () => {
           headerShown: false,
         }}
       />
-      <MainScreenTab.Screen name="마이페이지" component={MyPage} />
+      <MainScreenTab.Screen
+        name="마이페이지"
+        component={MyPage}
+        options={
+          {
+            // headerShown: false,
+          }
+        }
+      />
     </MainScreenTab.Navigator>
   );
 };
@@ -94,7 +102,7 @@ const CategoryStackComponent = () => {
   return (
     <CategoryStack.Navigator>
       <CategoryStack.Screen
-        name="홈"
+        name="Home"
         component={Main}
         options={{
           headerShown: false,
@@ -103,9 +111,17 @@ const CategoryStackComponent = () => {
       <CategoryStack.Screen
         name="카테고리"
         component={BoardListPage}
-        options={{
-          headerShadowVisible: false,
-        }}
+        options={({navigation, route}) => ({
+          headerBackVisible: false,
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image source={BACK_GRAY} />
+            </TouchableOpacity>
+          ),
+        })}
       />
     </CategoryStack.Navigator>
   );
@@ -114,7 +130,7 @@ export const BoardStackComponent = () => {
   return (
     <BoardScreenStack.Navigator>
       <BoardScreenStack.Screen
-        name="홈"
+        name="HomeBoard"
         component={AppTabComponent}
         options={{
           headerShown: false,
@@ -123,17 +139,48 @@ export const BoardStackComponent = () => {
       <BoardScreenStack.Screen
         name="카테고리"
         component={BoardListPage}
-        options={
-          {
-            // headerShadowVisible: false,
-          }
-        }
+        options={({navigation, route}) => ({
+          headerBackVisible: false,
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image source={BACK_GRAY} />
+            </TouchableOpacity>
+          ),
+        })}
       />
       <BoardScreenStack.Screen
         name="글 상세 보기"
         component={BoardItemDetail}
+        options={({navigation, route}) => ({
+          headerBackVisible: false,
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image source={BACK_GRAY} />
+            </TouchableOpacity>
+          ),
+        })}
       />
-      <BoardScreenStack.Screen name="지도" component={Map} />
+      <BoardScreenStack.Screen
+        name="지도"
+        component={Map}
+        options={({navigation, route}) => ({
+          headerBackVisible: false,
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image source={BACK_GRAY} />
+            </TouchableOpacity>
+          ),
+        })}
+      />
       <BoardScreenStack.Screen
         name="상세 설정"
         component={CreateRecruitStackComponent}
@@ -144,11 +191,47 @@ export const BoardStackComponent = () => {
       <BoardScreenStack.Screen
         name="채팅방"
         component={DetailChatRoom}
-        options={
-          {
-            // headerShown: false,
-          }
-        }
+        options={({navigation, route}) => ({
+          headerBackVisible: false,
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image source={BACK_GRAY} />
+            </TouchableOpacity>
+          ),
+        })}
+      />
+      <BoardScreenStack.Screen
+        name="주최한 모집"
+        component={HostingRecruitList}
+        options={({navigation, route}) => ({
+          headerBackVisible: false,
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image source={BACK_GRAY} />
+            </TouchableOpacity>
+          ),
+        })}
+      />
+      <BoardScreenStack.Screen
+        name="참여한 모집"
+        component={ParticipateRecruitList}
+        options={({navigation, route}) => ({
+          headerBackVisible: false,
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image source={BACK_GRAY} />
+            </TouchableOpacity>
+          ),
+        })}
       />
     </BoardScreenStack.Navigator>
   );
@@ -161,66 +244,92 @@ export const CreateRecruitStackComponent = () => {
       <CategoryStack.Screen
         name="카테고리 선택"
         component={SelectCategoryPage}
-        options={{
+        options={({navigation, route}) => ({
+          headerBackVisible: false,
           headerLeft: () => (
-            <Button
-              title="뒤로 가기"
+            <TouchableOpacity
               onPress={() => {
                 navigation.goBack();
-              }}
-            />
+              }}>
+              <Image source={BACK_GRAY} />
+            </TouchableOpacity>
           ),
-          // headerShown: false,
-        }}
+        })}
       />
       <CategoryStack.Screen
         name="상세 설정1"
         component={CreateRecruit1}
-        options={
-          {
-            // headerShown: false,
-          }
-        }
+        options={({navigation, route}) => ({
+          headerBackVisible: false,
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image source={BACK_GRAY} />
+            </TouchableOpacity>
+          ),
+        })}
       />
       <CategoryStack.Screen
         name="상세 설정2"
         component={CreateRecruit2}
-        options={
-          {
-            // headerShown: false,
-          }
-        }
+        options={({navigation, route}) => ({
+          headerBackVisible: false,
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image source={BACK_GRAY} />
+            </TouchableOpacity>
+          ),
+        })}
       />
       <CategoryStack.Screen
         name="상세 설정3"
         component={CreateRecruit3}
-        options={
-          {
-            // headerShown: false,
-          }
-        }
+        options={({navigation, route}) => ({
+          headerBackVisible: false,
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image source={BACK_GRAY} />
+            </TouchableOpacity>
+          ),
+        })}
       />
       <CategoryStack.Screen
         name="상세 설정4"
         component={CreateRecruit4}
-        options={
-          {
-            // headerShown: false,
-          }
-        }
+        options={({navigation, route}) => ({
+          headerBackVisible: false,
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image source={BACK_GRAY} />
+            </TouchableOpacity>
+          ),
+        })}
       />
       <CategoryStack.Screen
         name="배달 가게 선택"
         component={PlaceSearch}
-        options={
-          {
-            // headerTitle: '',
-            // headerSearchBarOptions: {
-            // },
-            // headerShown: false,
-            // headerShown: false,
-          }
-        }
+        options={({navigation, route}) => ({
+          headerBackVisible: false,
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image source={BACK_GRAY} />
+            </TouchableOpacity>
+          ),
+        })}
       />
     </CategoryStack.Navigator>
   );
@@ -229,34 +338,29 @@ export const ChatStackComponent = () => {
   const navigation = useNavigation();
   return (
     <ChatStack.Navigator>
-      <ChatStack.Screen name="채팅" component={Chat} options={{}} />
-      {/* <ChatStack.Screen
-        name="채팅방"
-        component={DetailChatRoom}
-        options={
-          {
-            // headerShown: false,
-          }
-        }
-      /> */}
+      <ChatStack.Screen
+        name="Chat"
+        component={Chat}
+        options={{
+          headerTitle: '채팅',
+        }}
+      />
     </ChatStack.Navigator>
   );
 };
 
+// export const SettingStackComponent = () => {
+//   const navigation = useNavigation();
+//   return (
+//     <SettingStack.Navigator>
+//       <SettingStack.Screen name="주최한 모집" component={HostingRecruitList} />
+//     </SettingStack.Navigator>
+//   );
+// };
+
 export const RootNavigator = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // useEffect(() => {
-  //   const JWTToken = async () => {
-  //     const data = await getAccessToken();
-  //     if (data) {
-  //       setIsLoggedIn(true);
-  //     } else {
-  //       setIsLoggedIn(false);
-  //     }
-  //   };
-  //   JWTToken();
-  // }, []);
   return (
     <AuthStack.Navigator screenOptions={{headerShown: false}}>
       {isLoggedIn ? (
@@ -268,11 +372,6 @@ export const RootNavigator = () => {
             name="BoardStackComponent"
             component={BoardStackComponent}
           />
-
-          {/* <AuthStack.Screen
-            name="BoardStackComponent"
-            component={BoardStackComponent}
-          /> */}
         </>
       )}
     </AuthStack.Navigator>
