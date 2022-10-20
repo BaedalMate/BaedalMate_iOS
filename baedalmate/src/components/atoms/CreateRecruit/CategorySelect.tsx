@@ -71,23 +71,24 @@ const SelectCategoryItem = ({item}: {item: CategoryProps}) => {
             height: 124,
             borderRadius: 62,
             backgroundColor: WHITE_COLOR,
-            borderWidth: 1,
-            borderColor: BLACK_COLOR,
+            // tintColor: 'gray',
+            // borderWidth: 1,
+            // borderColor: BLACK_COLOR,
             // opacity: 0.8,
           }}
         />
         <View
           style={{
             position: 'absolute',
-            top: 80,
+            top: 90,
             borderRadius: 10,
             backgroundColor: WHITE_COLOR,
-            padding: 5,
+            padding: 3,
           }}>
           <Text
             style={{
               fontWeight: '900',
-              fontSize: 18,
+              fontSize: 14,
               lineHeight: 21,
               color: BLACK_COLOR,
               // textShadowColor: BLACK_COLOR,
@@ -104,50 +105,5 @@ const SelectCategoryItem = ({item}: {item: CategoryProps}) => {
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({
-  margin: {
-    marginLeft: 10,
-  },
-  Title: {
-    fontFamily: Fonts.Ko,
-    fontStyle: 'normal',
-    fontWeight: '700',
-    fontSize: 18,
-    lineHeight: 22,
-    textAlignVertical: 'center',
-    color: PRIMARY_COLOR,
-  },
-  TitleInput: {
-    fontFamily: Fonts.Ko,
-    fontStyle: 'normal',
-    fontWeight: '700',
-    fontSize: 18,
-    lineHeight: 22,
-    textAlignVertical: 'center',
-  },
-  Label: {
-    fontFamily: Fonts.Ko,
-    fontStyle: 'normal',
-    fontWeight: '700',
-    fontSize: 16,
-    lineHeight: 19,
-    textAlignVertical: 'center',
-  },
-  Description: {
-    fontFamily: Fonts.Ko,
-    fontStyle: 'normal',
-    fontWeight: '400',
-    fontSize: 14,
-    lineHeight: 24,
-    alignItems: 'center',
-    textAlignVertical: 'center',
-    color: DARK_GRAY_COLOR,
-    paddingBottom: 18,
-  },
-  avoidingView: {
-    // flex: 1,
-  },
-});
 
 export default SelectCategoryItem;

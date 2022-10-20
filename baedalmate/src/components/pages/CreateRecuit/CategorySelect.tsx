@@ -25,29 +25,13 @@ export interface RecruitItemProps {
   username: string;
 }
 
-const {StatusBarManager} = NativeModules;
-type endStandardType = 'people' | 'price' | 'time';
 export interface deliveryFeeProps {
   i: number;
   cnt: number;
   setCnt: (cnt: number) => void;
 }
 
-const SelectCategoryPage = props => {
-  const {
-    control,
-    handleSubmit,
-    formState: {errors},
-  } = useForm({
-    defaultValues: {
-      minPrice: '',
-      // minPeople: '',
-      // orderHour: '',
-      // orderMinute: '',
-    },
-  });
-  const onSubmit = data => console.log(data);
-
+const SelectCategoryPage = () => {
   return (
     <View
       style={{
@@ -69,50 +53,5 @@ const SelectCategoryPage = props => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  margin: {
-    marginLeft: 10,
-  },
-  Title: {
-    fontFamily: Fonts.Ko,
-    fontStyle: 'normal',
-    fontWeight: '700',
-    fontSize: 18,
-    lineHeight: 22,
-    textAlignVertical: 'center',
-    color: PRIMARY_COLOR,
-  },
-  TitleInput: {
-    fontFamily: Fonts.Ko,
-    fontStyle: 'normal',
-    fontWeight: '700',
-    fontSize: 18,
-    lineHeight: 22,
-    textAlignVertical: 'center',
-  },
-  Label: {
-    fontFamily: Fonts.Ko,
-    fontStyle: 'normal',
-    fontWeight: '700',
-    fontSize: 16,
-    lineHeight: 19,
-    textAlignVertical: 'center',
-  },
-  Description: {
-    fontFamily: Fonts.Ko,
-    fontStyle: 'normal',
-    fontWeight: '400',
-    fontSize: 14,
-    lineHeight: 24,
-    alignItems: 'center',
-    textAlignVertical: 'center',
-    color: DARK_GRAY_COLOR,
-    paddingBottom: 18,
-  },
-  avoidingView: {
-    // flex: 1,
-  },
-});
 
 export default SelectCategoryPage;

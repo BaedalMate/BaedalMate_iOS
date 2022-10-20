@@ -59,6 +59,7 @@ const CreateRecruit3 = props => {
       ...props.route.params,
     });
   };
+  const [text, setText] = useState('');
   const [newTag, setNewTag] = useState('');
   const [tagList, setTagList] = useState<{tagname: string}[]>([]);
   return (
@@ -144,16 +145,17 @@ const CreateRecruit3 = props => {
                   borderRadius: 10,
                   padding: 15,
                 }}
+                value={newTag}
                 onChangeText={text => {
                   setNewTag(text);
                 }}
-                // value={}
                 placeholder="#태그를 입력해주세요"></TextInput>
               <BtnTag
                 text={'태그입력'}
                 onPress={() => {
                   if (newTag !== '') {
                     setTagList([...tagList, {tagname: newTag}]);
+                    setNewTag('');
                   }
                 }}
               />

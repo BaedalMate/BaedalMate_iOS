@@ -102,268 +102,270 @@ const CreateRecruit4 = props => {
       style={{
         backgroundColor: WHITE_COLOR,
       }}>
-      <KeyboardAvoidingView
+      {/* <KeyboardAvoidingView
         behavior={Platform.select({ios: 'padding'})}
-        keyboardVerticalOffset={statusBarHeight + 44}>
-        <ScrollView
-          style={{
-            backgroundColor: WHITE_COLOR,
-            marginBottom: 150,
-          }}>
-          <View style={{}}>
-            <View>
-              <View
-                style={{
-                  padding: 15,
-                  display: 'flex',
-                }}>
-                <TextKRBold style={styles.Title}>추가 메뉴</TextKRBold>
-              </View>
-              <View
-                style={{
-                  padding: 15,
-                  display: 'flex',
-                  backgroundColor: '#F7F8FA',
-                  borderBottomWidth: 5,
-                  borderBottomColor: WHITE_COLOR,
-                }}>
-                <TextKRBold style={styles.Label}>배달 메뉴</TextKRBold>
-                <View>
-                  <MenuList menuList={menuList} setMenuList={setMenuList} />
-                </View>
+        keyboardVerticalOffset={statusBarHeight + 44}> */}
+      <ScrollView
+        style={{
+          backgroundColor: WHITE_COLOR,
+          marginBottom: 150,
+        }}>
+        <View style={{}}>
+          <View>
+            <View
+              style={{
+                padding: 15,
+                display: 'flex',
+              }}>
+              <TextKRBold style={styles.Title}>추가 메뉴</TextKRBold>
+            </View>
+            <View
+              style={{
+                padding: 15,
+                display: 'flex',
+                backgroundColor: '#F7F8FA',
+                borderBottomWidth: 5,
+                borderBottomColor: WHITE_COLOR,
+              }}>
+              <TextKRBold style={styles.Label}>배달 메뉴</TextKRBold>
+              <View>
+                <MenuList menuList={menuList} setMenuList={setMenuList} />
               </View>
             </View>
-            <View>
+          </View>
+          <View>
+            <View
+              style={{
+                padding: 15,
+                display: 'flex',
+              }}>
+              <TextKRBold style={styles.Title}>합산 금액</TextKRBold>
+            </View>
+            <View
+              style={{
+                padding: 15,
+                display: 'flex',
+                flexDirection: 'column',
+                backgroundColor: '#F7F8FA',
+                borderBottomWidth: 5,
+                borderBottomColor: WHITE_COLOR,
+              }}>
+              <TextKRBold style={styles.Label}>현재 금액</TextKRBold>
               <View
                 style={{
-                  padding: 15,
-                  display: 'flex',
+                  justifyContent: 'space-between',
+                  paddingVertical: 15,
+                  borderBottomWidth: 1,
+                  borderColor: LINE_GRAY_COLOR,
                 }}>
-                <TextKRBold style={styles.Title}>결제하기</TextKRBold>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                  }}>
+                  <TextKRReg
+                    style={{
+                      fontSize: 16,
+                      lineHeight: 24,
+                      fontStyle: 'normal',
+                    }}>
+                    총 주문 금액
+                  </TextKRReg>
+                  <TextKRReg
+                    style={{
+                      fontSize: 16,
+                      lineHeight: 19,
+                      fontStyle: 'normal',
+                    }}>
+                    {menuTotalPrice} 원
+                  </TextKRReg>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                  }}>
+                  <TextKRReg
+                    style={{
+                      fontSize: 16,
+                      lineHeight: 24,
+                      fontStyle: 'normal',
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}>
+                    배달팁
+                  </TextKRReg>
+                  <TextKRReg
+                    style={{
+                      fontSize: 16,
+                      lineHeight: 24,
+                      fontStyle: 'normal',
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}>
+                    {shippingFee} 원
+                  </TextKRReg>
+                </View>
+                <View
+                  style={{
+                    alignItems: 'flex-end',
+                  }}>
+                  <TextKRBold
+                    style={{
+                      fontSize: 16,
+                      lineHeight: 19,
+                      fontStyle: 'normal',
+                    }}>
+                    {menuTotalPrice + shippingFee} 원
+                  </TextKRBold>
+                </View>
               </View>
               <View
                 style={{
-                  padding: 15,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  backgroundColor: '#F7F8FA',
-                  borderBottomWidth: 5,
-                  borderBottomColor: WHITE_COLOR,
+                  justifyContent: 'space-between',
+                  paddingVertical: 15,
+                  borderBottomWidth: 1,
+                  borderColor: LINE_GRAY_COLOR,
                 }}>
-                <TextKRBold style={styles.Label}>결제금액</TextKRBold>
                 <View
                   style={{
+                    flexDirection: 'row',
                     justifyContent: 'space-between',
-                    paddingVertical: 15,
-                    borderBottomWidth: 1,
-                    borderColor: LINE_GRAY_COLOR,
                   }}>
-                  <View
+                  <TextKRReg
                     style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
+                      fontSize: 16,
+                      lineHeight: 24,
+                      fontStyle: 'normal',
+                      display: 'flex',
+                      alignItems: 'center',
                     }}>
-                    <TextKRReg
-                      style={{
-                        fontSize: 16,
-                        lineHeight: 24,
-                        fontStyle: 'normal',
-                      }}>
-                      총 주문 금액
-                    </TextKRReg>
-                    <TextKRReg
-                      style={{
-                        fontSize: 16,
-                        lineHeight: 19,
-                        fontStyle: 'normal',
-                      }}>
-                      {menuTotalPrice} 원
-                    </TextKRReg>
-                  </View>
-                  <View
+                    쿠폰 사용 금액
+                  </TextKRReg>
+                  <TextKRReg
                     style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
+                      fontSize: 16,
+                      lineHeight: 24,
+                      fontStyle: 'normal',
+                      display: 'flex',
+                      alignItems: 'center',
                     }}>
-                    <TextKRReg
-                      style={{
-                        fontSize: 16,
-                        lineHeight: 24,
-                        fontStyle: 'normal',
-                        display: 'flex',
-                        alignItems: 'center',
-                      }}>
-                      배달팁
-                    </TextKRReg>
-                    <TextKRReg
-                      style={{
-                        fontSize: 16,
-                        lineHeight: 24,
-                        fontStyle: 'normal',
-                        display: 'flex',
-                        alignItems: 'center',
-                      }}>
-                      {shippingFee} 원
-                    </TextKRReg>
-                  </View>
-                  <View
-                    style={{
-                      alignItems: 'flex-end',
-                    }}>
-                    <TextKRBold
-                      style={{
-                        fontSize: 16,
-                        lineHeight: 19,
-                        fontStyle: 'normal',
-                      }}>
-                      {menuTotalPrice + shippingFee} 원
-                    </TextKRBold>
-                  </View>
+                    {couponPrice} 원
+                  </TextKRReg>
                 </View>
                 <View
                   style={{
-                    justifyContent: 'space-between',
-                    paddingVertical: 15,
-                    borderBottomWidth: 1,
-                    borderColor: LINE_GRAY_COLOR,
+                    alignItems: 'flex-end',
                   }}>
-                  <View
+                  <TextKRBold
                     style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
+                      fontSize: 16,
+                      lineHeight: 19,
+                      fontStyle: 'normal',
                     }}>
-                    <TextKRReg
-                      style={{
-                        fontSize: 16,
-                        lineHeight: 24,
-                        fontStyle: 'normal',
-                        display: 'flex',
-                        alignItems: 'center',
-                      }}>
-                      쿠폰 사용 금액
-                    </TextKRReg>
-                    <TextKRReg
-                      style={{
-                        fontSize: 16,
-                        lineHeight: 24,
-                        fontStyle: 'normal',
-                        display: 'flex',
-                        alignItems: 'center',
-                      }}>
-                      {couponPrice} 원
-                    </TextKRReg>
-                  </View>
-                  <View
-                    style={{
-                      alignItems: 'flex-end',
-                    }}>
-                    <TextKRBold
-                      style={{
-                        fontSize: 16,
-                        lineHeight: 19,
-                        fontStyle: 'normal',
-                      }}>
-                      {menuTotalPrice + shippingFee - couponPrice} 원
-                    </TextKRBold>
-                  </View>
+                    {menuTotalPrice + shippingFee - couponPrice} 원
+                  </TextKRBold>
                 </View>
+              </View>
+              <View
+                style={{
+                  justifyContent: 'space-between',
+                  paddingVertical: 15,
+                }}>
                 <View
                   style={{
+                    flexDirection: 'row',
                     justifyContent: 'space-between',
-                    paddingVertical: 15,
                   }}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}>
-                    <TextKRBold style={styles.Label}>결제 예정 금액</TextKRBold>
+                  <TextKRBold style={styles.Label}>
+                    현재 결제 예정 금액
+                  </TextKRBold>
 
+                  <TextKRBold
+                    style={{
+                      fontSize: 24,
+                      lineHeight: 29,
+                      fontStyle: 'normal',
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}>
                     <TextKRBold
                       style={{
+                        color: PRIMARY_COLOR,
                         fontSize: 24,
                         lineHeight: 29,
-                        fontStyle: 'normal',
-                        display: 'flex',
-                        alignItems: 'center',
                       }}>
-                      <TextKRBold
-                        style={{
-                          color: PRIMARY_COLOR,
-                          fontSize: 24,
-                          lineHeight: 29,
-                        }}>
-                        {menuTotalPrice + shippingFee - couponPrice}
-                      </TextKRBold>
-                      원
+                      {menuTotalPrice + shippingFee - couponPrice}
                     </TextKRBold>
-                  </View>
+                    원
+                  </TextKRBold>
                 </View>
               </View>
             </View>
           </View>
-        </ScrollView>
-
-        <View
-          style={{
-            marginHorizontal: 15,
-          }}>
-          <BtnCreateFloating
-            onPress={async () => {
-              // const result = await postRecruitAPI();
-              let dorm =
-                props.route.params.data.dormitory === '누리학사'
-                  ? 'NURI'
-                  : props.route.params.data.dormitory === '성림학사'
-                  ? 'SUNGLIM'
-                  : props.route.params.data.dormitory === '수림학사'
-                  ? 'SULIM'
-                  : props.route.params.data.dormitory === '불암학사'
-                  ? 'BURAM'
-                  : 'KB';
-              let data: postRecruitI = {
-                categoryId: props.route.params.categoryId,
-                criteria: props.route.params.criteria,
-                coupon: props.route.params.data.coupon,
-                dormitory: dorm,
-                deadlineDate: props.route.params.deadlineDate,
-                description: props.route.params.description,
-                freeShipping: props.route.params.freeShipping,
-                menu: menuList ? menuList : [],
-                place: props.route.params.data.place,
-                platform: props.route.params.data.platform,
-                title: props.route.params.title,
-                tags: props.route.params.tags,
-                shippingFee: props.route.params.shippingFee,
-                minPrice: props.route.params.minPrice,
-                minPeople: props.route.params.minPeople,
-              };
-              console.log('data', data);
-              const result = await postRecruitAPI(
-                props.route.params.categoryId,
-                props.route.params.data.coupon,
-                props.route.params.criteria,
-                props.route.params.deadlineDate,
-                props.route.params.description,
-                dorm,
-                props.route.params.freeShipping,
-                menuList ? menuList : [],
-                props.route.params.minPeople,
-                props.route.params.minPrice,
-                props.route.params.data.place,
-                props.route.params.data.platform,
-                props.route.params.shippingFee,
-                props.route.params.tags,
-                props.route.params.title,
-              );
-              console.log('post new recruit', result);
-              props.navigation.navigate('홈');
-            }}
-            text={'다음으로'}
-            id={4}
-          />
         </View>
-      </KeyboardAvoidingView>
+      </ScrollView>
+
+      <View
+        style={{
+          marginHorizontal: 15,
+        }}>
+        <BtnCreateFloating
+          onPress={async () => {
+            // const result = await postRecruitAPI();
+            let dorm =
+              props.route.params.data.dormitory === '누리학사'
+                ? 'NURI'
+                : props.route.params.data.dormitory === '성림학사'
+                ? 'SUNGLIM'
+                : props.route.params.data.dormitory === '수림학사'
+                ? 'SULIM'
+                : props.route.params.data.dormitory === '불암학사'
+                ? 'BURAM'
+                : 'KB';
+            let data: postRecruitI = {
+              categoryId: props.route.params.categoryId,
+              criteria: props.route.params.criteria,
+              coupon: props.route.params.data.coupon,
+              dormitory: dorm,
+              deadlineDate: props.route.params.deadlineDate,
+              description: props.route.params.description,
+              freeShipping: props.route.params.freeShipping,
+              menu: menuList ? menuList : [],
+              place: props.route.params.data.place,
+              platform: props.route.params.data.platform,
+              title: props.route.params.title,
+              tags: props.route.params.tags,
+              shippingFee: props.route.params.shippingFee,
+              minPrice: props.route.params.minPrice,
+              minPeople: props.route.params.minPeople,
+            };
+            console.log('data', data);
+            const result = await postRecruitAPI(
+              props.route.params.categoryId,
+              props.route.params.data.coupon,
+              props.route.params.criteria,
+              props.route.params.deadlineDate,
+              props.route.params.description,
+              dorm,
+              props.route.params.freeShipping,
+              menuList ? menuList : [],
+              props.route.params.minPeople,
+              props.route.params.minPrice,
+              props.route.params.data.place,
+              props.route.params.data.platform,
+              props.route.params.shippingFee,
+              props.route.params.tags,
+              props.route.params.title,
+            );
+            console.log('post new recruit', result);
+            props.navigation.navigate('홈');
+          }}
+          text={'다음으로'}
+          id={4}
+        />
+      </View>
+      {/* </KeyboardAvoidingView> */}
     </View>
   );
 };

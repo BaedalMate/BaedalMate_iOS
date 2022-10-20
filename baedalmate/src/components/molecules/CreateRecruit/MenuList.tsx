@@ -85,6 +85,7 @@ const MenuList = (props: menuListProps) => {
   const [newMenu, setNewMenu] = useState();
   // const [menuList, setMenuList] = useState<menuListI[]>();
   const onSubmit = (data: menuListI) => {
+    if (data.name === '' && data.price === 0) return;
     console.log(data);
     props?.menuList
       ? props.setMenuList([...props.menuList, data])
@@ -146,10 +147,21 @@ const MenuList = (props: menuListProps) => {
                 justifyContent: 'flex-end',
                 alignItems: 'center',
               }}>
+              <View
+                onTouchStart={handleModal}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  // backgroundColor: 'rgba(0,0,0,0.45)',
+                  flex: 1,
+                  flexDirection: 'column',
+                  justifyContent: 'flex-end',
+                  alignItems: 'center',
+                }}></View>
               <KeyboardAvoidingView
                 // style={styles.avoidingView}
                 behavior={Platform.select({ios: 'padding'})}
-                keyboardVerticalOffset={statusBarHeight + 44}>
+                keyboardVerticalOffset={statusBarHeight}>
                 <View
                   style={{
                     padding: 15,
