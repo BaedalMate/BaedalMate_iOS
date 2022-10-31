@@ -28,7 +28,7 @@ import {
 } from 'themes/theme';
 import {onChange} from 'react-native-reanimated';
 import SelectDropdown from 'react-native-select-dropdown';
-import {dormitoryList} from 'components/pages/CreateRecuit/Second';
+import {dormitoryList} from 'components/pages/CreateRecuit/second';
 
 export type endStandardType = 'people' | 'price' | 'time';
 export interface shippingFeeProps {

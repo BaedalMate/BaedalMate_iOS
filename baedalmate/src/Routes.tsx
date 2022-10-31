@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import Login from './components/pages/Login';
+import Login from './components/pages/login';
 import Main from './components/pages/Main';
 import {Image, TouchableOpacity} from 'react-native';
 import {
@@ -18,10 +18,10 @@ import {
 } from './themes/theme';
 import BoardItemDetail from 'components/pages/Detail';
 import BoardListPage from 'components/pages/BoardListPage';
-import CreateRecruit1 from 'components/pages/CreateRecuit/First';
-import CreateRecruit2 from 'components/pages/CreateRecuit/Second';
-import CreateRecruit3 from 'components/pages/CreateRecuit/Third';
-import CreateRecruit4 from 'components/pages/CreateRecuit/Fourth';
+import CreateRecruit1 from 'components/pages/CreateRecuit/first';
+import CreateRecruit2 from 'components/pages/CreateRecuit/second';
+import CreateRecruit3 from 'components/pages/CreateRecuit/third';
+import CreateRecruit4 from 'components/pages/CreateRecuit/fourth';
 import PlaceSearch from 'components/pages/CreateRecuit/PlaceSearch';
 import SelectCategoryPage from 'components/pages/CreateRecuit/CategorySelect';
 import {useNavigation} from '@react-navigation/native';
