@@ -39,6 +39,7 @@ import BtnVerticalDeactive from 'components/atoms/Button/BtnVerticalDeactive';
 import PlatformImage from 'components/atoms/Image/PlatformImage';
 import BtnMap from 'components/atoms/Button/BtnMap';
 import {useNavigation} from '@react-navigation/native';
+import {Text} from 'react-native-paper';
 
 export interface RecruitItemProps {
   active: boolean;
@@ -254,8 +255,7 @@ const BoardItemDetail: React.FC<DetailProps> = props => {
                         lineHeight: 24,
                         color: DARK_GRAY_COLOR,
                       }}>
-                      모집 인원에 도달하면 모집이 추가할 메뉴를 적고 메뉴의
-                      금액을 하단에 적어주세요
+                      추가할 메뉴를 적고 메뉴의 금액을 하단에 적어주세요
                     </TextKRReg>
                   </View>
                   <View
@@ -326,6 +326,24 @@ const BoardItemDetail: React.FC<DetailProps> = props => {
                       />
                     </View>
                   </View>
+                  <TouchableOpacity
+                    onPress={handleSubmit(onSubmitMenu)}
+                    style={{
+                      width: '100%',
+                      justifyContent: 'center',
+                      paddingBottom: 15,
+                    }}>
+                    <TextKRBold
+                      style={{
+                        textAlign: 'center',
+                        paddingTop: 10,
+                        fontWeight: '700',
+                        fontSize: 16,
+                        lineHeight: 19,
+                      }}>
+                      +메뉴 추가하기
+                    </TextKRBold>
+                  </TouchableOpacity>
                   <ScrollView
                     horizontal={true}
                     style={{
@@ -336,34 +354,7 @@ const BoardItemDetail: React.FC<DetailProps> = props => {
                     contentContainerStyle={{
                       flexGrow: 1,
                     }}>
-                    {/* <TouchableOpacity
-                      style={{
-                        width: 203,
-                        height: 90,
-                        backgroundColor: WHITE_COLOR,
-                        borderWidth: 1,
-                        borderColor: DARK_GRAY_COLOR,
-                        borderStyle: 'dashed',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        borderRadius: 10,
-                      }}
-                      onPress={props.onPress}>
-                      <Text
-                        style={{
-                          fontFamily: Fonts.Ko,
-                          fontStyle: 'normal',
-                          fontWeight: '700',
-                          fontSize: 14,
-                          lineHeight: 17,
-                          textAlign: 'center',
-                          textAlignVertical: 'center',
-                          color: DARK_GRAY_COLOR,
-                        }}>
-                        + 메뉴 추가하기
-                      </Text>
-                    </TouchableOpacity> */}
-                    <BtnAddMenu onPress={handleSubmit(onSubmitMenu)} />
+                    {/* <BtnAddMenu onPress={handleSubmit(onSubmitMenu)} /> */}
                     {menuList?.map((v, i) => {
                       return (
                         <MenuItem
@@ -392,7 +383,7 @@ const BoardItemDetail: React.FC<DetailProps> = props => {
                         fontSize: 16,
                         lineHeight: 19,
                       }}>
-                      추가하기
+                      모집참여 완료하기
                     </TextKRBold>
                   </TouchableOpacity>
                 </KeyboardAvoidingView>

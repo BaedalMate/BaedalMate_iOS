@@ -172,8 +172,7 @@ const MenuList = (props: menuListProps) => {
                           lineHeight: 24,
                           color: DARK_GRAY_COLOR,
                         }}>
-                        모집 인원에 도달하면 모집이 추가할 메뉴를 적고 메뉴의
-                        금액을 하단에 적어주세요
+                        추가할 메뉴를 적고 메뉴의 금액을 하단에 적어주세요
                       </TextKRReg>
                     </View>
                     <View
