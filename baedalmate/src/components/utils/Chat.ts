@@ -22,6 +22,7 @@ export interface messageI {
   message: string;
   sender: string;
   sendDate: string;
+  senderImage: string;
 }
 
 export interface recruitI {

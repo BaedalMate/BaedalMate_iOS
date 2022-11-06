@@ -288,7 +288,6 @@ export const DetailChatRoom = props => {
                         <MyMessage message={v} />
                       ) : (
                         <>
-                          <Text>{v.sender}</Text>
                           <OpponentMessage message={v} />
                         </>
                       ))}
@@ -355,54 +354,6 @@ export const DetailChatRoom = props => {
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
-      {/* <View
-        style={{
-          position: 'absolute',
-          bottom: 100,
-          backgroundColor: LINE_GRAY_COLOR,
-          width: '100%',
-          paddingBottom: 42,
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-          paddingHorizontal: 15,
-        }}>
-        <TouchableOpacity>
-          <Image source={CAMERA_GRAY_FILLED_ICON} />
-        </TouchableOpacity>
-        <TextInput
-          style={{
-            backgroundColor: WHITE_COLOR,
-            // width: '100%',
-            flex: 1,
-            height: 45,
-            borderRadius: 10,
-            padding: 15,
-            margin: 15,
-            textAlign: 'right',
-          }}
-          value={messageText}
-          onChangeText={newText => {
-            setMessageText(newText);
-          }}
-          maxLength={20}
-        />
-        <TouchableOpacity
-          onPress={handleSubmit(d => {
-            console.log(d);
-            // sendMessage(d);
-          })}>
-          <Image source={SEND_GRAY_FILLED_ICON} />
-        </TouchableOpacity>
-      </View> */}
-      {/* <MessageInput
-        error={errors}
-        name={'message'}
-        control={control}
-        rules={{}}
-        sendMessage={sendMessage}
-        handleSubmit={handleSubmit}
-      /> */}
     </View>
   );
 };

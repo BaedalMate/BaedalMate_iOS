@@ -40,15 +40,24 @@ export const OpponentMessage = ({message}: {message: messageI}) => {
         alignItems: 'baseline',
         justifyContent: 'flex-start',
       }}>
-      <ChatProfileImage image={''} />
-      <MessageGray text={formTime(message.sendDate.toString())} />
+      <View
+        style={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginRight: 7.5,
+          width: 30,
+        }}>
+        <ChatProfileImage image={message.senderImage} />
+        <Text style={{width: '100%'}}>{message.sender}</Text>
+      </View>
+      <MessageGray text={message.message} />
       <Text
         style={{
           textAlign: 'center',
           textAlignVertical: 'bottom',
           marginLeft: 15,
         }}>
-        {message.sendDate}
+        {formTime(message.sendDate)}
       </Text>
     </View>
   );

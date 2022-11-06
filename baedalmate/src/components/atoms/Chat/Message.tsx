@@ -5,7 +5,7 @@ import {PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
 
 export const ChatProfileImage = ({image}: {image: string}) => {
   return (
-    <View style={{marginRight: 7.5}}>
+    <View style={{marginRight: 7.5, width: 30, height: 30}}>
       <Image
         source={{
           uri: image.includes('https') ? image : image.replace('http', 'https'),
