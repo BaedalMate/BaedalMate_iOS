@@ -25,6 +25,8 @@ import {
   SEND_GRAY,
   SEND_GRAY_FILLED_ICON,
   CAMERA_GRAY_FILLED_ICON,
+  BLACK_COLOR,
+  MAIN_GRAY_COLOR,
 } from 'themes/theme';
 import {onChange} from 'react-native-reanimated';
 import SelectDropdown from 'react-native-select-dropdown';
@@ -341,7 +343,7 @@ export const CntInput = ({error, name, control, rules, setValue}) => {
   );
 };
 
-export const PriceInput = ({error, name, control, rules}) => {
+export const PriceInput = ({error, name, control, rules, isLast}) => {
   const {field} = useController({
     control,
     defaultValue: '',
@@ -351,6 +353,7 @@ export const PriceInput = ({error, name, control, rules}) => {
   return (
     <>
       <TextInput
+        editable={isLast ? true : false}
         style={{
           borderWidth:
             name === 'price'
@@ -370,7 +373,8 @@ export const PriceInput = ({error, name, control, rules}) => {
               : 0,
           borderRightWidth: 0,
           borderColor: name === 'price' ? LINE_GRAY_COLOR : ERROR_COLOR,
-          backgroundColor: WHITE_COLOR,
+          backgroundColor: isLast ? WHITE_COLOR : LINE_GRAY_COLOR,
+          color: isLast ? BLACK_COLOR : MAIN_GRAY_COLOR,
           width:
             name === 'price'
               ? 260
@@ -415,7 +419,7 @@ export const PriceInput = ({error, name, control, rules}) => {
               : 0,
           borderLeftWidth: 0,
           borderColor: name === 'price' ? LINE_GRAY_COLOR : ERROR_COLOR,
-          backgroundColor: WHITE_COLOR,
+          backgroundColor: isLast ? WHITE_COLOR : LINE_GRAY_COLOR,
           height: 45,
           padding: 0,
           borderTopRightRadius: 10,
@@ -436,6 +440,7 @@ export const PriceInput = ({error, name, control, rules}) => {
             fontSize: 16,
             lineHeight: 19,
             textAlignVertical: 'center',
+            color: isLast ? BLACK_COLOR : MAIN_GRAY_COLOR,
           }}>
           {name.indexOf('shippingFeeRange') !== -1 ? '원 이상' : '원'}
         </Text>

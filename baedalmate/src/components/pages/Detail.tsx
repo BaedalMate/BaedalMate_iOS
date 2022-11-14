@@ -304,6 +304,8 @@ const BoardItemDetail: React.FC<DetailProps> = props => {
                           name="price"
                           control={control}
                           rules={{}}
+                          isLast={true}
+
                           // rules={{required: true}}
                         />
                       </View>

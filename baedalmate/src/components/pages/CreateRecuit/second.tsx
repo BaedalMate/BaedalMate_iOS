@@ -412,6 +412,7 @@ const CreateRecruit2 = props => {
                   name={'coupon'}
                   control={control}
                   rules={{required: true}}
+                  isLast={true}
                 />
                 {/* <TextInput
                 style={{
