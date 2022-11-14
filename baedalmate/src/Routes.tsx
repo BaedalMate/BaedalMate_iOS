@@ -31,6 +31,8 @@ import {Map} from 'components/molecules/Detail/Map';
 import MyPage from 'components/pages/Setting/MyPage';
 import HostingRecruitList from 'components/pages/Setting/HostingRecruitList';
 import ParticipateRecruitList from 'components/pages/Setting/ParticipateRecruitList';
+import GPS from 'components/pages/Setting/GPS';
+import Dormitory from 'components/pages/Setting/Dormitory';
 
 const AuthStack = createNativeStackNavigator();
 const MainScreenTab = createBottomTabNavigator();
@@ -221,6 +223,36 @@ export const BoardStackComponent = () => {
       <BoardScreenStack.Screen
         name="참여한 모집"
         component={ParticipateRecruitList}
+        options={({navigation, route}) => ({
+          headerBackVisible: false,
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image source={BACK_GRAY} />
+            </TouchableOpacity>
+          ),
+        })}
+      />
+      <BoardScreenStack.Screen
+        name="GPS 인증하기"
+        component={GPS}
+        options={({navigation, route}) => ({
+          headerBackVisible: false,
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image source={BACK_GRAY} />
+            </TouchableOpacity>
+          ),
+        })}
+      />
+      <BoardScreenStack.Screen
+        name="내 거점 설정"
+        component={Dormitory}
         options={({navigation, route}) => ({
           headerBackVisible: false,
           headerLeft: () => (

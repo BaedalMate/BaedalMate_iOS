@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import {LIGHT_GRAY_COLOR, LINE_GRAY_COLOR, WHITE_COLOR} from 'themes/theme';
 import BoardList from 'components/molecules/BoardList/BoardList';
 import Sort from 'components/molecules/BoardList/Sort';
@@ -42,6 +42,18 @@ const MyPage = ({route, navigation}) => {
         navigation.navigate('참여한 모집' as never);
       },
     },
+    {
+      name: '내 거점 설정',
+      onPress: () => {
+        navigation.navigate('내 거점 설정' as never);
+      },
+    },
+    {
+      name: 'GPS 인증하기',
+      onPress: () => {
+        navigation.navigate('GPS 인증하기' as never);
+      },
+    },
   ];
   const MyPageSettingDummyData = [
     {
@@ -63,7 +75,7 @@ const MyPage = ({route, navigation}) => {
   ];
 
   return (
-    <View
+    <ScrollView
       style={{
         width: '100%',
         height: '100%',
@@ -85,7 +97,7 @@ const MyPage = ({route, navigation}) => {
         </View>
       ))}
       <MyPageBottom />
-    </View>
+    </ScrollView>
   );
 };
 
