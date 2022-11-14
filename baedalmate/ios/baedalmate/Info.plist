@@ -62,7 +62,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>Program requires GPS to track cars and job orders</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AppleSDGothicNeo.ttc</string>
