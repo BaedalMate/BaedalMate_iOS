@@ -185,8 +185,12 @@ const Main: React.FunctionComponent<MainProps> = props => {
   // 모집글 리스트 Api 받아옴
   const getMainRecruitList = async () => {
     try {
+      const JWTAccessToken = await getJWTToken();
       const BoardListData = await axios
         .get(mainRecruitListURL, {
+          headers: {
+            Authorization: 'Bearer ' + JWTAccessToken,
+          },
           params: {
             page: 0,
             size: 5,

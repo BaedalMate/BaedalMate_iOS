@@ -6,6 +6,7 @@ import BtnSelectSort from '../Button/BtnSelectSort';
 import BaedalMateRecommendationItem from 'components/atoms/Main/BaedalMateRecommendationItem';
 import {mainRecruitListI, mainRecruitListURL} from 'components/pages/Main';
 import axios from 'axios';
+import {getJWTToken} from 'components/utils/Main';
 
 const BaedalMateRecommendation = ({}: {}) => {
   const [option, setOption] = useState(null);
@@ -16,8 +17,13 @@ const BaedalMateRecommendation = ({}: {}) => {
   // 모집글 리스트 Api 받아옴
   const getMainRecruitSortList = async () => {
     try {
+      const JWTAccessToken = await getJWTToken();
+
       const BoardListData = await axios
         .get(mainRecruitListURL, {
+          headers: {
+            Authorization: 'Bearer ' + JWTAccessToken,
+          },
           params: {
             page: 0,
             size: 5,

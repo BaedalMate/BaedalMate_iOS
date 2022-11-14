@@ -71,8 +71,14 @@ export const DetailChatRoom = props => {
   const [detailChat, setDetailChat] = useState<eachDetailChatRoomI>();
   const getEachChatRoomAPI = async () => {
     try {
+      const JWTAccessToken = await getJWTToken();
+
       const chatRooms = await axios
-        .get(eachChatRoomURL + props.route.params.id)
+        .get(eachChatRoomURL + props.route.params.id, {
+          headers: {
+            Authorization: 'Bearer ' + JWTAccessToken,
+          },
+        })
         .then(function (response) {
           if (response.status === 200) {
             setDetailChat(response.data);
