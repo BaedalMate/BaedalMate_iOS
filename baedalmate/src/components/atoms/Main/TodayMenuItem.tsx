@@ -23,7 +23,9 @@ export const TagComponent = ({item}: {item: CreateTagI}) => {
         marginBottom: 5,
       }}>
       {item.tags.map((v, i) => {
-        return <Tag text={v.tagname} key={i} />;
+        if (i < 2) {
+          return <Tag text={v.tagname} key={i} />;
+        }
       })}
     </View>
   );

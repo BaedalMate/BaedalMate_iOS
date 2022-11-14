@@ -154,8 +154,12 @@ const CreateRecruit3 = props => {
                 text={'태그입력'}
                 onPress={() => {
                   if (newTag !== '') {
-                    setTagList([...tagList, {tagname: newTag}]);
-                    setNewTag('');
+                    if (tagList.length < 4) {
+                      if (newTag.length <= 8) {
+                        setTagList([...tagList, {tagname: newTag}]);
+                        setNewTag('');
+                      }
+                    }
                   }
                 }}
               />
