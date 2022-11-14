@@ -52,6 +52,11 @@ export interface RecruitItemProps {
 const {StatusBarManager} = NativeModules;
 
 const CreateRecruit1 = props => {
+  const [currentShippingFeeRange, setCurrentShippingFeeRange] = useState(0);
+  const [lastShippingFeeRange, setLastShippingFeeRange] = useState(
+    currentShippingFeeRange,
+  );
+  const [lastShippingFee, setLastShippingFee] = useState();
   const {
     control,
     handleSubmit,
@@ -88,6 +93,12 @@ const CreateRecruit1 = props => {
   } = useFieldArray({
     control,
     name: 'shippingFeeRange',
+    rules: {
+      validate: {},
+    },
+    // rules: {
+    //   validate:
+    // }
   });
   const onSubmit = data => {
     console.log(data);
@@ -252,6 +263,7 @@ const CreateRecruit1 = props => {
                   name="minPrice"
                   control={control}
                   rules={{required: true}}
+                  isLast={true}
                 />
               </View>
               {/* <View
@@ -350,11 +362,10 @@ const CreateRecruit1 = props => {
               <TextKRBold style={styles.Label}>마감 기준</TextKRBold>
               <TextKRReg style={styles.Description}>
                 {endStandard === 'people'
-                  ? '모집 인원에 도달하면 '
+                  ? '최소 모집인원이 마감시간 내에 충족된 경우, 최소주문 금액에 관계없이 자동으로 모집이 종료됩니다. (모집성공) 마감시간 까지 최소 모집인원이 충족되지 못한경우, 모집이 취소됩니다. (모집실패)'
                   : endStandard === 'price'
-                  ? '최소 주문 금액에 도달하면 '
-                  : '마감 시간이 되면 '}
-                모집이 완료됩니다{' '}
+                  ? '최소 주문금액이 마감시간 내에 충족된 경우, 최소주문 금액에 관계없이 자동으로 모집이 종료됩니다. (모집성공) 마감시간 까지 최소 모집인원이 충족되지 못한경우, 모집이 취소됩니다. (모집실패)'
+                  : '최소 모집인원과 최소주문 금액 목표에 관계없이 마감시간이 된 경우에만 모집이 종료됩니다.'}
               </TextKRReg>
               <View
                 style={{
@@ -545,7 +556,23 @@ const CreateRecruit1 = props => {
                                 error={errors}
                                 name={`shippingFeeRange[${index}].name`}
                                 control={control}
-                                rules={{required: checked === 'false' && true}}
+                                rules={{
+                                  validate: v =>
+                                    shippingFeeRangeFields.length > 0
+                                      ? Number(v) > 0
+                                      : Number(v) >
+                                        Number(
+                                          shippingFeeRangeFields[
+                                            shippingFeeRangeFields.length - 1
+                                          ],
+                                        ),
+                                  required: checked === 'false' && true,
+                                }}
+                                isLast={
+                                  shippingFeeRangeFields.length - 1 === index
+                                    ? true
+                                    : false
+                                }
                               />
                             </View>
                             {/* ))}
@@ -573,7 +600,14 @@ const CreateRecruit1 = props => {
                                 error={errors}
                                 name={`shippingFee[${index}].name`}
                                 control={control}
-                                rules={{required: checked === 'false' && true}}
+                                rules={{
+                                  required: checked === 'false' && true,
+                                }}
+                                isLast={
+                                  shippingFeeRangeFields.length - 1 === index
+                                    ? true
+                                    : false
+                                }
                               />
                             </View>
                           </View>
@@ -599,6 +633,14 @@ const CreateRecruit1 = props => {
                           name: `shippingFeeRange[${shippingFeeCnt + 1}].name`,
                           value: '',
                         });
+                        setCurrentShippingFeeRange(
+                          Number(
+                            shippingFeeRangeFields[
+                              shippingFeeRangeFields.length - 1
+                            ].name,
+                          ),
+                        );
+                        setLastShippingFeeRange(currentShippingFeeRange);
                         setValue(`shippingFee.${shippingFeeCnt + 1}.name`, '');
                         setValue(
                           `shippingFeeRange.${shippingFeeCnt + 1}.name`,
