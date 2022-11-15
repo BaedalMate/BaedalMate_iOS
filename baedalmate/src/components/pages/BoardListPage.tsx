@@ -7,6 +7,7 @@ import {CategoryList} from 'components/atoms/BoardList/CategoryItem';
 import BtnFloating from 'components/atoms/Button/BtnFloating';
 import axios from 'axios';
 import {recruitListURL} from './Main';
+import {getJWTToken} from 'components/utils/Main';
 
 export const sortData = [
   {name: '마감순', value: 'deadlineDate'},
@@ -24,10 +25,15 @@ const BoardListPage = ({route, navigation}) => {
   // 모집글 리스트 Api 받아옴
   const getBoardListData = async () => {
     try {
+      const JWTAccessToken = await getJWTToken();
+
       const BoardListData =
         categoryId === 0
           ? await axios
               .get(recruitListURL, {
+                headers: {
+                  Authorization: 'Bearer ' + JWTAccessToken,
+                },
                 params: {
                   page: 0,
                   // size: 10,
@@ -49,6 +55,9 @@ const BoardListPage = ({route, navigation}) => {
               })
           : await axios
               .get(recruitListURL, {
+                headers: {
+                  Authorization: 'Bearer ' + JWTAccessToken,
+                },
                 params: {
                   categoryId: categoryId,
                   page: 0,
