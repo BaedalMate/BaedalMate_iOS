@@ -63,6 +63,7 @@ const CreateRecruit1 = props => {
     register,
     watch,
     setValue,
+    getValues,
     formState: {errors},
   } = useForm({
     defaultValues: {
@@ -128,7 +129,6 @@ const CreateRecruit1 = props => {
         upperPrice: Number(0),
       });
     }
-    console.log('shippingFee', shippingFee);
     props.navigation.navigate('상세 설정2', {
       data,
       deadlineDate: deadline.toISOString(),
@@ -180,6 +180,9 @@ const CreateRecruit1 = props => {
   //   return ret;
   // };
 
+  useEffect(() => {
+    console.log(shippingFeeFields, shippingFeeRangeFields);
+  }, [shippingFeeFields, shippingFeeRangeFields]);
   return (
     <View
       style={{
@@ -625,28 +628,71 @@ const CreateRecruit1 = props => {
                     </View>
                     <BtnAddDeliveryFee
                       onPress={() => {
-                        shippingFeeAppend({
-                          name: `shippingFee[${shippingFeeCnt + 1}].name`,
-                          value: '',
-                        });
-                        shippingFeeRangeAppend({
-                          name: `shippingFeeRange[${shippingFeeCnt + 1}].name`,
-                          value: '',
-                        });
-                        setCurrentShippingFeeRange(
-                          Number(
-                            shippingFeeRangeFields[
-                              shippingFeeRangeFields.length - 1
-                            ].name,
-                          ),
-                        );
-                        setLastShippingFeeRange(currentShippingFeeRange);
-                        setValue(`shippingFee.${shippingFeeCnt + 1}.name`, '');
-                        setValue(
-                          `shippingFeeRange.${shippingFeeCnt + 1}.name`,
-                          '',
-                        );
-                        setShippingFeeCnt(shippingFeeCnt + 1);
+                        console.log(shippingFeeRangeFields, shippingFeeFields);
+                        // setCurrentShippingFeeRange(
+                        //   Number(
+                        //     shippingFeeRangeFields[
+                        //       shippingFeeRangeFields.length - 1
+                        //     ].name,
+                        //   ),
+                        // );
+                        // setLastShippingFeeRange(currentShippingFeeRange);
+                        // if (
+                        //   shippingFeeRangeFields[shippingFeeFields.length - 1]
+                        //     .name &&
+                        //   shippingFeeFields[shippingFeeRangeFields.length - 1]
+                        //     .name
+                        // )
+
+                        const values = getValues([
+                          `shippingFee`,
+                          `shippingFeeRange`,
+                        ]);
+                        console.log(values[0][shippingFeeCnt].name);
+                        shippingFeeCnt > 0 &&
+                          console.log(
+                            values[1][shippingFeeCnt - 1].name,
+                            values[1][shippingFeeCnt].name,
+                          );
+                        if (
+                          values[0][shippingFeeCnt].name && shippingFeeCnt > 0
+                            ? values[1][shippingFeeCnt].name >
+                              values[1][shippingFeeCnt - 1].name
+                            : values[1][shippingFeeCnt].name
+                        ) {
+                          shippingFeeAppend({
+                            name: `shippingFee.${shippingFeeCnt + 1}.name`,
+                            value: '',
+                          });
+                          shippingFeeRangeAppend({
+                            name: `shippingFeeRange.${shippingFeeCnt + 1}.name`,
+                            value: '',
+                          });
+
+                          setValue(
+                            `shippingFee.${shippingFeeCnt + 1}.name`,
+                            '',
+                          );
+                          setValue(
+                            `shippingFeeRange.${shippingFeeCnt + 1}.name`,
+                            '',
+                          );
+                          setShippingFeeCnt(shippingFeeCnt + 1);
+
+                          console.log(
+                            shippingFeeFields,
+                            shippingFeeRangeFields,
+                            shippingFeeCnt,
+                          );
+                          if (
+                            shippingFeeRangeFields[shippingFeeCnt].name &&
+                            shippingFeeFields[shippingFeeCnt].name
+                          ) {
+                            setShippingFeeCnt(shippingFeeCnt - 1);
+                            shippingFeeRemove(shippingFeeCnt);
+                            shippingFeeRangeRemove(shippingFeeCnt);
+                          }
+                        }
                       }}
                     />
                   </View>
