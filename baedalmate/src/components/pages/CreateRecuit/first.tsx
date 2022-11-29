@@ -131,7 +131,9 @@ const CreateRecruit1 = props => {
     }
     props.navigation.navigate('상세 설정2', {
       data,
-      deadlineDate: deadline.toISOString(),
+      deadlineDate: new Date(
+        deadline.getTime() - deadline.getTimezoneOffset() * 60000,
+      ).toISOString(),
       shippingFee: shippingFee,
       categoryId: props.route.params.categoryId,
     });
