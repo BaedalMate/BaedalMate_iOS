@@ -16,7 +16,7 @@ import {url} from '../../../../App';
 
 const BaedalMateRecommendationItem = ({item}: {item: eachMainRecruitListI}) => {
   const now = new Date();
-  const deadline = new Date(item.deadlineDate);
+  const deadline = new Date(item?.deadlineDate);
   const time = deadline.getTime() - now.getTime();
   const durationYear = deadline.getFullYear() - now.getFullYear();
   const durationMonth = deadline.getMonth() - now.getMonth();
@@ -46,7 +46,7 @@ const BaedalMateRecommendationItem = ({item}: {item: eachMainRecruitListI}) => {
         navigation.navigate(
           '글 상세 보기' as never,
           {
-            id: item.id,
+            id: item?.id,
           } as never,
         );
       }}>
@@ -58,7 +58,7 @@ const BaedalMateRecommendationItem = ({item}: {item: eachMainRecruitListI}) => {
           borderRadius: 10,
         }}>
         <Image
-          source={{uri: url + '/images/' + item.image}}
+          source={{uri: url + '/images/' + item?.image}}
           resizeMode="cover"
           // source={{uri: item.imgUrl}}
           style={{
@@ -79,7 +79,7 @@ const BaedalMateRecommendationItem = ({item}: {item: eachMainRecruitListI}) => {
             style={{
               fontSize: 18,
             }}>
-            {item.place}{' '}
+            {item?.place}{' '}
           </TextKRBold>
           <View
             style={{
@@ -99,7 +99,7 @@ const BaedalMateRecommendationItem = ({item}: {item: eachMainRecruitListI}) => {
                 source={PEOPLE_BLACK}
                 style={{width: 17, height: 15, resizeMode: 'contain'}}
               />{' '}
-              {item.currentPeople}/{item.minPeople}
+              {item?.currentPeople}/{item?.minPeople}
             </TextKRBold>
             <TextKRBold
               style={{
@@ -121,19 +121,19 @@ const BaedalMateRecommendationItem = ({item}: {item: eachMainRecruitListI}) => {
           <TextKRReg>
             배달팁{' '}
             <TextKRBold style={{fontWeight: 'bold'}}>
-              {formPrice(item.shippingFee)}원
+              {formPrice(item?.shippingFee)}원
             </TextKRBold>
           </TextKRReg>
           <TextKRReg>
             최소주문{' '}
             <TextKRBold style={{fontWeight: 'bold'}}>
-              {formPrice(item.minPrice)}원
+              {formPrice(item?.minPrice)}원
             </TextKRBold>
           </TextKRReg>
           <TextKRReg>
-            {item.username} &middot; {item.dormitory}{' '}
+            {item?.username} &middot; {item?.dormitory}{' '}
             <Image source={STAR_BLACK} style={{width: 14, height: 14}}></Image>{' '}
-            {item.userScore}
+            {item?.userScore}
           </TextKRReg>
         </View>
       </View>

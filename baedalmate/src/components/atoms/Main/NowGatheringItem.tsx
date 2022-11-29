@@ -9,22 +9,9 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
 import {url} from '../../../../App';
 
-// export interface mainRecruitListI {
-//   id: number;
-//   place: string;
-//   minPeople: number;
-//   currentPeople: number;
-//   createDate: string;
-//   deadlineDate: string;
-//   username: string;
-//   userScore: number;
-//   dormitory: string;
-//   shippingFee: number;
-//   image: string | null;
-// }
 const NowGatheringItem = ({item}: {item: eachMainRecruitListI}) => {
   const now = new Date();
-  const deadline = new Date(item.deadlineDate);
+  const deadline = new Date(item?.deadlineDate);
   const time = deadline.getTime() - now.getTime();
   const durationYear = deadline.getFullYear() - now.getFullYear();
   const durationMonth = deadline.getMonth() - now.getMonth();
@@ -68,7 +55,7 @@ const NowGatheringItem = ({item}: {item: eachMainRecruitListI}) => {
         }}>
         <ImageBackground
           resizeMode="cover"
-          source={{uri: url + '/images/' + item.image}}
+          source={{uri: url + '/images/' + item?.image}}
           style={{
             width: '100%',
             height: '100%',
@@ -95,8 +82,8 @@ const NowGatheringItem = ({item}: {item: eachMainRecruitListI}) => {
                   color: WHITE_COLOR,
                   fontSize: 16,
                 }}>
-                <Image source={PEOPLE_WHITE} /> {item.currentPeople}/
-                {item.minPeople}
+                <Image source={PEOPLE_WHITE} /> {item?.currentPeople}/
+                {item?.minPeople}
                 {'\t'}
                 <Image source={TIMER_WHITE} /> {timeText}
               </TextKRBold>
@@ -114,26 +101,26 @@ const NowGatheringItem = ({item}: {item: eachMainRecruitListI}) => {
                   marginBottom: 10,
                   fontSize: 18,
                 }}>
-                {item.place}{' '}
+                {item?.place}{' '}
               </TextKRBold>
               <TextKRReg style={{color: WHITE_COLOR}}>
                 배달팁{' '}
                 <TextKRBold style={{fontWeight: 'bold'}}>
-                  {formPrice(item.shippingFee)}원
+                  {formPrice(item?.shippingFee)}원
                 </TextKRBold>
               </TextKRReg>
               <TextKRReg style={{color: WHITE_COLOR}}>
                 최소주문{' '}
                 <TextKRBold style={{fontWeight: 'bold'}}>
-                  {formPrice(item.minPrice)}원
+                  {formPrice(item?.minPrice)}원
                 </TextKRBold>
               </TextKRReg>
               <TextKRReg style={{color: WHITE_COLOR}}>
-                {item.username} &middot; {item.dormitory}{' '}
+                {item?.username} &middot; {item?.dormitory}{' '}
                 <Image
                   source={STAR_WHITE}
                   style={{width: 14, height: 14}}></Image>{' '}
-                {item.userScore}
+                {item?.userScore}
               </TextKRReg>
             </View>
           </View>
