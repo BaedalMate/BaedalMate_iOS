@@ -111,7 +111,8 @@ const Main: React.FunctionComponent<MainProps> = props => {
   const [dormitory, setDormitory] = useState('성림학사');
   const [profileImage, setProfileImage] = useState('');
   //recruit 관련 state
-  const [mainRecruitList, setMainRecruitList] = useState<mainRecruitListI>();
+  const [mainRecruitList, setMainRecruitList] =
+    useState<eachMainRecruitListI[]>();
   const [mainTagRecruitList, setMainTagRecruitList] =
     useState<mainTagRecruitListI>({
       recruitList: [
@@ -320,6 +321,11 @@ const Main: React.FunctionComponent<MainProps> = props => {
   //   };
   // }, [dormitory]);
 
+  // const getDormitory = async () => {
+  //     const dormitory = await AsyncStorage.getItem('@BaedalMate_Dormitory');
+  //     setTarget(originTarget);
+  // };
+
   useEffect(() => {
     getUserData();
     getMainRecruitList();
@@ -333,7 +339,6 @@ const Main: React.FunctionComponent<MainProps> = props => {
     getMainTagRecruitList();
     // getRecruitList();
   }, [nickname, dormitory]);
-
   return (
     <>
       <View

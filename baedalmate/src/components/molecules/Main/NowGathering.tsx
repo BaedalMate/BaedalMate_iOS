@@ -1,4 +1,4 @@
-import {mainRecruitListI} from 'components/pages/Main';
+import {eachMainRecruitListI, mainRecruitListI} from 'components/pages/Main';
 import React from 'react';
 
 import {View} from 'react-native';
@@ -16,7 +16,7 @@ import NowGatheringItem from '../../atoms/Main/NowGatheringItem';
 const NowGathering = ({
   mainRecruitList,
 }: {
-  mainRecruitList: mainRecruitListI;
+  mainRecruitList: eachMainRecruitListI[];
 }) => {
   return (
     <View>
@@ -25,11 +25,13 @@ const NowGathering = ({
         contentContainerStyle={{
           flexGrow: 1,
         }}>
-        <NowGatheringItem item={mainRecruitList[0]}></NowGatheringItem>
-        <NowGatheringItem item={mainRecruitList[1]}></NowGatheringItem>
-        <NowGatheringItem item={mainRecruitList[2]}></NowGatheringItem>
-        <NowGatheringItem item={mainRecruitList[3]}></NowGatheringItem>
-        <NowGatheringItem item={mainRecruitList[4]}></NowGatheringItem>
+        {mainRecruitList.map((v, i) => (
+          <NowGatheringItem item={v}></NowGatheringItem>
+          // <NowGatheringItem item={mainRecruitList[1]}></NowGatheringItem>
+          // <NowGatheringItem item={mainRecruitList[2]}></NowGatheringItem>
+          // <NowGatheringItem item={mainRecruitList[3]}></NowGatheringItem>
+          // <NowGatheringItem item={mainRecruitList[4]}></NowGatheringItem>
+        ))}
       </ScrollView>
     </View>
   );

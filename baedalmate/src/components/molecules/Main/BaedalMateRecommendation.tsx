@@ -4,7 +4,11 @@ import {View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import BtnSelectSort from '../Button/BtnSelectSort';
 import BaedalMateRecommendationItem from 'components/atoms/Main/BaedalMateRecommendationItem';
-import {mainRecruitListI, mainRecruitListURL} from 'components/pages/Main';
+import {
+  eachMainRecruitListI,
+  mainRecruitListI,
+  mainRecruitListURL,
+} from 'components/pages/Main';
 import axios from 'axios';
 import {getJWTToken} from 'components/utils/Main';
 
@@ -12,7 +16,7 @@ const BaedalMateRecommendation = ({}: {}) => {
   const [option, setOption] = useState(null);
 
   const [mainRecruitSortList, setMainRecruitSortList] =
-    useState<mainRecruitListI>();
+    useState<eachMainRecruitListI[]>();
   // 메인 모집글 리스트 api
   // 모집글 리스트 Api 받아옴
   const getMainRecruitSortList = async () => {
@@ -72,17 +76,10 @@ const BaedalMateRecommendation = ({}: {}) => {
         contentContainerStyle={{
           flexGrow: 1,
         }}>
-        {mainRecruitSortList ? (
-          <>
+        {mainRecruitSortList &&
+          mainRecruitSortList.map((v, i) => (
             <BaedalMateRecommendationItem item={mainRecruitSortList[0]} />
-            <BaedalMateRecommendationItem item={mainRecruitSortList[1]} />
-            <BaedalMateRecommendationItem item={mainRecruitSortList[2]} />
-            <BaedalMateRecommendationItem item={mainRecruitSortList[3]} />
-            <BaedalMateRecommendationItem item={mainRecruitSortList[4]} />
-          </>
-        ) : (
-          <></>
-        )}
+          ))}
       </ScrollView>
     </View>
   );
