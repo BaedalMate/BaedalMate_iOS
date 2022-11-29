@@ -1,22 +1,11 @@
-import Geolocation from '@react-native-community/geolocation';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import {DormitoryList} from 'components/atoms/BottomSheet/ChangeDormitoryBottomSheet';
-import BtnCreateFloating from 'components/atoms/Button/BtnCreateFloating';
-import {BtnActive} from 'components/atoms/Button/BtnEndStandard';
 import BtnVerticalOrange from 'components/atoms/Button/BtnVerticalOrange';
-import Description from 'components/molecules/Detail/Description';
-import {Map} from 'components/molecules/Setting/Map';
 import {getJWTToken} from 'components/utils/Main';
-import React, {useEffect, useState} from 'react';
-import {
-  AsyncStorage,
-  Button,
-  FlatList,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React, {useState} from 'react';
+import {FlatList, TouchableOpacity, View} from 'react-native';
 import {TextKRBold, TextKRReg} from 'themes/text';
 import {
   DARK_GRAY_COLOR,
@@ -31,12 +20,14 @@ export interface LocationI {
   longitude: number;
 }
 const Dormitory = props => {
-  const [location, setLocation] = useState<LocationI>();
-  const [modal, setModal] = useState(false);
+  // const [changedDormitory, setChangedDormitory] = useState();
+  // const [location, setLocation] = useState<LocationI>();
+  // const [modal, setModal] = useState(false);
+  const router = useNavigation();
   const [selectedAddress, setSelectedAddress] = useState(props.userAddress);
-  const handleModal = () => {
-    modal ? setModal(false) : setModal(true);
-  };
+  // const handleModal = () => {
+  //   modal ? setModal(false) : setModal(true);
+  // };
 
   // User dormitory 변경
   const putUserDormitory = async () => {
@@ -73,6 +64,7 @@ const Dormitory = props => {
           AsyncStorage.setItem('@BaedalMate_Dormitory', changedDormitory);
           // 해당 페이지는 렌더링 문제로 state 설정 후 사용
           props.setDormitory(changedDormitory);
+
           return response.data;
         })
         .catch(function (error) {
@@ -112,68 +104,63 @@ const Dormitory = props => {
     );
   };
 
-  useEffect(() => {
-    putUserDormitory();
-  }, [selectedAddress]);
+  // useEffect(() => {
+  //   putUserDormitory();
+  // }, [selectedAddress]);
 
-  useEffect(() => {
-    Geolocation.getCurrentPosition(
-      position => {
-        const {latitude, longitude} = position.coords;
-        setLocation({
-          latitude,
-          longitude,
-        });
-      },
-      error => {
-        console.log(error.code, error.message);
-      },
-      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
-    );
-  }, []);
+  // useEffect(() => {
+  //   Geolocation.getCurrentPosition(
+  //     position => {
+  //       const {latitude, longitude} = position.coords;
+  //       setLocation({
+  //         latitude,
+  //         longitude,
+  //       });
+  //     },
+  //     error => {
+  //       console.log(error.code, error.message);
+  //     },
+  //     {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+  //   );
+  // }, []);
   return (
     <View style={{backgroundColor: WHITE_COLOR, width: '100%', height: '100%'}}>
-      {location ? (
-        <View style={{width: '100%', height: '100%', padding: 10}}>
-          <View style={{marginVertical: 10, flex: 1}}>
-            <TextKRBold
-              style={{
-                fontSize: 18,
-                justifyContents: 'center',
-                alignItems: 'center',
-                textAlign: 'center',
-                marginVertical: 10,
-              }}>
-              거점 선택
-            </TextKRBold>
-            <TextKRReg
-              style={{
-                color: DARK_GRAY_COLOR,
-              }}>
-              거점을 선택한 뒤 'GPS 인증하기'에서 거점 인증을 완료해주세요.
-            </TextKRReg>
-          </View>
-          <View style={{width: '100%', flex: 4}}>
-            <FlatList data={DormitoryList} renderItem={renderItem} />
-          </View>
-          <View
+      <View style={{width: '100%', height: '100%', padding: 10}}>
+        <View style={{marginVertical: 10, flex: 1}}>
+          <TextKRBold
             style={{
-              flex: 1,
-              width: '100%',
+              fontSize: 18,
+              justifyContents: 'center',
               alignItems: 'center',
+              textAlign: 'center',
+              marginVertical: 10,
             }}>
-            <BtnVerticalOrange
-              onPress={() => {}}
-              text={'거점 설정하기'}></BtnVerticalOrange>
-          </View>
+            거점 선택
+          </TextKRBold>
+          <TextKRReg
+            style={{
+              color: DARK_GRAY_COLOR,
+            }}>
+            거점을 선택한 뒤 'GPS 인증하기'에서 거점 인증을 완료해주세요.
+          </TextKRReg>
         </View>
-      ) : (
-        // <>
-        //   <Text>Latitude:{location.latitude}</Text>
-        //   <Text>Longitude:{location.longitude}</Text>
-        // </>
-        <Text>Loading</Text>
-      )}
+        <View style={{width: '100%', flex: 4}}>
+          <FlatList data={DormitoryList} renderItem={renderItem} />
+        </View>
+        <View
+          style={{
+            flex: 1,
+            width: '100%',
+            alignItems: 'center',
+          }}>
+          <BtnVerticalOrange
+            onPress={() => {
+              putUserDormitory();
+              router.goBack();
+            }}
+            text={'거점 설정하기'}></BtnVerticalOrange>
+        </View>
+      </View>
     </View>
   );
 };

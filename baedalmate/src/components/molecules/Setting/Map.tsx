@@ -19,9 +19,14 @@ export const Map = ({location}: {location: LocationI}) => {
   }, [location]);
   return (
     <WebView
+      originWhitelist={['*']}
       source={{
-        uri: url,
+        uri: placeUrl,
       }}
+      geolocationEnabled={true}
+      javaScriptEnabled={true}
+      domStorageEnabled={true}
+      startInLoadingState={false}
     />
   );
 };

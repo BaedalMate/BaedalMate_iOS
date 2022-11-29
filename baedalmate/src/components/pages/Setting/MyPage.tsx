@@ -18,7 +18,7 @@ export interface MyPageI {
   score: string;
   dormitory: string;
 }
-const MyPageUserDummyData = {
+export const MyPageUserDummyData = {
   profileImage:
     'https://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg',
   userName: '김예빈',
@@ -42,12 +42,12 @@ const MyPage = ({route, navigation}) => {
         navigation.navigate('참여한 모집' as never);
       },
     },
-    {
-      name: '내 거점 설정',
-      onPress: () => {
-        navigation.navigate('내 거점 설정' as never);
-      },
-    },
+    // {
+    //   name: '내 거점 설정',
+    //   onPress: () => {
+    //     navigation.navigate('내 거점 설정' as never);
+    //   },
+    // },
     {
       name: 'GPS 인증하기',
       onPress: () => {
