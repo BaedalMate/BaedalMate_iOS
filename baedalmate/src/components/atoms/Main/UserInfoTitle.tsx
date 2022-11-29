@@ -11,6 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {userURL} from 'components/pages/Main';
 import {getJWTToken} from 'components/utils/Main';
+import {useNavigation} from '@react-navigation/native';
 
 const Item = ({title}) => null;
 export type UserAddressProps = {
@@ -24,6 +25,7 @@ const UserInfoTitle = ({userName, userAddress, setDormitory}) => {
   const handleModal = () => {
     modal ? setModal(false) : setModal(true);
   };
+  const navigation = useNavigation();
 
   // User dormitory 변경
   const putUserDormitory = async () => {
@@ -37,6 +39,16 @@ const UserInfoTitle = ({userName, userAddress, setDormitory}) => {
         : selectedAddress === '불암학사'
         ? 'BURAM'
         : 'NURI';
+    // let dormIndex =
+    //   changedDormitory === 'NURI'
+    //     ? 0
+    //     : changedDormitory === 'SUNGLIM'
+    //     ? 1
+    //     : changedDormitory === 'KB'
+    //     ? 2
+    //     : changedDormitory === 'BURAM'
+    //     ? 3
+    //     : 4;
     const JWTAccessToken = await getJWTToken();
     console.log(changedDormitory, JWTAccessToken);
     try {
@@ -99,10 +111,13 @@ const UserInfoTitle = ({userName, userAddress, setDormitory}) => {
     );
   };
 
+  // useEffect(() => {
+  //   putUserDormitory();
+  // }, [selectedAddress]);
   useEffect(() => {
-    putUserDormitory();
-  }, [selectedAddress]);
-
+    console.log(userAddress, selectedAddress);
+    setSelectedAddress(userAddress);
+  }, []);
   return (
     <>
       <View
@@ -193,56 +208,58 @@ const UserInfoTitle = ({userName, userAddress, setDormitory}) => {
                 flexDirection: 'column',
                 justifyContent: 'center',
                 alignItems: 'center',
+              }}
+              onTouchEnd={handleModal}></View>
+            <View
+              style={{
+                position: 'absolute',
+                bottom: 0,
+                width: '100%',
+                height: 383,
+                backgroundColor: WHITE_COLOR,
+                borderTopLeftRadius: 10,
+                borderTopRightRadius: 10,
               }}>
               <View
                 style={{
-                  position: 'absolute',
-                  bottom: 0,
                   width: '100%',
-                  height: 383,
-                  backgroundColor: WHITE_COLOR,
-                  borderTopLeftRadius: 10,
-                  borderTopRightRadius: 10,
+                  height: 35,
+                  justifyContent: 'center',
+                  borderBottomWidth: 1,
+                  borderBottomColor: LINE_GRAY_COLOR,
                 }}>
-                <View
+                <TextKRReg
                   style={{
-                    width: '100%',
-                    height: 35,
-                    justifyContent: 'center',
-                    borderBottomWidth: 1,
-                    borderBottomColor: LINE_GRAY_COLOR,
+                    textAlign: 'center',
+                    fontWeight: '400',
+                    fontSize: 14,
+                    lineHeight: 24,
                   }}>
-                  <TextKRReg
-                    style={{
-                      textAlign: 'center',
-                      fontWeight: '400',
-                      fontSize: 14,
-                      lineHeight: 24,
-                    }}>
-                    배달거점
-                  </TextKRReg>
-                </View>
-                <View>
-                  <FlatList data={DormitoryList} renderItem={renderItem} />
-                </View>
-                <TouchableOpacity
-                  onPress={handleModal}
-                  style={{
-                    width: '100%',
-                    justifyContent: 'center',
-                  }}>
-                  <TextKRBold
-                    style={{
-                      textAlign: 'center',
-                      paddingTop: 11,
-                      fontWeight: '400',
-                      fontSize: 16,
-                      lineHeight: 22,
-                    }}>
-                    확인
-                  </TextKRBold>
-                </TouchableOpacity>
+                  배달거점
+                </TextKRReg>
               </View>
+              <View>
+                <FlatList data={DormitoryList} renderItem={renderItem} />
+              </View>
+              <TouchableOpacity
+                onPress={() => {
+                  handleModal(), navigation.navigate('GPS 인증하기' as never);
+                }}
+                style={{
+                  width: '100%',
+                  justifyContent: 'center',
+                }}>
+                <TextKRBold
+                  style={{
+                    textAlign: 'center',
+                    paddingTop: 11,
+                    fontWeight: '400',
+                    fontSize: 16,
+                    lineHeight: 22,
+                  }}>
+                  확인
+                </TextKRBold>
+              </TouchableOpacity>
             </View>
           </Modal>
         </View>
