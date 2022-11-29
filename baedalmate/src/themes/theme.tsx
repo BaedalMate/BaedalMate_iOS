@@ -130,8 +130,10 @@ const CAMERA_GRAY_FILLED_ICON = require('../assets/icons/camera/camera_gray_fill
 const SEND_GRAY_FILLED_ICON = require('../assets/icons/send/send_gray_filled.png');
 
 const RIGHT_ARROW_GRAY = require('../assets/icons/arrow/right_arrow_gray.png');
+const SETTING_HORIZONTAL_GRAY_ICON = require('../assets/icons/setting/setting_horizontal_gray.png');
 
 export {
+  SETTING_HORIZONTAL_GRAY_ICON,
   CATEGORY_ALL_IMG,
   LOGO,
   LOGO_SOLID_MAIN,
