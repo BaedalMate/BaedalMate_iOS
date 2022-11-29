@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {url} from '../../../App';
 import axios from 'axios';
-import {getJWTToken} from './Main';
+import {getJWTToken, placeI, shippingFeeI} from './Main';
 
 export interface eachChatRoomI {
   id: number;
@@ -21,19 +21,35 @@ export interface messageI {
   id: number;
   message: string;
   sender: string;
+  senderId: number;
   sendDate: string;
   senderImage: string;
 }
 
 export interface recruitI {
   active: boolean;
-  createDate: string;
+  cancel: boolean;
   criteria: string;
+  coupon: number;
+  currentPeople: number;
+  currentPrice: number;
   deadlineDate: string;
+  description: string;
+  dormitory: string;
+  host: boolean;
+  image: string;
   minPeople: number;
   minPrice: number;
+  participage: boolean;
+  place: placeI;
+  platform: string;
+  profileImage: string;
   recruitId: number;
+  score: number;
+  shippingFee: number;
+  shippingFeeDetail: shippingFeeI[];
   title: string;
+  username: string;
 }
 
 export interface eachDetailChatRoomI {
@@ -77,8 +93,8 @@ export const formTime = (time: string) => {
 
   let timeText =
     (date.getHours() < 12 ? '오전 ' : '오후 ') +
-    date.getHours() +
+    date.getHours().toString().padStart(2, '0') +
     ':' +
-    date.getMinutes();
+    date.getMinutes().toString().padStart(2, '0');
   return timeText;
 };
