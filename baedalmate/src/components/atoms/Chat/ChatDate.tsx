@@ -25,6 +25,8 @@ export const ChatDate = ({item}: {item: messageI}) => {
   const handlePress = () => {
     setColour('#FFF3F0');
   };
+  const timeText =
+    item?.sendDate.split(' ')[0] + 'T' + item?.sendDate.split(' ')[1];
 
   return (
     <View
@@ -43,7 +45,7 @@ export const ChatDate = ({item}: {item: messageI}) => {
         }}
       />
       <View>
-        <Text>{formDate(item.sendDate)}</Text>
+        <Text>{formDate(timeText)}</Text>
       </View>
       <View
         style={{

@@ -10,6 +10,9 @@ import {formTime, messageI} from 'components/utils/Chat';
 import {recvI, sendI} from 'components/pages/DetailChatRoom';
 
 export const MyMessage = ({message}: {message: messageI}) => {
+  const timeText =
+    message?.sendDate.split(' ')[0] + 'T' + message?.sendDate.split(' ')[1];
+
   return (
     <View
       style={{
@@ -24,7 +27,7 @@ export const MyMessage = ({message}: {message: messageI}) => {
           textAlignVertical: 'bottom',
           marginRight: 15,
         }}>
-        {formTime(message.sendDate.toString())}
+        {formTime(timeText.toString())}
       </Text>
       <MessageOrange text={message.message} />
     </View>
@@ -32,6 +35,9 @@ export const MyMessage = ({message}: {message: messageI}) => {
 };
 
 export const OpponentMessage = ({message}: {message: messageI}) => {
+  const timeText =
+    message?.sendDate.split(' ')[0] + 'T' + message?.sendDate.split(' ')[1];
+
   return (
     <View
       style={{
@@ -57,7 +63,7 @@ export const OpponentMessage = ({message}: {message: messageI}) => {
           textAlignVertical: 'bottom',
           marginLeft: 15,
         }}>
-        {formTime(message.sendDate)}
+        {formTime(timeText)}
       </Text>
     </View>
   );

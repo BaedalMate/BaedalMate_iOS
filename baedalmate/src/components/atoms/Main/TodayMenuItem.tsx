@@ -38,7 +38,9 @@ export const TodayMenuItem = ({
   index: any;
 }) => {
   const now = new Date();
-  const deadline = new Date(item.deadlineDate);
+  const text =
+    item?.deadlineDate.split(' ')[0] + 'T' + item?.deadlineDate.split(' ')[1];
+  const deadline = new Date(text);
   const time = deadline.getTime() - now.getTime();
 
   // const durationYear = deadline.getFullYear() - now.getFullYear();

@@ -51,7 +51,9 @@ const OrangeTag = ({item}: {item: BoardListProps | recruitI}) => {
   //     ? item.minPeople + '인 모집'
   //     : item.deadlineDate;
   const now = new Date();
-  const deadline = new Date(item.deadlineDate);
+  const text =
+    item?.deadlineDate.split(' ')[0] + 'T' + item?.deadlineDate.split(' ')[1];
+  const deadline = new Date(text);
   const time = deadline.getTime() - now.getTime();
   const durationYear = deadline.getFullYear() - now.getFullYear();
   const durationMonth = deadline.getMonth() - now.getMonth();

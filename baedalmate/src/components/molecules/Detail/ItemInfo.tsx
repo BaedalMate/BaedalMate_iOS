@@ -1,6 +1,6 @@
 import {RecruitItemProps} from 'components/pages/Detail';
 import {formPrice} from 'components/utils/Main';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {TextKRBold} from 'themes/text';
 import {DARK_GRAY_COLOR, LINE_GRAY_COLOR, QUESTION_MARK} from 'themes/theme';
@@ -11,9 +11,11 @@ export type BtnWithoutTextProps = {
 };
 
 const ItemInfo = ({item}: {item: RecruitItemProps | undefined}) => {
-  const deadline = item?.deadlineDate ? new Date(item?.deadlineDate) : '';
-  const durationHour = deadline !== '' ? deadline.getHours() : '';
-  const durationMinutes = deadline !== '' ? deadline.getMinutes() : '';
+  const text =
+    item?.deadlineDate.split(' ')[0] + 'T' + item?.deadlineDate.split(' ')[1];
+  const deadline = new Date(text);
+  const durationHour = deadline.getHours();
+  const durationMinutes = deadline.getMinutes();
   const timeText = durationHour + '시 ' + durationMinutes + '분';
   const [modal, setModal] = useState(false);
   const handleModal = () => {
