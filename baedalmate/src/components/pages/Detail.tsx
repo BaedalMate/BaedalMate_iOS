@@ -216,9 +216,9 @@ const BoardItemDetail: React.FC<DetailProps> = props => {
               }}
             />
             <KeyboardAvoidingView
-              // style={styles.avoidingView}
+              style={styles.avoidingView}
               behavior={Platform.select({ios: 'padding'})}
-              keyboardVerticalOffset={statusBarHeight + 44}>
+              keyboardVerticalOffset={statusBarHeight}>
               <View
                 style={{
                   padding: 15,
