@@ -238,7 +238,7 @@ const GPS = props => {
             <Map location={location} />
           </View>
           <View style={{flex: 1, justifyContent: 'center', margin: 10}}>
-            {distance && distance <= 0.2 ? (
+            {(distance && distance <= 0.2) || distance === 0 ? (
               <BtnVerticalOrange
                 onPress={() => {}}
                 text={'인증하기'}></BtnVerticalOrange>
