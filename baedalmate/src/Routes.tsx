@@ -34,7 +34,6 @@ import HostingRecruitList from 'components/pages/Setting/HostingRecruitList';
 import ParticipateRecruitList from 'components/pages/Setting/ParticipateRecruitList';
 import GPS from 'components/pages/Setting/GPS';
 import Dormitory from 'components/pages/Setting/Dormitory';
-import ChatMemberListBottomSheet from 'components/atoms/BottomSheet/ChatMemberList';
 
 const AuthStack = createNativeStackNavigator();
 const MainScreenTab = createBottomTabNavigator();
