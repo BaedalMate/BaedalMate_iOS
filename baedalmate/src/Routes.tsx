@@ -15,6 +15,7 @@ import {
   PRIMARY_COLOR,
   PROFILE_PRIMARY_OUTLINE,
   PROFILE_REGULAR,
+  SETTING_HORIZONTAL_GRAY_ICON,
 } from './themes/theme';
 import BoardItemDetail from 'components/pages/Detail';
 import BoardListPage from 'components/pages/BoardListPage';
@@ -33,6 +34,7 @@ import HostingRecruitList from 'components/pages/Setting/HostingRecruitList';
 import ParticipateRecruitList from 'components/pages/Setting/ParticipateRecruitList';
 import GPS from 'components/pages/Setting/GPS';
 import Dormitory from 'components/pages/Setting/Dormitory';
+import ChatMemberListBottomSheet from 'components/atoms/BottomSheet/ChatMemberList';
 
 const AuthStack = createNativeStackNavigator();
 const MainScreenTab = createBottomTabNavigator();
@@ -203,8 +205,37 @@ export const BoardStackComponent = () => {
               <Image source={BACK_GRAY} />
             </TouchableOpacity>
           ),
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => {
+                let showModal =
+                  route.params && route.params.modal
+                    ? route.params.modal
+                    : false;
+                navigation.navigate('채팅방', {
+                  modal: !showModal,
+                });
+              }}>
+              <Image source={SETTING_HORIZONTAL_GRAY_ICON} />
+            </TouchableOpacity>
+          ),
         })}
       />
+      {/* <BoardScreenStack.Screen
+        name="현재 참여자"
+        component={ChatMemberListBottomSheet}
+        options={({navigation, route}) => ({
+          headerBackVisible: false,
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image source={BACK_GRAY} />
+            </TouchableOpacity>
+          ),
+        })}
+      /> */}
       <BoardScreenStack.Screen
         name="주최한 모집"
         component={HostingRecruitList}

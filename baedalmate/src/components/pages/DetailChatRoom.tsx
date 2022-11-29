@@ -2,7 +2,10 @@ import React, {useEffect, useRef, useState} from 'react';
 import {
   Image,
   KeyboardAvoidingView,
+  Modal,
+  Platform,
   ScrollView,
+  StyleSheet,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -19,7 +22,10 @@ import axios from 'axios';
 import ChatHeader from 'components/atoms/Header/ChatHeader';
 import {
   CAMERA_GRAY_FILLED_ICON,
+  DARK_GRAY_COLOR,
+  ERROR_COLOR,
   LINE_GRAY_COLOR,
+  PRIMARY_COLOR,
   SEND_GRAY_FILLED_ICON,
   WHITE_COLOR,
 } from 'themes/theme';
@@ -38,6 +44,12 @@ import {
 
 import SockJS from 'sockjs-client';
 import {Stomp} from '@stomp/stompjs';
+import {TextKRBold, TextKRReg} from 'themes/text';
+import {Fonts} from 'assets/Fonts';
+import BtnVerticalOrange from 'components/atoms/Button/BtnVerticalOrange';
+import {UserProfileImage} from 'components/atoms/Image/UserImage';
+import {dummyBoardListData} from './Setting/HostingRecruitList';
+import {MyPageUserDummyData} from './Setting/MyPage';
 
 export interface sendI {
   senderId: number;
@@ -63,6 +75,35 @@ let ws = Stomp.over(function () {
 // ws.debug = text => console.log(text);
 
 // Object.assign(global, {WebSocket: require('websocket').w3cwebsocket});
+
+export const MemberList = () => {
+  return (
+    <View
+      style={{
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '20%',
+        paddingBottom: 15,
+      }}>
+      <Image
+        source={{
+          uri: 'https://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg',
+        }}
+        style={{
+          width: 45,
+          height: 45,
+          backgroundColor: '#ffffff',
+          borderRadius: 45 / 2,
+          marginBottom: 6,
+        }}
+      />
+      <View>
+        <Text>김예빈</Text>
+      </View>
+    </View>
+  );
+};
+
 export const DetailChatRoom = props => {
   ws.configure({});
   const [recv, setRecv] = useState<recvI>();
@@ -253,115 +294,271 @@ export const DetailChatRoom = props => {
   const [statusBarHeight, setStatusBarHeight] = useState(0);
 
   const scrollViewRef = useRef<any>(null);
+  const [modal, setModal] = useState(false);
+  const handleModal = () => {
+    modal
+      ? (setModal(false), props.navigation.setParams({modal: false}))
+      : (setModal(true), props.navigation.setParams({modal: true}));
+  };
+  useEffect(() => {
+    console.log(props.route.params.modal);
+    props.route.params.modal && setModal(props.route.params.modal);
+  }, [props.route.params]);
   return (
-    <View style={{flex: 1}}>
-      {detailChat && <ChatHeader item={detailChat} />}
-      <ScrollView
-        ref={scrollViewRef}
-        onContentSizeChange={() =>
-          scrollViewRef.current &&
-          scrollViewRef.current.scrollToEnd({animated: true})
-        }
-        style={{
-          backgroundColor: WHITE_COLOR,
-          width: '100%',
-          height: `100%`,
-        }}>
-        <View style={{paddingBottom: 400}}>
+    <>
+      <View>
+        <Modal
+          transparent={true}
+          visible={modal}
+          animationType={'slide'}
+          onRequestClose={handleModal}>
           <View
             style={{
-              paddingHorizontal: 15,
+              width: '100%',
+              height: '100%',
+              backgroundColor: 'rgba(0,0,0,0.45)',
+              flex: 1,
+              flexDirection: 'column',
+              justifyContent: 'flex-end',
+              alignItems: 'center',
             }}>
-            <>
-              {detailChat?.messages.map((v, i) => (
-                <>
-                  {i > 0 &&
-                    (v.sendDate.split(' ')[0].split('-')[0] !==
-                      detailChat.messages[i - 1].sendDate
-                        .split(' ')[0]
-                        .split('-')[0] ||
-                      v.sendDate.split(' ')[0].split('-')[1] !==
-                        detailChat.messages[i - 1].sendDate
-                          .split(' ')[0]
-                          .split('-')[1] ||
-                      v.sendDate.split(' ')[0].split('-')[2] !==
-                        detailChat.messages[i - 1].sendDate
-                          .split(' ')[0]
-                          .split('-')[2]) && <ChatDate item={v} key={i} />}
-                  <Text style={{marginVertical: 5}}>
-                    {v.message &&
-                      (v.sender === myNickname ? (
-                        <MyMessage message={v} />
-                      ) : (
-                        <>
-                          <OpponentMessage message={v} />
-                        </>
-                      ))}
-                  </Text>
-                </>
-              ))}
-              {/* {recv && recv.sender !== myNickname ? (
-                <>
-                  <Text>{recv.sender}</Text>
-                  <LiveOpponentMessage message={recv} />
-                </>
-              ) : (
-                recv && (
-                  <>
-                    <LiveMyMessage message={recv} />
-                  </>
-                )
-              )} */}
-              {/* {messages?.map((v, i) => {
-                <Text>{(v.message, v.sender)}</Text>;
-              })} */}
-            </>
+            <View
+              onTouchStart={handleModal}
+              style={{
+                width: '100%',
+                height: '100%',
+                // backgroundColor: 'rgba(0,0,0,0.45)',
+                flex: 1,
+                flexDirection: 'column',
+                justifyContent: 'flex-end',
+                alignItems: 'center',
+              }}
+            />
+            <View
+              style={{
+                flexDirection: 'column',
+                width: '100%',
+                padding: 15,
+                position: 'relative',
+                bottom: 0,
+                backgroundColor: WHITE_COLOR,
+                borderTopLeftRadius: 10,
+                borderTopRightRadius: 10,
+                paddingBottom: 43,
+              }}>
+              <View
+                style={{
+                  marginTop: 42,
+                  marginBottom: 22,
+                }}>
+                <TextKRBold
+                  style={{
+                    fontSize: 18,
+                    lineHeight: 22,
+                    color: PRIMARY_COLOR,
+                  }}>
+                  현재 참여자
+                </TextKRBold>
+              </View>
+              <View
+                style={{
+                  paddingBottom: 30,
+                  marginBottom: 10,
+                }}>
+                <View
+                  style={{
+                    flexDirection: 'column',
+                    // alignItems: 'center',
+                    // justifyContent: 'space-between',
+                  }}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      width: '100%',
+                      flexWrap: 'wrap',
+                      justifyContent: 'flex-start',
+                    }}>
+                    <MemberList />
+                    <MemberList />
+                    <MemberList />
+                    <MemberList />
+                    <MemberList />
+                    <MemberList />
+                    <MemberList />
+                    <MemberList />
+                  </View>
+                </View>
+              </View>
+
+              <BtnVerticalOrange onPress={() => {}} text={'전체 주문 확인'} />
+            </View>
           </View>
-        </View>
-      </ScrollView>
-      <KeyboardAvoidingView
-        style={{
-          position: 'absolute',
-          left: 0,
-          right: 0,
-          bottom: 0,
-        }}
-        behavior={'position'}
-        keyboardVerticalOffset={statusBarHeight + 44}>
-        <View
+        </Modal>
+      </View>
+      <View style={{flex: 1}}>
+        {detailChat && <ChatHeader item={detailChat} />}
+        <ScrollView
+          ref={scrollViewRef}
+          onContentSizeChange={() =>
+            scrollViewRef.current &&
+            scrollViewRef.current.scrollToEnd({animated: true})
+          }
+          style={{
+            backgroundColor: WHITE_COLOR,
+            width: '100%',
+            height: `100%`,
+          }}>
+          <View style={{paddingBottom: 400}}>
+            <View
+              style={{
+                paddingHorizontal: 15,
+              }}>
+              <>
+                {detailChat?.messages.map((v, i) => (
+                  <>
+                    {i > 0 &&
+                      (v.sendDate.split(' ')[0].split('-')[0] !==
+                        detailChat.messages[i - 1].sendDate
+                          .split(' ')[0]
+                          .split('-')[0] ||
+                        v.sendDate.split(' ')[0].split('-')[1] !==
+                          detailChat.messages[i - 1].sendDate
+                            .split(' ')[0]
+                            .split('-')[1] ||
+                        v.sendDate.split(' ')[0].split('-')[2] !==
+                          detailChat.messages[i - 1].sendDate
+                            .split(' ')[0]
+                            .split('-')[2]) && <ChatDate item={v} key={i} />}
+                    <Text style={{marginVertical: 5}}>
+                      {v.message &&
+                        (v.sender === myNickname ? (
+                          <MyMessage message={v} />
+                        ) : (
+                          <>
+                            <OpponentMessage message={v} />
+                          </>
+                        ))}
+                    </Text>
+                  </>
+                ))}
+                {/* {recv && recv.sender !== myNickname ? (
+      <>
+        <Text>{recv.sender}</Text>
+        <LiveOpponentMessage message={recv} />
+      </>
+    ) : (
+      recv && (
+        <>
+          <LiveMyMessage message={recv} />
+        </>
+      )
+    )} */}
+                {/* {messages?.map((v, i) => {
+      <Text>{(v.message, v.sender)}</Text>;
+    })} */}
+              </>
+            </View>
+          </View>
+        </ScrollView>
+        <KeyboardAvoidingView
           style={{
             position: 'absolute',
+            left: 0,
+            right: 0,
             bottom: 0,
-            backgroundColor: LINE_GRAY_COLOR,
-            width: '100%',
-            paddingBottom: 44,
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            paddingHorizontal: 15,
-          }}>
-          {/* <TouchableOpacity>
-            <Image source={CAMERA_GRAY_FILLED_ICON} />
-          </TouchableOpacity> */}
-          <MessageTextInput
-            error={errors}
-            name={'message'}
-            control={control}
-            rules={{}}
-          />
-          <TouchableOpacity
-            onPress={handleSubmit(d => {
-              console.log(d.message);
-              setMessageText(d.message);
-              sendMessage(d.message);
-              setValue('message', '');
-            })}>
-            <Image source={SEND_GRAY_FILLED_ICON} />
-          </TouchableOpacity>
-        </View>
-      </KeyboardAvoidingView>
-    </View>
+          }}
+          behavior={'position'}
+          keyboardVerticalOffset={statusBarHeight + 44}>
+          <View
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              backgroundColor: LINE_GRAY_COLOR,
+              width: '100%',
+              paddingBottom: 44,
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              paddingHorizontal: 15,
+            }}>
+            {/* <TouchableOpacity>
+      <Image source={CAMERA_GRAY_FILLED_ICON} />
+    </TouchableOpacity> */}
+            <MessageTextInput
+              error={errors}
+              name={'message'}
+              control={control}
+              rules={{}}
+            />
+            <TouchableOpacity
+              onPress={handleSubmit(d => {
+                console.log(d.message);
+                setMessageText(d.message);
+                sendMessage(d.message);
+                setValue('message', '');
+              })}>
+              <Image source={SEND_GRAY_FILLED_ICON} />
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
+      </View>
+    </>
   );
 };
 
 export default DetailChatRoom;
+
+const styles = StyleSheet.create({
+  Validation: {
+    fontFamily: Fonts.Ko,
+    fontStyle: 'normal',
+    fontWeight: '400',
+    fontSize: 14,
+    lineHeight: 24,
+    textAlignVertical: 'center',
+    color: ERROR_COLOR,
+    marginLeft: 20,
+  },
+  margin: {
+    marginLeft: 10,
+  },
+  Title: {
+    fontFamily: Fonts.Ko,
+    fontStyle: 'normal',
+    fontWeight: '700',
+    fontSize: 18,
+    lineHeight: 22,
+    textAlignVertical: 'center',
+    color: PRIMARY_COLOR,
+  },
+  TitleInput: {
+    fontFamily: Fonts.Ko,
+    fontStyle: 'normal',
+    fontWeight: '700',
+    fontSize: 18,
+    lineHeight: 22,
+    textAlignVertical: 'center',
+  },
+  Label: {
+    fontFamily: Fonts.Ko,
+    fontStyle: 'normal',
+    fontWeight: '700',
+    fontSize: 16,
+    lineHeight: 19,
+    textAlignVertical: 'center',
+  },
+  Description: {
+    fontFamily: Fonts.Ko,
+    fontStyle: 'normal',
+    fontWeight: '400',
+    fontSize: 14,
+    lineHeight: 24,
+    alignItems: 'center',
+    textAlignVertical: 'center',
+    color: DARK_GRAY_COLOR,
+    paddingBottom: 18,
+  },
+  avoidingView: {
+    // flex: 1,
+  },
+});
