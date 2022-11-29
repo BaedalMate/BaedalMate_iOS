@@ -111,10 +111,7 @@ const Main: React.FunctionComponent<MainProps> = props => {
   const [dormitory, setDormitory] = useState('성림학사');
   const [profileImage, setProfileImage] = useState('');
   //recruit 관련 state
-  const [recruitList, setRecruitList] = useState();
   const [mainRecruitList, setMainRecruitList] = useState<mainRecruitListI>();
-  const [mainRecruitImgList, setMainRecruitImgList] = useState<string[]>([]);
-  const [mainTagRecruitImgList, setMainTagRecruitImgList] = useState([]);
   const [mainTagRecruitList, setMainTagRecruitList] =
     useState<mainTagRecruitListI>({
       recruitList: [
@@ -223,6 +220,7 @@ const Main: React.FunctionComponent<MainProps> = props => {
           console.log(error);
           return false;
         });
+      console.log('BoardListData', BoardListData);
       return BoardListData;
     } catch (error) {
       console.log(error);
@@ -305,14 +303,6 @@ const Main: React.FunctionComponent<MainProps> = props => {
       : setStatusBGColor(WHITE_COLOR);
   }, [yOffset]);
 
-  // 렌더링 시 유저 정보 받아오기
-  useEffect(() => {
-    getUserData();
-    getMainRecruitList();
-    getMainTagRecruitList();
-    // getRecruitList();
-  }, [nickname, dormitory]);
-
   // useEffect(() => {
   //   async () => {
   //     const data = await AsyncStorage.getItem('@BaedalMate_Dormitory');
@@ -335,6 +325,15 @@ const Main: React.FunctionComponent<MainProps> = props => {
     getMainRecruitList();
     getMainTagRecruitList();
   }, []);
+
+  // 렌더링 시 유저 정보 받아오기
+  useEffect(() => {
+    getUserData();
+    getMainRecruitList();
+    getMainTagRecruitList();
+    // getRecruitList();
+  }, [nickname, dormitory]);
+
   return (
     <>
       <View
