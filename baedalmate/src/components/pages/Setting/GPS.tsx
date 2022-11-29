@@ -1,16 +1,19 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Geolocation from '@react-native-community/geolocation';
+import axios from 'axios';
 import BtnVerticalDeactive from 'components/atoms/Button/BtnVerticalDeactive';
 import BtnVerticalGray from 'components/atoms/Button/BtnVerticalGray';
 import BtnVerticalOrange from 'components/atoms/Button/BtnVerticalOrange';
 import {DormitoryDescriptionInput} from 'components/atoms/CreateRecruit/Input';
 import {Map} from 'components/molecules/Setting/Map';
+import {getJWTToken} from 'components/utils/Main';
 import React, {useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {Image, Text, View} from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import {WHITE_COLOR, BOTTOM_ARROW} from 'themes/theme';
 import {dormitoryList} from '../CreateRecuit/second';
+import {userURL} from '../Main';
 
 export const DORMITORY_SUNGLIM_LOCATION = {
   longitude: 127.07597,
@@ -43,13 +46,24 @@ export interface LocationI {
 }
 export type DormitoryType = 'SUNGLIM' | 'KB' | 'BURAM' | 'NURI' | 'SULIM';
 
-const DormitoryDropDown = ({setTarget}) => {
+const DormitoryDropDown = ({target, setTarget}) => {
   // const {
   //   control,
   //   handleSubmit,
   //   setValue,
   //   formState: {errors},
   // } = useForm();
+
+  let dormIndex =
+    target === 'NURI'
+      ? 0
+      : target === 'SUNGLIM'
+      ? 1
+      : target === 'KB'
+      ? 2
+      : target === 'BURAM'
+      ? 3
+      : 4;
   return (
     <View
       style={{
@@ -67,22 +81,12 @@ const DormitoryDropDown = ({setTarget}) => {
           }}>
           서울과기대
         </Text>
-        {/* <DormitoryInput
-                  error={errors}
-                  name={'dormitory'}
-                  control={control}
-                  rules={{required: true}}
-                  setValue={setValue}
-                /> */}
         <SelectDropdown
           buttonStyle={{
-            // borderWidth: errors.place ? 1 : 0,
-            // borderColor: errors.place ? ERROR_COLOR : WHITE_COLOR,
             backgroundColor: WHITE_COLOR,
             borderRadius: 10,
             height: 45,
             flex: 1,
-            // width: 255,
           }}
           dropdownStyle={{
             borderRadius: 10,
@@ -99,7 +103,7 @@ const DormitoryDropDown = ({setTarget}) => {
             fontWeight: '400',
           }}
           data={dormitoryList}
-          defaultValueByIndex={0}
+          defaultValueByIndex={dormIndex}
           defaultValue={''}
           renderDropdownIcon={() => {
             return <Image source={BOTTOM_ARROW} />;
@@ -145,6 +149,7 @@ const GPS = props => {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
     setLocation({latitude, longitude});
+
     // if (latitude === target.latitude && longitude === target.longitude) {
     //   Authentication(latitude, longitude);
     // }
@@ -174,6 +179,55 @@ const GPS = props => {
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     var d = R * c;
     return d;
+  };
+
+  // User dormitory 변경
+  const putUserDormitory = async () => {
+    let changedDormitory =
+      target === 'KB학사'
+        ? 'KB'
+        : target === '성림학사'
+        ? 'SUNGLIM'
+        : target === '수림학사'
+        ? 'SULIM'
+        : target === '불암학사'
+        ? 'BURAM'
+        : 'NURI';
+    const JWTAccessToken = await getJWTToken();
+    console.log(changedDormitory, JWTAccessToken);
+    try {
+      const {data} = await axios
+        .put(
+          userURL,
+          {},
+          {
+            params: {
+              dormitory: changedDormitory,
+            },
+            headers: {
+              Authorization: 'Bearer ' + JWTAccessToken,
+            },
+          },
+        )
+        .then(function (response) {
+          console.log('put dormitory', response);
+          console.log(response);
+          // AsyncStorage에 유저 이름과 배달 거점 저장
+          AsyncStorage.setItem('@BaedalMate_Dormitory', changedDormitory);
+          // 해당 페이지는 렌더링 문제로 state 설정 후 사용
+          props.setDormitory(changedDormitory);
+
+          return response.data;
+        })
+        .catch(function (error) {
+          console.log('put dormitory', error);
+          return false;
+        });
+      return data;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
   };
 
   useEffect(() => {
@@ -233,14 +287,16 @@ const GPS = props => {
     <View>
       {location ? (
         <View style={{width: '100%', height: '100%'}}>
-          <DormitoryDropDown setTarget={setTarget} />
+          <DormitoryDropDown setTarget={setTarget} target={target} />
           <View style={{flex: 6}}>
             <Map location={location} />
           </View>
           <View style={{flex: 1, justifyContent: 'center', margin: 10}}>
             {(distance && distance <= 0.2) || distance === 0 ? (
               <BtnVerticalOrange
-                onPress={() => {}}
+                onPress={() => {
+                  putUserDormitory();
+                }}
                 text={'인증하기'}></BtnVerticalOrange>
             ) : (
               <BtnVerticalDeactive text="인증하기" onPress={() => {}} />

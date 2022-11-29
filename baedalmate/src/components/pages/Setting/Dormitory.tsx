@@ -28,7 +28,16 @@ const Dormitory = props => {
   // const handleModal = () => {
   //   modal ? setModal(false) : setModal(true);
   // };
-
+  let dormIndex =
+    selectedAddress === 'NURI'
+      ? 0
+      : selectedAddress === 'SUNGLIM'
+      ? 1
+      : selectedAddress === 'KB'
+      ? 2
+      : selectedAddress === 'BURAM'
+      ? 3
+      : 4;
   // User dormitory 변경
   const putUserDormitory = async () => {
     let changedDormitory =
