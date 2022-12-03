@@ -10,8 +10,8 @@ import {
   View,
 } from 'react-native';
 import {
-  LiveMyMessage,
-  LiveOpponentMessage,
+  // LiveMyMessage,
+  // LiveOpponentMessage,
   MyMessage,
   OpponentMessage,
 } from 'components/molecules/Chat/Message';
@@ -139,17 +139,18 @@ export const DetailChatRoom = props => {
   };
 
   const [userId, setUserId] = useState('');
-  const [myNickname, setMyNickname] = useState('');
+  // const [myNickname, setMyNickname] = useState('');
   const [JWTAccessToken, setJWTAccessToken] = useState('');
   const getMyInfo = async () => {
     const JWTAccessToken = await getJWTToken();
     setJWTAccessToken(JWTAccessToken);
-    const myNickname = await AsyncStorage.getItem('@BaedalMate_UserName');
+    // const myNickname = await AsyncStorage.getItem('@BaedalMate_UserName');
     const userId = await AsyncStorage.getItem('@BaedalMate_UserId');
-    myNickname !== null && setMyNickname(myNickname);
+    // myNickname !== null && setMyNickname(myNickname);
     userId !== null && setUserId(userId);
   };
 
+  console.log('----------------------------------\n', userId, detailChat);
   const {
     control,
     handleSubmit,
@@ -304,6 +305,7 @@ export const DetailChatRoom = props => {
     console.log(props.route.params.modal);
     props.route.params.modal && setModal(props.route.params.modal);
   }, [props.route.params]);
+
   return (
     <>
       <View>
@@ -413,9 +415,10 @@ export const DetailChatRoom = props => {
               style={{
                 paddingHorizontal: 15,
               }}>
-              <>
+              <View>
                 {detailChat?.messages.map((v, i) => (
-                  <>
+                  <View key={i}>
+                    {i === 0 && <ChatDate item={v} key={i} />}
                     {i > 0 &&
                       (v.sendDate.split(' ')[0].split('-')[0] !==
                         detailChat.messages[i - 1].sendDate
@@ -429,17 +432,18 @@ export const DetailChatRoom = props => {
                           detailChat.messages[i - 1].sendDate
                             .split(' ')[0]
                             .split('-')[2]) && <ChatDate item={v} key={i} />}
-                    <Text style={{marginVertical: 5}}>
-                      {v.message &&
-                        (v.sender === myNickname ? (
+                    {v.message !== '' && (
+                      <Text>
+                        {v.senderId.toString() === userId ? (
                           <MyMessage message={v} />
                         ) : (
                           <>
                             <OpponentMessage message={v} />
                           </>
-                        ))}
-                    </Text>
-                  </>
+                        )}
+                      </Text>
+                    )}
+                  </View>
                 ))}
                 {/* {recv && recv.sender !== myNickname ? (
       <>
@@ -456,7 +460,7 @@ export const DetailChatRoom = props => {
                 {/* {messages?.map((v, i) => {
       <Text>{(v.message, v.sender)}</Text>;
     })} */}
-              </>
+              </View>
             </View>
           </View>
         </ScrollView>

@@ -5,7 +5,7 @@ import {PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
 
 export const ChatProfileImage = ({image}: {image: string}) => {
   return (
-    <View style={{marginRight: 7.5, width: 30, height: 30}}>
+    <View style={{width: 30, height: 30}}>
       <Image
         source={{
           uri: image.includes('https') ? image : image.replace('http', 'https'),
@@ -50,18 +50,18 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    alignSelf: 'flex-end',
+    // alignSelf: 'flex-end',
     borderRadius: 20,
     color: WHITE_COLOR,
   },
   messageGrayWrapper: {
+    maxWidth: 250,
     paddingHorizontal: 15,
     paddingVertical: 10,
     backgroundColor: '#F7F8FA',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    alignSelf: 'flex-start',
     borderRadius: 20,
   },
 });

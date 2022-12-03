@@ -24,6 +24,7 @@ export interface messageI {
   senderId: number;
   sendDate: string;
   senderImage: string;
+  // type: 'TALK' | 'ENTER';
 }
 
 export interface recruitI {

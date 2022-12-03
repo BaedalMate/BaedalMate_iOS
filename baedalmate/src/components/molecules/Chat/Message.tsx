@@ -9,6 +9,7 @@ import {PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
 import {formTime, messageI} from 'components/utils/Chat';
 import {recvI, sendI} from 'components/pages/DetailChatRoom';
 
+export const MAX_USERNAME_LIMIT = 5;
 export const MyMessage = ({message}: {message: messageI}) => {
   const timeText =
     message?.sendDate.split(' ')[0] + 'T' + message?.sendDate.split(' ')[1];
@@ -37,84 +38,101 @@ export const MyMessage = ({message}: {message: messageI}) => {
 export const OpponentMessage = ({message}: {message: messageI}) => {
   const timeText =
     message?.sendDate.split(' ')[0] + 'T' + message?.sendDate.split(' ')[1];
-
   return (
     <View
       style={{
-        flexDirection: 'row',
-        width: '100%',
-        alignItems: 'baseline',
-        justifyContent: 'flex-start',
+        flexDirection: 'column',
       }}>
       <View
         style={{
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginRight: 7.5,
-          width: 30,
+          marginTop: 10,
         }}>
-        <ChatProfileImage image={message.senderImage} />
-        <Text style={{width: '100%'}}>{message.sender}</Text>
+        <Text
+          style={{
+            width: '100%',
+          }}>
+          {message.sender.length >= MAX_USERNAME_LIMIT
+            ? message.sender.substring(0, MAX_USERNAME_LIMIT) + '...'
+            : message.sender}
+        </Text>
       </View>
-      <MessageGray text={message.message} />
-      <Text
+      <View
         style={{
-          textAlign: 'center',
-          textAlignVertical: 'bottom',
-          marginLeft: 15,
+          flexDirection: 'row',
+          width: '100%',
+          marginBottom: 10,
+          justifyContent: 'flex-start',
         }}>
-        {formTime(timeText)}
-      </Text>
+        <View
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginRight: 15,
+            width: 30,
+          }}>
+          <ChatProfileImage image={message.senderImage} />
+        </View>
+        <MessageGray text={message.message} />
+        <Text
+          style={{
+            textAlign: 'center',
+            textAlignVertical: 'bottom',
+            marginLeft: 15,
+            alignSelf: 'flex-end',
+          }}>
+          {formTime(timeText)}
+        </Text>
+      </View>
     </View>
   );
 };
 
-export const LiveMyMessage = ({message}: {message: recvI}) => {
-  const currentTime = new Date();
-  return (
-    <View
-      style={{
-        flexDirection: 'row',
-        width: '100%',
-        alignItems: 'flex-end',
-        justifyContent: 'flex-end',
-      }}>
-      <Text
-        style={{
-          textAlign: 'center',
-          textAlignVertical: 'bottom',
-          marginRight: 15,
-        }}>
-        {formTime(new Date().toString())}
-      </Text>
-      <MessageOrange text={message.message} />
-    </View>
-  );
-};
+// export const LiveMyMessage = ({message}: {message: recvI}) => {
+//   const currentTime = new Date();
+//   return (
+//     <View
+//       style={{
+//         flexDirection: 'row',
+//         width: '100%',
+//         alignItems: 'flex-end',
+//         justifyContent: 'flex-end',
+//       }}>
+//       <Text
+//         style={{
+//           textAlign: 'center',
+//           textAlignVertical: 'bottom',
+//           marginRight: 15,
+//         }}>
+//         {formTime(new Date().toString())}
+//       </Text>
+//       <MessageOrange text={message.message} />
+//     </View>
+//   );
+// };
 
-export const LiveOpponentMessage = ({message}: {message: recvI}) => {
-  const currentTime = new Date();
-  return (
-    <View
-      style={{
-        flexDirection: 'row',
-        width: '100%',
-        alignItems: 'baseline',
-        justifyContent: 'flex-start',
-      }}>
-      <ChatProfileImage image={message.senderImage} />
-      <MessageGray text={message.message} />
-      <Text
-        style={{
-          textAlign: 'center',
-          textAlignVertical: 'bottom',
-          marginLeft: 15,
-        }}>
-        {currentTime.toTimeString()}
-      </Text>
-    </View>
-  );
-};
+// export const LiveOpponentMessage = ({message}: {message: recvI}) => {
+//   const currentTime = new Date();
+//   return (
+//     <View
+//       style={{
+//         flexDirection: 'row',
+//         width: '100%',
+//         alignItems: 'baseline',
+//         justifyContent: 'flex-start',
+//       }}>
+//       <ChatProfileImage image={message.senderImage} />
+//       <Text
+//         style={{
+//           textAlign: 'center',
+//           textAlignVertical: 'bottom',
+//           marginLeft: 15,
+//         }}>
+//         {currentTime.toTimeString()}
+//       </Text>
+//       <MessageGray text={message.message} />
+//     </View>
+//   );
+// };
 // const Message = () => {
 //   return (
 //     <View>
@@ -129,13 +147,13 @@ const styles = StyleSheet.create({
   message: {},
   messageOrangeWrapper: {
     paddingHorizontal: 15,
-    paddingVertical: 10,
+    // paddingVertical: 10,
     backgroundColor: PRIMARY_COLOR,
     right: 15,
   },
   messgaeGrayWrapper: {
     paddingHorizontal: 15,
-    paddingVertical: 10,
+    // paddingVertical: 10,
     backgroundColor: '#F7F8FA',
     left: 15,
   },
