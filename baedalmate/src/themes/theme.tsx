@@ -132,7 +132,17 @@ const SEND_GRAY_FILLED_ICON = require('../assets/icons/send/send_gray_filled.png
 const RIGHT_ARROW_GRAY = require('../assets/icons/arrow/right_arrow_gray.png');
 const SETTING_HORIZONTAL_GRAY_ICON = require('../assets/icons/setting/setting_horizontal_gray.png');
 
+const FULL_STAR_ACTIVE = require('../assets/images/starRating/full_star_active.png');
+const FULL_STAR_DEACTIVE = require('../assets/images/starRating/full_star_deactive.png');
+
+const STAR_ACTIVE = require('../assets/images/starRating/star_active.png');
+const STAR_DEACTIVE = require('../assets/images/starRating/star_deactive.png');
+
 export {
+  FULL_STAR_ACTIVE,
+  FULL_STAR_DEACTIVE,
+  STAR_ACTIVE,
+  STAR_DEACTIVE,
   SETTING_HORIZONTAL_GRAY_ICON,
   CATEGORY_ALL_IMG,
   LOGO,

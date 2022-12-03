@@ -37,7 +37,7 @@ export interface recruitI {
   description: string;
   dormitory: string;
   host: boolean;
-  image: string;
+  recruitImage: string;
   minPeople: number;
   minPrice: number;
   participage: boolean;
