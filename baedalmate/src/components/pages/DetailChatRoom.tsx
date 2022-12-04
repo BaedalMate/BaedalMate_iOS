@@ -3,7 +3,6 @@ import {
   Image,
   KeyboardAvoidingView,
   Modal,
-  Platform,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
@@ -21,7 +20,6 @@ import axios from 'axios';
 
 import ChatHeader from 'components/atoms/Header/ChatHeader';
 import {
-  CAMERA_GRAY_FILLED_ICON,
   DARK_GRAY_COLOR,
   ERROR_COLOR,
   LINE_GRAY_COLOR,
@@ -34,22 +32,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Text} from 'react-native-paper';
 import {MessageTextInput} from 'components/atoms/CreateRecruit/Input';
 import {useForm} from 'react-hook-form';
-import {
-  eachDetailChatRoomI,
-  eachChatRoomURL,
-  messageI,
-  formTime,
-} from 'components/utils/Chat';
+import {eachDetailChatRoomI, eachChatRoomURL} from 'components/utils/Chat';
 // import {getChatRoomAPI} from 'components/utils/\bChat';
 
 import SockJS from 'sockjs-client';
 import {Stomp} from '@stomp/stompjs';
-import {TextKRBold, TextKRReg} from 'themes/text';
+import {TextKRBold} from 'themes/text';
 import {Fonts} from 'assets/Fonts';
 import BtnVerticalOrange from 'components/atoms/Button/BtnVerticalOrange';
-import {UserProfileImage} from 'components/atoms/Image/UserImage';
-import {dummyBoardListData} from './Setting/HostingRecruitList';
-import {MyPageUserDummyData} from './Setting/MyPage';
 
 export interface sendI {
   senderId: number;
@@ -392,7 +382,13 @@ export const DetailChatRoom = props => {
                 </View>
               </View>
 
-              <BtnVerticalOrange onPress={() => {}} text={'전체 주문 확인'} />
+              <BtnVerticalOrange
+                onPress={() => {
+                  handleModal();
+                  props.navigation.navigate('주문 내역');
+                }}
+                text={'전체 주문 확인'}
+              />
             </View>
           </View>
         </Modal>
