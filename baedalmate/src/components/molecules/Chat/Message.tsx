@@ -21,6 +21,7 @@ export const MyMessage = ({message}: {message: messageI}) => {
         width: '100%',
         alignItems: 'flex-end',
         justifyContent: 'flex-end',
+        marginBottom: 10,
       }}>
       <Text
         style={{

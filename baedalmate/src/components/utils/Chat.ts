@@ -41,7 +41,7 @@ export interface recruitI {
   recruitImage: string;
   minPeople: number;
   minPrice: number;
-  participage: boolean;
+  participants: boolean;
   place: placeI;
   platform: string;
   profileImage: string;
@@ -58,9 +58,18 @@ export interface eachDetailChatRoomI {
   messages: messageI[];
   recruit: recruitI;
 }
-
+export interface participantI {
+  nickname: string;
+  profileImage: string;
+  userId: number;
+}
+export interface recruitParticipantsI {
+  participants: participantI[];
+  recruitId: number;
+}
 export const chatRoomURL = url + '/api/v1/rooms';
 export const eachChatRoomURL = url + `/api/v1/room/`;
+export const chatParticipantsURL = url + `/api/v1/recruit/`;
 export const getChatRoomAPI = async () => {
   const JWTAccessToken = await getJWTToken();
   console.log(JWTAccessToken);

@@ -32,7 +32,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Text} from 'react-native-paper';
 import {MessageTextInput} from 'components/atoms/CreateRecruit/Input';
 import {useForm} from 'react-hook-form';
-import {eachDetailChatRoomI, eachChatRoomURL} from 'components/utils/Chat';
+import {
+  eachDetailChatRoomI,
+  eachChatRoomURL,
+  chatParticipantsURL,
+  recruitParticipantsI,
+} from 'components/utils/Chat';
 // import {getChatRoomAPI} from 'components/utils/\bChat';
 
 import SockJS from 'sockjs-client';
@@ -40,6 +45,7 @@ import {Stomp} from '@stomp/stompjs';
 import {TextKRBold} from 'themes/text';
 import {Fonts} from 'assets/Fonts';
 import BtnVerticalOrange from 'components/atoms/Button/BtnVerticalOrange';
+import {MemberList} from 'components/atoms/Chat/MemberListItem';
 
 export interface sendI {
   senderId: number;
@@ -66,44 +72,44 @@ let ws = Stomp.over(function () {
 
 // Object.assign(global, {WebSocket: require('websocket').w3cwebsocket});
 
-export const MemberList = () => {
-  return (
-    <View
-      style={{
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '20%',
-        paddingBottom: 15,
-      }}>
-      <Image
-        source={{
-          uri: 'https://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg',
-        }}
-        style={{
-          width: 45,
-          height: 45,
-          backgroundColor: '#ffffff',
-          borderRadius: 45 / 2,
-          marginBottom: 6,
-        }}
-      />
-      <View>
-        <Text>김예빈</Text>
-      </View>
-    </View>
-  );
-};
+// export const MemberList = () => {
+//   return (
+//     <View
+//       style={{
+//         justifyContent: 'center',
+//         alignItems: 'center',
+//         width: '20%',
+//         paddingBottom: 15,
+//       }}>
+//       <Image
+//         source={{
+//           uri: 'https://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg',
+//         }}
+//         style={{
+//           width: 45,
+//           height: 45,
+//           backgroundColor: '#ffffff',
+//           borderRadius: 45 / 2,
+//           marginBottom: 6,
+//         }}
+//       />
+//       <View>
+//         <Text>김예빈</Text>
+//       </View>
+//     </View>
+//   );
+// };
 
 export const DetailChatRoom = props => {
   ws.configure({});
   const [recv, setRecv] = useState<recvI>();
   const [messageText, setMessageText] = useState<string>();
-  // const [chat, setChat] = useState([]);
   const [detailChat, setDetailChat] = useState<eachDetailChatRoomI>();
+  const [participantsInfo, setParticipantsInfo] =
+    useState<recruitParticipantsI>();
   const getEachChatRoomAPI = async () => {
     try {
       const JWTAccessToken = await getJWTToken();
-
       const chatRooms = await axios
         .get(eachChatRoomURL + props.route.params.id, {
           headers: {
@@ -127,6 +133,32 @@ export const DetailChatRoom = props => {
       return false;
     }
   };
+  const getParticipants = async id => {
+    try {
+      const JWTAccessToken = await getJWTToken();
+      const chatParticipants = await axios
+        .get(chatParticipantsURL + id + `/participants`, {
+          headers: {
+            Authorization: 'Bearer ' + JWTAccessToken,
+          },
+        })
+        .then(function (response) {
+          if (response.status === 200) {
+            setParticipantsInfo(response.data);
+            return response.data.recruitList;
+          }
+          return false;
+        })
+        .catch(function (error) {
+          console.log(error);
+          return false;
+        });
+      return chatParticipants;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  };
 
   const [userId, setUserId] = useState('');
   // const [myNickname, setMyNickname] = useState('');
@@ -140,7 +172,7 @@ export const DetailChatRoom = props => {
     userId !== null && setUserId(userId);
   };
 
-  console.log('----------------------------------\n', userId, detailChat);
+  // console.log('----------------------------------\n', userId, detailChat);
   const {
     control,
     handleSubmit,
@@ -155,14 +187,14 @@ export const DetailChatRoom = props => {
 
   const [messages, setMessages] = useState<messageProps[]>([]);
 
-  const findRoom = () => {
-    const roomData: any = axios
-      .get(url + '/api/v1/room/' + props.route.params.id)
-      .then(response => {
-        // console.log(response.data);
-        setMessages(response.data.messages);
-      });
-  };
+  // const findRoom = () => {
+  //   const roomData: any = axios
+  //     .get(url + '/api/v1/room/' + props.route.params.id)
+  //     .then(response => {
+  //       // console.log(response.data);
+  //       setMessages(response.data.messages);
+  //     });
+  // };
   const sendMessage = messageText => {
     ws.send(
       '/app/chat/message',
@@ -263,6 +295,12 @@ export const DetailChatRoom = props => {
     getMyInfo();
     connect();
   }, []);
+  useEffect(() => {
+    getParticipants(detailChat?.recruit.recruitId);
+  }, [detailChat]);
+  useEffect(() => {
+    console.log(participantsInfo);
+  }, [participantsInfo]);
   useEffect(() => {
     connect();
     getEachChatRoomAPI();
@@ -370,14 +408,16 @@ export const DetailChatRoom = props => {
                       flexWrap: 'wrap',
                       justifyContent: 'flex-start',
                     }}>
+                    {participantsInfo?.participants.map((v, i) => (
+                      <MemberList item={v} key={v.userId} />
+                    ))}
+                    {/* <MemberList />
                     <MemberList />
                     <MemberList />
                     <MemberList />
                     <MemberList />
                     <MemberList />
-                    <MemberList />
-                    <MemberList />
-                    <MemberList />
+                    <MemberList /> */}
                   </View>
                 </View>
               </View>
