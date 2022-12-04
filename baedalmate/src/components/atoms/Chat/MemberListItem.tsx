@@ -3,6 +3,7 @@ import {participantI} from 'components/utils/Chat';
 import {View, Image, Text} from 'react-native';
 import React from 'react';
 import {MAX_USERNAME_LIMIT} from 'components/molecules/Chat/Message';
+import {LINE_GRAY_COLOR} from 'themes/theme';
 export const MemberList = ({item}: {item: participantI}) => {
   return (
     <View

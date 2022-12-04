@@ -35,7 +35,7 @@ import {useForm} from 'react-hook-form';
 import {
   eachDetailChatRoomI,
   eachChatRoomURL,
-  chatParticipantsURL,
+  chatRecruitURL,
   recruitParticipantsI,
 } from 'components/utils/Chat';
 // import {getChatRoomAPI} from 'components/utils/\bChat';
@@ -137,7 +137,7 @@ export const DetailChatRoom = props => {
     try {
       const JWTAccessToken = await getJWTToken();
       const chatParticipants = await axios
-        .get(chatParticipantsURL + id + `/participants`, {
+        .get(chatRecruitURL + id + `/participants`, {
           headers: {
             Authorization: 'Bearer ' + JWTAccessToken,
           },
@@ -411,13 +411,6 @@ export const DetailChatRoom = props => {
                     {participantsInfo?.participants.map((v, i) => (
                       <MemberList item={v} key={v.userId} />
                     ))}
-                    {/* <MemberList />
-                    <MemberList />
-                    <MemberList />
-                    <MemberList />
-                    <MemberList />
-                    <MemberList />
-                    <MemberList /> */}
                   </View>
                 </View>
               </View>
@@ -425,7 +418,9 @@ export const DetailChatRoom = props => {
               <BtnVerticalOrange
                 onPress={() => {
                   handleModal();
-                  props.navigation.navigate('주문 내역');
+                  props.navigation.navigate('주문 내역', {
+                    id: detailChat?.recruit.recruitId,
+                  } as never);
                 }}
                 text={'전체 주문 확인'}
               />

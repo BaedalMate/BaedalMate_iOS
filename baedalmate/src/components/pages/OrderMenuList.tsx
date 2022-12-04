@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
   NativeModules,
@@ -17,6 +17,14 @@ import {
   PRIMARY_COLOR,
   WHITE_COLOR,
 } from 'themes/theme';
+import axios from 'axios';
+import {
+  chatRecruitURL,
+  participantMenuPriceI,
+  recruitMenuI,
+  recruitParticipantsI,
+} from 'components/utils/Chat';
+import {formPrice, getJWTToken} from 'components/utils/Main';
 
 export interface RecruitItemProps {
   createDate: string;
@@ -38,14 +46,15 @@ export interface RecruitItemProps {
 
 const {StatusBarManager} = NativeModules;
 
-const MyOrderPriceInfo = () => {
+const MyOrderPriceInfo = ({item}: {item: recruitMenuI}) => {
   return (
     <View
       style={{
         backgroundColor: '#F7F8FA',
         margin: 10,
         position: 'absolute',
-        bottom: 0,
+        bottom: 30,
+        alignSelf: 'center',
         borderRadius: 5,
         shadowColor: BLACK_COLOR,
         shadowOpacity: 0.25,
@@ -104,7 +113,7 @@ const MyOrderPriceInfo = () => {
                   lineHeight: 24,
                   fontStyle: 'normal',
                 }}>
-                {`18,300`} 원
+                {formPrice(item.myPrice)} 원
               </TextKRReg>
             </View>
             <View
@@ -130,7 +139,7 @@ const MyOrderPriceInfo = () => {
                   display: 'flex',
                   alignItems: 'center',
                 }}>
-                {`2,000`} 원
+                {formPrice(item.shippingFee)} 원
               </TextKRReg>
             </View>
             <View
@@ -143,7 +152,10 @@ const MyOrderPriceInfo = () => {
                   lineHeight: 24,
                   fontStyle: 'normal',
                 }}>
-                {`500`} 원
+                {formPrice(
+                  Math.ceil(item.shippingFee / item.participants.length),
+                )}{' '}
+                원
               </TextKRBold>
             </View>
           </View>
@@ -177,7 +189,7 @@ const MyOrderPriceInfo = () => {
                   display: 'flex',
                   alignItems: 'center',
                 }}>
-                {`3,000`} 원
+                {formPrice(item.coupon)} 원
               </TextKRReg>
             </View>
           </View>
@@ -189,6 +201,7 @@ const MyOrderPriceInfo = () => {
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
+                alignItems: 'center',
               }}>
               <TextKRBold style={styles.Label}>결제 예정 금액</TextKRBold>
               <TextKRBold
@@ -200,7 +213,12 @@ const MyOrderPriceInfo = () => {
                   alignItems: 'center',
                   color: PRIMARY_COLOR,
                 }}>
-                {`17,300`}원
+                {formPrice(
+                  item.myPrice +
+                    Math.ceil(item.shippingFee / item.participants.length) -
+                    item.coupon,
+                )}
+                원
               </TextKRBold>
             </View>
           </View>
@@ -210,9 +228,61 @@ const MyOrderPriceInfo = () => {
   );
 };
 
-const OrderMenuItem = () => {
+const OrderMenuItem = ({
+  item,
+  id,
+}: {
+  item: participantMenuPriceI;
+  id: number;
+}) => {
+  const [participantsInfo, setParticipantsInfo] =
+    useState<recruitParticipantsI>();
+  const [currentParticipant, setcurrentParticipant] = useState<{
+    image: string;
+    name: string;
+  }>();
+  const getParticipants = async id => {
+    try {
+      const JWTAccessToken = await getJWTToken();
+      const chatParticipants = await axios
+        .get(chatRecruitURL + id + `/participants`, {
+          headers: {
+            Authorization: 'Bearer ' + JWTAccessToken,
+          },
+        })
+        .then(function (response) {
+          if (response.status === 200) {
+            setParticipantsInfo(response.data);
+            return response.data.recruitList;
+          }
+          return false;
+        })
+        .catch(function (error) {
+          console.log(error);
+          return false;
+        });
+      return chatParticipants;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  };
+  useEffect(() => {
+    getParticipants(id);
+  }, []);
+  useEffect(() => {
+    participantsInfo?.participants.map(v => {
+      if (item.userId === v.userId) {
+        setcurrentParticipant({image: v.profileImage, name: v.nickname});
+      }
+    });
+  }, [participantsInfo]);
+
   return (
-    <View style={{padding: 10}}>
+    <View
+      style={{
+        paddingVertical: 10,
+      }}>
       <View
         style={{
           flexDirection: 'row',
@@ -222,7 +292,7 @@ const OrderMenuItem = () => {
         }}>
         <Image
           source={{
-            uri: 'https://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg',
+            uri: currentParticipant?.image?.replace('http', 'https'),
           }}
           style={{
             width: 45,
@@ -239,18 +309,15 @@ const OrderMenuItem = () => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <TextKRBold style={{}}>김예빈</TextKRBold>
+          <TextKRBold style={{}}>{currentParticipant?.name}</TextKRBold>
         </View>
       </View>
       <View>
-        <Text
-          style={
-            styles.Description
-          }>{`\u2022 달달한 가츠동 / 1개 : 9,000원`}</Text>
-        <Text
-          style={
-            styles.Description
-          }>{`\u2022 치킨 오야꼬동 / 2개 : 18000원`}</Text>
+        {item.menu.map(v => (
+          <Text style={styles.Description}>{`\u2022 ${v.name} / ${
+            v.quantity
+          }개 : ${formPrice(v.price)}원`}</Text>
+        ))}
       </View>
       <View
         style={{
@@ -260,43 +327,93 @@ const OrderMenuItem = () => {
           alignItems: 'center',
         }}>
         <TextKRReg style={{fontSize: 16, lineHeight: 24}}>총 금액</TextKRReg>
-        <TextKRBold style={{fontSize: 16}}>27,000원</TextKRBold>
+        <TextKRBold style={{fontSize: 16}}>
+          {formPrice(item.total)}원
+        </TextKRBold>
       </View>
     </View>
   );
 };
 
 const OrderMenuList = props => {
+  const id = props.route.params.id;
+  const [recruitMenuInfo, setRecruitMenuInfo] = useState<recruitMenuI>();
+  const getMenu = async id => {
+    try {
+      const JWTAccessToken = await getJWTToken();
+      const chatMenu = await axios
+        .get(chatRecruitURL + id + `/menu`, {
+          headers: {
+            Authorization: 'Bearer ' + JWTAccessToken,
+          },
+        })
+        .then(function (response) {
+          if (response.status === 200) {
+            setRecruitMenuInfo(response.data);
+            return response.data.recruitList;
+          }
+          return false;
+        })
+        .catch(function (error) {
+          console.log(error);
+          return false;
+        });
+      return chatMenu;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  };
+
+  useEffect(() => {
+    getMenu(id);
+  }, []);
   return (
     <View
       style={{
+        width: '100%',
+        height: '100%',
         backgroundColor: WHITE_COLOR,
       }}>
       <ScrollView
         style={{
           backgroundColor: WHITE_COLOR,
+          padding: 10,
           // paddingBottom: 300,
         }}>
         <View
           style={{
-            padding: 15,
+            paddingVertical: 15,
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
+            borderBottomWidth: 1,
+            borderBottomColor: LINE_GRAY_COLOR,
           }}>
           <TextKRBold style={styles.Title}>전체 총 주문 금액</TextKRBold>
-          <TextKRReg style={{fontSize: 16, lineHeight: 24}}>50,200원</TextKRReg>
+          <TextKRReg style={{fontSize: 16, lineHeight: 24}}>
+            {formPrice(recruitMenuInfo?.total)}원
+          </TextKRReg>
         </View>
         <View style={{paddingBottom: 300}}>
-          <OrderMenuItem />
-          <OrderMenuItem />
-          <OrderMenuItem />
-          <OrderMenuItem />
-          <OrderMenuItem />
+          {recruitMenuInfo?.participants.map(v => (
+            <View
+              style={{
+                paddingHorizontal: 10,
+              }}>
+              <OrderMenuItem item={v} id={id} />
+              <View
+                style={{
+                  borderBottomWidth: 1,
+                  borderBottomColor: LINE_GRAY_COLOR,
+                }}
+              />
+            </View>
+          ))}
         </View>
       </ScrollView>
-      <MyOrderPriceInfo />
+      {recruitMenuInfo && <MyOrderPriceInfo item={recruitMenuInfo} />}
     </View>
   );
 };

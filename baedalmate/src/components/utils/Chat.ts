@@ -67,9 +67,27 @@ export interface recruitParticipantsI {
   participants: participantI[];
   recruitId: number;
 }
+export interface eachMenuI {
+  name: string;
+  price: number;
+  quantity: number;
+}
+export interface participantMenuPriceI {
+  menu: eachMenuI[];
+  total: number;
+  userId: number;
+}
+export interface recruitMenuI {
+  coupon: number;
+  myPrice: number;
+  number: number;
+  participants: participantMenuPriceI[];
+  shippingFee: number;
+  total: number;
+}
 export const chatRoomURL = url + '/api/v1/rooms';
 export const eachChatRoomURL = url + `/api/v1/room/`;
-export const chatParticipantsURL = url + `/api/v1/recruit/`;
+export const chatRecruitURL = url + `/api/v1/recruit/`;
 export const getChatRoomAPI = async () => {
   const JWTAccessToken = await getJWTToken();
   console.log(JWTAccessToken);
