@@ -9,7 +9,7 @@ import {
 } from 'themes/theme';
 import {TextKRBold, TextKRReg} from 'themes/text';
 import {eachMainRecruitListI} from 'components/pages/Main';
-import {formPrice} from 'components/utils/Main';
+import {formPrice} from 'components/utils/Recruit';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
 import {url} from '../../../../App';

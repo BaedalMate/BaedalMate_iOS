@@ -18,6 +18,13 @@ import axios from 'axios';
 import {url} from '../../../App';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {LOGO, LOGO_WITH_TEXT} from 'themes/theme';
+import BtnAppleAuth from 'components/atoms/Button/BtnAppleAuth';
+import appleAuth, {
+  AppleCredentialState,
+  AppleError,
+  AppleRequestOperation,
+  AppleRequestScope,
+} from '@invertase/react-native-apple-authentication';
 
 const loginURL = url + '/login/oauth2/kakao';
 
@@ -27,7 +34,7 @@ interface LoginProps {
 
 function Login({navigation}: LoginProps): React.ReactElement {
   const [result, setResult] = useState<string>('');
-  const [kakaoAccessToken, setAccessToken] = useState<string>('');
+  const [kakaoAccessToken, setKakaoAccessToken] = useState<string>('');
   // const [JWTRefreshToken, setJWTRefreshToken] = useState([]);
 
   // accessToken 갱신 시마다 서버에 accessToken 보내고 JWT token 받아옴
@@ -40,11 +47,15 @@ function Login({navigation}: LoginProps): React.ReactElement {
   const signInWithKakao = async (): Promise<void> => {
     try {
       const token: KakaoOAuthToken = await login();
-      setAccessToken(token.accessToken);
+      setKakaoAccessToken(token.accessToken);
       setResult(JSON.stringify(token));
 
       // JWTtoken 받아온 후 메인 페이지 이동
       const JWTTokens = await getJWTTokens_localdb();
+      // const values = await AsyncStorage.multiGet([
+      //   '@BaedalMate_JWTAccessToken',
+      //   '@BaedalMate_JWTRefreshToken',
+      // ]);
       if (JWTTokens[0][1]) {
         console.log(JWTTokens);
         console.log(JWTTokens[0][1]);
@@ -126,6 +137,7 @@ function Login({navigation}: LoginProps): React.ReactElement {
       return false;
     }
   };
+
   return (
     <View
       style={{
@@ -145,7 +157,7 @@ function Login({navigation}: LoginProps): React.ReactElement {
       <Image
         source={LOGO_WITH_TEXT}
         style={{
-          marginBottom: 100,
+          marginBottom: 90,
           width: 400,
           height: 400,
           justifyContent: 'center',
@@ -153,6 +165,7 @@ function Login({navigation}: LoginProps): React.ReactElement {
       />
       {/* </View> */}
       <BtnKakaoLoginWrapper onPress={() => signInWithKakao()} />
+      <BtnAppleAuth />
     </View>
   );
 }

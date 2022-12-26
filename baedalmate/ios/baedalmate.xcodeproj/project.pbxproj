@@ -12,19 +12,17 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		3CBFE5684ED87F2FA5D85AC3 /* libPods-baedalmate-baedalmateTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 925DB0D304423A3328151056 /* libPods-baedalmate-baedalmateTests.a */; };
+		5272BAC86BA1CC95B61CD4A4 /* libPods-baedalmate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52C744AAF29A88902AE1576A /* libPods-baedalmate.a */; };
+		68E5D2C8949203A608F303B6 /* libPods-baedalmate-baedalmateTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF7AEA71A562A3E83BB2D19B /* libPods-baedalmate-baedalmateTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8F9C2553F8E7472F876688FB /* SFProDisplay-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4658699EC14D4B1297812D3C /* SFProDisplay-Regular.otf */; };
 		B7D7835F74C8403D82FAE333 /* SF-Pro-Display-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 225CEC4EAB6640C992A37819 /* SF-Pro-Display-Regular.otf */; };
 		C6434A68283E9228005F2EBF /* Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6434A67283E9228005F2EBF /* Swift.swift */; };
 		C6434A69283E9228005F2EBF /* Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6434A67283E9228005F2EBF /* Swift.swift */; };
-		C6434A6B283E92BE005F2EBF /* KakaoOpenSDK-1.23.10 in Resources */ = {isa = PBXBuildFile; fileRef = C6434A6A283E92BE005F2EBF /* KakaoOpenSDK-1.23.10 */; };
-		C6434A6C283E92BE005F2EBF /* KakaoOpenSDK-1.23.10 in Resources */ = {isa = PBXBuildFile; fileRef = C6434A6A283E92BE005F2EBF /* KakaoOpenSDK-1.23.10 */; };
-		C6434A6E283E9335005F2EBF /* KakaoCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6434A6D283E9335005F2EBF /* KakaoCommon.framework */; };
-		C6434A70283E9345005F2EBF /* KakaoLink.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6434A6F283E9345005F2EBF /* KakaoLink.framework */; };
-		C6434A72283EA017005F2EBF /* KakaoOpenSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6434A71283EA017005F2EBF /* KakaoOpenSDK.framework */; };
 		C6434A73283EA017005F2EBF /* KakaoOpenSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6434A71283EA017005F2EBF /* KakaoOpenSDK.framework */; };
-		F8D6401C124BE4720B990C96 /* libPods-baedalmate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A055B1B0D837047C4BE1CE33 /* libPods-baedalmate.a */; };
+		C668402D29432816004E28FC /* KakaoOpenSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6434A71283EA017005F2EBF /* KakaoOpenSDK.framework */; };
+		C66840302943352E004E28FC /* KakaoCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C668402F29433524004E28FC /* KakaoCommon.framework */; };
+		C66840312943352E004E28FC /* KakaoCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C668402F29433524004E28FC /* KakaoCommon.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,19 +48,18 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = baedalmate/main.m; sourceTree = "<group>"; };
 		225CEC4EAB6640C992A37819 /* SF-Pro-Display-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Display-Regular.otf"; path = "../src/assets/fonts/SF-Pro-Display-Regular.otf"; sourceTree = "<group>"; };
 		4658699EC14D4B1297812D3C /* SFProDisplay-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProDisplay-Regular.otf"; path = "../src/assets/fonts/SFProDisplay-Regular.otf"; sourceTree = "<group>"; };
+		52C744AAF29A88902AE1576A /* libPods-baedalmate.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-baedalmate.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6EB43E106DBB4667A74E75D4 /* AppleSDGothicNeo.ttc */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AppleSDGothicNeo.ttc; path = ../src/assets/fonts/AppleSDGothicNeo.ttc; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = baedalmate/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		925DB0D304423A3328151056 /* libPods-baedalmate-baedalmateTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-baedalmate-baedalmateTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A055B1B0D837047C4BE1CE33 /* libPods-baedalmate.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-baedalmate.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD11A7A772C91D3F4D6918EB /* Pods-baedalmate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baedalmate.release.xcconfig"; path = "Target Support Files/Pods-baedalmate/Pods-baedalmate.release.xcconfig"; sourceTree = "<group>"; };
 		C15B60019A15CCC3F7D5DA74 /* Pods-baedalmate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baedalmate.debug.xcconfig"; path = "Target Support Files/Pods-baedalmate/Pods-baedalmate.debug.xcconfig"; sourceTree = "<group>"; };
 		C6434A65283E9227005F2EBF /* baedalmate-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "baedalmate-Bridging-Header.h"; sourceTree = "<group>"; };
 		C6434A66283E9227005F2EBF /* baedalmateTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "baedalmateTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		C6434A67283E9228005F2EBF /* Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Swift.swift; path = baedalmate/Swift.swift; sourceTree = "<group>"; };
-		C6434A6A283E92BE005F2EBF /* KakaoOpenSDK-1.23.10 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "KakaoOpenSDK-1.23.10"; sourceTree = "<group>"; };
-		C6434A6D283E9335005F2EBF /* KakaoCommon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KakaoCommon.framework; path = "KakaoOpenSDK-1.23.10/KakaoCommon.framework"; sourceTree = "<group>"; };
-		C6434A6F283E9345005F2EBF /* KakaoLink.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KakaoLink.framework; path = "KakaoOpenSDK-1.23.10/KakaoLink.framework"; sourceTree = "<group>"; };
 		C6434A71283EA017005F2EBF /* KakaoOpenSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = KakaoOpenSDK.framework; sourceTree = "<group>"; };
+		C66840252941744B004E28FC /* baedalmate.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = baedalmate.entitlements; path = baedalmate/baedalmate.entitlements; sourceTree = "<group>"; };
+		C668402F29433524004E28FC /* KakaoCommon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = KakaoCommon.framework; sourceTree = "<group>"; };
+		CF7AEA71A562A3E83BB2D19B /* libPods-baedalmate-baedalmateTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-baedalmate-baedalmateTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E461FCA58249162C651655DD /* Pods-baedalmate-baedalmateTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baedalmate-baedalmateTests.release.xcconfig"; path = "Target Support Files/Pods-baedalmate-baedalmateTests/Pods-baedalmate-baedalmateTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -73,7 +70,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C6434A73283EA017005F2EBF /* KakaoOpenSDK.framework in Frameworks */,
-				3CBFE5684ED87F2FA5D85AC3 /* libPods-baedalmate-baedalmateTests.a in Frameworks */,
+				C66840312943352E004E28FC /* KakaoCommon.framework in Frameworks */,
+				68E5D2C8949203A608F303B6 /* libPods-baedalmate-baedalmateTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,10 +79,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C6434A70283E9345005F2EBF /* KakaoLink.framework in Frameworks */,
-				C6434A72283EA017005F2EBF /* KakaoOpenSDK.framework in Frameworks */,
-				C6434A6E283E9335005F2EBF /* KakaoCommon.framework in Frameworks */,
-				F8D6401C124BE4720B990C96 /* libPods-baedalmate.a in Frameworks */,
+				C66840302943352E004E28FC /* KakaoCommon.framework in Frameworks */,
+				C668402D29432816004E28FC /* KakaoOpenSDK.framework in Frameworks */,
+				5272BAC86BA1CC95B61CD4A4 /* libPods-baedalmate.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -111,6 +108,7 @@
 		13B07FAE1A68108700A75B9A /* baedalmate */ = {
 			isa = PBXGroup;
 			children = (
+				C66840252941744B004E28FC /* baedalmate.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -128,12 +126,10 @@
 			isa = PBXGroup;
 			children = (
 				C6434A71283EA017005F2EBF /* KakaoOpenSDK.framework */,
-				C6434A6F283E9345005F2EBF /* KakaoLink.framework */,
-				C6434A6D283E9335005F2EBF /* KakaoCommon.framework */,
-				C6434A6A283E92BE005F2EBF /* KakaoOpenSDK-1.23.10 */,
+				C668402F29433524004E28FC /* KakaoCommon.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				A055B1B0D837047C4BE1CE33 /* libPods-baedalmate.a */,
-				925DB0D304423A3328151056 /* libPods-baedalmate-baedalmateTests.a */,
+				52C744AAF29A88902AE1576A /* libPods-baedalmate.a */,
+				CF7AEA71A562A3E83BB2D19B /* libPods-baedalmate-baedalmateTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -279,7 +275,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C6434A6C283E92BE005F2EBF /* KakaoOpenSDK-1.23.10 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,7 +287,6 @@
 				B7D7835F74C8403D82FAE333 /* SF-Pro-Display-Regular.otf in Resources */,
 				0A2411B1098C4B42AFF3F3A5 /* AppleSDGothicNeo.ttc in Resources */,
 				8F9C2553F8E7472F876688FB /* SFProDisplay-Regular.otf in Resources */,
-				C6434A6B283E92BE005F2EBF /* KakaoOpenSDK-1.23.10 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,7 +305,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
+			shellScript = "set -e\n\nexport NODE_BINARY=node\nexport ENTRY_FILE=./index.tsx\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
 		3331F5B2AB7136BC5B990AB6 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -484,6 +478,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = FV28XC8259;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -521,6 +516,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = FV28XC8259;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -549,10 +545,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C15B60019A15CCC3F7D5DA74 /* Pods-baedalmate.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = baedalmate/baedalmate.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FV28XC8259;
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = "";
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -573,6 +572,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mate.baedalmate;
 				PRODUCT_NAME = baedalmate;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "baedalmate-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -584,10 +584,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BD11A7A772C91D3F4D6918EB /* Pods-baedalmate.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = baedalmate/baedalmate.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FV28XC8259;
 				EXCLUDED_ARCHS = "";
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -607,6 +610,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mate.baedalmate;
 				PRODUCT_NAME = baedalmate;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "baedalmate-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

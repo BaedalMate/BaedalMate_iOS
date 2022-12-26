@@ -102,7 +102,7 @@ const BoardList = ({
   categoryId,
   boardList,
 }: {
-  categoryId: number;
+  categoryId?: number;
   boardList;
 }) => {
   return <ScrollView>{renderItem(boardList)}</ScrollView>;

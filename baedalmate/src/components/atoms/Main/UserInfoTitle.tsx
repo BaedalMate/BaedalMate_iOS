@@ -10,7 +10,7 @@ import ChangeDormitory, {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {userURL} from 'components/pages/Main';
-import {getJWTToken} from 'components/utils/Main';
+import {getJWTToken} from 'components/utils/Recruit';
 import {useNavigation} from '@react-navigation/native';
 
 const Item = ({title}) => null;

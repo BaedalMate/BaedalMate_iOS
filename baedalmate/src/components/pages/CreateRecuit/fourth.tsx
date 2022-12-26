@@ -22,7 +22,7 @@ import {
   postRecruitAPI,
   postRecruitI,
   shippingFeeI,
-} from 'components/utils/Main';
+} from 'components/utils/Recruit';
 
 export interface RecruitItemProps {
   createDate: string;

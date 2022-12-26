@@ -1,6 +1,6 @@
 import {Fonts} from 'assets/Fonts';
 import {RecruitItemProps} from 'components/pages/Detail';
-import {formPrice} from 'components/utils/Main';
+import {formPrice} from 'components/utils/Recruit';
 import React, {useState} from 'react';
 import {useForm} from 'react-hook-form';
 

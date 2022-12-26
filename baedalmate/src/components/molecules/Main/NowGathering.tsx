@@ -26,7 +26,7 @@ const NowGathering = ({
           flexGrow: 1,
         }}>
         {mainRecruitList.map((v, i) => (
-          <NowGatheringItem item={v}></NowGatheringItem>
+          <NowGatheringItem item={v} key={i}></NowGatheringItem>
           // <NowGatheringItem item={mainRecruitList[1]}></NowGatheringItem>
           // <NowGatheringItem item={mainRecruitList[2]}></NowGatheringItem>
           // <NowGatheringItem item={mainRecruitList[3]}></NowGatheringItem>

@@ -3,7 +3,7 @@ import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import {DormitoryList} from 'components/atoms/BottomSheet/ChangeDormitoryBottomSheet';
 import BtnVerticalOrange from 'components/atoms/Button/BtnVerticalOrange';
-import {getJWTToken} from 'components/utils/Main';
+import {getJWTToken} from 'components/utils/Recruit';
 import React, {useState} from 'react';
 import {FlatList, TouchableOpacity, View} from 'react-native';
 import {TextKRBold, TextKRReg} from 'themes/text';
@@ -28,16 +28,6 @@ const Dormitory = props => {
   // const handleModal = () => {
   //   modal ? setModal(false) : setModal(true);
   // };
-  let dormIndex =
-    selectedAddress === 'NURI'
-      ? 0
-      : selectedAddress === 'SUNGLIM'
-      ? 1
-      : selectedAddress === 'KB'
-      ? 2
-      : selectedAddress === 'BURAM'
-      ? 3
-      : 4;
   // User dormitory 변경
   const putUserDormitory = async () => {
     let changedDormitory =
@@ -50,6 +40,16 @@ const Dormitory = props => {
         : selectedAddress === '불암학사'
         ? 'BURAM'
         : 'NURI';
+    let dormIndex =
+      changedDormitory === 'NURI'
+        ? 0
+        : changedDormitory === 'SUNGLIM'
+        ? 1
+        : changedDormitory === 'KB'
+        ? 2
+        : changedDormitory === 'BURAM'
+        ? 3
+        : 4;
     const JWTAccessToken = await getJWTToken();
     console.log(changedDormitory, JWTAccessToken);
     try {

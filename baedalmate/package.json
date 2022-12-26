@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@invertase/react-native-apple-authentication": "^2.2.2",
     "@react-native-async-storage/async-storage": "^1.17.7",
     "@react-native-community/cli-platform-ios": "^9.1.2",
     "@react-native-community/geolocation": "^3.0.3",
@@ -24,6 +25,7 @@
     "@types/stompjs": "^2.3.5",
     "axios": "^0.27.2",
     "buffer": "^6.0.3",
+    "jwt-decode": "^3.1.2",
     "react": "17.0.2",
     "react-hook-form": "^7.36.1",
     "react-native": "0.68.1",

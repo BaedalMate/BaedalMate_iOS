@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import DetailImage from 'components/atoms/Image/DetailImage';
 import {
+  ActionSheetIOS,
+  FlatList,
   KeyboardAvoidingView,
   Modal,
   Platform,
@@ -16,7 +18,13 @@ import Description from 'components/molecules/Detail/Description';
 import BtnVerticalOrange from 'components/atoms/Button/BtnVerticalOrange';
 import axios from 'axios';
 import {url} from '../../../App';
-import {getJWTToken, postParticipateRecruitAPI} from 'components/utils/Main';
+import {
+  cancelRecruitAPI,
+  closeRecruitAPI,
+  deleteRecruitOrderAPI,
+  getJWTToken,
+  postParticipateRecruitAPI,
+} from 'components/utils/Recruit';
 import {menuListI} from 'components/molecules/CreateRecruit/MenuList';
 import {useForm} from 'react-hook-form';
 import {
@@ -40,17 +48,20 @@ import PlatformImage from 'components/atoms/Image/PlatformImage';
 import BtnMap from 'components/atoms/Button/BtnMap';
 import {useNavigation} from '@react-navigation/native';
 import {Text} from 'react-native-paper';
-
+import {NativeStackHeaderProps} from '@react-navigation/native-stack';
 export interface RecruitItemProps {
   active: boolean;
+  cancel: boolean;
   coupon: number;
   currentPeople: number;
+  currentPrice: number;
   deadlineDate: string;
   description: string;
   dormitory: string;
   host: boolean;
   image: string;
   minPeople: number;
+  minPrice: number;
   participate: boolean;
   place: {
     addressName: string;
@@ -84,13 +95,13 @@ export interface DetailProps {
   };
 }
 
-const BoardItemDetail: React.FC<DetailProps> = props => {
-  console.log(props.route.params.id);
+const BoardItemDetail = props => {
   const navigation = useNavigation();
   const detailURL = url + `/api/v1/recruit/${props.route.params.id}`;
   const [statusBarHeight, setStatusBarHeight] = useState(0);
   const [itemDetaildata, setItemDetailData] = useState<RecruitItemProps>();
   const [modal, setModal] = useState(false);
+  const [dropdownModal, setDropdownModal] = useState(false);
   const [menuList, setMenuList] = useState<menuListI[]>();
   const {
     control,
@@ -105,14 +116,12 @@ const BoardItemDetail: React.FC<DetailProps> = props => {
     },
   });
   const onSubmitMenu = (data: menuListI) => {
-    console.log(data);
     menuList ? setMenuList([...menuList, data]) : setMenuList([data]);
     // handleModal();
   };
   const onSubmit = async () => {
     // console.log(data);
     // menuList ? setMenuList([...menuList, data]) : setMenuList([data]);
-    console.log(menuList);
     const result: any = await postParticipateRecruitAPI(
       menuList ? menuList : [],
       props.route.params.id,
@@ -132,6 +141,93 @@ const BoardItemDetail: React.FC<DetailProps> = props => {
   const handleModal = () => {
     modal ? setModal(false) : setModal(true);
   };
+  const handleDropdownModal = () => {
+    dropdownModal
+      ? (setDropdownModal(false), props.navigation.setParams({modal: false}))
+      : (setDropdownModal(true), props.navigation.setParams({modal: true}));
+  };
+  const cancelRecruit = async () => {
+    try {
+      if (itemDetaildata) {
+        const result = await cancelRecruitAPI(itemDetaildata?.recruitId);
+        console.log('cancel Recruit', result);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const closeRecruit = async () => {
+    try {
+      if (itemDetaildata) {
+        const result = await closeRecruitAPI(itemDetaildata.recruitId);
+        console.log('close Recruit', result);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const cancelParticipate = async () => {
+    try {
+      if (itemDetaildata) {
+        const result = await deleteRecruitOrderAPI(itemDetaildata.recruitId);
+        console.log('cancel Participate Recruit', result);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    if (dropdownModal) {
+      if (itemDetaildata?.host) {
+        ActionSheetIOS.showActionSheetWithOptions(
+          {
+            options: ['취소', '모집 마감하기', '모집 취소하기'],
+            destructiveButtonIndex: 2,
+            cancelButtonIndex: 0,
+            userInterfaceStyle: 'light',
+          },
+          buttonIndex => {
+            if (buttonIndex === 0) {
+              handleDropdownModal();
+            } else if (buttonIndex === 1) {
+              closeRecruit();
+              handleDropdownModal();
+            } else if (buttonIndex === 2) {
+              cancelRecruit();
+              handleDropdownModal();
+            } else {
+              handleDropdownModal();
+            }
+          },
+        );
+      } else if (itemDetaildata?.participate) {
+        ActionSheetIOS.showActionSheetWithOptions(
+          {
+            options: ['취소', '모집 나가기'],
+            destructiveButtonIndex: 1,
+            cancelButtonIndex: 0,
+            userInterfaceStyle: 'light',
+          },
+          buttonIndex => {
+            if (buttonIndex === 0) {
+              handleDropdownModal();
+            } else if (buttonIndex === 1) {
+              cancelParticipate();
+              handleDropdownModal();
+            } else {
+              handleDropdownModal();
+            }
+          },
+        );
+      } else {
+      }
+    }
+  }, [dropdownModal]);
+  useEffect(() => {
+    console.log(props.route.params.modal);
+    props.route.params.modal && setDropdownModal(props.route.params.modal);
+  }, [props.route.params]);
+
   const deleteMenu = id => {
     setMenuList(
       menuList?.filter((v, i) => {
@@ -150,7 +246,6 @@ const BoardItemDetail: React.FC<DetailProps> = props => {
         })
         .then(function (response) {
           setItemDetailData(response.data);
-          console.log(response.data);
           return response.data;
         })
         .catch(function (error) {
@@ -168,8 +263,179 @@ const BoardItemDetail: React.FC<DetailProps> = props => {
     getDetailData();
   }, []);
 
+  // const particiPantsDropdownModalListData = [
+  //   {id: 0, text: '모집 나가기', onclick: () => {}},
+  // ];
+  // const hostDropdownModalListData = [
+  //   {id: 0, text: '모집 마감하기'},
+  //   {id: 1, text: '모집 취소하기'},
+  // ];
   return (
     <ScrollView>
+      {/* <View>
+        <Modal
+          transparent={true}
+          visible={dropdownModal}
+          animationType={'fade'}
+          onRequestClose={handleDropdownModal}>
+          <View
+            style={{
+              width: '100%',
+              height: '100%',
+              backgroundColor: 'rgba(0,0,0,0.45)',
+              flex: 1,
+              // flexDirection: 'column',
+              // justifyContent: 'flex-end',
+              // alignItems: 'center',
+            }}>
+            <View
+              onTouchStart={handleDropdownModal}
+              style={{
+                width: '100%',
+                height: '100%',
+                margin: 10,
+                // backgroundColor: 'rgba(0,0,0,0.45)',
+                flex: 1,
+                // flexDirection: 'column',
+                // justifyContent: 'flex-start',
+                // alignItems: 'flex-start',
+              }}
+            /> */}
+
+      {/* <FlatList
+                data={hostDropdownModalListData}
+                renderItem={item => (
+                  <TouchableOpacity>
+                    <Text>{item.item.text}</Text>
+                  </TouchableOpacity>
+                )}></FlatList> */}
+      {/* 
+            <View>
+              <FlatList
+                style={{
+                  margin: 10,
+                  paddingVertical: 10,
+                  bottom: 0,
+                  backgroundColor: WHITE_COLOR,
+                  // backgroundColor: `rgba(255,255,255,0.9)`,
+                  borderRadius: 10,
+                }}
+                data={
+                  itemDetaildata?.host
+                    ? hostDropdownModalListData
+                    : particiPantsDropdownModalListData
+                }
+                renderItem={item => (
+                  <TouchableOpacity
+                    style={{
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      paddingVertical: 15,
+                      borderBottomWidth: itemDetaildata?.host
+                        ? item.index === hostDropdownModalListData.length - 1
+                          ? 0
+                          : 1
+                        : item.index ===
+                          particiPantsDropdownModalListData.length - 1
+                        ? 0
+                        : 1,
+                      borderBottomColor: LINE_GRAY_COLOR,
+                    }}>
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        color: DARK_GRAY_COLOR,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}>
+                      {item.item.text}
+                    </Text>
+                  </TouchableOpacity>
+                )}
+              /> */}
+      {
+        // itemDetaildata?.host
+        // ?
+        // hostDropdownModalListData.map(v => (
+        //   <View
+        //     style={{
+        //       margin: 10,
+        //       paddingVertical: 20,
+        //       bottom: 0,
+        //       backgroundColor: WHITE_COLOR,
+        //       borderRadius: 10,
+        //     }}>
+        //     <TouchableOpacity
+        //       style={{
+        //         justifyContent: 'center',
+        //         alignItems: 'center',
+        //       }}>
+        //       <Text>{v.text}</Text>
+        //     </TouchableOpacity>
+        //   </View>
+        // ))
+        //   : particiPantsDropdownModalListData.map(v => (
+        //       <View
+        //         style={{
+        //           // backgroundColor: 'rgba(255,255,255,0.)',
+        //           // flex: 1,
+        //           // flexDirection: 'column',
+        //           // width: '100%',
+        //           margin: 10,
+        //           // padding: 0,
+        //           paddingVertical: 20,
+        //           // position: 'absolute',
+        //           // top: statusBarHeight + 90,
+        //           // right: 10,
+        //           bottom: 0,
+        //           backgroundColor: WHITE_COLOR,
+        //           borderRadius: 10,
+        //           // paddingBottom: 43,
+        //           // marginBottom: 43,
+        //         }}>
+        //         <TouchableOpacity
+        //           style={{
+        //             justifyContent: 'center',
+        //             alignItems: 'center',
+        //           }}>
+        //           <Text>{v.text}</Text>
+        //         </TouchableOpacity>
+        //       </View>
+        // ))
+      }
+      {/* </View> */}
+      {/* <FlatList
+                data={
+                  itemDetaildata?.host
+                    ? hostDropdownModalListData
+                    : particiPantsDropdownModalListData
+                }
+                renderItem={item => (
+                  <TouchableOpacity
+                    style={{justifyContent: 'center', alignItems: 'center'}}>
+                    <Text>{item.item.text}</Text>
+                  </TouchableOpacity>
+                )}
+              /> */}
+      {/* <View
+                style={{
+                  margin: 10,
+                  paddingVertical: 20,
+                  bottom: 0,
+                  backgroundColor: WHITE_COLOR,
+                  borderRadius: 10,
+                  marginBottom: 43,
+                }}>
+                <TouchableOpacity
+                  style={{justifyContent: 'center', alignItems: 'center'}} onPressOut={handleDropdownModal}>
+                  <Text>{'취소'}</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
+      </View> */}
+
       <DetailImage item={itemDetaildata} />
       <PlatformImage item={itemDetaildata} />
       <BtnMap item={itemDetaildata} />
@@ -184,9 +450,9 @@ const BoardItemDetail: React.FC<DetailProps> = props => {
           marginBottom: 62,
         }}>
         {itemDetaildata?.host === true ? (
-          <BtnVerticalDeactive onPress={() => {}} text="모집 참여하기" />
+          <BtnVerticalOrange onPress={handleModal} text="메뉴 변경하기" />
         ) : itemDetaildata?.participate ? (
-          <BtnVerticalOrange onPress={handleModal} text="모집 나가기" />
+          <BtnVerticalOrange onPress={handleModal} text="메뉴 변경하기" />
         ) : (
           <BtnVerticalOrange onPress={handleModal} text="모집 참여하기" />
         )}
@@ -213,6 +479,7 @@ const BoardItemDetail: React.FC<DetailProps> = props => {
               style={{
                 width: '100%',
                 height: '100%',
+                flex: 1,
               }}
             />
             <KeyboardAvoidingView

@@ -1,15 +1,24 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {url} from '../../../App';
 import axios from 'axios';
-
+export const cancelRecruitURL = url + '/api/v1/recruit/cancel';
+export const closeRecruitURL = url + '/api/v1/recruit/close';
 export const createRecruitURL = url + '/api/v1/recruit/new';
-export const ParticipateRecruitAPI = url + '/api/v1/order';
+export const ParticipateRecruitURL = url + '/api/v1/order';
 // AsyncStorge에 저장한 JWT token을 받아옴
 export const getJWTToken = async () => {
   const JWTAccessToken = await AsyncStorage.getItem(
     '@BaedalMate_JWTAccessToken',
   );
   return String(JWTAccessToken);
+};
+
+export const getJWTRefreshToken = async () => {
+  const JWTRefreshToken = await AsyncStorage.getItem(
+    '@BaedalMate_JWTRefreshToken',
+  );
+
+  return String(JWTRefreshToken);
 };
 
 export const formPrice = (text: number | undefined) => {
@@ -117,6 +126,27 @@ export const postRecruitAPI = async (
   }
 };
 
+export const cancelRecruitAPI = async (id: number) => {
+  const JWTAccessToken = await getJWTToken();
+  console.log(JWTAccessToken);
+  const result = await axios.get(cancelRecruitURL + `/${id}`, {
+    headers: {
+      Authorization: 'Bearer ' + JWTAccessToken,
+    },
+  });
+  return result.data;
+};
+export const closeRecruitAPI = async (id: number) => {
+  const JWTAccessToken = await getJWTToken();
+  console.log(JWTAccessToken);
+  const result = await axios.get(closeRecruitURL + `/${id}`, {
+    headers: {
+      Authorization: 'Bearer ' + JWTAccessToken,
+    },
+  });
+  return result.data;
+};
+
 export const postParticipateRecruitAPI = async (
   menu: menuI[],
   recruitId: number,
@@ -126,7 +156,7 @@ export const postParticipateRecruitAPI = async (
   try {
     const result = await axios
       .post(
-        ParticipateRecruitAPI,
+        ParticipateRecruitURL,
         {
           menu,
           recruitId,
@@ -149,4 +179,50 @@ export const postParticipateRecruitAPI = async (
     console.log(error);
     return false;
   }
+};
+
+export const updateParticipateRecruitAPI = async (
+  menu: menuI[],
+  recruitId: number,
+) => {
+  const JWTAccessToken = await getJWTToken();
+  console.log(JWTAccessToken);
+  try {
+    const result = await axios
+      .put(
+        ParticipateRecruitURL,
+        {
+          menu,
+          recruitId,
+        },
+        {
+          headers: {
+            Authorization: 'Bearer ' + JWTAccessToken,
+          },
+        },
+      )
+      .then(function (response) {
+        return response;
+      })
+      .catch(function (error) {
+        console.log(error);
+        return false;
+      });
+    return result;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+export const deleteRecruitOrderAPI = async (recruitId: number) => {
+  const JWTAccessToken = await getJWTToken();
+  console.log(JWTAccessToken);
+  const result = await axios.delete(ParticipateRecruitURL, {
+    data: {recruitId},
+    headers: {
+      Authorization: 'Bearer ' + JWTAccessToken,
+    },
+  });
+  return result.data;
 };

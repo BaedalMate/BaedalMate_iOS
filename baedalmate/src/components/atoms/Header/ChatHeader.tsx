@@ -1,7 +1,11 @@
 import {useNavigation} from '@react-navigation/native';
 import {url} from '../../../../App';
-import {eachDetailChatRoomI} from 'components/utils/Chat';
-import React, {useState} from 'react';
+import {
+  eachDetailChatRoomI,
+  participantI,
+  recruitParticipantsI,
+} from 'components/utils/Chat';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
   Modal,
@@ -16,15 +20,32 @@ import {DARK_GRAY_COLOR, PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
 import {OrangeTag} from '../BoardList/Tags';
 import BtnHorizontalWhiteS from '../Button/BtnHorizontalWhiteS';
 import StarRatingComponent from '../StarRating/StarRating';
+import {MAX_USERNAME_LIMIT} from 'components/molecules/Chat/Message';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {postReviewAPI, reviewEachUserI} from 'components/utils/Review';
+import {useForm, UseFormReturn} from 'react-hook-form';
+// import {getReviewParticipantsAPI} from 'components/utils/Review';
 
-export const ReviewMemberList = () => {
+export const ReviewMemberList = ({
+  item,
+  users,
+  useForm,
+}: {
+  item: participantI;
+  users: reviewEachUserI[];
+  useForm: UseFormReturn;
+}) => {
+  // useEffect(() => {
+  //   users.push({userId: item.userId, score: 0});
+  // }, []);
+  console.log(users);
   return (
     <View
       style={{
         justifyContent: 'space-between',
         alignItems: 'center',
         paddingBottom: 15,
-        paddingHorizontal: 20,
+        paddingHorizontal: 0,
         flexDirection: 'row',
       }}>
       <View
@@ -35,7 +56,9 @@ export const ReviewMemberList = () => {
         }}>
         <Image
           source={{
-            uri: 'https://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg',
+            uri: item.profileImage.includes('https')
+              ? item.profileImage
+              : item.profileImage.replace('http', 'https'),
           }}
           style={{
             width: 45,
@@ -48,18 +71,61 @@ export const ReviewMemberList = () => {
         />
         <View
           style={{height: 45, justifyContent: 'center', alignItems: 'center'}}>
-          <Text style={{}}>김예빈</Text>
+          <Text style={{}}>
+            {item.nickname.length >= MAX_USERNAME_LIMIT
+              ? item.nickname.substring(0, MAX_USERNAME_LIMIT) + '...'
+              : item.nickname}
+          </Text>
         </View>
       </View>
       <View>
-        <StarRatingComponent />
+        <StarRatingComponent useForm={useForm} userId={item.userId} />
       </View>
     </View>
   );
 };
 
-export const ReviewModal = ({modal, handleModal}) => {
+export const ReviewModal = ({
+  id,
+  participants,
+  modal,
+  handleModal,
+}: {
+  id: number;
+  participants: recruitParticipantsI;
+  modal: boolean;
+  handleModal: any;
+}) => {
   const navigation = useNavigation();
+  const [userId, setUserId] = useState('');
+  // const getUserId = async () => {
+  //   const userId = await AsyncStorage.getItem('@BaedalMate_UserId');
+  //   userId && setUserId(userId);
+  // };
+  const [users, setUsers] = useState<reviewEachUserI[]>([]);
+  const useFormReturn = useForm();
+  const {register, handleSubmit} = useFormReturn;
+
+  // useEffect(() => {
+  //   participants.participants.map(v => {
+  //     v.userId.toString() !== userId &&
+  //       users.push({userId: v.userId, score: 0});
+  //   });
+  // }, [userId]);
+  const onSubmit = (d: any) => {
+    console.log('review', d);
+    const submitReview = d.users.filter(v => v != null);
+    console.log(submitReview);
+    const postReviewData = {recruitId: id, users: submitReview};
+    postReview(postReviewData);
+  };
+  const postReview = async postReviewData => {
+    const result = await postReviewAPI(postReviewData);
+    console.log(result.data);
+    if (result.status === 200) {
+      handleModal();
+    }
+  };
   return (
     <View>
       <Modal
@@ -106,15 +172,24 @@ export const ReviewModal = ({modal, handleModal}) => {
             </TextKRBold>
           </View>
           <View>
-            <ReviewMemberList />
-            <ReviewMemberList />
-            <ReviewMemberList />
-            <ReviewMemberList />
+            {participants?.participants.map(
+              v =>
+                v.userId.toString() !== userId && (
+                  <ReviewMemberList
+                    item={v}
+                    users={users}
+                    useForm={useFormReturn}
+                    key={v.userId}
+                  />
+                ),
+            )}
           </View>
           <TouchableOpacity
-            onPress={() => {
-              handleModal(), navigation.navigate('GPS 인증하기' as never);
-            }}
+            onPress={
+              handleSubmit(onSubmit)
+              // handleModal();
+              // navigation.navigate('GPS 인증하기' as never);
+            }
             style={{
               width: '100%',
               justifyContent: 'center',
@@ -136,7 +211,15 @@ export const ReviewModal = ({modal, handleModal}) => {
   );
 };
 
-export const ChatHeader = ({item}: {item: eachDetailChatRoomI}) => {
+export const ChatHeader = ({
+  item,
+  participants,
+  reviewUserList,
+}: {
+  item: eachDetailChatRoomI;
+  participants: recruitParticipantsI;
+  reviewUserList: recruitParticipantsI;
+}) => {
   const navigation = useNavigation();
   const [modal, setModal] = useState(false);
   const handleModal = () => {
@@ -144,7 +227,12 @@ export const ChatHeader = ({item}: {item: eachDetailChatRoomI}) => {
   };
   return (
     <>
-      <ReviewModal modal={modal} handleModal={handleModal} />
+      <ReviewModal
+        id={item.recruit.recruitId}
+        participants={reviewUserList}
+        modal={modal}
+        handleModal={handleModal}
+      />
       <TouchableHighlight
         style={styles.chatHeaderWrapper}
         activeOpacity={0.6}

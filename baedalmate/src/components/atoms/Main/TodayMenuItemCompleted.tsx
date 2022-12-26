@@ -17,7 +17,7 @@ import {STAR_PRIMARY} from 'themes/theme';
 import {TextKRBold, TextKRReg} from 'themes/text';
 import {TagComponent} from './TodayMenuItem';
 import {eachMainTagRecruitListI} from 'components/pages/Main';
-import {formPrice} from 'components/utils/Main';
+import {formPrice} from 'components/utils/Recruit';
 import {useNavigation} from '@react-navigation/native';
 import {url} from '../../../../App';
 const TodayMenuItemCompleted = ({item}: {item: eachMainTagRecruitListI}) => {

@@ -12,7 +12,7 @@ import BtnFloating from 'components/atoms/Button/BtnFloating';
 import axios from 'axios';
 import {url} from '../../../App';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {getJWTToken} from 'components/utils/Main';
+import {getJWTToken} from 'components/utils/Recruit';
 export const userURL = url + '/api/v1/user';
 export const recruitListURL = url + '/api/v1/recruit/list';
 export const mainRecruitListURL = url + '/api/v1/recruit/main/list';

@@ -1,6 +1,6 @@
 import {BoardListProps} from 'components/molecules/BoardList/BoardList';
-import {eachDetailChatRoomI, recruitI} from 'components/utils/Chat';
-import {formPrice} from 'components/utils/Main';
+import {recruitI} from 'components/utils/Chat';
+import {formPrice} from 'components/utils/Recruit';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {TextKRBold, TextKRReg} from 'themes/text';

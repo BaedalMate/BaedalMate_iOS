@@ -34,6 +34,7 @@ import ParticipateRecruitList from 'components/pages/Setting/ParticipateRecruitL
 import GPS from 'components/pages/Setting/GPS';
 import Dormitory from 'components/pages/Setting/Dormitory';
 import OrderMenuList from 'components/pages/OrderMenuList';
+import SearchPage from 'components/pages/Search';
 
 const AuthStack = createNativeStackNavigator();
 const MainScreenTab = createBottomTabNavigator();
@@ -129,6 +130,8 @@ const CategoryStackComponent = () => {
     </CategoryStack.Navigator>
   );
 };
+const particiPantsDropdownModalListData = [{id: 0, text: '모집 나가기'}];
+
 export const BoardStackComponent = () => {
   return (
     <BoardScreenStack.Navigator>
@@ -167,6 +170,24 @@ export const BoardStackComponent = () => {
               <Image source={BACK_GRAY} />
             </TouchableOpacity>
           ),
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => {
+                // let showModal =
+                //   route.params && route.params.modal
+                //     ? route.params.modal
+                //     : false;
+                navigation.navigate(
+                  '글 상세 보기',
+                  // ,
+                  // {
+                  // modal: !showModal,
+                  // }
+                );
+              }}>
+              <Image source={SETTING_HORIZONTAL_GRAY_ICON} />
+            </TouchableOpacity>
+          ),
         })}
       />
       <BoardScreenStack.Screen
@@ -192,6 +213,22 @@ export const BoardStackComponent = () => {
         }}
       />
       <BoardScreenStack.Screen
+        name="검색"
+        component={SearchPage}
+        options={({navigation, route}) => ({
+          headerBackVisible: false,
+
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image source={BACK_GRAY} />
+            </TouchableOpacity>
+          ),
+        })}
+      />
+      <BoardScreenStack.Screen
         name="채팅방"
         component={DetailChatRoom}
         options={({navigation, route}) => ({
@@ -204,9 +241,26 @@ export const BoardStackComponent = () => {
               <Image source={BACK_GRAY} />
             </TouchableOpacity>
           ),
+
+          // headerSearchBarOptions: {},
+
           headerRight: () => (
             <TouchableOpacity
               onPress={() => {
+                // ActionSheetIOS.showActionSheetWithOptions(
+                //   {
+                //     options: ['취소', '모집 마감하기', '모집 취소하기'],
+                //     // destructiveButtonIndex: 2,
+                //     // cancelButtonIndex: 0,
+                //     // userInterfaceStyle: 'light',
+                //   },
+                //   buttonIndex => {
+                //     // if (buttonIndex === 0) {
+                //     // } else if (buttonIndex === 1) {
+                //     // } else if (buttonIndex === 2) {
+                //     // }
+                //   },
+                // );
                 let showModal =
                   route.params && route.params.modal
                     ? route.params.modal

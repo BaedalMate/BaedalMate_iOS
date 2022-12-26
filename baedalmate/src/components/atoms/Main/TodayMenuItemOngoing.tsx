@@ -8,7 +8,7 @@ import {STAR_PRIMARY} from 'themes/theme';
 import {TextKRBold} from 'themes/text';
 import {TagComponent} from './TodayMenuItem';
 import {eachMainTagRecruitListI} from 'components/pages/Main';
-import {formPrice} from 'components/utils/Main';
+import {formPrice} from 'components/utils/Recruit';
 import {useNavigation} from '@react-navigation/native';
 import {url} from '../../../../App';
 const TodayMenuItemOngoing = ({item}: {item: eachMainTagRecruitListI}) => {

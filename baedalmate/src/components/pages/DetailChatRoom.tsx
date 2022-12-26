@@ -15,7 +15,7 @@ import {
   OpponentMessage,
 } from 'components/molecules/Chat/Message';
 import {url} from '../../../App';
-import {getJWTToken} from 'components/utils/Main';
+import {getJWTToken} from 'components/utils/Recruit';
 import axios from 'axios';
 
 import ChatHeader from 'components/atoms/Header/ChatHeader';
@@ -38,14 +38,13 @@ import {
   chatRecruitURL,
   recruitParticipantsI,
 } from 'components/utils/Chat';
-// import {getChatRoomAPI} from 'components/utils/\bChat';
-
 import SockJS from 'sockjs-client';
 import {Stomp} from '@stomp/stompjs';
 import {TextKRBold} from 'themes/text';
 import {Fonts} from 'assets/Fonts';
 import BtnVerticalOrange from 'components/atoms/Button/BtnVerticalOrange';
 import {MemberList} from 'components/atoms/Chat/MemberListItem';
+import {getReviewParticipantsAPI} from 'components/utils/Review';
 
 export interface sendI {
   senderId: number;
@@ -107,7 +106,7 @@ export const DetailChatRoom = props => {
   const [detailChat, setDetailChat] = useState<eachDetailChatRoomI>();
   const [participantsInfo, setParticipantsInfo] =
     useState<recruitParticipantsI>();
-  const getEachChatRoomAPI = async () => {
+  const getEachChatRoom = async () => {
     try {
       const JWTAccessToken = await getJWTToken();
       const chatRooms = await axios
@@ -136,27 +135,18 @@ export const DetailChatRoom = props => {
   const getParticipants = async id => {
     try {
       const JWTAccessToken = await getJWTToken();
-      const chatParticipants = await axios
-        .get(chatRecruitURL + id + `/participants`, {
-          headers: {
-            Authorization: 'Bearer ' + JWTAccessToken,
-          },
-        })
-        .then(function (response) {
-          if (response.status === 200) {
-            setParticipantsInfo(response.data);
-            return response.data.recruitList;
-          }
-          return false;
-        })
-        .catch(function (error) {
-          console.log(error);
-          return false;
-        });
-      return chatParticipants;
+      const result = await axios.get(chatRecruitURL + `${id}/participants`, {
+        headers: {
+          Authorization: 'Bearer ' + JWTAccessToken,
+        },
+      });
+      if (result) {
+        if (result.status === 200) {
+          setParticipantsInfo(result.data);
+        }
+      }
     } catch (error) {
       console.log(error);
-      return false;
     }
   };
 
@@ -291,19 +281,19 @@ export const DetailChatRoom = props => {
 
   useEffect(() => {
     // findRoom();
-    getEachChatRoomAPI();
+    getEachChatRoom();
     getMyInfo();
     connect();
   }, []);
   useEffect(() => {
     getParticipants(detailChat?.recruit.recruitId);
-  }, [detailChat]);
+  }, [detailChat?.recruit.recruitId]);
   useEffect(() => {
     console.log(participantsInfo);
   }, [participantsInfo]);
   useEffect(() => {
     connect();
-    getEachChatRoomAPI();
+    getEachChatRoom();
   }, [messages, recv]);
   useEffect(() => {
     reset({
@@ -321,6 +311,7 @@ export const DetailChatRoom = props => {
   //   // );
   // }, [messageText]);
   const [statusBarHeight, setStatusBarHeight] = useState(0);
+  const [reviewUserList, setReviewUserList] = useState<recruitParticipantsI>();
 
   const scrollViewRef = useRef<any>(null);
   const [modal, setModal] = useState(false);
@@ -333,7 +324,17 @@ export const DetailChatRoom = props => {
     console.log(props.route.params.modal);
     props.route.params.modal && setModal(props.route.params.modal);
   }, [props.route.params]);
-
+  const getUsers = async id => {
+    try {
+      const result = await getReviewParticipantsAPI(id);
+      setReviewUserList(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getUsers(detailChat?.recruit.recruitId);
+  }, [detailChat?.recruit.recruitId]);
   return (
     <>
       <View>
@@ -429,7 +430,13 @@ export const DetailChatRoom = props => {
         </Modal>
       </View>
       <View style={{flex: 1}}>
-        {detailChat && <ChatHeader item={detailChat} />}
+        {detailChat && participantsInfo && reviewUserList && (
+          <ChatHeader
+            item={detailChat}
+            participants={participantsInfo}
+            reviewUserList={reviewUserList}
+          />
+        )}
         <ScrollView
           ref={scrollViewRef}
           onContentSizeChange={() =>

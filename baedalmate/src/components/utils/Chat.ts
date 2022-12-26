@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {url} from '../../../App';
 import axios from 'axios';
-import {getJWTToken, placeI, shippingFeeI} from './Main';
+import {getJWTToken, placeI, shippingFeeI} from './Recruit';
 
 export interface eachChatRoomI {
   id: number;
@@ -74,16 +74,16 @@ export interface eachMenuI {
 }
 export interface participantMenuPriceI {
   menu: eachMenuI[];
-  total: number;
+  userOrderTotal: number;
   userId: number;
 }
 export interface recruitMenuI {
   coupon: number;
-  myPrice: number;
+  myOrderPrice: number;
   number: number;
   participants: participantMenuPriceI[];
   shippingFee: number;
-  total: number;
+  allOrderTotal: number;
 }
 export const chatRoomURL = url + '/api/v1/rooms';
 export const eachChatRoomURL = url + `/api/v1/room/`;

@@ -24,7 +24,7 @@ import {
   recruitMenuI,
   recruitParticipantsI,
 } from 'components/utils/Chat';
-import {formPrice, getJWTToken} from 'components/utils/Main';
+import {formPrice, getJWTToken} from 'components/utils/Recruit';
 
 export interface RecruitItemProps {
   createDate: string;
@@ -113,7 +113,7 @@ const MyOrderPriceInfo = ({item}: {item: recruitMenuI}) => {
                   lineHeight: 24,
                   fontStyle: 'normal',
                 }}>
-                {formPrice(item.myPrice)} 원
+                {formPrice(item.myOrderPrice)} 원
               </TextKRReg>
             </View>
             <View
@@ -214,7 +214,7 @@ const MyOrderPriceInfo = ({item}: {item: recruitMenuI}) => {
                   color: PRIMARY_COLOR,
                 }}>
                 {formPrice(
-                  item.myPrice +
+                  item.myOrderPrice +
                     Math.ceil(item.shippingFee / item.participants.length) -
                     item.coupon,
                 )}
@@ -328,7 +328,7 @@ const OrderMenuItem = ({
         }}>
         <TextKRReg style={{fontSize: 16, lineHeight: 24}}>총 금액</TextKRReg>
         <TextKRBold style={{fontSize: 16}}>
-          {formPrice(item.total)}원
+          {formPrice(item.userOrderTotal)}원
         </TextKRBold>
       </View>
     </View>
@@ -393,7 +393,7 @@ const OrderMenuList = props => {
           }}>
           <TextKRBold style={styles.Title}>전체 총 주문 금액</TextKRBold>
           <TextKRReg style={{fontSize: 16, lineHeight: 24}}>
-            {formPrice(recruitMenuInfo?.total)}원
+            {formPrice(recruitMenuInfo?.allOrderTotal)}원
           </TextKRReg>
         </View>
         <View style={{paddingBottom: 300}}>

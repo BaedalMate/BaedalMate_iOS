@@ -6,7 +6,7 @@ import BtnVerticalGray from 'components/atoms/Button/BtnVerticalGray';
 import BtnVerticalOrange from 'components/atoms/Button/BtnVerticalOrange';
 import {DormitoryDescriptionInput} from 'components/atoms/CreateRecruit/Input';
 import {Map} from 'components/molecules/Setting/Map';
-import {getJWTToken} from 'components/utils/Main';
+import {getJWTToken} from 'components/utils/Recruit';
 import React, {useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {Image, Text, View} from 'react-native';

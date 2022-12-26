@@ -252,13 +252,13 @@ const CreateRecruit2 = props => {
                   />
                 </View>
 
-                <DormitoryDescriptionInput
+                {/* <DormitoryDescriptionInput
                   error={errors}
                   name={'description'}
                   control={control}
                   rules={{required: true}}
                   setValue={setValue}
-                />
+                /> */}
               </View>
             </View>
             <View
