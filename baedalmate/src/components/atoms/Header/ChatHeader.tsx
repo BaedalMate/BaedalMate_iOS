@@ -55,11 +55,12 @@ export const ReviewMemberList = ({
           justifyContent: 'center',
         }}>
         <Image
-          source={{
-            uri: item.profileImage.includes('https')
-              ? item.profileImage
-              : item.profileImage.replace('http', 'https'),
-          }}
+          source={{uri: url + '/images/' + item.profileImage}}
+          // source={{
+          //   uri: item.profileImage.includes('https')
+          //     ? item.profileImage
+          //     : item.profileImage.replace('http', 'https'),
+          // }}
           style={{
             width: 45,
             height: 45,

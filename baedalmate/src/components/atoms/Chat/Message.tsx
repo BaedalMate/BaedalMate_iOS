@@ -1,3 +1,4 @@
+import {url} from '../../../../App';
 import {messageI} from 'components/utils/Chat';
 import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
@@ -7,9 +8,10 @@ export const ChatProfileImage = ({image}: {image: string}) => {
   return (
     <View style={{width: 30, height: 30}}>
       <Image
-        source={{
-          uri: image.includes('https') ? image : image.replace('http', 'https'),
-        }}
+        // source={{
+        //   uri: image.includes('https') ? image : image.replace('http', 'https'),
+        // }}
+        source={{uri: url + '/images/' + image}}
         style={{
           width: 30,
           height: 30,

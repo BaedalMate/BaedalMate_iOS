@@ -1,9 +1,8 @@
-import {url} from '../../../../App';
 import {RecruitItemProps} from 'components/pages/Detail';
 import React from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, View} from 'react-native';
 import {MyPageI} from 'components/pages/Setting/MyPage';
-import {BAEMIN_ICON} from 'themes/theme';
+import {url} from '../../../../App';
 
 export type BtnWithoutTextProps = {
   onPress(): void;
@@ -11,13 +10,13 @@ export type BtnWithoutTextProps = {
 
 const UserProfileImage = ({item}: {item: RecruitItemProps | undefined}) => {
   // console.log(item?.profileImage);
-  console.log(item?.profileImage.replace('http', 'https'));
-  BAEMIN_ICON;
+  // console.log(item?.profileImage.replace('http', 'https'));
   return (
     <Image
-      source={{
-        uri: item?.profileImage.replace('http', 'https'),
-      }}
+      // source={{
+      //   uri: item?.profileImage.replace('http', 'https'),
+      // }}
+      source={{uri: url + '/images/' + item?.profileImage}}
       style={{
         width: 45,
         height: 45,
@@ -37,11 +36,12 @@ const MyPageUserProfileImage = ({item}: {item: MyPageI | undefined}) => {
           // uri: url + '/images/' + item?.profileImage,
         }}
         style={{
-          width: 60,
-          height: 60,
+          width: 55,
+          height: 55,
           backgroundColor: '#ffffff',
-          borderRadius: 60 / 2,
-          marginHorizontal: 15,
+          borderRadius: 55 / 2,
+          marginRight: 15,
+          marginLeft: 5,
         }}
       />
     </View>

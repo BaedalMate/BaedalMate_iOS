@@ -25,6 +25,7 @@ import {
   recruitParticipantsI,
 } from 'components/utils/Chat';
 import {formPrice, getJWTToken} from 'components/utils/Recruit';
+import {url} from '../../../App';
 
 export interface RecruitItemProps {
   createDate: string;
@@ -291,9 +292,10 @@ const OrderMenuItem = ({
           // justifyContent: 'center',
         }}>
         <Image
-          source={{
-            uri: currentParticipant?.image?.replace('http', 'https'),
-          }}
+          source={{uri: url + '/images/' + currentParticipant?.image}}
+          // source={{
+          //   uri: currentParticipant?.image?.replace('http', 'https'),
+          // }}
           style={{
             width: 45,
             height: 45,

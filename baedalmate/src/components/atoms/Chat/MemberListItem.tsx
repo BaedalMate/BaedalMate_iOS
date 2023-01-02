@@ -14,9 +14,10 @@ export const MemberList = ({item}: {item: participantI}) => {
         paddingBottom: 15,
       }}>
       <Image
-        source={{
-          uri: item?.profileImage.replace('http', 'https'),
-        }}
+        // source={{
+        //   uri: item?.profileImage.replace('http', 'https'),
+        // }}
+        source={{uri: url + '/images/' + item.profileImage}}
         style={{
           width: 45,
           height: 45,
