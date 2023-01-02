@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   ImageSourcePropType,
+  TouchableHighlight,
 } from 'react-native';
 import {LIGHT_GRAY_COLOR, PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
 import {TextKRReg} from 'themes/text';
@@ -32,7 +33,7 @@ const CategoryItem: React.FunctionComponent<CategoryItemProps> = ({
   const [borderColor, setBorderColor] = useState(WHITE_COLOR);
 
   const goToCategory = () => {
-    setActive(!active);
+    // setActive(!active);
     navigation.navigate('카테고리', {
       categoryId: category.categoryId,
     });
@@ -44,10 +45,13 @@ const CategoryItem: React.FunctionComponent<CategoryItemProps> = ({
 
   return (
     <View style={{marginBottom: 15}}>
-      <TouchableOpacity
-        activeOpacity={1}
-        onPressIn={goToCategory}
-        onPressOut={goToCategory}
+      <TouchableHighlight
+        underlayColor={WHITE_COLOR}
+        // activeOpacity={1}
+        // onPressIn={onPress}
+        onPressIn={onPress}
+        onPressOut={onPress}
+        onPress={goToCategory}
         style={{
           borderWidth: 1,
           borderRadius: 10,
@@ -60,7 +64,7 @@ const CategoryItem: React.FunctionComponent<CategoryItemProps> = ({
             style={{width: 45, height: 45, borderRadius: 45 / 2}}></Image>
           <TextKRReg style={{}}>{category.categoryName}</TextKRReg>
         </View>
-      </TouchableOpacity>
+      </TouchableHighlight>
     </View>
   );
 };
