@@ -1,17 +1,20 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {url} from '../../../App';
+import {url} from '../../../../App';
 import axios from 'axios';
 import {getJWTToken, placeI, shippingFeeI} from './Recruit';
 
 export interface eachChatRoomI {
-  id: number;
+  chatRoomId: number;
   image: string;
   lastMessage: {
-    id: number;
     message: string;
+    messageId: number;
     sendDate: string;
     sender: string;
+    senderId: number;
+    senderImage: string;
   };
+  title: string;
 }
 export interface chatRoomListI {
   rooms: eachChatRoomI[];
@@ -28,29 +31,31 @@ export interface messageI {
 }
 
 export interface recruitI {
+  recruitId: number;
+  recruitImage: string;
+  createDate: string;
+  title: string;
+  criteria: string;
+  minPrice: number;
+  minPeople: number;
+  deadlineDate: string;
   active: boolean;
   cancel: boolean;
-  criteria: string;
-  coupon: number;
-  currentPeople: number;
-  currentPrice: number;
-  deadlineDate: string;
-  description: string;
-  dormitory: string;
-  host: boolean;
-  recruitImage: string;
-  minPeople: number;
-  minPrice: number;
-  participants: boolean;
-  place: placeI;
-  platform: string;
-  profileImage: string;
-  recruitId: number;
-  score: number;
-  shippingFee: number;
-  shippingFeeDetail: shippingFeeI[];
-  title: string;
-  username: string;
+  fail: boolean;
+  // coupon: number;
+  // currentPeople: number;
+  // currentPrice: number;
+  // description: string;
+  // dormitory: string;
+  // host: boolean;
+  // participants: boolean;
+  // place: placeI;
+  // platform: string;
+  // profileImage: string;
+  // score: number;
+  // shippingFee: number;
+  // shippingFeeDetail: shippingFeeI[];
+  // username: string;
 }
 
 export interface eachDetailChatRoomI {
@@ -109,10 +114,23 @@ export const formDate = (time: string) => {
   let dateText =
     date.getFullYear() +
     '년 ' +
-    date.getMonth() +
+    (date.getMonth() + 1) +
     '월 ' +
     date.getDate() +
     '일';
+  return dateText;
+};
+
+export const formDateWithDot = (time: string) => {
+  let date = new Date(time);
+
+  let dateText =
+    date.getFullYear() +
+    '.' +
+    (date.getMonth() + 1) +
+    '.' +
+    date.getDate() +
+    '';
   return dateText;
 };
 

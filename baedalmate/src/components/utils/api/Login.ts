@@ -1,4 +1,4 @@
-import {url} from '../../../App';
+import {url} from '../../../../App';
 import axios from 'axios';
 import {getJWTRefreshToken, getJWTToken} from './Recruit';
 import AsyncStorage from '@react-native-async-storage/async-storage';

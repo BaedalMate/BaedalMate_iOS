@@ -1,16 +1,17 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {url} from '../../../App';
+import {url} from '../../../../App';
 import axios from 'axios';
 export const cancelRecruitURL = url + '/api/v1/recruit/cancel';
 export const closeRecruitURL = url + '/api/v1/recruit/close';
 export const createRecruitURL = url + '/api/v1/recruit/new';
 export const ParticipateRecruitURL = url + '/api/v1/order';
+export const searchRecruitURL = url + '/api/v1/recruit/search';
 // AsyncStorge에 저장한 JWT token을 받아옴
 export const getJWTToken = async () => {
   const JWTAccessToken = await AsyncStorage.getItem(
     '@BaedalMate_JWTAccessToken',
   );
-  return String(JWTAccessToken);
+  return await String(JWTAccessToken);
 };
 
 export const getJWTRefreshToken = async () => {
@@ -222,6 +223,19 @@ export const deleteRecruitOrderAPI = async (recruitId: number) => {
     data: {recruitId},
     headers: {
       Authorization: 'Bearer ' + JWTAccessToken,
+    },
+  });
+  return result.data;
+};
+
+export const searchRecruitAPI = async (keyword: string) => {
+  const JWTAccessToken = await getJWTToken();
+  const result = await axios.get(searchRecruitURL, {
+    headers: {
+      Authorization: 'Bearer ' + JWTAccessToken,
+    },
+    params: {
+      keyword,
     },
   });
   return result.data;
