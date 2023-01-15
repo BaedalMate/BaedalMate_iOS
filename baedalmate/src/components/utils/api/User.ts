@@ -9,6 +9,8 @@ export interface UserInfoI {
   userDormitory: string;
   userId: number;
 }
+const participatedRecruitURL = userURL + '/participated-recruit';
+const hostedRecruitURL = userURL + '/hosted-recruit';
 // User Api 를 받아옴
 export const getUserAPI = async () => {
   const JWTAccessToken = await getJWTToken();
@@ -19,7 +21,7 @@ export const getUserAPI = async () => {
           Authorization: 'Bearer ' + JWTAccessToken,
         },
       })
-      .then(async function (response) {
+      .then(function (response) {
         console.log(response);
         // AsyncStorage에 유저 이름과 배달 거점 저장
         AsyncStorage.setItem('@BaedalMate_UserName', response.data.nickname);
@@ -36,6 +38,56 @@ export const getUserAPI = async () => {
         return false;
       });
     return UserData;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+export const getParticipatedRecruitAPI = async () => {
+  const JWTAccessToken = await getJWTToken();
+  try {
+    const result = axios
+      .get(participatedRecruitURL, {
+        headers: {
+          Authorization: 'Bearer ' + JWTAccessToken,
+        },
+      })
+      .then(function (response) {
+        console.log(response);
+
+        return response.data.recruitList;
+      })
+      .catch(function (error) {
+        console.log(error);
+        return false;
+      });
+    return result;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+export const getHostedRecruitAPI = async () => {
+  const JWTAccessToken = await getJWTToken();
+  try {
+    const result = axios
+      .get(hostedRecruitURL, {
+        headers: {
+          Authorization: 'Bearer ' + JWTAccessToken,
+        },
+      })
+      .then(function (response) {
+        console.log(response);
+
+        return response.data.recruitList;
+      })
+      .catch(function (error) {
+        console.log(error);
+        return false;
+      });
+    return result;
   } catch (error) {
     console.log(error);
     return false;

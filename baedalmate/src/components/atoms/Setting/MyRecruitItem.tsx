@@ -77,6 +77,8 @@ const MyRecruitItem = ({item}: {item: BoardListProps}) => {
               }}>
               {item.active
                 ? '모집 진행중'
+                : item.cancel
+                ? '모집 취소'
                 : item.fail
                 ? '모집 실패'
                 : '모집 성공'}
@@ -117,6 +119,8 @@ const MyRecruitItem = ({item}: {item: BoardListProps}) => {
               display: 'flex',
               flexDirection: 'row',
               marginBottom: 5,
+              justifyContent: 'center',
+              alignItems: 'center',
             }}>
             <TextKRReg
               style={{
@@ -142,13 +146,6 @@ const MyRecruitItem = ({item}: {item: BoardListProps}) => {
               {formDateWithDot(item.createDate)}
             </TextKRReg>
           </View>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              flex: 1,
-            }}></View>
         </View>
       </>
     </TouchableHighlight>

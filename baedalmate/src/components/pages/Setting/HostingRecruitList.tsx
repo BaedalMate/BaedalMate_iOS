@@ -8,6 +8,7 @@ import BtnFloating from 'components/atoms/Button/BtnFloating';
 import axios from 'axios';
 import BoardItem from 'components/atoms/BoardList/BoardItem';
 import MyRecruitItem from 'components/atoms/Setting/MyRecruitItem';
+import {getHostedRecruitAPI} from 'components/utils/api/User';
 
 export const dummyBoardListData = Array(10).fill({
   createDate: '2022-10-14 10:40:13',
@@ -76,9 +77,17 @@ const renderItem = boardList => {
 };
 
 const HostingRecruitList = props => {
+  const [boardListData, setBoardListData] = useState();
+  const getData = async () => {
+    const result = await getHostedRecruitAPI();
+    setBoardListData(result);
+  };
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <ScrollView style={{backgroundColor: WHITE_COLOR}}>
-      {renderItem(dummyBoardListData)}
+      {renderItem(boardListData)}
     </ScrollView>
   );
 };
