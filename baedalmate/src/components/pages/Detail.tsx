@@ -1,16 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import DetailImage from 'components/atoms/Image/DetailImage';
-import {
-  ActionSheetIOS,
-  FlatList,
-  KeyboardAvoidingView,
-  Modal,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {ActionSheetIOS, ScrollView, StyleSheet, View} from 'react-native';
 import UserInfo from 'components/molecules/Detail/UserInfo';
 import Title from 'components/molecules/Detail/Title';
 import ItemInfo from 'components/molecules/Detail/ItemInfo';
@@ -24,67 +14,53 @@ import {
   deleteRecruitOrderAPI,
   getJWTToken,
   postParticipateRecruitAPI,
-} from 'components/utils/Recruit';
+} from 'components/utils/api/Recruit';
 import {menuListI} from 'components/molecules/CreateRecruit/MenuList';
 import {useForm} from 'react-hook-form';
-import {
-  DormitoryDescriptionInput,
-  PriceInput,
-  CntInput,
-} from 'components/atoms/CreateRecruit/Input';
-import {TextKRBold, TextKRReg} from 'themes/text';
 import {
   WHITE_COLOR,
   PRIMARY_COLOR,
   DARK_GRAY_COLOR,
-  LINE_GRAY_COLOR,
   ERROR_COLOR,
 } from 'themes/theme';
 import {Fonts} from 'assets/Fonts';
-import MenuItem from 'components/atoms/CreateRecruit/MenuItem';
-import BtnAddMenu from 'components/atoms/Button/BtnAddMenu';
-import BtnVerticalDeactive from 'components/atoms/Button/BtnVerticalDeactive';
 import PlatformImage from 'components/atoms/Image/PlatformImage';
 import BtnMap from 'components/atoms/Button/BtnMap';
 import {useNavigation} from '@react-navigation/native';
-import {Text} from 'react-native-paper';
-import {NativeStackHeaderProps} from '@react-navigation/native-stack';
+import BtnVerticalWhite from 'components/atoms/Button/BtnVerticalWhite';
+import BtnVerticalGray from 'components/atoms/Button/BtnVerticalGray';
+import {UserInfoI} from 'components/utils/api/User';
 export interface RecruitItemProps {
-  active: boolean;
-  cancel: boolean;
-  coupon: number;
-  currentPeople: number;
-  currentPrice: number;
-  deadlineDate: string;
-  description: string;
-  dormitory: string;
-  host: boolean;
+  recruitId: number;
   image: string;
-  minPeople: number;
-  minPrice: number;
-  participate: boolean;
+  title: string;
+  description: string;
   place: {
-    addressName: string;
     name: string;
+    addressName: string;
     roadAddressName: string;
     x: number;
     y: number;
   };
   platform: string;
-  profileImage: string;
-  recruitId: number;
-  score: number;
+  deadlineDate: string;
   shippingFee: number;
-  shippingFeeDetail: [
-    {
-      lowerPrice: number;
-      shippingFee: number;
-      upperPrice: number;
-    },
-  ];
-  title: string;
-  userDormitory: string;
-  username: string;
+  shippingFeeDetail: {
+    lowerPrice: number;
+    shippingFee: number;
+    upperPrice: number;
+  }[];
+  coupon: number;
+  currentPeople: number;
+  minPeople: number;
+  currentPrice: number;
+  minPrice: number;
+  dormitory: string;
+  active: boolean;
+  cancel: boolean;
+  host: boolean;
+  participate: boolean;
+  userInfo: UserInfoI;
 }
 export interface DetailProps {
   onPress(): void;
@@ -271,171 +247,7 @@ const BoardItemDetail = props => {
   //   {id: 1, text: '모집 취소하기'},
   // ];
   return (
-    <ScrollView>
-      {/* <View>
-        <Modal
-          transparent={true}
-          visible={dropdownModal}
-          animationType={'fade'}
-          onRequestClose={handleDropdownModal}>
-          <View
-            style={{
-              width: '100%',
-              height: '100%',
-              backgroundColor: 'rgba(0,0,0,0.45)',
-              flex: 1,
-              // flexDirection: 'column',
-              // justifyContent: 'flex-end',
-              // alignItems: 'center',
-            }}>
-            <View
-              onTouchStart={handleDropdownModal}
-              style={{
-                width: '100%',
-                height: '100%',
-                margin: 10,
-                // backgroundColor: 'rgba(0,0,0,0.45)',
-                flex: 1,
-                // flexDirection: 'column',
-                // justifyContent: 'flex-start',
-                // alignItems: 'flex-start',
-              }}
-            /> */}
-
-      {/* <FlatList
-                data={hostDropdownModalListData}
-                renderItem={item => (
-                  <TouchableOpacity>
-                    <Text>{item.item.text}</Text>
-                  </TouchableOpacity>
-                )}></FlatList> */}
-      {/* 
-            <View>
-              <FlatList
-                style={{
-                  margin: 10,
-                  paddingVertical: 10,
-                  bottom: 0,
-                  backgroundColor: WHITE_COLOR,
-                  // backgroundColor: `rgba(255,255,255,0.9)`,
-                  borderRadius: 10,
-                }}
-                data={
-                  itemDetaildata?.host
-                    ? hostDropdownModalListData
-                    : particiPantsDropdownModalListData
-                }
-                renderItem={item => (
-                  <TouchableOpacity
-                    style={{
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      paddingVertical: 15,
-                      borderBottomWidth: itemDetaildata?.host
-                        ? item.index === hostDropdownModalListData.length - 1
-                          ? 0
-                          : 1
-                        : item.index ===
-                          particiPantsDropdownModalListData.length - 1
-                        ? 0
-                        : 1,
-                      borderBottomColor: LINE_GRAY_COLOR,
-                    }}>
-                    <Text
-                      style={{
-                        fontSize: 16,
-                        color: DARK_GRAY_COLOR,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}>
-                      {item.item.text}
-                    </Text>
-                  </TouchableOpacity>
-                )}
-              /> */}
-      {
-        // itemDetaildata?.host
-        // ?
-        // hostDropdownModalListData.map(v => (
-        //   <View
-        //     style={{
-        //       margin: 10,
-        //       paddingVertical: 20,
-        //       bottom: 0,
-        //       backgroundColor: WHITE_COLOR,
-        //       borderRadius: 10,
-        //     }}>
-        //     <TouchableOpacity
-        //       style={{
-        //         justifyContent: 'center',
-        //         alignItems: 'center',
-        //       }}>
-        //       <Text>{v.text}</Text>
-        //     </TouchableOpacity>
-        //   </View>
-        // ))
-        //   : particiPantsDropdownModalListData.map(v => (
-        //       <View
-        //         style={{
-        //           // backgroundColor: 'rgba(255,255,255,0.)',
-        //           // flex: 1,
-        //           // flexDirection: 'column',
-        //           // width: '100%',
-        //           margin: 10,
-        //           // padding: 0,
-        //           paddingVertical: 20,
-        //           // position: 'absolute',
-        //           // top: statusBarHeight + 90,
-        //           // right: 10,
-        //           bottom: 0,
-        //           backgroundColor: WHITE_COLOR,
-        //           borderRadius: 10,
-        //           // paddingBottom: 43,
-        //           // marginBottom: 43,
-        //         }}>
-        //         <TouchableOpacity
-        //           style={{
-        //             justifyContent: 'center',
-        //             alignItems: 'center',
-        //           }}>
-        //           <Text>{v.text}</Text>
-        //         </TouchableOpacity>
-        //       </View>
-        // ))
-      }
-      {/* </View> */}
-      {/* <FlatList
-                data={
-                  itemDetaildata?.host
-                    ? hostDropdownModalListData
-                    : particiPantsDropdownModalListData
-                }
-                renderItem={item => (
-                  <TouchableOpacity
-                    style={{justifyContent: 'center', alignItems: 'center'}}>
-                    <Text>{item.item.text}</Text>
-                  </TouchableOpacity>
-                )}
-              /> */}
-      {/* <View
-                style={{
-                  margin: 10,
-                  paddingVertical: 20,
-                  bottom: 0,
-                  backgroundColor: WHITE_COLOR,
-                  borderRadius: 10,
-                  marginBottom: 43,
-                }}>
-                <TouchableOpacity
-                  style={{justifyContent: 'center', alignItems: 'center'}} onPressOut={handleDropdownModal}>
-                  <Text>{'취소'}</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </Modal>
-      </View> */}
-
+    <ScrollView style={{backgroundColor: WHITE_COLOR}}>
       <DetailImage item={itemDetaildata} />
       <PlatformImage item={itemDetaildata} />
       <BtnMap item={itemDetaildata} />
@@ -449,22 +261,33 @@ const BoardItemDetail = props => {
           marginTop: 30,
           marginBottom: 62,
         }}>
-        {itemDetaildata?.host === true ? (
-          <BtnVerticalOrange onPress={handleModal} text="메뉴 변경하기" />
-        ) : itemDetaildata?.participate ? (
-          <BtnVerticalOrange onPress={handleModal} text="메뉴 변경하기" />
+        {itemDetaildata?.active ? (
+          itemDetaildata?.host === true ? (
+            <View style={{flexDirection: 'row', width: '100%'}}>
+              <View style={{flex: 1}}>
+                <BtnVerticalWhite onPress={() => {}} text="모집 취소" />
+              </View>
+              <View style={{width: 10}} />
+              <View style={{flex: 4}}>
+                <BtnVerticalOrange onPress={() => {}} text="모집 마감하기" />
+              </View>
+            </View>
+          ) : itemDetaildata?.participate ? (
+            <BtnVerticalOrange onPress={() => {}} text="모집 나가기" />
+          ) : (
+            <BtnVerticalOrange onPress={() => {}} text="모집 참여하기" />
+          )
         ) : (
-          <BtnVerticalOrange onPress={handleModal} text="모집 참여하기" />
+          <BtnVerticalGray onPress={() => {}} text="마감된 모집글입니다" />
         )}
       </View>
-      <View>
+      {/* <View>
         <Modal
           transparent={true}
           visible={modal}
           animationType={'slide'}
           onRequestClose={handleModal}>
           <View
-            // onTouchStart={handleModal}
             style={{
               width: '100%',
               height: '100%',
@@ -488,11 +311,11 @@ const BoardItemDetail = props => {
               keyboardVerticalOffset={statusBarHeight}>
               <View
                 style={{
-                  padding: 15,
+                  paddingVertical: 15,
                   position: 'relative',
                   bottom: 0,
                   width: '100%',
-                  height: 500,
+                  height: menuList && menuList?.length > 0 ? 620 : 420,
                   backgroundColor: WHITE_COLOR,
                   borderTopLeftRadius: 10,
                   borderTopRightRadius: 10,
@@ -505,6 +328,7 @@ const BoardItemDetail = props => {
                     style={{
                       marginTop: 10,
                       marginBottom: 8,
+                      paddingHorizontal: 15,
                     }}>
                     <TextKRBold
                       style={{
@@ -512,7 +336,7 @@ const BoardItemDetail = props => {
                         lineHeight: 22,
                         color: PRIMARY_COLOR,
                       }}>
-                      메뉴 추가하기
+                      주문 메뉴 추가
                     </TextKRBold>
                   </View>
                   <View>
@@ -521,8 +345,10 @@ const BoardItemDetail = props => {
                         fontSize: 14,
                         lineHeight: 24,
                         color: DARK_GRAY_COLOR,
+                        paddingHorizontal: 15,
                       }}>
-                      추가할 메뉴를 적고 메뉴의 금액을 하단에 적어주세요
+                      추가할 메뉴와 금액을 작성하여, 모든 메뉴를 추가한 뒤{'\n'}
+                      모집에 참여하세요
                     </TextKRReg>
                   </View>
                   <View
@@ -531,6 +357,7 @@ const BoardItemDetail = props => {
                       borderBottomColor: LINE_GRAY_COLOR,
                       paddingBottom: 30,
                       marginBottom: 10,
+                      paddingHorizontal: 15,
                     }}>
                     <View
                       style={{
@@ -544,7 +371,6 @@ const BoardItemDetail = props => {
                           error={errors}
                           name="name"
                           control={control}
-                          // rules={{required: true}}
                           setValue={setValue}
                           rules={{}}
                         />
@@ -572,8 +398,6 @@ const BoardItemDetail = props => {
                           control={control}
                           rules={{}}
                           isLast={true}
-
-                          // rules={{required: true}}
                         />
                       </View>
                     </View>
@@ -589,7 +413,6 @@ const BoardItemDetail = props => {
                         error={errors}
                         name={'quantity'}
                         control={control}
-                        // rules={{required: true}}
                         setValue={setValue}
                         rules={{}}
                       />
@@ -610,57 +433,61 @@ const BoardItemDetail = props => {
                         fontSize: 16,
                         lineHeight: 19,
                       }}>
-                      +메뉴 추가하기
+                      메뉴 추가하기
                     </TextKRBold>
                   </TouchableOpacity>
-                  <ScrollView
-                    horizontal={true}
-                    style={{
-                      height: 120,
-                      paddingTop: 10,
-                      backgroundColor: '#F7F8FA',
-                    }}
-                    contentContainerStyle={{
-                      flexGrow: 1,
-                    }}>
-                    {/* <BtnAddMenu onPress={handleSubmit(onSubmitMenu)} /> */}
-                    {menuList?.map((v, i) => {
-                      return (
-                        <MenuItem
-                          key={i}
-                          menu={v.name}
-                          price={v.price}
-                          cnt={v.quantity}
-                          onPress={() => {
-                            deleteMenu(i);
-                          }}
-                        />
-                      );
-                    })}
-                  </ScrollView>
-                  <TouchableOpacity
-                    onPress={handleSubmit(onSubmit)}
-                    style={{
-                      width: '100%',
-                      justifyContent: 'center',
-                    }}>
-                    <TextKRBold
+                  {menuList && menuList.length > 0 && (
+                    <ScrollView
+                      horizontal={true}
                       style={{
-                        textAlign: 'center',
-                        paddingTop: 10,
-                        fontWeight: '700',
-                        fontSize: 16,
-                        lineHeight: 19,
+                        height: 175,
+                        backgroundColor: '#F7F8FA',
+                        paddingBottom: 23,
+                        marginBottom: 28,
+                      }}
+                      contentContainerStyle={{
+                        flexGrow: 1,
                       }}>
-                      모집참여 완료하기
-                    </TextKRBold>
-                  </TouchableOpacity>
+                      <View style={{}}>
+                        <TextKRBold
+                          style={{
+                            marginVertical: 15,
+                            fontSize: 18,
+                            lineHeight: 22,
+                            color: PRIMARY_COLOR,
+                            paddingHorizontal: 15,
+                          }}>
+                          현재 작성 메뉴
+                        </TextKRBold>
+                        <View style={{flexDirection: 'row'}}>
+                          {menuList?.map((v, i) => {
+                            return (
+                              <MenuItem
+                                key={i}
+                                menu={v.name}
+                                price={v.price}
+                                cnt={v.quantity}
+                                onPress={() => {
+                                  deleteMenu(i);
+                                }}
+                              />
+                            );
+                          })}
+                        </View>
+                      </View>
+                    </ScrollView>
+                  )}
+                  <View style={{paddingHorizontal: 15}}>
+                    <BtnVerticalOrange
+                      onPress={handleSubmit(onSubmit)}
+                      text={'모집참여 완료하기'}></BtnVerticalOrange>
+                  </View>
                 </KeyboardAvoidingView>
               </View>
             </KeyboardAvoidingView>
           </View>
         </Modal>
-      </View>
+      </View> */}
     </ScrollView>
   );
 };

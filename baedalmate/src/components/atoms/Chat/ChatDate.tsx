@@ -5,7 +5,7 @@ import {
   eachChatRoomI,
   formDate,
   messageI,
-} from 'components/utils/Chat';
+} from 'components/utils/api/Chat';
 import React, {useState} from 'react';
 import {Image, StyleSheet, Text, TouchableHighlight, View} from 'react-native';
 import {TextKRBold, TextKRReg} from 'themes/text';

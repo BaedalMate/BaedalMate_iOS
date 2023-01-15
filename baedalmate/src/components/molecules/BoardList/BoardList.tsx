@@ -7,20 +7,23 @@ import {DARK_GRAY_COLOR, PRIMARY_COLOR} from 'themes/theme';
 import {TextKRBold, TextKRReg} from 'themes/text';
 
 export interface BoardListProps {
-  id: number;
-  place: string;
-  minPeople: number;
-  currentPeople: number;
-  criteria: string;
+  active: boolean;
+  fail?: boolean;
   createDate: string;
+  criteria: string;
+  currentPeople: number;
+  currentPrice: number;
   deadlineDate: string;
-  userScore: number;
   dormitory: string;
-  title: string;
+  image: string | null;
+  minPeople: number;
   minPrice: number;
+  place: string;
+  recruitId: number;
+  title: string;
+  userScore: number;
   // deliveryFee?: number;
   // username?: string;
-  image: string | null;
 }
 const categoryData = [
   {
@@ -172,7 +175,9 @@ const BoardList = ({
   categoryId?: number;
   boardList;
 }) => {
-  return boardList.length === 0 ? (
+  return boardList && boardList.length !== 0 ? (
+    <ScrollView>{renderItem(boardList, categoryId)}</ScrollView>
+  ) : (
     <View
       style={{
         justifyContent: 'center',
@@ -205,8 +210,6 @@ const BoardList = ({
         함께 먹고 싶은 음식을 지금 한번 모집 해보세요!
       </TextKRReg>
     </View>
-  ) : (
-    <ScrollView>{renderItem(boardList, categoryId)}</ScrollView>
   );
 };
 

@@ -3,7 +3,7 @@ import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import {DormitoryList} from 'components/atoms/BottomSheet/ChangeDormitoryBottomSheet';
 import BtnVerticalOrange from 'components/atoms/Button/BtnVerticalOrange';
-import {getJWTToken} from 'components/utils/Recruit';
+import {getJWTToken} from 'components/utils/api/Recruit';
 import React, {useState} from 'react';
 import {FlatList, TouchableOpacity, View} from 'react-native';
 import {TextKRBold, TextKRReg} from 'themes/text';

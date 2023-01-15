@@ -9,6 +9,10 @@ import {
   AppleError,
 } from '@invertase/react-native-apple-authentication';
 import jwtDecode from 'jwt-decode';
+import axios from 'axios';
+import {url} from '../../../../App';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+const loginURL = url + '/login/oauth2/apple';
 
 /**
  * You'd technically persist this somewhere for later use.
@@ -35,7 +39,7 @@ async function fetchAndUpdateCredentialState(updateCredentialStateForUser) {
  * Starts the Sign In flow.
  */
 async function onAppleButtonPress(updateCredentialStateForUser) {
-  console.warn('Beginning Apple Authentication');
+  console.log('Beginning Apple Authentication');
 
   // start a login request
   try {
@@ -80,7 +84,7 @@ async function onAppleButtonPress(updateCredentialStateForUser) {
     }
   }
 }
-const BtnAppleAuth = () => {
+const BtnAppleAuth = ({navigation}) => {
   // v1 - fail
   // const onAppleButtonPress = async () => {
   //   try {
@@ -164,11 +168,50 @@ const BtnAppleAuth = () => {
       // use credentialState response to ensure the user is authenticated
       if (credentialState === appleAuth.State.AUTHORIZED) {
         // user is authenticated
-        const {identityToken, email, user} = appleAuthRequestResponse;
+        const {identityToken, email, user, authorizationCode, fullName} =
+          appleAuthRequestResponse;
+        const userFullName = fullName?.familyName + '' + fullName?.givenName;
         const decodedToken: tokenType = jwtDecode(identityToken!);
         console.log('email_from_decodedToken', decodedToken.email);
         console.log('email', email);
         console.log('user', user);
+
+        try {
+          const appleLoginRequest = {
+            appleIdentityToken: identityToken,
+            appleAuthorizationCode: authorizationCode,
+            userName: userFullName,
+            email: email,
+          };
+
+          const response = await axios.post(loginURL, appleLoginRequest);
+          const tokens = await response.data;
+          const token = tokens.accessToken;
+          const refToken = tokens.refreshToken;
+
+          AsyncStorage.multiSet([
+            ['@BaedalMate_JWTAccessToken', token],
+            ['@BaedalMate_JWTRefreshToken', refToken],
+          ]);
+          // const values = await AsyncStorage.multiGet([
+          //   '@BaedalMate_JWTAccessToken',
+          //   '@BaedalMate_JWTRefreshToken',
+          // ]);
+          if (token) {
+            console.log(token);
+
+            navigation.navigate('BoardStackComponent');
+            navigation.reset({
+              index: 0,
+              routes: [{name: 'BoardStackComponent'}],
+            });
+          }
+          return response;
+        } catch (error) {
+          console.log(error);
+
+          return false;
+        }
       }
     } catch (error: any) {
       if (error.code === appleAuth.Error.CANCELED) {

@@ -12,6 +12,8 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {RootNavigator} from './src/Routes';
 export const url = 'http://3.35.27.107:8080';
+// export const url = 'http://192.168.1.58:8080';
+
 const Tab = createBottomTabNavigator();
 
 const App = () => {

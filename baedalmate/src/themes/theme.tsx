@@ -1,5 +1,5 @@
 // color
-const PRIMARY_COLOR = '#FB6C1C';
+const PRIMARY_COLOR = '#FB5F1C';
 const TEXT_COLOR = '#212123';
 const DARK_GRAY_COLOR = '#666666';
 const MAIN_GRAY_COLOR = '#C4C4C4';
@@ -113,6 +113,7 @@ const DECREASE_DEACTIVE = require('../assets/icons/counter/decrease_deactive.png
 const INCREASE_ACTIVE = require('../assets/icons/counter/increase_active.png');
 
 const BOTTOM_ARROW = require('../assets/icons/arrow/bottom_arrow.png');
+const BOTTOM_ARROW_MAIN = require('../assets/icons/arrow/bottom_arrow_main.png');
 
 const BAEMIN_ICON = require('../assets/images/baemin.png');
 const YOGIYO_ICON = require('../assets/images/yogiyo.png');
@@ -127,9 +128,11 @@ const UNSELECT_RADIO = require('../assets/icons/radio/unselect_radio.png');
 const SELECT_RADIO = require('../assets/icons/radio/select_radio.png');
 
 const CAMERA_GRAY_FILLED_ICON = require('../assets/icons/camera/camera_gray_filled.png');
+const CAMERA_GRAY_FILLED_BIG_ICON = require('../assets/icons/camera/camera_gray_filled_b.png');
 const SEND_GRAY_FILLED_ICON = require('../assets/icons/send/send_gray_filled.png');
 
 const RIGHT_ARROW_GRAY = require('../assets/icons/arrow/right_arrow_gray.png');
+const RIGHT_ARROW_GRAY_THIN = require('../assets/icons/arrow/right_arrow_gray_thin.png');
 const SETTING_HORIZONTAL_GRAY_ICON = require('../assets/icons/setting/setting_horizontal_gray.png');
 
 const FULL_STAR_ACTIVE = require('../assets/images/starRating/full_star_active.png');
@@ -138,7 +141,33 @@ const FULL_STAR_DEACTIVE = require('../assets/images/starRating/full_star_deacti
 const STAR_ACTIVE = require('../assets/images/starRating/star_active.png');
 const STAR_DEACTIVE = require('../assets/images/starRating/star_deactive.png');
 
+const SEARCH_DOT = require('../assets/icons/search/search_dot.png');
+
+const REPORT_ICON = require('../assets/icons/report/report.png');
+const BLOCK_ICON = require('../assets/icons/block/block.png');
+
+const STORE_GRAY_ICON = require('../assets/icons/store/store_gray.png');
+const TASK_GRAY_4X_ICON = require('../assets/icons/task/task_gray_4x.png');
+const TASK_GRAY_2X_ICON = require('../assets/icons/task/task_gray_2x.png');
+const TASK_GRAY_ICON = require('../assets/icons/task/task_gray.png');
+const TIME_GRAY_ICON = require('../assets/icons/time/time_gray.png');
+const MARKER_GRAY_ICON = require('../assets/icons/location/marker_gray.png');
+const MARKER_GRAY_4X_ICON = require('../assets/icons/location/marker_gray_4x.png');
+
 export {
+  TASK_GRAY_4X_ICON,
+  TASK_GRAY_2X_ICON,
+  MARKER_GRAY_4X_ICON,
+  STORE_GRAY_ICON,
+  MARKER_GRAY_ICON,
+  TASK_GRAY_ICON,
+  TIME_GRAY_ICON,
+  CAMERA_GRAY_FILLED_BIG_ICON,
+  REPORT_ICON,
+  BLOCK_ICON,
+  BOTTOM_ARROW_MAIN,
+  RIGHT_ARROW_GRAY_THIN,
+  SEARCH_DOT,
   FULL_STAR_ACTIVE,
   FULL_STAR_DEACTIVE,
   STAR_ACTIVE,

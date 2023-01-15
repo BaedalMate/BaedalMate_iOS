@@ -23,8 +23,8 @@ import {
   participantMenuPriceI,
   recruitMenuI,
   recruitParticipantsI,
-} from 'components/utils/Chat';
-import {formPrice, getJWTToken} from 'components/utils/Recruit';
+} from 'components/utils/api/Chat';
+import {formPrice, getJWTToken} from 'components/utils/api/Recruit';
 import {url} from '../../../App';
 
 export interface RecruitItemProps {
@@ -393,7 +393,7 @@ const OrderMenuList = props => {
             borderBottomWidth: 1,
             borderBottomColor: LINE_GRAY_COLOR,
           }}>
-          <TextKRBold style={styles.Title}>전체 총 주문 금액</TextKRBold>
+          <TextKRBold style={styles.Title}>현재 총 주문 금액</TextKRBold>
           <TextKRReg style={{fontSize: 16, lineHeight: 24}}>
             {formPrice(recruitMenuInfo?.allOrderTotal)}원
           </TextKRReg>

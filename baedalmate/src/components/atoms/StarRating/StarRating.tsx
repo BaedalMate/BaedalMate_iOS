@@ -7,9 +7,9 @@ import {STAR_ACTIVE, STAR_DEACTIVE} from 'themes/theme';
 
 const StarIcon = ({color, size, type}: StarIconProps) => {
   if (type === 'empty') {
-    return <Image source={STAR_DEACTIVE} />;
+    return <Image source={STAR_DEACTIVE} style={{width: 23, height: 23}} />;
   } else {
-    return <Image source={STAR_ACTIVE} />;
+    return <Image source={STAR_ACTIVE} style={{width: 23, height: 23}} />;
   }
 };
 const StarRatingComponent = ({

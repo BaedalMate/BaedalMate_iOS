@@ -10,7 +10,6 @@ import UserInfoTitle from '../../atoms/Main/UserInfoTitle';
 interface UserDataProps {
   dormitory: string;
   nickname: string;
-  profileImage: string;
   mainTagRecruitList: mainTagRecruitListI;
   setDormitory: Function;
 }
@@ -18,7 +17,6 @@ interface UserDataProps {
 const TodayMenu: React.FunctionComponent<UserDataProps> = ({
   dormitory,
   nickname,
-  profileImage,
   mainTagRecruitList,
   setDormitory,
 }) => {

@@ -1,22 +1,19 @@
 import React, {useEffect, useState} from 'react';
-import {ScrollView, View} from 'react-native';
-import {LIGHT_GRAY_COLOR, LINE_GRAY_COLOR, WHITE_COLOR} from 'themes/theme';
-import BoardList from 'components/molecules/BoardList/BoardList';
-import Sort from 'components/molecules/BoardList/Sort';
-import {CategoryList} from 'components/atoms/BoardList/CategoryItem';
-import BtnFloating from 'components/atoms/Button/BtnFloating';
-import axios from 'axios';
+import {ScrollView, Switch, View} from 'react-native';
+import {DARK_GRAY_COLOR, PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
 import MypageUserInfo from 'components/atoms/Setting/MyPageUserInfo';
 import MyPageListItem from 'components/atoms/Setting/MyPageListItem';
 import MyPageBar from 'components/atoms/Setting/MyPageBar';
 import MyPageBottom from 'components/atoms/Bottom/MyPageBottom';
-import {useNavigation} from '@react-navigation/native';
+import {getUserAPI} from 'components/utils/api/User';
+import {TextKRBold, TextKRReg} from 'themes/text';
 
 export interface MyPageI {
+  userId: number;
+  nickname: string;
   profileImage: string;
-  userName: string;
-  score: string;
   dormitory: string;
+  score: number;
 }
 export const MyPageUserDummyData = {
   profileImage:
@@ -28,74 +25,133 @@ export const MyPageUserDummyData = {
 
 const MyPage = ({route, navigation}) => {
   // const navigation = useNavigation();
-
-  const MyPageRecruitDummyData = [
+  const [mypageUserInfo, setMyPageUserInfo] = useState();
+  const MyPageSettingList = [
     {
-      name: '주최한 모집',
+      name: '프로필 수정',
       onPress: () => {
-        navigation.navigate('주최한 모집' as never);
+        navigation.navigate('프로필 수정' as never);
       },
     },
     {
-      name: '참여한 모집',
+      name: '거점 변경',
       onPress: () => {
-        navigation.navigate('참여한 모집' as never);
+        navigation.navigate('거점 인증' as never);
       },
     },
-    // {
-    //   name: '내 거점 설정',
-    //   onPress: () => {
-    //     navigation.navigate('내 거점 설정' as never);
-    //   },
-    // },
     {
-      name: 'GPS 인증하기',
+      name: '차단 관리',
       onPress: () => {
-        navigation.navigate('GPS 인증하기' as never);
+        navigation.navigate('차단 관리' as never);
       },
     },
   ];
-  const MyPageSettingDummyData = [
-    {
-      name: '이벤트',
-      onPress: () => {},
-    },
+  const MyPageSUseInfoList = [
     {
       name: '공지사항',
-      onPress: () => {},
+      onPress: () => {
+        navigation.navigate('공지사항' as never);
+      },
     },
     {
-      name: '1:1 문의',
-      onPress: () => {},
-    },
-    {
-      name: '설정',
+      name: '문의하기',
       onPress: () => {},
     },
   ];
+
+  const getMyPageUserData = async () => {
+    const result = await getUserAPI();
+    setMyPageUserInfo(result);
+    console.log(result);
+  };
+
+  useEffect(() => {
+    getMyPageUserData();
+  }, []);
+  const [isEnabled, setIsEnabled] = useState(false);
+  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   return (
     <ScrollView
       style={{
         width: '100%',
         height: '100%',
-        backgroundColor: LINE_GRAY_COLOR,
+        padding: 15,
+        backgroundColor: WHITE_COLOR,
       }}>
-      <MypageUserInfo item={MyPageUserDummyData} />
-      {MyPageRecruitDummyData.map((v, i) => (
-        <View key={i}>
-          <MyPageBar height={3} />
-          <MyPageListItem item={v} />
+      <MypageUserInfo item={mypageUserInfo} />
+      <View style={{marginTop: 18, marginBottom: 35}}>
+        <TextKRBold
+          style={{
+            fontSize: 14,
+            lineHeight: 17,
+            color: 'black',
+          }}>
+          설정
+        </TextKRBold>
+        <View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              paddingVertical: 10,
+            }}>
+            <TextKRReg
+              style={{fontSize: 14, lineHeight: 24, color: DARK_GRAY_COLOR}}>
+              {'알림 설정'}
+            </TextKRReg>
+            <Switch
+              trackColor={{false: DARK_GRAY_COLOR, true: PRIMARY_COLOR}}
+              thumbColor={WHITE_COLOR}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={toggleSwitch}
+              value={isEnabled}
+            />
+          </View>
+          {MyPageSettingList.map((v, i) => (
+            <View key={i}>
+              <MyPageBar height={1} />
+              <MyPageListItem item={v} />
+            </View>
+          ))}
         </View>
-      ))}
-      <MyPageBar height={12} />
+      </View>
+      <View style={{marginTop: 18}}>
+        <TextKRBold
+          style={{
+            fontSize: 14,
+            lineHeight: 17,
+            color: 'black',
+          }}>
+          이용 정보
+        </TextKRBold>
+        <View>
+          {MyPageSUseInfoList.map((v, i) => (
+            <View key={i}>
+              <MyPageListItem item={v} />
+              <MyPageBar height={1} />
+            </View>
+          ))}
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              paddingVertical: 10,
+            }}>
+            <TextKRReg
+              style={{fontSize: 14, lineHeight: 24, color: DARK_GRAY_COLOR}}>
+              {'앱 버전'}
+            </TextKRReg>
+            <TextKRReg
+              style={{fontSize: 14, lineHeight: 24, color: DARK_GRAY_COLOR}}>
+              {'1.0.0'}
+            </TextKRReg>
+          </View>
+        </View>
+      </View>
 
-      {MyPageSettingDummyData.map((v, i) => (
-        <View key={i}>
-          {i !== 0 && <MyPageBar height={3} />}
-          <MyPageListItem item={v} />
-        </View>
-      ))}
       <MyPageBottom />
     </ScrollView>
   );

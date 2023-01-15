@@ -9,7 +9,7 @@ const MyPageBar = ({height}: {height: number}) => {
       style={{
         width: '100%',
         height: height,
-        backgroundColor: height === 12 ? LINE_GRAY_COLOR : DARK_GRAY_COLOR,
+        backgroundColor: LINE_GRAY_COLOR,
       }}></View>
   );
 };

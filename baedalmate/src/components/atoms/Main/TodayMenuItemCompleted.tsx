@@ -17,7 +17,7 @@ import {STAR_PRIMARY} from 'themes/theme';
 import {TextKRBold, TextKRReg} from 'themes/text';
 import {TagComponent} from './TodayMenuItem';
 import {eachMainTagRecruitListI} from 'components/pages/Main';
-import {formPrice} from 'components/utils/Recruit';
+import {formPrice} from 'components/utils/api/Recruit';
 import {useNavigation} from '@react-navigation/native';
 import {url} from '../../../../App';
 const TodayMenuItemCompleted = ({item}: {item: eachMainTagRecruitListI}) => {
@@ -50,7 +50,7 @@ const TodayMenuItemCompleted = ({item}: {item: eachMainTagRecruitListI}) => {
         navigation.navigate(
           '글 상세 보기' as never,
           {
-            id: item.id,
+            id: item.recruitId,
           } as never,
         );
       }}>
@@ -79,7 +79,7 @@ const TodayMenuItemCompleted = ({item}: {item: eachMainTagRecruitListI}) => {
               <Image
                 source={STAR_PRIMARY}
                 style={{width: 10, height: 10}}></Image>
-              {item.userScore}
+              {item?.userScore ? Math.round(item?.userScore * 10) / 10 : 0}
             </TextKRBold>
             <TextKRBold>
               배달팁{' '}

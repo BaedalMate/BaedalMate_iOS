@@ -252,7 +252,7 @@ export const DormitoryDescriptionInput = ({
     <TextInput
       style={{
         width: '100%',
-        height: 45,
+        fontSize: 16,
         color: DARK_GRAY_COLOR,
         borderWidth: error.description ? 1 : 0,
         borderBottomWidth: 1,
@@ -263,7 +263,7 @@ export const DormitoryDescriptionInput = ({
       }}
       placeholder={
         name === 'name'
-          ? '주문하실 메뉴를 적어주세요'
+          ? '추가할 메뉴를 적어주세요'
           : '배달을 받을 장소에 대한 설명을 적어주세요'
       }
       onChangeText={field.onChange}

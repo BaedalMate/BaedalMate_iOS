@@ -11,38 +11,40 @@ import BaedalMateRecommendation from 'components/molecules/Main/BaedalMateRecomm
 import BtnFloating from 'components/atoms/Button/BtnFloating';
 import axios from 'axios';
 import {url} from '../../../App';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {getJWTToken} from 'components/utils/Recruit';
+import {getJWTToken} from 'components/utils/api/Recruit';
+import {getUserAPI} from 'components/utils/api/User';
 export const userURL = url + '/api/v1/user';
 export const recruitListURL = url + '/api/v1/recruit/list';
 export const mainRecruitListURL = url + '/api/v1/recruit/main/list';
 export const mainTagRecruitListURL = url + '/api/v1/recruit/tag/list';
 export const imageURL = url + `/images/`;
 export interface eachMainRecruitListI {
-  id: number;
-  place: string;
+  active: boolean;
+  createDate: string;
+  currentPeople: number;
+  deadlineDate: string;
+  dormitory: string;
+  image: string | null;
   minPeople: number;
   minPrice: number;
-  currentPeople: number;
-  createDate: string;
-  deadlineDate: string;
-  username: string;
-  userScore: number;
-  dormitory: string;
+  place: string;
+  recruitId: number;
   shippingFee: number;
-  image: string | null;
+  userScore: number;
+  username: string;
 }
 export interface mainRecruitListI {
   recruitList: eachMainRecruitListI[];
 }
 export interface eachMainTagRecruitListI {
+  active: boolean;
   createDate: string;
   deadlineDate: string;
   dormitory: string;
-  id: number;
   image: string;
   minPrice: number;
   place: string;
+  recruitId: number;
   shippingFee: number;
   tags: [
     {
@@ -108,75 +110,65 @@ const Main: React.FunctionComponent<MainProps> = props => {
   const [StatusBGColor, setStatusBGColor] = useState(PRIMARY_COLOR);
   //user 관련 state
   const [nickname, setNickname] = useState('캡스톤');
-  const [dormitory, setDormitory] = useState('성림학사');
+  const [dormitory, setDormitory] = useState('');
   const [profileImage, setProfileImage] = useState('');
   //recruit 관련 state
   const [mainRecruitList, setMainRecruitList] =
     useState<eachMainRecruitListI[]>();
   const [mainTagRecruitList, setMainTagRecruitList] =
     useState<mainTagRecruitListI>({
-      recruitList: [
-        {
-          createDate: 'string',
-          deadlineDate: 'string',
-          dormitory: '수림학사',
-          id: 1,
-          image: 'string',
-          minPrice: 15000,
-          place: '도미노피자',
-          shippingFee: 0,
-          tags: [
-            {
-              tagname: 'string',
-            },
-          ],
-          userScore: 4.1,
-          username: '유상',
-        },
-      ],
+      recruitList: [],
     });
 
-  // User Api 를 받아옴
-  const getUserData = async () => {
-    const JWTAccessToken = await getJWTToken();
-    try {
-      const UserData = axios
-        .get(userURL, {
-          headers: {
-            Authorization: 'Bearer ' + JWTAccessToken,
-          },
-        })
-        .then(async function (response) {
-          console.log(response);
-          // AsyncStorage에 유저 이름과 배달 거점 저장
-          AsyncStorage.setItem('@BaedalMate_UserName', response.data.nickname);
-          AsyncStorage.setItem(
-            '@BaedalMate_Dormitory',
-            response.data.dormitory,
-          );
-          AsyncStorage.setItem(
-            '@BaedalMate_UserId',
-            response.data.userId.toString(),
-          );
-          const profile = await AsyncStorage.getItem(
-            '@BaedalMate_ProfileImage',
-          );
+  // // User Api 를 받아옴
+  // const getUserData = async () => {
+  //   const JWTAccessToken = await getJWTToken();
+  //   try {
+  //     const UserData = axios
+  //       .get(userURL, {
+  //         headers: {
+  //           Authorization: 'Bearer ' + JWTAccessToken,
+  //         },
+  //       })
+  //       .then(async function (response) {
+  //         console.log(response);
+  //         // AsyncStorage에 유저 이름과 배달 거점 저장
+  //         AsyncStorage.setItem('@BaedalMate_UserName', response.data.nickname);
+  //         AsyncStorage.setItem(
+  //           '@BaedalMate_Dormitory',
+  //           response.data.dormitory,
+  //         );
+  //         AsyncStorage.setItem(
+  //           '@BaedalMate_UserId',
+  //           response.data.userId.toString(),
+  //         );
+  //         const profile = await AsyncStorage.getItem(
+  //           '@BaedalMate_ProfileImage',
+  //         );
 
-          // 해당 페이지는 렌더링 문제로 state 설정 후 사용
-          setNickname(response.data.nickname);
-          setDormitory(response.data.dormitory);
-          profile && setProfileImage(profile);
-          return response.data;
-        })
-        .catch(function (error) {
-          console.log(error);
-          return false;
-        });
-      return UserData;
-    } catch (error) {
-      console.log(error);
-      return false;
-    }
+  //         // 해당 페이지는 렌더링 문제로 state 설정 후 사용
+  //         setNickname(response.data.nickname);
+  //         setDormitory(response.data.dormitory);
+  //         profile && setProfileImage(profile);
+
+  //         return response.data;
+  //       })
+  //       .catch(function (error) {
+  //         console.log(error);
+  //         return false;
+  //       });
+  //     return UserData;
+  //   } catch (error) {
+  //     console.log(error);
+  //     return false;
+  //   }
+  // };
+
+  const getUserData = async () => {
+    const result = await getUserAPI();
+    setDormitory(result.dormitory);
+    setNickname(result.nickname);
+    console.log(result);
   };
 
   // 메인 모집글 리스트 api
@@ -214,11 +206,17 @@ const Main: React.FunctionComponent<MainProps> = props => {
             setMainRecruitList(response.data.recruitList);
 
             return response.data.recruitList;
+          } else if (response.status === 403) {
+            props.navigation.navigate('거점 인증');
           }
           return false;
         })
         .catch(function (error) {
           console.log(error);
+          console.log(error.response.status);
+          if (error.response.status === 403) {
+            props.navigation.navigate('거점 인증');
+          }
           return false;
         });
       console.log('BoardListData', BoardListData);
@@ -250,11 +248,16 @@ const Main: React.FunctionComponent<MainProps> = props => {
             console.log(response.data);
             setMainTagRecruitList(response.data);
             return response.data.recruitList;
+          } else if (response.status === 403) {
+            props.navigation.navigate('거점 인증');
           }
           return false;
         })
         .catch(function (error) {
           console.log(error);
+          if (error.response.status === 403) {
+            props.navigation.navigate('거점 인증');
+          }
           return false;
         });
       return BoardListData;
@@ -361,13 +364,11 @@ const Main: React.FunctionComponent<MainProps> = props => {
             setYOffset(event.nativeEvent.contentOffset.y);
           }}>
           <TodayMenu
-            dormitory={dormitory !== null ? dormitory : '성림학사'}
+            dormitory={dormitory}
             nickname={nickname}
-            profileImage={profileImage}
             mainTagRecruitList={mainTagRecruitList}
             setDormitory={setDormitory}
           />
-
           <Category
             navigation={props.navigation}
             // onPress={() => {

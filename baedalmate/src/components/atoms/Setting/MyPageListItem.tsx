@@ -8,7 +8,7 @@
 
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {DARK_GRAY_COLOR, RightArrowBlack, RIGHT_ARROW_GRAY} from 'themes/theme';
+import {DARK_GRAY_COLOR, RIGHT_ARROW_GRAY_THIN} from 'themes/theme';
 import {Fonts} from '../../../assets/Fonts';
 
 const MyPageListItem = props => {
@@ -18,7 +18,7 @@ const MyPageListItem = props => {
       style={styles.myPageListItem}
       onPress={props.item.onPress}>
       <Text style={styles.mypageText}>{props.item.name}</Text>
-      <Image source={RIGHT_ARROW_GRAY} />
+      <Image source={RIGHT_ARROW_GRAY_THIN} style={{width: 9, height: 14}} />
     </TouchableOpacity>
   );
 };
@@ -26,22 +26,24 @@ const MyPageListItem = props => {
 const styles = StyleSheet.create({
   myPageListItem: {
     width: '100%',
-    height: 60,
+    paddingVertical: 10,
     backgroundColor: '#FFFFFF',
     textAlign: 'center',
     justifyContent: 'space-between',
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 15,
+    // borderTopWidth: 1,
+    // borderColor: LINE_GRAY_COLOR,
   },
   mypageText: {
     fontFamily: Fonts.Ko,
     fontStyle: 'normal',
-    fontWeight: '700',
-    fontSize: 18,
+    fontWeight: '400',
+    fontSize: 14,
+    lineHeight: 24,
+    color: DARK_GRAY_COLOR,
     textAlign: 'center',
     textAlignVertical: 'center',
-    color: DARK_GRAY_COLOR,
   },
 });
 

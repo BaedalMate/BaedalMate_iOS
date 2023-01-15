@@ -29,6 +29,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     textAlign: 'center',
     justifyContent: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
   },
   btnVerticalOrangeText: {
     fontFamily: Fonts.Ko,

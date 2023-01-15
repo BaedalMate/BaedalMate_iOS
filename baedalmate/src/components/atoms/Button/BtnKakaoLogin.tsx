@@ -12,8 +12,12 @@ import {KaKaoLoginBtnImage} from 'themes/theme';
 import {BtnWithoutTextProps} from './BtnFloating';
 const BtnKakaoLoginWrapper = (props: BtnWithoutTextProps) => {
   return (
-    <TouchableOpacity onPress={props.onPress}>
-      <Image source={KaKaoLoginBtnImage} style={{marginBottom: 10}}></Image>
+    <TouchableOpacity
+      onPress={props.onPress}
+      style={{width: '85%', height: 45, marginBottom: 10}}>
+      <Image
+        source={KaKaoLoginBtnImage}
+        style={{width: '100%', height: '100%'}}></Image>
     </TouchableOpacity>
   );
 };

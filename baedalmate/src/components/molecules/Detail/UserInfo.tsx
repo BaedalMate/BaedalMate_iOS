@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/native';
 import {UserProfileImage} from 'components/atoms/Image/UserImage';
 import {RecruitItemProps} from 'components/pages/Detail';
 import React from 'react';
@@ -16,6 +17,7 @@ export type BtnWithoutTextProps = {
 };
 
 const UserInfo = ({item}: {item: RecruitItemProps | undefined}) => {
+  const navigation = useNavigation();
   return (
     <View
       style={{
@@ -37,10 +39,14 @@ const UserInfo = ({item}: {item: RecruitItemProps | undefined}) => {
           marginLeft: 11,
           justifyContent: 'space-around',
         }}>
-        <TextKRBold>{item?.username}</TextKRBold>
+        <TextKRBold>{item?.userInfo.nickname}</TextKRBold>
         <View style={{flexDirection: 'row'}}>
           <Image source={STAR_LINEORANGE} />
-          <TextKRBold>{item?.score}</TextKRBold>
+          <TextKRBold>
+            {item?.userInfo.score
+              ? Math.round(item?.userInfo.score * 10) / 10
+              : 0}
+          </TextKRBold>
         </View>
       </View>
       <View
@@ -56,18 +62,23 @@ const UserInfo = ({item}: {item: RecruitItemProps | undefined}) => {
           <Image source={MARKER_BLACK} />
           {item?.dormitory}
         </Text>
-        <TouchableOpacity
-          style={{
-            borderBottomWidth: 1,
-            borderColor: DARK_GRAY_COLOR,
-          }}>
-          <Text
+        {!item?.host && (
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('게시글 신고하기' as never);
+            }}
             style={{
-              color: DARK_GRAY_COLOR,
+              borderBottomWidth: 1,
+              borderColor: DARK_GRAY_COLOR,
             }}>
-            신고하기
-          </Text>
-        </TouchableOpacity>
+            <Text
+              style={{
+                color: DARK_GRAY_COLOR,
+              }}>
+              신고하기
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );

@@ -38,8 +38,8 @@
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>kakao6e4fe4605f699723dd48ca216e321bd8</string>
-		<string>kakaokompassauth</string>
-		<string>storykompassauth</string>
+		<!-- <string>kakaokompassauth</string>
+		<string>storykompassauth</string> -->
 		<string>kakaolink</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>

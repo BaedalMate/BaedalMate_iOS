@@ -1,5 +1,5 @@
 import {RecruitItemProps} from 'components/pages/Detail';
-import {formPrice} from 'components/utils/Recruit';
+import {formPrice} from 'components/utils/api/Recruit';
 import React, {useEffect, useState} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {TextKRBold} from 'themes/text';

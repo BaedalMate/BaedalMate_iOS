@@ -10,7 +10,7 @@ import ChangeDormitory, {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {userURL} from 'components/pages/Main';
-import {getJWTToken} from 'components/utils/Recruit';
+import {getJWTToken} from 'components/utils/api/Recruit';
 import {useNavigation} from '@react-navigation/native';
 
 const Item = ({title}) => null;
@@ -26,7 +26,9 @@ const UserInfoTitle = ({userName, userAddress, setDormitory}) => {
     modal ? setModal(false) : setModal(true);
   };
   const navigation = useNavigation();
-
+  useEffect(() => {
+    setSelectedAddress(userAddress);
+  }, [userAddress]);
   // User dormitory 변경
   const putUserDormitory = async () => {
     let changedDormitory =
@@ -243,7 +245,7 @@ const UserInfoTitle = ({userName, userAddress, setDormitory}) => {
               </View>
               <TouchableOpacity
                 onPress={() => {
-                  handleModal(), navigation.navigate('GPS 인증하기' as never);
+                  handleModal(), navigation.navigate('거점 인증' as never);
                 }}
                 style={{
                   width: '100%',

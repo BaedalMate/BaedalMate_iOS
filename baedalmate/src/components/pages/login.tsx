@@ -10,7 +10,7 @@ import {
 } from '@react-native-seoul/kakao-login';
 
 import React, {useEffect, useState} from 'react';
-import {Image, View} from 'react-native';
+import {Image, TouchableOpacity, View} from 'react-native';
 
 import BtnKakaoLoginWrapper from '../atoms/Button/BtnKakaoLogin';
 import {TextKRBold} from 'themes/text';
@@ -25,6 +25,7 @@ import appleAuth, {
   AppleRequestOperation,
   AppleRequestScope,
 } from '@invertase/react-native-apple-authentication';
+import {Text} from 'react-native-paper';
 
 const loginURL = url + '/login/oauth2/kakao';
 
@@ -47,20 +48,32 @@ function Login({navigation}: LoginProps): React.ReactElement {
   const signInWithKakao = async (): Promise<void> => {
     try {
       const token: KakaoOAuthToken = await login();
+      // console.warn(token);
+
       setKakaoAccessToken(token.accessToken);
       setResult(JSON.stringify(token));
 
       // JWTtoken 받아온 후 메인 페이지 이동
-      const JWTTokens = await getJWTTokens_localdb();
-      // const values = await AsyncStorage.multiGet([
-      //   '@BaedalMate_JWTAccessToken',
-      //   '@BaedalMate_JWTRefreshToken',
-      // ]);
-      if (JWTTokens[0][1]) {
-        console.log(JWTTokens);
-        console.log(JWTTokens[0][1]);
-        navigation.navigate('BoardStackComponent');
+      // const JWTTokens = await getJWTTokens_localdb();
+      const values = await AsyncStorage.multiGet([
+        '@BaedalMate_JWTAccessToken',
+        '@BaedalMate_JWTRefreshToken',
+      ]);
+      if (values[0][0]) {
+        console.log(values);
+        navigation.navigate('BoardStackComponent', {
+          tokens: values,
+        });
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'BoardStackComponent'}],
+        });
       }
+      // if (JWTTokens[0][1]) {
+      //   console.log(JWTTokens);
+      //   console.log(JWTTokens[0][1]);
+      //   navigation.navigate('BoardStackComponent');
+      // }
     } catch (error) {
       console.log(error);
       return;
@@ -79,7 +92,7 @@ function Login({navigation}: LoginProps): React.ReactElement {
     try {
       const profile: any = await getKakaoProfile();
       console.log(JSON.stringify(profile.profileImageUrl));
-      setResult(JSON.stringify(profile));
+      profile && setResult(JSON.stringify(profile));
       AsyncStorage.setItem('@BaedalMate_ProfileImg', profile.profileImageUrl);
     } catch (err) {
       // eslint-disable-next-line no-console
@@ -143,8 +156,8 @@ function Login({navigation}: LoginProps): React.ReactElement {
       style={{
         // marginTop: 50,
         marginHorizontal: '5%',
-        alignItems: 'center',
         height: '100%',
+        alignItems: 'center',
         justifyContent: 'center',
       }}>
       {/* <View
@@ -157,6 +170,7 @@ function Login({navigation}: LoginProps): React.ReactElement {
       <Image
         source={LOGO_WITH_TEXT}
         style={{
+          marginTop: 55,
           marginBottom: 90,
           width: 400,
           height: 400,
@@ -165,7 +179,55 @@ function Login({navigation}: LoginProps): React.ReactElement {
       />
       {/* </View> */}
       <BtnKakaoLoginWrapper onPress={() => signInWithKakao()} />
-      <BtnAppleAuth />
+      <BtnAppleAuth navigation={navigation} />
+      <View style={{position: 'absolute', bottom: 20, flexDirection: 'row'}}>
+        <TextKRBold
+          style={{
+            fontSize: 12,
+            lineHeight: 18,
+            color: '#C8C8C8',
+          }}>
+          가입 시 배달메이트의{' '}
+        </TextKRBold>
+        <TouchableOpacity onPressOut={() => {}} style={{}}>
+          <Text
+            style={{
+              textDecorationLine: 'underline',
+              fontSize: 12,
+              lineHeight: 18,
+              color: '#C8C8C8',
+            }}>
+            이용약관
+          </Text>
+        </TouchableOpacity>
+        <TextKRBold
+          style={{
+            fontSize: 12,
+            lineHeight: 18,
+            color: '#C8C8C8',
+          }}>
+          및{' '}
+        </TextKRBold>
+        <TouchableOpacity onPressOut={() => {}} style={{}}>
+          <Text
+            style={{
+              textDecorationLine: 'underline',
+              fontSize: 12,
+              lineHeight: 18,
+              color: '#C8C8C8',
+            }}>
+            개인정보취급방침
+          </Text>
+        </TouchableOpacity>
+        <TextKRBold
+          style={{
+            fontSize: 12,
+            lineHeight: 18,
+            color: '#C8C8C8',
+          }}>
+          에 동의하게 됩니다.
+        </TextKRBold>
+      </View>
     </View>
   );
 }

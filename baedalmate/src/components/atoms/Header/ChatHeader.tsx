@@ -2,29 +2,23 @@ import {useNavigation} from '@react-navigation/native';
 import {url} from '../../../../App';
 import {
   eachDetailChatRoomI,
+  formDate,
+  formTime,
   participantI,
   recruitParticipantsI,
-} from 'components/utils/Chat';
-import React, {useEffect, useState} from 'react';
-import {
-  Image,
-  Modal,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+} from 'components/utils/api/Chat';
+import React, {useState} from 'react';
+import {Image, Modal, StyleSheet, TouchableHighlight, View} from 'react-native';
 import {TextKRBold, TextKRReg} from 'themes/text';
 import {DARK_GRAY_COLOR, PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
-import {OrangeTag} from '../BoardList/Tags';
+import {OrangeChatTag} from '../BoardList/Tags';
 import BtnHorizontalWhiteS from '../Button/BtnHorizontalWhiteS';
 import StarRatingComponent from '../StarRating/StarRating';
 import {MAX_USERNAME_LIMIT} from 'components/molecules/Chat/Message';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {postReviewAPI, reviewEachUserI} from 'components/utils/Review';
+import {postReviewAPI, reviewEachUserI} from 'components/utils/api/Review';
 import {useForm, UseFormReturn} from 'react-hook-form';
-// import {getReviewParticipantsAPI} from 'components/utils/Review';
+import {formPrice} from 'components/utils/api/Recruit';
+import BtnVerticalOrange from '../Button/BtnVerticalOrange';
 
 export const ReviewMemberList = ({
   item,
@@ -72,11 +66,11 @@ export const ReviewMemberList = ({
         />
         <View
           style={{height: 45, justifyContent: 'center', alignItems: 'center'}}>
-          <Text style={{}}>
+          <TextKRBold style={{fontSize: 14, lineHeight: 17}}>
             {item.nickname.length >= MAX_USERNAME_LIMIT
               ? item.nickname.substring(0, MAX_USERNAME_LIMIT) + '...'
               : item.nickname}
-          </Text>
+          </TextKRBold>
         </View>
       </View>
       <View>
@@ -159,8 +153,8 @@ export const ReviewModal = ({
           <View
             style={{
               width: '100%',
-              height: 35,
-              marginBottom: 30,
+              height: 30,
+              marginBottom: 10,
               justifyContent: 'center',
             }}>
             <TextKRBold
@@ -185,27 +179,21 @@ export const ReviewModal = ({
                 ),
             )}
           </View>
-          <TouchableOpacity
-            onPress={
-              handleSubmit(onSubmit)
-              // handleModal();
-              // navigation.navigate('GPS 인증하기' as never);
-            }
+          <View
             style={{
               width: '100%',
               justifyContent: 'center',
+              marginTop: 40,
             }}>
-            <TextKRBold
-              style={{
-                textAlign: 'center',
-                paddingTop: 11,
-                fontWeight: '400',
-                fontSize: 16,
-                lineHeight: 22,
-              }}>
-              확인
-            </TextKRBold>
-          </TouchableOpacity>
+            <BtnVerticalOrange
+              onPress={
+                handleSubmit(onSubmit)
+                // handleModal();
+                // navigation.navigate('거점 인증' as never);
+              }
+              text={'평가 완료'}
+            />
+          </View>
         </View>
       </Modal>
     </View>
@@ -226,6 +214,34 @@ export const ChatHeader = ({
   const handleModal = () => {
     modal ? setModal(false) : setModal(true);
   };
+
+  const now = new Date();
+  const text =
+    item?.recruit.deadlineDate.split(' ')[0] +
+    'T' +
+    item?.recruit.deadlineDate.split(' ')[1];
+  const deadline = new Date(text);
+  const time = deadline.getTime() - now.getTime();
+  const durationYear = deadline.getFullYear() - now.getFullYear();
+  const durationMonth = deadline.getMonth() - now.getMonth();
+  const durationDate = deadline.getDate() - now.getDate();
+  const durationHour = deadline.getHours() - now.getHours();
+  const durationMinutes = deadline.getMinutes() - now.getMinutes();
+  const durationSeconds = deadline.getSeconds() - now.getSeconds();
+  const timeText =
+    time < 0
+      ? '마감'
+      : durationYear > 0
+      ? durationYear + '년'
+      : durationMonth > 0
+      ? durationMonth + '달'
+      : durationDate > 0
+      ? durationDate + '일'
+      : durationHour > 0
+      ? durationHour + '시간'
+      : durationMinutes > 0
+      ? durationMinutes + '분'
+      : '마감 임박';
   return (
     <>
       <ReviewModal
@@ -274,7 +290,9 @@ export const ChatHeader = ({
                   lineHeight: 24,
                   color: DARK_GRAY_COLOR,
                 }}>
-                {item.recruit.deadlineDate}
+                {formDate(item.recruit.createDate) +
+                  ' ' +
+                  formTime(item.recruit.createDate)}
               </TextKRReg>
               <TextKRBold
                 style={{
@@ -295,24 +313,29 @@ export const ChatHeader = ({
                   display: 'flex',
                   flexDirection: 'row',
                   alignItems: 'center',
-                  // flex: 1,
                 }}>
-                {/* <GrayTag item={item.recruit} /> */}
-                <OrangeTag item={item.recruit} />
+                <OrangeChatTag item={item.recruit} />
+                <TextKRReg
+                  style={{
+                    fontSize: 14,
+                    lineHeight: 24,
+                    // flex: 1,
+                    color: DARK_GRAY_COLOR,
+                    textAlignVertical: 'center',
+                  }}>
+                  {/* {item.recruit.criteria === "TIME" ? } */}
+                  {item.recruit.criteria === 'PRICE'
+                    ? formPrice(item.recruit.minPrice) + '원'
+                    : item.recruit.criteria === 'NUMBER'
+                    ? item.recruit.minPeople + '인'
+                    : timeText.includes('마감')
+                    ? timeText
+                    : timeText + ' 남음'}
+
+                  {/* <Image source={STORE_BLACK} /> {item.lastMessage.sendDate}{' '} */}
+                </TextKRReg>
               </View>
 
-              <TextKRReg
-                style={{
-                  fontSize: 14,
-                  lineHeight: 24,
-                  flex: 1,
-                  color: DARK_GRAY_COLOR,
-                }}>
-                {/* {item.recruit.criteria === "TIME" ? } */}
-                {item.recruit.minPrice}
-
-                {/* <Image source={STORE_BLACK} /> {item.lastMessage.sendDate}{' '} */}
-              </TextKRReg>
               {/* <TextKRReg
       style={{
         fontSize: 14,
@@ -327,10 +350,10 @@ export const ChatHeader = ({
           </View>
           <View
             style={{
-              width: 75,
+              width: 85,
               height: 40,
             }}>
-            <BtnHorizontalWhiteS onPress={handleModal} text={'후기 남기기'} />
+            <BtnHorizontalWhiteS onPress={handleModal} text={'후기 작성하기'} />
           </View>
         </>
       </TouchableHighlight>

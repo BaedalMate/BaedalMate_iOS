@@ -4,7 +4,7 @@ import {View, Image, ImageBackground} from 'react-native';
 import {PEOPLE_WHITE, STAR_WHITE, TIMER_WHITE, WHITE_COLOR} from 'themes/theme';
 import {TextKRBold, TextKRReg} from 'themes/text';
 import {eachMainRecruitListI} from 'components/pages/Main';
-import {formPrice} from 'components/utils/Recruit';
+import {formPrice} from 'components/utils/api/Recruit';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
 import {url} from '../../../../App';
@@ -43,7 +43,7 @@ const NowGatheringItem = ({item}: {item: eachMainRecruitListI}) => {
         navigation.navigate(
           '글 상세 보기' as never,
           {
-            id: item.id,
+            id: item.recruitId,
           } as never,
         );
       }}>
@@ -122,12 +122,39 @@ const NowGatheringItem = ({item}: {item: eachMainRecruitListI}) => {
                 <Image
                   source={STAR_WHITE}
                   style={{width: 14, height: 14}}></Image>{' '}
-                {item?.userScore}
+                {item?.userScore ? Math.round(item?.userScore * 10) / 10 : 0}
               </TextKRReg>
             </View>
           </View>
         </ImageBackground>
       </View>
+      {!item.active && (
+        <View
+          style={{
+            position: 'absolute',
+            marginRight: 15,
+            width: 180,
+            height: 224,
+            borderRadius: 10,
+            flexDirection: 'row',
+            backgroundColor: ' rgba(0, 0, 0, 0.5)',
+            zIndex: 1,
+          }}>
+          <TextKRBold
+            style={{
+              color: 'white',
+              display: 'flex',
+              width: 180,
+              height: 224,
+              marginRight: 15,
+              textAlign: 'center',
+              lineHeight: 150,
+              fontSize: 18,
+            }}>
+            모집완료
+          </TextKRBold>
+        </View>
+      )}
     </TouchableOpacity>
   );
 };

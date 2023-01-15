@@ -147,7 +147,7 @@ const Slider = ({
     createDate: '',
     deadlineDate: '',
     dormitory: '',
-    id: -1,
+    recruitId: -1,
     image: '',
     minPrice: 0,
     place: '',
@@ -155,6 +155,7 @@ const Slider = ({
     tags: [{tagname: ''}],
     userScore: 0,
     username: '',
+    active: true,
   };
 
   return (

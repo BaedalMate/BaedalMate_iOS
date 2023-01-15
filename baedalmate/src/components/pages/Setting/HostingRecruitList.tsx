@@ -7,6 +7,7 @@ import {CategoryList} from 'components/atoms/BoardList/CategoryItem';
 import BtnFloating from 'components/atoms/Button/BtnFloating';
 import axios from 'axios';
 import BoardItem from 'components/atoms/BoardList/BoardItem';
+import MyRecruitItem from 'components/atoms/Setting/MyRecruitItem';
 
 export const dummyBoardListData = Array(10).fill({
   createDate: '2022-10-14 10:40:13',
@@ -67,34 +68,7 @@ const renderItem = boardList => {
         <View></View>
       ) : (
         boardList.map(item => {
-          console.log(item.createDate);
-          const dateString = item.createDate;
-          const time = dateString.replace(' ', 'T');
-          const createTime = new Date(time);
-          const currentTime = new Date();
-          const durationYear =
-            currentTime.getFullYear() - createTime.getFullYear();
-          const durationMonth = currentTime.getMonth() - createTime.getMonth();
-          const durationDate = currentTime.getDate() - createTime.getDate();
-          const durationHour = currentTime.getHours() - createTime.getHours();
-          const durationMinutes =
-            currentTime.getMinutes() - createTime.getMinutes();
-          const durationSeconds =
-            currentTime.getSeconds() - createTime.getSeconds();
-
-          durationYear > 0
-            ? (item = {...item, createDate: durationYear + '년 전'})
-            : durationMonth > 0
-            ? (item = {...item, createDate: durationMonth + '달 전'})
-            : durationDate > 0
-            ? (item = {...item, createDate: durationDate + '일 전'})
-            : durationHour > 0
-            ? (item = {...item, createDate: durationHour + '시간 전'})
-            : durationMinutes > 0
-            ? (item = {...item, createDate: durationMinutes + '분 전'})
-            : (item = {...item, createDate: '방금 전'});
-
-          return <BoardItem item={item} />;
+          return <MyRecruitItem item={item} />;
         })
       )}
     </View>
@@ -102,7 +76,11 @@ const renderItem = boardList => {
 };
 
 const HostingRecruitList = props => {
-  return <ScrollView>{renderItem(dummyBoardListData)}</ScrollView>;
+  return (
+    <ScrollView style={{backgroundColor: WHITE_COLOR}}>
+      {renderItem(dummyBoardListData)}
+    </ScrollView>
+  );
 };
 
 export default HostingRecruitList;

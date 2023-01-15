@@ -23,7 +23,7 @@ const BtnVerticalWhite = (props: BtnWithTextProps) => {
 
 const styles = StyleSheet.create({
   btnVerticalWhiteWrapper: {
-    width: 300,
+    width: '100%',
     height: 53,
     backgroundColor: '#FFFFFF',
     borderWidth: 1,
@@ -35,8 +35,8 @@ const styles = StyleSheet.create({
   btnVerticalWhiteText: {
     fontFamily: Fonts.Ko,
     fontWeight: '400',
-    fontSize: 20,
-    lineHeight: 28,
+    fontSize: 16,
+    lineHeight: 19,
     textAlign: 'center',
     textAlignVertical: 'center',
     color: '#FB6C1C',

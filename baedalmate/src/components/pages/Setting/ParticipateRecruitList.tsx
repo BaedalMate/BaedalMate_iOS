@@ -1,13 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {ScrollView, View} from 'react-native';
-import {WHITE_COLOR} from 'themes/theme';
-import BoardList from 'components/molecules/BoardList/BoardList';
-import Sort from 'components/molecules/BoardList/Sort';
-import {CategoryList} from 'components/atoms/BoardList/CategoryItem';
-import BtnFloating from 'components/atoms/Button/BtnFloating';
-import axios from 'axios';
 import BoardItem from 'components/atoms/BoardList/BoardItem';
 import {dummyBoardListData} from './HostingRecruitList';
+import MyRecruitItem from 'components/atoms/Setting/MyRecruitItem';
+import {WHITE_COLOR} from 'themes/theme';
 
 const renderItem = boardList => {
   // const [boardList, setBoardList] = useState<BoardListProps[]>(boardList);
@@ -53,34 +49,7 @@ const renderItem = boardList => {
         <View></View>
       ) : (
         boardList.map((item, i) => {
-          console.log(item.createDate);
-          const dateString = item.createDate;
-          const time = dateString.replace(' ', 'T');
-          const createTime = new Date(time);
-          const currentTime = new Date();
-          const durationYear =
-            currentTime.getFullYear() - createTime.getFullYear();
-          const durationMonth = currentTime.getMonth() - createTime.getMonth();
-          const durationDate = currentTime.getDate() - createTime.getDate();
-          const durationHour = currentTime.getHours() - createTime.getHours();
-          const durationMinutes =
-            currentTime.getMinutes() - createTime.getMinutes();
-          const durationSeconds =
-            currentTime.getSeconds() - createTime.getSeconds();
-
-          durationYear > 0
-            ? (item = {...item, createDate: durationYear + '년 전'})
-            : durationMonth > 0
-            ? (item = {...item, createDate: durationMonth + '달 전'})
-            : durationDate > 0
-            ? (item = {...item, createDate: durationDate + '일 전'})
-            : durationHour > 0
-            ? (item = {...item, createDate: durationHour + '시간 전'})
-            : durationMinutes > 0
-            ? (item = {...item, createDate: durationMinutes + '분 전'})
-            : (item = {...item, createDate: '방금 전'});
-
-          return <BoardItem item={item} key={i} />;
+          return <MyRecruitItem item={item} />;
         })
       )}
     </View>
@@ -88,7 +57,11 @@ const renderItem = boardList => {
 };
 
 const ParticipateRecruitList = props => {
-  return <ScrollView>{renderItem(dummyBoardListData)}</ScrollView>;
+  return (
+    <ScrollView style={{backgroundColor: WHITE_COLOR}}>
+      {renderItem(dummyBoardListData)}
+    </ScrollView>
+  );
 };
 
 export default ParticipateRecruitList;

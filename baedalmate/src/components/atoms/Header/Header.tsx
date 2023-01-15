@@ -24,13 +24,18 @@ const Header = () => {
           }}
         />
       </TouchableOpacity>
-      {/* <Image
-        source={ALARM_WHITE}
-        style={{
-          margin: 13,
-          marginBottom: 0,
-        }}
-      /> */}
+      <TouchableOpacity
+        onPressOut={() => {
+          navigation.navigate('알림' as never);
+        }}>
+        <Image
+          source={ALARM_WHITE}
+          style={{
+            margin: 13,
+            marginBottom: 0,
+          }}
+        />
+      </TouchableOpacity>
     </View>
   );
 };

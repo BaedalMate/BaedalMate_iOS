@@ -10,7 +10,7 @@ import {
   mainRecruitListURL,
 } from 'components/pages/Main';
 import axios from 'axios';
-import {getJWTToken} from 'components/utils/Recruit';
+import {getJWTToken} from 'components/utils/api/Recruit';
 
 const BaedalMateRecommendation = ({}: {}) => {
   const [option, setOption] = useState(null);
@@ -80,7 +80,7 @@ const BaedalMateRecommendation = ({}: {}) => {
           mainRecruitSortList.map((v, i) => (
             <BaedalMateRecommendationItem
               item={mainRecruitSortList[0]}
-              key={v.id}
+              key={v.recruitId}
             />
           ))}
       </ScrollView>

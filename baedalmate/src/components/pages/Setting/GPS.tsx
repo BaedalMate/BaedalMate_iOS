@@ -2,16 +2,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Geolocation from '@react-native-community/geolocation';
 import axios from 'axios';
 import BtnVerticalDeactive from 'components/atoms/Button/BtnVerticalDeactive';
-import BtnVerticalGray from 'components/atoms/Button/BtnVerticalGray';
 import BtnVerticalOrange from 'components/atoms/Button/BtnVerticalOrange';
-import {DormitoryDescriptionInput} from 'components/atoms/CreateRecruit/Input';
 import {Map} from 'components/molecules/Setting/Map';
-import {getJWTToken} from 'components/utils/Recruit';
+import {getJWTToken} from 'components/utils/api/Recruit';
 import React, {useEffect, useState} from 'react';
-import {useForm} from 'react-hook-form';
 import {Image, Text, View} from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
-import {WHITE_COLOR, BOTTOM_ARROW} from 'themes/theme';
+import {WHITE_COLOR, BOTTOM_ARROW, LINE_ORANGE_COLOR} from 'themes/theme';
 import {dormitoryList} from '../CreateRecuit/second';
 import {userURL} from '../Main';
 
@@ -47,23 +44,19 @@ export interface LocationI {
 export type DormitoryType = 'SUNGLIM' | 'KB' | 'BURAM' | 'NURI' | 'SULIM';
 
 const DormitoryDropDown = ({target, setTarget}) => {
-  // const {
-  //   control,
-  //   handleSubmit,
-  //   setValue,
-  //   formState: {errors},
-  // } = useForm();
-
-  let dormIndex =
+  const [dormIndex, setDormIndex] = useState<number>();
+  useEffect(() => {
     target === 'NURI'
-      ? 0
+      ? setDormIndex(0)
       : target === 'SUNGLIM'
-      ? 1
+      ? setDormIndex(1)
       : target === 'KB'
-      ? 2
+      ? setDormIndex(2)
       : target === 'BURAM'
-      ? 3
-      : 4;
+      ? setDormIndex(3)
+      : setDormIndex(4);
+  }, [target]);
+
   return (
     <View
       style={{
@@ -132,6 +125,20 @@ const DormitoryDropDown = ({target, setTarget}) => {
       </View>
     </View>
   );
+};
+
+const changeTargetToDormitory = target => {
+  let changedDormitory =
+    target === 'KB'
+      ? 'KB학사'
+      : target === 'SUNGLIM'
+      ? '성림학사'
+      : target === 'SULIM'
+      ? '수림학사'
+      : target === 'BURAM'
+      ? '불암학사'
+      : '누리학사';
+  return changedDormitory;
 };
 const GPS = props => {
   const [location, setLocation] = useState<LocationI>();
@@ -291,7 +298,28 @@ const GPS = props => {
           <View style={{flex: 6}}>
             <Map location={location} />
           </View>
-          <View style={{flex: 1, justifyContent: 'center', margin: 10}}>
+          {(distance && distance <= 0.2) || distance === 0 ? (
+            <></>
+          ) : (
+            <View
+              style={{
+                width: '100%',
+                height: 40,
+                backgroundColor: LINE_ORANGE_COLOR,
+                justifyContent: 'center',
+              }}>
+              <Text
+                style={{
+                  fontSize: 14,
+                  lineHeight: 24,
+                  textAlign: 'center',
+                  color: 'white',
+                }}>
+                현재 위치가 '{changeTargetToDormitory(target)}'에 있지 않습니다.
+              </Text>
+            </View>
+          )}
+          <View style={{flex: 1, margin: 15}}>
             {(distance && distance <= 0.2) || distance === 0 ? (
               <BtnVerticalOrange
                 onPress={() => {

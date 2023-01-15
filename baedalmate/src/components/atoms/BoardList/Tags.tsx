@@ -1,10 +1,11 @@
 import {BoardListProps} from 'components/molecules/BoardList/BoardList';
-import {recruitI} from 'components/utils/Chat';
-import {formPrice} from 'components/utils/Recruit';
+import {recruitI} from 'components/utils/api/Chat';
+import {formPrice} from 'components/utils/api/Recruit';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {TextKRBold, TextKRReg} from 'themes/text';
 import {
+  DARK_GRAY_COLOR,
   LINE_GRAY_COLOR,
   LINE_ORANGE_COLOR,
   MAIN_GRAY_COLOR,
@@ -43,7 +44,7 @@ const GrayTag = ({item}: {item: BoardListProps | recruitI}) => {
   );
 };
 
-const OrangeTag = ({item}: {item: BoardListProps | recruitI}) => {
+const OrangeMainTag = ({item}: {item: BoardListProps | recruitI}) => {
   // const endCriteria =
   //   item.criteria === 'PRICE'
   //     ? item.minPrice.toString + '원'
@@ -119,6 +120,60 @@ const OrangeTag = ({item}: {item: BoardListProps | recruitI}) => {
   );
 };
 
+const OrangeChatTag = ({item}: {item: BoardListProps | recruitI}) => {
+  const criteriaText =
+    item.criteria === 'PRICE'
+      ? '최소주문'
+      : item.criteria === 'NUMBER'
+      ? '최소인원'
+      : '마감시간';
+  return (
+    <View
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        paddingHorizontal: 7,
+        backgroundColor: WHITE_COLOR,
+        borderWidth: 1,
+        borderColor: LINE_ORANGE_COLOR,
+        borderRadius: 20,
+        marginRight: 10,
+      }}>
+      <TextKRReg
+        style={{
+          fontSize: 14,
+          lineHeight: 24,
+          color: LINE_ORANGE_COLOR,
+        }}>
+        {criteriaText}
+      </TextKRReg>
+    </View>
+  );
+};
+
+const WhiteTag = () => {
+  return (
+    <View
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        paddingHorizontal: 8,
+        paddingVertical: 2,
+        backgroundColor: WHITE_COLOR,
+        borderRadius: 15,
+        marginRight: 10,
+      }}>
+      <TextKRReg
+        style={{
+          fontSize: 12,
+          lineHeight: 18,
+          color: DARK_GRAY_COLOR,
+        }}>
+        현재 거점
+      </TextKRReg>
+    </View>
+  );
+};
 const styles = StyleSheet.create({
   boardItemWrapper: {
     display: 'flex',
@@ -141,4 +196,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export {GrayTag, OrangeTag};
+export {GrayTag, OrangeMainTag, OrangeChatTag, WhiteTag};

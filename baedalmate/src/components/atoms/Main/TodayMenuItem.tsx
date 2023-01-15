@@ -72,10 +72,12 @@ export const TodayMenuItem = ({
 
   return (
     <View>
-      {item.id === -1 ? (
+      {item.recruitId === -1 ? (
         <TodayMenuItemCreate />
-      ) : (
+      ) : item.active ? (
         <TodayMenuItemOngoing item={item} />
+      ) : (
+        <TodayMenuItemCompleted item={item} />
       )}
       {/* {index === 4 ? (
         <TodayMenuItemCreate />

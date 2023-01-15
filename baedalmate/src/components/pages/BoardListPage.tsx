@@ -7,7 +7,7 @@ import {CategoryList} from 'components/atoms/BoardList/CategoryItem';
 import BtnFloating from 'components/atoms/Button/BtnFloating';
 import axios from 'axios';
 import {recruitListURL} from './Main';
-import {getJWTToken} from 'components/utils/Recruit';
+import {getJWTToken} from 'components/utils/api/Recruit';
 
 export const sortData = [
   {name: '마감순', value: 'deadlineDate'},

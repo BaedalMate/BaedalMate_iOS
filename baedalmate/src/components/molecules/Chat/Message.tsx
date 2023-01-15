@@ -6,7 +6,7 @@ import {
 } from 'components/atoms/Chat/Message';
 import {StyleSheet, Text, View} from 'react-native';
 import {PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
-import {formTime, messageI} from 'components/utils/Chat';
+import {formTime, messageI} from 'components/utils/api/Chat';
 import {recvI, sendI} from 'components/pages/DetailChatRoom';
 
 export const MAX_USERNAME_LIMIT = 5;

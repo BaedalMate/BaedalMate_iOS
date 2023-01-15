@@ -22,7 +22,7 @@ const BtnHorizontalWhiteS = (props: BtnWithTextProps) => {
 
 const styles = StyleSheet.create({
   btnHorizontalWhiteSWrapper: {
-    width: 75,
+    width: 85,
     flex: 1,
     backgroundColor: '#FFFFFF',
     borderWidth: 1,

@@ -1,17 +1,36 @@
 import {url} from '../../../../App';
-import {participantI} from 'components/utils/Chat';
-import {View, Image, Text} from 'react-native';
+import {participantI} from 'components/utils/api/Chat';
+import {View, Image, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {MAX_USERNAME_LIMIT} from 'components/molecules/Chat/Message';
 import {LINE_GRAY_COLOR} from 'themes/theme';
-export const MemberList = ({item}: {item: participantI}) => {
+import {TextKRBold} from 'themes/text';
+export const MemberList = ({
+  item,
+  handleModal,
+  handleEachUserModal,
+  setSelectedUser,
+}: {
+  item: participantI;
+  handleModal: any;
+  handleEachUserModal: any;
+  setSelectedUser: any;
+}) => {
   return (
-    <View
+    <TouchableOpacity
       style={{
         justifyContent: 'center',
         alignItems: 'center',
         width: '20%',
-        paddingBottom: 15,
+        paddingBottom: 19,
+      }}
+      onPress={() => {
+        setSelectedUser(item);
+        // handleModal(() => handleEachUserModal());
+        // handleModal();
+        setTimeout(() => {
+          handleEachUserModal();
+        }, 100);
       }}>
       <Image
         // source={{
@@ -27,12 +46,12 @@ export const MemberList = ({item}: {item: participantI}) => {
         }}
       />
       <View>
-        <Text>
+        <TextKRBold style={{fontSize: 14, lineHeight: 17}}>
           {item.nickname.length >= MAX_USERNAME_LIMIT
             ? item.nickname.substring(0, MAX_USERNAME_LIMIT) + '...'
             : item.nickname}
-        </Text>
+        </TextKRBold>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };

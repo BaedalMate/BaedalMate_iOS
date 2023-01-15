@@ -9,7 +9,7 @@ import {
 } from 'themes/theme';
 import {TextKRBold, TextKRReg} from 'themes/text';
 import {eachMainRecruitListI} from 'components/pages/Main';
-import {formPrice} from 'components/utils/Recruit';
+import {formPrice} from 'components/utils/api/Recruit';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
 import {url} from '../../../../App';
@@ -49,7 +49,7 @@ const BaedalMateRecommendationItem = ({item}: {item: eachMainRecruitListI}) => {
         navigation.navigate(
           '글 상세 보기' as never,
           {
-            id: item?.id,
+            id: item?.recruitId,
           } as never,
         );
       }}>
@@ -71,6 +71,31 @@ const BaedalMateRecommendationItem = ({item}: {item: eachMainRecruitListI}) => {
             borderRadius: 10,
           }}
         />
+        {!item.active && (
+          <View
+            style={{
+              position: 'absolute',
+              width: 150,
+              height: 95,
+              borderRadius: 10,
+              flexDirection: 'row',
+              backgroundColor: ' rgba(0, 0, 0, 0.5)',
+              zIndex: 1,
+            }}>
+            <TextKRBold
+              style={{
+                color: 'white',
+                display: 'flex',
+                width: 150,
+                height: 95,
+                textAlign: 'center',
+                lineHeight: 95,
+                fontSize: 14,
+              }}>
+              모집완료
+            </TextKRBold>
+          </View>
+        )}
         <View
           style={{
             width: '100%',
@@ -136,7 +161,7 @@ const BaedalMateRecommendationItem = ({item}: {item: eachMainRecruitListI}) => {
           <TextKRReg>
             {item?.username} &middot; {item?.dormitory}{' '}
             <Image source={STAR_BLACK} style={{width: 14, height: 14}}></Image>{' '}
-            {item?.userScore}
+            {item?.userScore ? Math.round(item?.userScore * 10) / 10 : 0}
           </TextKRReg>
         </View>
       </View>

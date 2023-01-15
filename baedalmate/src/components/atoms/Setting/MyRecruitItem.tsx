@@ -2,30 +2,35 @@ import {useNavigation} from '@react-navigation/native';
 import {url} from '../../../../App';
 import {BoardListProps} from 'components/molecules/BoardList/BoardList';
 import React, {useState} from 'react';
-import {Image, StyleSheet, Text, TouchableHighlight, View} from 'react-native';
+import {Image, StyleSheet, TouchableHighlight, View} from 'react-native';
 import {TextKRBold, TextKRReg} from 'themes/text';
 import {
   DARK_GRAY_COLOR,
   LINE_GRAY_COLOR,
-  MAIN_GRAY_COLOR,
-  MARKER_BLACK,
-  STORE_BLACK,
+  MARKER_GRAY_4X_ICON,
+  PRIMARY_COLOR,
+  STORE_GRAY_ICON,
+  TASK_GRAY_2X_ICON,
+  TIME_GRAY_ICON,
   WHITE_COLOR,
 } from 'themes/theme';
-import {GrayTag, OrangeMainTag} from './Tags';
+import {formDateWithDot} from 'components/utils/api/Chat';
 
-const BoardItem = ({item}: {item: BoardListProps}) => {
+const MyRecruitItem = ({item}: {item: BoardListProps}) => {
   const navigation = useNavigation();
   const [colour, setColour] = useState(WHITE_COLOR);
   const handlePress = () => {
     setColour('#FFF3F0');
   };
+  const criteriaText =
+    item.criteria === 'PRICE'
+      ? '최소 주문'
+      : item.criteria === 'NUMBER'
+      ? '최소 인원'
+      : '마감 시간';
   return (
     <TouchableHighlight
-      style={[
-        styles.boardItemWrapper,
-        !item.active && {backgroundColor: MAIN_GRAY_COLOR},
-      ]}
+      style={[styles.boardItemWrapper]}
       activeOpacity={0.6}
       underlayColor="#FFF3F0"
       onPress={() => {
@@ -43,37 +48,7 @@ const BoardItem = ({item}: {item: BoardListProps}) => {
           }}
           style={[styles.storeImg]}
         />
-        <View
-          style={{
-            position: 'absolute',
-            left: 15,
-            top: 18,
-            width: 75,
-            height: 75,
-            borderRadius: 75 / 2,
-            flexDirection: 'row',
-            backgroundColor: 'rgba(33, 33, 35, 0.7)',
-            zIndex: 1,
-          }}>
-          <TextKRBold
-            style={{
-              color: 'white',
-              display: 'flex',
-              width: 75,
-              height: 75,
-              textAlign: 'center',
-              lineHeight: 75,
-              fontSize: 14,
-            }}>
-            모집완료
-          </TextKRBold>
-        </View>
-        {/* <Image
-          source={{
-            uri: item.image !== null ? item.image : '',
-          }}
-          style={styles.storeImg}
-        /> */}
+
         <View
           style={{
             display: 'flex',
@@ -85,43 +60,86 @@ const BoardItem = ({item}: {item: BoardListProps}) => {
               display: 'flex',
               flexDirection: 'row',
               justifyContent: 'space-between',
+              marginBottom: 8,
             }}>
             <TextKRBold
               style={{
                 fontSize: 16,
-                lineHeight: 22,
+                lineHeight: 19,
               }}>
               {item.title}
             </TextKRBold>
+            <TextKRBold
+              style={{
+                fontSize: 14,
+                lineHeight: 17,
+                color: PRIMARY_COLOR,
+              }}>
+              {item.active
+                ? '모집 진행중'
+                : item.fail
+                ? '모집 실패'
+                : '모집 성공'}
+            </TextKRBold>
+          </View>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              marginBottom: 8,
+            }}>
             <TextKRReg
               style={{
                 fontSize: 14,
                 lineHeight: 24,
+                flex: 1,
                 color: DARK_GRAY_COLOR,
               }}>
-              {item.createDate}
+              <Image source={STORE_GRAY_ICON} style={{width: 14, height: 12}} />{' '}
+              {item.place}{' '}
+            </TextKRReg>
+            <TextKRReg
+              style={{
+                fontSize: 14,
+                lineHeight: 24,
+                flex: 1,
+                color: DARK_GRAY_COLOR,
+              }}>
+              <Image
+                source={MARKER_GRAY_4X_ICON}
+                style={{width: 10.86, height: 13}}
+              />{' '}
+              {item.dormitory}
             </TextKRReg>
           </View>
           <View
             style={{
               display: 'flex',
               flexDirection: 'row',
+              marginBottom: 5,
             }}>
             <TextKRReg
               style={{
                 fontSize: 14,
                 lineHeight: 24,
                 flex: 1,
+                color: DARK_GRAY_COLOR,
               }}>
-              <Image source={STORE_BLACK} /> {item.place}{' '}
+              <Image
+                source={TASK_GRAY_2X_ICON}
+                style={{width: 12, height: 16, resizeMode: 'contain'}}
+              />{' '}
+              {criteriaText}{' '}
             </TextKRReg>
             <TextKRReg
               style={{
                 fontSize: 14,
                 lineHeight: 24,
                 flex: 1,
+                color: DARK_GRAY_COLOR,
               }}>
-              <Image source={MARKER_BLACK} /> {item.dormitory}
+              <Image source={TIME_GRAY_ICON} style={{width: 12, height: 12}} />{' '}
+              {formDateWithDot(item.createDate)}
             </TextKRReg>
           </View>
           <View
@@ -130,10 +148,7 @@ const BoardItem = ({item}: {item: BoardListProps}) => {
               flexDirection: 'row',
               alignItems: 'center',
               flex: 1,
-            }}>
-            <GrayTag item={item} />
-            {item.active && <OrangeMainTag item={item} />}
-          </View>
+            }}></View>
         </View>
       </>
     </TouchableHighlight>
@@ -162,4 +177,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BoardItem;
+export default MyRecruitItem;

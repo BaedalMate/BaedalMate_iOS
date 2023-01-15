@@ -1,8 +1,8 @@
 import {RecruitItemProps} from 'components/pages/Detail';
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {TextKRBold} from 'themes/text';
-import {PRIMARY_COLOR} from 'themes/theme';
+import {DARK_GRAY_COLOR, PRIMARY_COLOR} from 'themes/theme';
 
 export type BtnWithoutTextProps = {
   onPress(): void;
@@ -14,16 +14,29 @@ const Description = ({item}: {item: RecruitItemProps | undefined}) => {
       style={{
         marginHorizontal: 15,
       }}>
-      <TextKRBold
-        style={{
-          color: PRIMARY_COLOR,
-          fontSize: 16,
-          lineHeight: 24,
-          marginBottom: 13,
-        }}>
-        상세설명
-      </TextKRBold>
-      <View>
+      <View style={{justifyContent: 'space-between', flexDirection: 'row'}}>
+        <TextKRBold
+          style={{
+            color: PRIMARY_COLOR,
+            fontSize: 16,
+            // lineHeight: 24,
+            // marginBottom: 13,
+          }}>
+          상세설명
+        </TextKRBold>
+        {item?.host && (
+          <TouchableOpacity
+            style={{borderBottomWidth: 1, borderColor: DARK_GRAY_COLOR}}>
+            <Text
+              style={{
+                color: DARK_GRAY_COLOR,
+              }}>
+              모집글 수정하기
+            </Text>
+          </TouchableOpacity>
+        )}
+      </View>
+      <View style={{marginTop: 16}}>
         <Text
           style={{
             fontSize: 16,

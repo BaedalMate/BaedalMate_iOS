@@ -3,6 +3,8 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '11.0'
 install! 'cocoapods', :deterministic_uuids => false
+# use_frameworks! # This is important
+
 
 target 'baedalmate' do
   config = use_native_modules!
@@ -35,6 +37,8 @@ target 'baedalmate' do
       config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
     end
   end
+
+  # pod 'RNSentry', :podspec => '../node_modules/@sentry/react-native/RNSentry.podspec' # or your path to node_modules
 
 #   post_install do |installer|
 #     react_native_post_install(installer)

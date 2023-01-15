@@ -3,7 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Login from './components/pages/login';
 import Main from './components/pages/Main';
-import {Image, TouchableOpacity} from 'react-native';
+import {Image, TextInput, TouchableOpacity} from 'react-native';
 import {
   BACK_GRAY,
   CHATTIING_PRIMARY_OUTLINE,
@@ -11,10 +11,13 @@ import {
   DARK_GRAY_COLOR,
   HOME_PRIMARY_OUTLINE,
   HOME_REGULAR,
+  MAIN_GRAY_COLOR,
   PRIMARY_COLOR,
   PROFILE_PRIMARY_OUTLINE,
   PROFILE_REGULAR,
+  SEARCH_PRIMARY,
   SETTING_HORIZONTAL_GRAY_ICON,
+  WHITE_COLOR,
 } from './themes/theme';
 import BoardItemDetail from 'components/pages/Detail';
 import BoardListPage from 'components/pages/BoardListPage';
@@ -35,6 +38,15 @@ import GPS from 'components/pages/Setting/GPS';
 import Dormitory from 'components/pages/Setting/Dormitory';
 import OrderMenuList from 'components/pages/OrderMenuList';
 import SearchPage from 'components/pages/Search';
+import {useController, useForm} from 'react-hook-form';
+import {searchRecruitAPI} from 'components/utils/api/Recruit';
+import AlarmPage from 'components/pages/Alarm';
+import ItemReport from 'components/pages/Report/ItemReport';
+import UserReport from 'components/pages/Report/UserReport';
+import EditProfile from 'components/pages/Setting/EditProfile';
+import BlockedUserList from 'components/pages/Setting/BlockedUserList';
+import NoticeList from 'components/pages/Setting/NoticeList';
+import DetailNotice from 'components/pages/Setting/DetailNotice';
 
 const AuthStack = createNativeStackNavigator();
 const MainScreenTab = createBottomTabNavigator();
@@ -131,8 +143,59 @@ const CategoryStackComponent = () => {
   );
 };
 const particiPantsDropdownModalListData = [{id: 0, text: '모집 나가기'}];
-
+const SearchInput = ({error, name, control, rules}) => {
+  const {field} = useController({
+    control,
+    defaultValue: '',
+    name,
+    rules,
+  });
+  return (
+    <TextInput
+      style={{
+        backgroundColor: WHITE_COLOR,
+        marginRight: 80,
+        width: '75%',
+        alignSelf: 'flex-start',
+        // flex: 1,
+        // maxWidth: '100%',
+        // width: '100% - 144px',
+        // marginHorizontal: 72,
+        // left: 15,
+        // height: 45,
+        // borderRadius: 10,
+        padding: 15,
+        // borderWidth: 1,
+        color: DARK_GRAY_COLOR,
+        fontSize: 14,
+        fontWeight: '400',
+        textAlign: 'justify',
+      }}
+      value={field.value}
+      onChangeText={field.onChange}
+      placeholder={'검색할 키워드를 입력해주세요                       '}
+      placeholderTextColor={MAIN_GRAY_COLOR}
+      // value={field.value}
+      // onChangeText={field.onChange}
+      // maxLength={20}
+    />
+  );
+};
 export const BoardStackComponent = () => {
+  const useFormReturn = useForm({defaultValues: {keyword: ''}});
+  const {
+    control,
+    handleSubmit,
+    formState: {errors},
+  } = useFormReturn;
+  const navigation = useNavigation();
+  const onSubmit = async data => {
+    const result = await searchRecruitAPI(data.keyword);
+    navigation.navigate(
+      '검색' as never,
+      {result: result, keyword: data.keyword} as never,
+    );
+  };
   return (
     <BoardScreenStack.Navigator>
       <BoardScreenStack.Screen
@@ -216,13 +279,95 @@ export const BoardStackComponent = () => {
         name="검색"
         component={SearchPage}
         options={({navigation, route}) => ({
+          headerTitleAlign: 'left',
+          headerTitle: () => (
+            <SearchInput
+              error={errors}
+              name={'keyword'}
+              control={control}
+              rules={{}}
+              // rules={{required: true}}
+            />
+          ),
+          // headerShown: false,
+          headerShadowVisible: false,
           headerBackVisible: false,
 
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
                 navigation.goBack();
-              }}>
+              }}
+              // style={{ borderWidth: 1 }}
+            >
+              <Image source={BACK_GRAY} />
+            </TouchableOpacity>
+          ),
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={handleSubmit(onSubmit)}
+              // style={{borderWidth: 1}}
+            >
+              <Image source={SEARCH_PRIMARY} />
+            </TouchableOpacity>
+          ),
+        })}
+      />
+      <BoardScreenStack.Screen
+        name="알림"
+        component={AlarmPage}
+        options={({navigation, route}) => ({
+          // headerShown: false,
+          headerShadowVisible: false,
+          headerBackVisible: false,
+
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}
+              // style={{ borderWidth: 1 }}
+            >
+              <Image source={BACK_GRAY} />
+            </TouchableOpacity>
+          ),
+        })}
+      />
+      <BoardScreenStack.Screen
+        name="게시글 신고하기"
+        component={ItemReport}
+        options={({navigation, route}) => ({
+          // headerShown: false,
+          headerShadowVisible: false,
+          headerBackVisible: false,
+          headerTitle: '신고하기',
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}
+              // style={{ borderWidth: 1 }}
+            >
+              <Image source={BACK_GRAY} />
+            </TouchableOpacity>
+          ),
+        })}
+      />
+      <BoardScreenStack.Screen
+        name="사용자 신고하기"
+        component={UserReport}
+        options={({navigation, route}) => ({
+          // headerShown: false,
+          headerShadowVisible: false,
+          headerBackVisible: false,
+          headerTitle: '신고하기',
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}
+              // style={{ borderWidth: 1 }}
+            >
               <Image source={BACK_GRAY} />
             </TouchableOpacity>
           ),
@@ -290,7 +435,7 @@ export const BoardStackComponent = () => {
         })}
       /> */}
       <BoardScreenStack.Screen
-        name="주최한 모집"
+        name="주최한 모집글"
         component={HostingRecruitList}
         options={({navigation, route}) => ({
           headerBackVisible: false,
@@ -305,7 +450,7 @@ export const BoardStackComponent = () => {
         })}
       />
       <BoardScreenStack.Screen
-        name="참여한 모집"
+        name="참여한 모집글"
         component={ParticipateRecruitList}
         options={({navigation, route}) => ({
           headerBackVisible: false,
@@ -320,7 +465,7 @@ export const BoardStackComponent = () => {
         })}
       />
       <BoardScreenStack.Screen
-        name="GPS 인증하기"
+        name="거점 인증"
         component={GPS}
         options={({navigation, route}) => ({
           headerBackVisible: false,
@@ -337,6 +482,67 @@ export const BoardStackComponent = () => {
       <BoardScreenStack.Screen
         name="내 거점 설정"
         component={Dormitory}
+        options={({navigation, route}) => ({
+          headerBackVisible: false,
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image source={BACK_GRAY} />
+            </TouchableOpacity>
+          ),
+        })}
+      />
+      <BoardScreenStack.Screen
+        name="차단 관리"
+        component={BlockedUserList}
+        options={({navigation, route}) => ({
+          headerBackVisible: false,
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image source={BACK_GRAY} />
+            </TouchableOpacity>
+          ),
+        })}
+      />
+      <BoardScreenStack.Screen
+        name="공지사항"
+        component={NoticeList}
+        options={({navigation, route}) => ({
+          headerBackVisible: false,
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image source={BACK_GRAY} />
+            </TouchableOpacity>
+          ),
+        })}
+      />
+      <BoardScreenStack.Screen
+        name="상세 공지"
+        component={DetailNotice}
+        options={({navigation, route}) => ({
+          headerBackVisible: false,
+          headerTitle: '공지사항',
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image source={BACK_GRAY} />
+            </TouchableOpacity>
+          ),
+        })}
+      />
+      <BoardScreenStack.Screen
+        name="프로필 수정"
+        component={EditProfile}
         options={({navigation, route}) => ({
           headerBackVisible: false,
           headerLeft: () => (

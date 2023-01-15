@@ -16,7 +16,7 @@ const UserProfileImage = ({item}: {item: RecruitItemProps | undefined}) => {
       // source={{
       //   uri: item?.profileImage.replace('http', 'https'),
       // }}
-      source={{uri: url + '/images/' + item?.profileImage}}
+      source={{uri: url + '/images/' + item?.userInfo.profileImage}}
       style={{
         width: 45,
         height: 45,
@@ -32,8 +32,8 @@ const MyPageUserProfileImage = ({item}: {item: MyPageI | undefined}) => {
     <View style={{}}>
       <Image
         source={{
-          uri: item?.profileImage,
-          // uri: url + '/images/' + item?.profileImage,
+          // uri: item?.profileImage,
+          uri: url + '/images/' + item?.profileImage,
         }}
         style={{
           width: 55,
