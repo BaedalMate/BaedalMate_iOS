@@ -1,13 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import BoardItem from 'components/atoms/BoardList/BoardItem';
 import {ScrollView, Text, View} from 'react-native';
-import axios from 'axios';
-import {recruitListURL} from 'components/pages/Main';
 import {DARK_GRAY_COLOR, PRIMARY_COLOR} from 'themes/theme';
 import {TextKRBold, TextKRReg} from 'themes/text';
 
 export interface BoardListProps {
   active: boolean;
+  cancel?: boolean;
   fail?: boolean;
   createDate: string;
   criteria: string;
@@ -92,50 +91,12 @@ const changeCategoryIdToString = categoryId => {
   return categoryData[categoryId].text;
 };
 const renderItem = (boardList, categoryId) => {
-  // const [boardList, setBoardList] = useState<BoardListProps[]>(boardList);
-  const date = new Date().getDate();
-  const time = new Date().getTime();
-  console.log(date);
-  console.log(time);
-  // // 모집글 리스트 Api 받아옴
-  // const getBoardListData = async () => {
-  //   try {
-  //     const BoardListData = axios
-  //       .get(recruitListURL, {
-  //         params: {
-  //           // page: 0,
-  //           // size: 10,
-  //         },
-  //       })
-  //       .then(function (response) {
-  //         if (response.status === 200) {
-  //           setBoardList(response.data.recruitList);
-  //           return response.data.recruitList;
-  //         }
-  //         return false;
-  //       })
-  //       .catch(function (error) {
-  //         console.log(error);
-  //         return false;
-  //       });
-  //     return BoardListData;
-  //   } catch (error) {
-  //     console.log(error);
-  //     return false;
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getBoardListData();
-  // }, []);
-
   return (
     <View>
       {boardList === undefined || boardList.length === 0 ? (
         <View></View>
       ) : (
         boardList.map((item, i) => {
-          console.log(item.createDate);
           const dateString = item.createDate;
           const time = dateString.replace(' ', 'T');
           const createTime = new Date(time);
