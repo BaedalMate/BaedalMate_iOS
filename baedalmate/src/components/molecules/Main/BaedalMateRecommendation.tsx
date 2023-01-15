@@ -4,11 +4,7 @@ import {View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import BtnSelectSort from '../Button/BtnSelectSort';
 import BaedalMateRecommendationItem from 'components/atoms/Main/BaedalMateRecommendationItem';
-import {
-  eachMainRecruitListI,
-  mainRecruitListI,
-  mainRecruitListURL,
-} from 'components/pages/Main';
+import {eachMainRecruitListI, mainRecruitListURL} from 'components/pages/Main';
 import axios from 'axios';
 import {getJWTToken} from 'components/utils/api/Recruit';
 
@@ -38,9 +34,9 @@ const BaedalMateRecommendation = ({}: {}) => {
           if (response.status === 200) {
             console.log(response.data.recruitList);
             setMainRecruitSortList(response.data.recruitList);
-            return response.data.recruitList;
+            // return response.data.recruitList;
           }
-          return false;
+          // return false;
         })
         .catch(function (error) {
           console.log(error);
