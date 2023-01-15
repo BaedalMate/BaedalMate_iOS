@@ -7,13 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {
-  MAX_USERNAME_LIMIT,
-  // LiveMyMessage,
-  // LiveOpponentMessage,
-  MyMessage,
-  OpponentMessage,
-} from 'components/molecules/Chat/Message';
+import {MyMessage, OpponentMessage} from 'components/molecules/Chat/Message';
 import {url} from '../../../App';
 import {getJWTToken} from 'components/utils/api/Recruit';
 import axios from 'axios';
@@ -50,6 +44,7 @@ import {MemberList} from 'components/atoms/Chat/MemberListItem';
 import {getReviewParticipantsAPI} from 'components/utils/api/Review';
 import Modal from 'react-native-modal/dist/modal';
 import {UsePopup} from 'components/utils/usePopup';
+import {postBlockAPI} from 'components/utils/api/Block';
 
 export interface sendI {
   senderId: number;
@@ -293,7 +288,14 @@ export const DetailChatRoom = props => {
             justifyContent: 'flex-end',
           }}>
           {props.children}
-
+          <View
+            onTouchStart={handleModal}
+            style={{
+              width: '100%',
+              height: '100%',
+              flex: 1,
+            }}
+          />
           <View
             style={{
               flexDirection: 'column',
@@ -369,11 +371,21 @@ export const DetailChatRoom = props => {
       blockModal ? setBlockModal(false) : setBlockModal(true);
     };
     const blockModalData = {
-      title: '캡스톤님을 차단 하시겠습니까?',
+      title: selectedUser?.nickname + '님을 차단 하시겠습니까?',
       description:
         '차단하더라도, 해당 사용자가 주최자 역할이 아닌 참여하고 있는 모집글과 채팅방은 정상적으로 보여지게 됩니다.',
       modal: blockModal,
       handleModal: handleBlockModal,
+    };
+    const blockUser = async () => {
+      if (selectedUser?.userId) {
+        console.log(selectedUser);
+        console.log(selectedUser.userId);
+        const result = await postBlockAPI(selectedUser?.userId);
+        if (result) {
+          console.log('block user', result);
+        }
+      }
     };
 
     return (
@@ -463,6 +475,7 @@ export const DetailChatRoom = props => {
                       description={blockModalData.description}
                       modal={blockModal}
                       handleModal={handleBlockModal}
+                      confirmEvent={blockUser}
                     />
                     <Image
                       source={BLOCK_ICON}

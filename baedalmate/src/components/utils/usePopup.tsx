@@ -9,7 +9,13 @@ import {
   DARK_GRAY_COLOR,
 } from 'themes/theme';
 
-export const UsePopup = ({title, description, modal, handleModal}) => {
+export const UsePopup = ({
+  title,
+  description,
+  modal,
+  handleModal,
+  confirmEvent,
+}) => {
   return (
     <View>
       <Modal isVisible={modal} style={{margin: 0}}>
@@ -98,6 +104,7 @@ export const UsePopup = ({title, description, modal, handleModal}) => {
                     borderBottomRightRadius: 10,
                   }}
                   onPress={() => {
+                    confirmEvent();
                     handleModal();
                   }}
                   underlayColor={LINE_GRAY_COLOR}>

@@ -40,21 +40,57 @@ export const getBlockUserListAPI = async () => {
 export const postBlockAPI = async (userId: number) => {
   const JWTAccessToken = await getJWTToken();
   console.log(JWTAccessToken);
-  const result = await axios.post(blockURL, userId, {
-    headers: {
-      Authorization: 'Bearer ' + JWTAccessToken,
-    },
-  });
-  return result;
+  try {
+    const result = axios
+      .post(
+        blockURL,
+        {userId},
+        {
+          headers: {
+            Authorization: 'Bearer ' + JWTAccessToken,
+          },
+        },
+      )
+      .then(function (response) {
+        console.log(response);
+        return response.data;
+      })
+      .catch(function (error) {
+        console.log(error);
+        return false;
+      });
+    return result;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
 };
 
 export const postUnBlockAPI = async (userId: number) => {
   const JWTAccessToken = await getJWTToken();
   console.log(JWTAccessToken);
-  const result = await axios.post(unblockURL, userId, {
-    headers: {
-      Authorization: 'Bearer ' + JWTAccessToken,
-    },
-  });
-  return result;
+  try {
+    const result = axios
+      .post(
+        unblockURL,
+        {userId},
+        {
+          headers: {
+            Authorization: 'Bearer ' + JWTAccessToken,
+          },
+        },
+      )
+      .then(function (response) {
+        console.log(response);
+        return response.data;
+      })
+      .catch(function (error) {
+        console.log(error);
+        return false;
+      });
+    return result;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
 };

@@ -292,12 +292,6 @@ export const ChatHeader = ({
             }}
             style={styles.storeImg}
           />
-          {/* <View
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          flex: 1,
-        }}> */}
           <View
             style={{
               display: 'flex',
@@ -324,13 +318,6 @@ export const ChatHeader = ({
                 }}>
                 {item.recruit.title}
               </TextKRBold>
-              {/* <View
-    style={{
-      display: 'flex',
-      flexDirection: 'row',
-      flex: 1,
-      alignItems: 'center',
-    }}> */}
               <View
                 style={{
                   display: 'flex',
@@ -354,21 +341,8 @@ export const ChatHeader = ({
                     : timeText.includes('마감')
                     ? timeText
                     : timeText + ' 남음'}
-
-                  {/* <Image source={STORE_BLACK} /> {item.lastMessage.sendDate}{' '} */}
                 </TextKRReg>
               </View>
-
-              {/* <TextKRReg
-      style={{
-        fontSize: 14,
-        lineHeight: 24,
-        flex: 1,
-      }}>
-      <Image source={MARKER_BLACK} /> {item.}
-    </TextKRReg> */}
-              {/* </View> */}
-              {/* </View> */}
             </View>
           </View>
           <View
@@ -383,13 +357,9 @@ export const ChatHeader = ({
               />
             ) : (
               <BtnHorizontalWhiteS
-                onPress={handleMenuModal}
-                text={'메뉴변경'}
+                onPress={handleModal}
+                text={'후기 작성하기'}
               />
-              // <BtnHorizontalWhiteS
-              //   onPress={handleModal}
-              //   text={'후기 작성하기'}
-              // />
             )}
           </View>
         </>

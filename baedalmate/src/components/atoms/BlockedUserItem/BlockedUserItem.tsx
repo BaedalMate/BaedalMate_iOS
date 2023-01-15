@@ -1,28 +1,38 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Image, StyleSheet, View} from 'react-native';
-import {TextKRBold, TextKRReg} from 'themes/text';
-import {DARK_GRAY_COLOR, LINE_GRAY_COLOR, WHITE_COLOR} from 'themes/theme';
+import {TextKRBold} from 'themes/text';
+import {LINE_GRAY_COLOR} from 'themes/theme';
 import BtnHorizontalWhiteS from '../Button/BtnHorizontalWhiteS';
-import {BtnActive} from '../Button/BtnEndStandard';
-import BtnHorizontalWhite from '../Button/BtnHorizontalWhite';
+import {url} from '../../../../App';
+import {participantI} from 'components/utils/api/Chat';
+import {postUnBlockAPI} from 'components/utils/api/Block';
+import {useNavigation} from '@react-navigation/native';
 
-const BlockedUserItem = ({item}: {item}) => {
+const BlockedUserItem = ({
+  item,
+  getData,
+}: {
+  item: participantI;
+  getData: any;
+}) => {
+  const unblockUser = async () => {
+    const result = await postUnBlockAPI(item.userId);
+    if (result) {
+      console.log('unblock user', result);
+      if (result.result === 'success') {
+        getData();
+      }
+    }
+  };
   return (
     <View style={styles.BlockedUserItemWrapper}>
       <>
         <Image
           source={{
-            uri: item?.profileImage,
-            // uri: url + '/images/' + item.image,
+            uri: url + '/images/' + item.profileImage,
           }}
           style={styles.userImg}
         />
-        {/* <Image
-          source={{
-            uri: item.image !== null ? item.image : '',
-          }}
-          style={styles.storeImg}
-        /> */}
         <View
           style={{
             display: 'flex',
@@ -41,14 +51,19 @@ const BlockedUserItem = ({item}: {item}) => {
                 fontSize: 16,
                 lineHeight: 19,
               }}>
-              {item.userNickname}
+              {item.nickname}
             </TextKRBold>
             <View
               style={{
                 width: 85,
                 height: 40,
               }}>
-              <BtnHorizontalWhiteS onPress={() => {}} text={'차단 해제'} />
+              <BtnHorizontalWhiteS
+                onPress={() => {
+                  unblockUser();
+                }}
+                text={'차단 해제'}
+              />
             </View>
           </View>
         </View>
@@ -66,7 +81,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 58,
     borderBottomWidth: 1,
-    // borderWidth: 1,
     borderColor: LINE_GRAY_COLOR,
     justifyContent: 'center',
     alignItems: 'center',

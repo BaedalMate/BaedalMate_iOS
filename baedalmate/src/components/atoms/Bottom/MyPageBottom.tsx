@@ -1,23 +1,8 @@
 import {Fonts} from 'assets/Fonts';
-import {url} from '../../../../App';
-import {RecruitItemProps} from 'components/pages/Detail';
 import React, {useState} from 'react';
-import {
-  Image,
-  Modal,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {
-  BLOCK_ICON,
-  DARK_GRAY_COLOR,
-  LINE_GRAY_COLOR,
-  REPORT_ICON,
-  WHITE_COLOR,
-} from 'themes/theme';
-import {TextKRBold, TextKRReg} from 'themes/text';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {DARK_GRAY_COLOR} from 'themes/theme';
+import {TextKRReg} from 'themes/text';
 import {UsePopup} from 'components/utils/usePopup';
 
 export type BtnWithoutTextProps = {
@@ -68,6 +53,8 @@ const MyPageBottom = () => {
           description={logoutModalData.description}
           modal={logoutModal}
           handleModal={handleLogoutModal}
+          // 추가 필요
+          confirmEvent={undefined}
         />
         <TextKRReg
           style={{
@@ -95,6 +82,8 @@ const MyPageBottom = () => {
           description={withdrawModalData.description}
           modal={withdrawModal}
           handleModal={handleWithdrawModal}
+          // 추가 필요
+          confirmEvent={undefined}
         />
         <TextKRReg
           style={{

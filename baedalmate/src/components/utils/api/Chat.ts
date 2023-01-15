@@ -67,6 +67,7 @@ export interface participantI {
   nickname: string;
   profileImage: string;
   userId: number;
+  block: boolean;
 }
 export interface recruitParticipantsI {
   participants: participantI[];

@@ -2,6 +2,11 @@ import axios from 'axios';
 import {userURL} from 'components/pages/Main';
 import {getJWTToken} from './Recruit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+// export interface userI {
+//   nickname: string;
+//   profileImage: string;
+//   userId: number;
+// }
 export interface UserInfoI {
   nickname: string;
   profileImage: string;

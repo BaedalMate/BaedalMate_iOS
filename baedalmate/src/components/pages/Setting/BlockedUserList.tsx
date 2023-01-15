@@ -11,14 +11,14 @@ export const dummyBoardListData = Array(10).fill({
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ6yI5v-1UCyMx8CdTpABg9QzItPHcPLZh7_1ZnzOpTg&s',
 });
 
-const renderItem = blockedUserList => {
+const renderItem = (blockedUserList, getData) => {
   return (
     <View style={{backgroundColor: WHITE_COLOR, paddingHorizontal: 15}}>
       {blockedUserList === undefined ? (
         <View></View>
       ) : (
         blockedUserList.map(item => {
-          return <BlockedUserItem item={item} />;
+          return <BlockedUserItem item={item} getData={getData} />;
         })
       )}
     </View>
@@ -36,7 +36,7 @@ const BlockedUserList = props => {
   }, []);
   return (
     <ScrollView style={{backgroundColor: WHITE_COLOR}}>
-      {renderItem(userListData)}
+      {renderItem(userListData, getData)}
     </ScrollView>
   );
 };
