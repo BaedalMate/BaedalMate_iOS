@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {ScrollView, View} from 'react-native';
 import BlockedUserItem from 'components/atoms/BlockedUserItem/BlockedUserItem';
 import {WHITE_COLOR} from 'themes/theme';
+import {getBlockUserListAPI} from 'components/utils/api/Block';
 
 export const dummyBoardListData = Array(10).fill({
   userNickname: '유저닉네임',
@@ -25,9 +26,17 @@ const renderItem = blockedUserList => {
 };
 
 const BlockedUserList = props => {
+  const [userListData, setUserListData] = useState();
+  const getData = async () => {
+    const result = await getBlockUserListAPI();
+    setUserListData(result);
+  };
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <ScrollView style={{backgroundColor: WHITE_COLOR}}>
-      {renderItem(dummyBoardListData)}
+      {renderItem(userListData)}
     </ScrollView>
   );
 };
