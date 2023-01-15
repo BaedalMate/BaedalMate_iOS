@@ -30,7 +30,7 @@ const MyPage = ({route, navigation}) => {
     {
       name: '프로필 수정',
       onPress: () => {
-        navigation.navigate('프로필 수정' as never);
+        navigation.navigate('프로필 수정' as never, {userInfo: mypageUserInfo});
       },
     },
     {

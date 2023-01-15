@@ -24,6 +24,8 @@ import MyPageBottom from 'components/atoms/Bottom/MyPageBottom';
 import {getUserAPI} from 'components/utils/api/User';
 import {TextKRBold, TextKRReg} from 'themes/text';
 import BtnVerticalOrange from 'components/atoms/Button/BtnVerticalOrange';
+import {url} from '../../../../App';
+import {useController, useForm} from 'react-hook-form';
 
 export interface MyPageI {
   userId: number;
@@ -40,7 +42,44 @@ export const MyPageUserDummyData = {
   dormitory: '성림학사',
 };
 
+const NicknameInput = ({userInfo, name, control, rules, setValue}) => {
+  const {field} = useController({
+    control,
+    defaultValue: userInfo.nickname,
+    name,
+    rules,
+  });
+
+  return (
+    <TextInput
+      placeholder="5자 이내로 닉네임을 작성해 주세요"
+      style={{
+        fontSize: 14,
+        // lineHeight: 24,
+        borderWidth: 1,
+        borderColor: LINE_GRAY_COLOR,
+        borderRadius: 10,
+        paddingHorizontal: 15,
+        paddingVertical: 10,
+        textAlignVertical: 'center',
+        marginTop: 7,
+      }}
+      maxLength={7}
+      onChangeText={field.onChange}
+      value={field.value}
+      placeholderTextColor={MAIN_GRAY_COLOR}></TextInput>
+  );
+};
 const EditProfile = ({route, navigation}) => {
+  const userInfo = route.params.userInfo;
+
+  const useFormReturn = useForm({defaultValues: {nickname: userInfo.nickname}});
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    formState: {errors},
+  } = useFormReturn;
   return (
     <View
       style={{
@@ -53,7 +92,7 @@ const EditProfile = ({route, navigation}) => {
       }}>
       <View style={{marginTop: 48, marginBottom: 75}}>
         <Image
-          source={{}}
+          source={{uri: url + '/images/' + userInfo.profileImage}}
           style={{
             width: 100,
             height: 100,
@@ -85,20 +124,13 @@ const EditProfile = ({route, navigation}) => {
       </View>
       <View style={{width: '100%'}}>
         <TextKRBold style={{fontSize: 14, lineHeight: 17}}>닉네임</TextKRBold>
-        <TextInput
-          placeholder="5자 이내로 닉네임을 작성해 주세요"
-          style={{
-            fontSize: 14,
-            lineHeight: 24,
-            borderWidth: 1,
-            borderColor: LINE_GRAY_COLOR,
-            borderRadius: 10,
-            paddingHorizontal: 15,
-            paddingVertical: 10,
-            textAlignVertical: 'center',
-            marginTop: 7,
-          }}
-          placeholderTextColor={MAIN_GRAY_COLOR}></TextInput>
+        <NicknameInput
+          userInfo={userInfo}
+          name="nickname"
+          control={control}
+          setValue={setValue}
+          rules={{maxLength: 5}}
+        />
       </View>
       <View style={{width: '100%', position: 'absolute', bottom: 45}}>
         <BtnVerticalOrange onPress={() => {}} text={'저장하기'} />
