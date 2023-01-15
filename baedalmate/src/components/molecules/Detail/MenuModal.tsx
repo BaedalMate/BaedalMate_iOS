@@ -194,8 +194,6 @@ const MenuList = (props: menuListProps) => {
                             error={errors}
                             name="name"
                             control={control}
-                            // rules={{required: true}}
-                            setValue={setValue}
                             rules={{}}
                           />
                         </View>
@@ -235,7 +233,6 @@ const MenuList = (props: menuListProps) => {
                         }}>
                         <TextKRBold style={styles.Label}>수량</TextKRBold>
                         <CntInput
-                          error={errors}
                           name={'quantity'}
                           control={control}
                           // rules={{required: true}}

@@ -2,12 +2,10 @@ import {Fonts} from 'assets/Fonts';
 import BtnAddMenu from 'components/atoms/Button/BtnAddMenu';
 import {
   CntInput,
-  DescriptionInput,
   DormitoryDescriptionInput,
   PriceInput,
 } from 'components/atoms/CreateRecruit/Input';
-import MenuItem, {MenuType} from 'components/atoms/CreateRecruit/MenuItem';
-import {menuProps} from 'components/pages/CreateRecuit/Fourth';
+import MenuItem from 'components/atoms/CreateRecruit/MenuItem';
 import React, {useState} from 'react';
 import {useForm} from 'react-hook-form';
 
@@ -29,16 +27,6 @@ import {
   DARK_GRAY_COLOR,
   ERROR_COLOR,
 } from 'themes/theme';
-import NowGatheringItem from '../../atoms/Main/NowGatheringItem';
-import {BtnWithoutTextProps} from '../Detail/UserInfo';
-
-// interface CategoryProps {
-//   navigation: NavigationProp<any, any>;
-//   user: {
-//     userName: string;
-//     userAddress: string;
-//   };
-// }
 
 interface menuListProps {
   menuList: menuListI[] | undefined;
@@ -53,26 +41,8 @@ export interface menuListI {
 }
 
 const MenuList = (props: menuListProps) => {
-  // const menuCnt = props?.menuList.length;
-  const {StatusBarManager} = NativeModules;
   const [statusBarHeight, setStatusBarHeight] = useState(0);
 
-  const renderItem = () => {
-    let result =
-      props.menuList &&
-      props?.menuList.map((menu, index) => {
-        return (
-          <MenuItem
-            key={index}
-            menu={menu.name}
-            price={menu.price}
-            cnt={menu.quantity}
-            onPress={() => {}}
-          />
-        );
-      });
-    return result;
-  };
   const deleteMenu = id => {
     props?.setMenuList(
       props.menuList?.filter((v, i) => {
@@ -220,8 +190,6 @@ const MenuList = (props: menuListProps) => {
                             error={errors}
                             name="name"
                             control={control}
-                            // rules={{required: true}}
-                            setValue={setValue}
                             rules={{}}
                           />
                         </View>
@@ -261,10 +229,8 @@ const MenuList = (props: menuListProps) => {
                         }}>
                         <TextKRBold style={styles.Label}>수량</TextKRBold>
                         <CntInput
-                          error={errors}
                           name={'quantity'}
                           control={control}
-                          // rules={{required: true}}
                           setValue={setValue}
                           rules={{}}
                         />

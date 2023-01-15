@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useState} from 'react';
 import {Fonts} from 'assets/Fonts';
 import {useController} from 'react-hook-form';
 import {
@@ -8,7 +8,6 @@ import {
   TextInput,
   Text,
   StyleSheet,
-  Button,
 } from 'react-native';
 import {TextKRBold} from 'themes/text';
 import {
@@ -21,14 +20,11 @@ import {
   PRIMARY_COLOR,
   BOTTOM_ARROW,
   LINE_GRAY_COLOR,
-  CAMERA_GRAY,
-  SEND_GRAY,
   SEND_GRAY_FILLED_ICON,
   CAMERA_GRAY_FILLED_ICON,
   BLACK_COLOR,
   MAIN_GRAY_COLOR,
 } from 'themes/theme';
-import {onChange} from 'react-native-reanimated';
 import SelectDropdown from 'react-native-select-dropdown';
 import {dormitoryList} from 'components/pages/CreateRecuit/second';
 
@@ -43,39 +39,6 @@ export interface shippingFeeProps {
   control;
   rules;
 }
-
-// export const TagInput = ({error, name, control, rules, tagList, setTagList}) => {
-//   const {field} = useController({
-//     control,
-//     defaultValue: '',
-//     name,
-//     rules,
-//   });
-//   return (
-//     <View
-//               style={{
-//                 flexDirection: 'row',
-//                 justifyContent: 'space-between',
-//               }}>
-//               <TextInput
-//                 style={{
-//                   backgroundColor: WHITE_COLOR,
-//                   width: '70%',
-//                   height: 44,
-//                   borderRadius: 10,
-//                   padding: 15,
-//                 }}
-//                 value={tagFields.tagname}
-//                 placeholder="#태그를 입력해주세요"></TextInput>
-//               <BtnTag text={'태그입력'} onPress={} />
-//             </View>
-//             {tagFields.map((data, index) => (
-//               <View style={{flexDirection: 'row', marginVertical: 15}}>
-//                 <WhiteTag text={data} />
-//               </View>
-//             ))}
-//   );
-// };
 
 export const DescriptionInput = ({error, name, control, rules}) => {
   const {field} = useController({
@@ -183,32 +146,24 @@ export const DormitoryInput = ({error, name, control, rules, setValue}) => {
       data={dormitoryList}
       defaultValueByIndex={0}
       defaultValue={''}
-      renderDropdownIcon={isOpened => {
+      renderDropdownIcon={() => {
         return <Image source={BOTTOM_ARROW} />;
       }}
       onSelect={(selectedItem, index) => {
         console.log(selectedItem, index);
         setValue('dormitory', selectedItem);
       }}
-      buttonTextAfterSelection={(selectedItem, index) => {
+      buttonTextAfterSelection={selectedItem => {
         return selectedItem;
       }}
-      rowTextForSelection={(item, index) => {
+      rowTextForSelection={item => {
         return item;
       }}
     />
   );
 };
 
-export const PlaceInput = ({
-  error,
-  name,
-  control,
-  rules,
-  // setValue,
-  value,
-  navigation,
-}) => {
+export const PlaceInput = ({error, name, control, rules, navigation}) => {
   const {field} = useController({
     control,
     defaultValue: '',
@@ -228,20 +183,12 @@ export const PlaceInput = ({
         padding: 15,
       }}
       value={field.value}
-      // onChangeText={onChange}
-      // onTouchEnd={setValue(value)}
       onTouchStart={() => navigation.navigate('배달 가게 선택')}
     />
   );
 };
 
-export const DormitoryDescriptionInput = ({
-  error,
-  name,
-  control,
-  rules,
-  setValue,
-}) => {
+export const DormitoryDescriptionInput = ({error, name, control, rules}) => {
   const {field} = useController({
     control,
     defaultValue: '',
@@ -272,7 +219,7 @@ export const DormitoryDescriptionInput = ({
   );
 };
 
-export const CntInput = ({error, name, control, rules, setValue}) => {
+export const CntInput = ({name, control, rules, setValue}) => {
   const {field} = useController({
     control,
     defaultValue: 1,
@@ -320,12 +267,14 @@ export const CntInput = ({error, name, control, rules, setValue}) => {
         )}
       </TouchableOpacity>
       <TextKRBold style={styles.Label}>
-        {minPeople} {name === 'minPeople' ? '인' : '개'}
+        {/* {minPeople} */}
+        {field.value}
+        {name === 'minPeople' ? '인' : '개'}
       </TextKRBold>
       <TouchableOpacity
         onPress={() => {
-          setValue(name, minPeople + 1);
-          setMinPeople(minPeople + 1);
+          setValue(name, field.value + 1);
+          setMinPeople(field.value + 1);
         }}>
         <Image
           source={INCREASE_ACTIVE}
@@ -593,7 +542,6 @@ export const MessageTextInput = ({error, name, control, rules}) => {
         borderWidth: error.title ? 1 : 0,
         borderColor: error.title ? ERROR_COLOR : WHITE_COLOR,
         backgroundColor: WHITE_COLOR,
-        // width: '100%',
         flex: 1,
         height: 45,
         borderRadius: 10,

@@ -6,6 +6,7 @@ export const closeRecruitURL = url + '/api/v1/recruit/close';
 export const createRecruitURL = url + '/api/v1/recruit/new';
 export const ParticipateRecruitURL = url + '/api/v1/order';
 export const searchRecruitURL = url + '/api/v1/recruit/search';
+export const recruitURL = url + '/api/v1/recruit';
 // AsyncStorge에 저장한 JWT token을 받아옴
 export const getJWTToken = async () => {
   const JWTAccessToken = await AsyncStorage.getItem(
@@ -26,6 +27,11 @@ export const formPrice = (text: number | undefined) => {
   return text?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
 
+export interface userMenuI {
+  menu: menuI[];
+  userId: number;
+  userOrderTotal: number;
+}
 export interface menuI {
   name: string;
   price: number;
@@ -239,4 +245,29 @@ export const searchRecruitAPI = async (keyword: string) => {
     },
   });
   return result.data;
+};
+
+export const getUserMenuAPI = async (recruitId: number) => {
+  const JWTAccessToken = await getJWTToken();
+  console.log(JWTAccessToken);
+  try {
+    const result = axios
+      .get(recruitURL + '/' + recruitId + '/my-menu', {
+        headers: {
+          Authorization: 'Bearer ' + JWTAccessToken,
+        },
+      })
+      .then(function (response) {
+        console.log(response);
+        return response.data;
+      })
+      .catch(function (error) {
+        console.log(error);
+        return false;
+      });
+    return result;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
 };

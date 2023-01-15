@@ -7,7 +7,7 @@ import {
   participantI,
   recruitParticipantsI,
 } from 'components/utils/api/Chat';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image, Modal, StyleSheet, TouchableHighlight, View} from 'react-native';
 import {TextKRBold, TextKRReg} from 'themes/text';
 import {DARK_GRAY_COLOR, PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
@@ -17,8 +17,13 @@ import StarRatingComponent from '../StarRating/StarRating';
 import {MAX_USERNAME_LIMIT} from 'components/molecules/Chat/Message';
 import {postReviewAPI, reviewEachUserI} from 'components/utils/api/Review';
 import {useForm, UseFormReturn} from 'react-hook-form';
-import {formPrice} from 'components/utils/api/Recruit';
+import {
+  formPrice,
+  getUserMenuAPI,
+  userMenuI,
+} from 'components/utils/api/Recruit';
 import BtnVerticalOrange from '../Button/BtnVerticalOrange';
+import MenuModal from 'components/molecules/Menu/MenuModal';
 
 export const ReviewMemberList = ({
   item,
@@ -93,6 +98,7 @@ export const ReviewModal = ({
 }) => {
   const navigation = useNavigation();
   const [userId, setUserId] = useState('');
+
   // const getUserId = async () => {
   //   const userId = await AsyncStorage.getItem('@BaedalMate_UserId');
   //   userId && setUserId(userId);
@@ -214,7 +220,18 @@ export const ChatHeader = ({
   const handleModal = () => {
     modal ? setModal(false) : setModal(true);
   };
-
+  const [menuModal, setMenuModal] = useState(false);
+  const handleMenuModal = () => {
+    menuModal ? setMenuModal(false) : setMenuModal(true);
+  };
+  const [defaultMenuList, setDefaultMenuList] = useState<userMenuI>();
+  const getDefaultMenu = async () => {
+    const result = await getUserMenuAPI(item.recruit.recruitId);
+    setDefaultMenuList(result);
+  };
+  useEffect(() => {
+    getDefaultMenu();
+  }, []);
   const now = new Date();
   const text =
     item?.recruit.deadlineDate.split(' ')[0] +
@@ -244,6 +261,12 @@ export const ChatHeader = ({
       : '마감 임박';
   return (
     <>
+      <MenuModal
+        id={item.recruit.recruitId}
+        defaultMenuList={defaultMenuList?.menu}
+        modal={menuModal}
+        handleModal={handleMenuModal}
+      />
       <ReviewModal
         id={item.recruit.recruitId}
         participants={reviewUserList}
@@ -353,7 +376,21 @@ export const ChatHeader = ({
               width: 85,
               height: 40,
             }}>
-            <BtnHorizontalWhiteS onPress={handleModal} text={'후기 작성하기'} />
+            {item.recruit.active ? (
+              <BtnHorizontalWhiteS
+                onPress={handleMenuModal}
+                text={'메뉴변경'}
+              />
+            ) : (
+              <BtnHorizontalWhiteS
+                onPress={handleMenuModal}
+                text={'메뉴변경'}
+              />
+              // <BtnHorizontalWhiteS
+              //   onPress={handleModal}
+              //   text={'후기 작성하기'}
+              // />
+            )}
           </View>
         </>
       </TouchableHighlight>

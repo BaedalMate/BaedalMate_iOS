@@ -221,7 +221,6 @@ const CreateRecruit1 = props => {
               }}>
               <TextKRBold style={styles.Label}>최소 모집 인원</TextKRBold>
               <CntInput
-                error={errors}
                 name={'minPeople'}
                 control={control}
                 rules={{required: true}}
