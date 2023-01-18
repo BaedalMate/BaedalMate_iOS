@@ -24,16 +24,17 @@ const StarRatingComponent = ({
   const {register, handleSubmit, setValue} = useForm;
 
   useEffect(() => {
-    setRating(Math.ceil(rating));
-    console.log(Math.ceil(rating));
+    // setRating(Math.ceil(rating));
     setValue(`users.${userId}.userId`, userId);
     setValue(`users.${userId}.score`, rating);
+    console.log(rating);
   }, [rating]);
   return (
     <StarRating
       rating={rating}
       onChange={setRating}
       StarIconComponent={StarIcon}
+      enableHalfStar={false}
     />
   );
 };

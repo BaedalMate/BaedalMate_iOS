@@ -1,6 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import DetailImage from 'components/atoms/Image/DetailImage';
-import {ActionSheetIOS, ScrollView, StyleSheet, View} from 'react-native';
+import {
+  ActionSheetIOS,
+  KeyboardAvoidingView,
+  Modal,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import UserInfo from 'components/molecules/Detail/UserInfo';
 import Title from 'components/molecules/Detail/Title';
 import ItemInfo from 'components/molecules/Detail/ItemInfo';
@@ -22,6 +31,7 @@ import {
   PRIMARY_COLOR,
   DARK_GRAY_COLOR,
   ERROR_COLOR,
+  LINE_GRAY_COLOR,
 } from 'themes/theme';
 import {Fonts} from 'assets/Fonts';
 import PlatformImage from 'components/atoms/Image/PlatformImage';
@@ -30,6 +40,13 @@ import {useNavigation} from '@react-navigation/native';
 import BtnVerticalWhite from 'components/atoms/Button/BtnVerticalWhite';
 import BtnVerticalGray from 'components/atoms/Button/BtnVerticalGray';
 import {UserInfoI} from 'components/utils/api/User';
+import {
+  DormitoryDescriptionInput,
+  PriceInput,
+  CntInput,
+} from 'components/atoms/CreateRecruit/Input';
+import {TextKRBold, TextKRReg} from 'themes/text';
+import MenuItem from 'components/atoms/CreateRecruit/MenuItem';
 export interface RecruitItemProps {
   recruitId: number;
   image: string;
@@ -265,23 +282,43 @@ const BoardItemDetail = props => {
           itemDetaildata?.host === true ? (
             <View style={{flexDirection: 'row', width: '100%'}}>
               <View style={{flex: 1}}>
-                <BtnVerticalWhite onPress={() => {}} text="모집 취소" />
+                <BtnVerticalWhite
+                  onPress={() => {
+                    cancelRecruit();
+                  }}
+                  text="모집 취소"
+                />
               </View>
               <View style={{width: 10}} />
               <View style={{flex: 4}}>
-                <BtnVerticalOrange onPress={() => {}} text="모집 마감하기" />
+                <BtnVerticalOrange
+                  onPress={() => {
+                    closeRecruit();
+                  }}
+                  text="모집 마감하기"
+                />
               </View>
             </View>
           ) : itemDetaildata?.participate ? (
-            <BtnVerticalOrange onPress={() => {}} text="모집 나가기" />
+            <BtnVerticalOrange
+              onPress={() => {
+                cancelParticipate();
+              }}
+              text="모집 나가기"
+            />
           ) : (
-            <BtnVerticalOrange onPress={() => {}} text="모집 참여하기" />
+            <BtnVerticalOrange
+              onPress={() => {
+                handleModal();
+              }}
+              text="모집 참여하기"
+            />
           )
         ) : (
           <BtnVerticalGray onPress={() => {}} text="마감된 모집글입니다" />
         )}
       </View>
-      {/* <View>
+      <View>
         <Modal
           transparent={true}
           visible={modal}
@@ -308,7 +345,7 @@ const BoardItemDetail = props => {
             <KeyboardAvoidingView
               style={styles.avoidingView}
               behavior={Platform.select({ios: 'padding'})}
-              keyboardVerticalOffset={statusBarHeight}>
+              keyboardVerticalOffset={-175}>
               <View
                 style={{
                   paddingVertical: 15,
@@ -321,9 +358,7 @@ const BoardItemDetail = props => {
                   borderTopRightRadius: 10,
                   paddingBottom: 30,
                 }}>
-                <KeyboardAvoidingView
-                  behavior={Platform.select({ios: 'padding'})}
-                  keyboardVerticalOffset={statusBarHeight + 44}>
+                <ScrollView>
                   <View
                     style={{
                       marginTop: 10,
@@ -371,7 +406,7 @@ const BoardItemDetail = props => {
                           error={errors}
                           name="name"
                           control={control}
-                          setValue={setValue}
+                          // setValue={setValue}
                           rules={{}}
                         />
                       </View>
@@ -410,7 +445,7 @@ const BoardItemDetail = props => {
                       }}>
                       <TextKRBold style={styles.Label}>수량</TextKRBold>
                       <CntInput
-                        error={errors}
+                        // error={errors}
                         name={'quantity'}
                         control={control}
                         setValue={setValue}
@@ -482,12 +517,12 @@ const BoardItemDetail = props => {
                       onPress={handleSubmit(onSubmit)}
                       text={'모집참여 완료하기'}></BtnVerticalOrange>
                   </View>
-                </KeyboardAvoidingView>
+                </ScrollView>
               </View>
             </KeyboardAvoidingView>
           </View>
         </Modal>
-      </View> */}
+      </View>
     </ScrollView>
   );
 };
