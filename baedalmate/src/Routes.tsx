@@ -233,24 +233,24 @@ export const BoardStackComponent = () => {
               <Image source={BACK_GRAY} />
             </TouchableOpacity>
           ),
-          headerRight: () => (
-            <TouchableOpacity
-              onPress={() => {
-                // let showModal =
-                //   route.params && route.params.modal
-                //     ? route.params.modal
-                //     : false;
-                navigation.navigate(
-                  '글 상세 보기',
-                  // ,
-                  // {
-                  // modal: !showModal,
-                  // }
-                );
-              }}>
-              <Image source={SETTING_HORIZONTAL_GRAY_ICON} />
-            </TouchableOpacity>
-          ),
+          // headerRight: () => (
+          //   <TouchableOpacity
+          //     onPress={() => {
+          //       // let showModal =
+          //       //   route.params && route.params.modal
+          //       //     ? route.params.modal
+          //       //     : false;
+          //       navigation.navigate(
+          //         '글 상세 보기',
+          //         // ,
+          //         // {
+          //         // modal: !showModal,
+          //         // }
+          //       );
+          //     }}>
+          //     <Image source={SETTING_HORIZONTAL_GRAY_ICON} />
+          //   </TouchableOpacity>
+          // ),
         })}
       />
       <BoardScreenStack.Screen
