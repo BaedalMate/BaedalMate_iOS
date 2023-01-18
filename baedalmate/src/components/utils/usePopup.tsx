@@ -14,6 +14,7 @@ export const UsePopup = ({
   description,
   modal,
   handleModal,
+  choiceCnt,
   confirmEvent,
 }) => {
   return (
@@ -29,6 +30,7 @@ export const UsePopup = ({
           <View onTouchStart={handleModal} />
           <View
             style={{
+              width: 270,
               marginHorizontal: 53,
               backgroundColor: WHITE_COLOR,
               borderRadius: 10,
@@ -66,6 +68,7 @@ export const UsePopup = ({
                       lineHeight: 24,
                       color: DARK_GRAY_COLOR,
                       marginBottom: 16,
+                      textAlign: 'center',
                     }}>
                     {description}
                   </TextKRReg>
@@ -77,23 +80,25 @@ export const UsePopup = ({
                   justifyContent: 'space-around',
                   alignItems: 'center',
                 }}>
-                <TouchableHighlight
-                  style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flex: 1,
-                    paddingTop: 8,
-                    paddingBottom: 10,
-                    borderBottomLeftRadius: 10,
-                  }}
-                  onPress={() => {
-                    handleModal();
-                  }}
-                  underlayColor={LINE_GRAY_COLOR}>
-                  <TextKRReg style={{fontSize: 16, lineHeight: 24}}>
-                    취소
-                  </TextKRReg>
-                </TouchableHighlight>
+                {choiceCnt > 1 && (
+                  <TouchableHighlight
+                    style={{
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      flex: 1,
+                      paddingTop: 8,
+                      paddingBottom: 10,
+                      borderBottomLeftRadius: 10,
+                    }}
+                    onPress={() => {
+                      handleModal();
+                    }}
+                    underlayColor={LINE_GRAY_COLOR}>
+                    <TextKRReg style={{fontSize: 16, lineHeight: 24}}>
+                      취소
+                    </TextKRReg>
+                  </TouchableHighlight>
+                )}
                 <TouchableHighlight
                   style={{
                     justifyContent: 'center',

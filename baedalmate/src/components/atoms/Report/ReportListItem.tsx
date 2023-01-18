@@ -23,7 +23,14 @@ import {
 } from 'themes/theme';
 import {Fonts} from '../../../assets/Fonts';
 
-const ReportListItem = ({type, item, onPress, selectedReportReason}) => {
+const ReportListItem = ({
+  type,
+  item,
+  onPress,
+  selectedReportReason,
+  detailReport,
+  setDetailReport,
+}) => {
   return (
     <View>
       <TouchableOpacity style={styles.myPageListItem} onPress={onPress}>
@@ -64,6 +71,10 @@ const ReportListItem = ({type, item, onPress, selectedReportReason}) => {
             lineHeight: 18,
             color: '#313131',
             padding: 15,
+          }}
+          value={detailReport}
+          onChangeText={v => {
+            setDetailReport(v);
           }}
           placeholder={'신고 사유를 작성해주세요. (100자 이내)'}
           placeholderTextColor={'#C8C8C8'}
