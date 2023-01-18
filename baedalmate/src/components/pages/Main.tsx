@@ -13,6 +13,8 @@ import axios from 'axios';
 import {url} from '../../../App';
 import {getJWTToken} from 'components/utils/api/Recruit';
 import {getUserAPI} from 'components/utils/api/User';
+import {refreshAPI} from 'components/utils/api/Login';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 export const userURL = url + '/api/v1/user';
 export const recruitListURL = url + '/api/v1/recruit/list';
 export const mainRecruitListURL = url + '/api/v1/recruit/main/list';
@@ -99,8 +101,12 @@ export const getImages = async fileOriginName => {
       }
       return false;
     })
-    .catch(function (error) {
+    .catch(async function (error) {
       console.log(error);
+      if (error.response.data.code === 401) {
+        const result = await refreshAPI();
+        console.log(result);
+      }
       return false;
     });
   return BoardListData;
@@ -111,7 +117,6 @@ const Main: React.FunctionComponent<MainProps> = props => {
   //user 관련 state
   const [nickname, setNickname] = useState('캡스톤');
   const [dormitory, setDormitory] = useState('');
-  const [profileImage, setProfileImage] = useState('');
   //recruit 관련 state
   const [mainRecruitList, setMainRecruitList] =
     useState<eachMainRecruitListI[]>();
@@ -206,16 +211,38 @@ const Main: React.FunctionComponent<MainProps> = props => {
             setMainRecruitList(response.data.recruitList);
 
             return response.data.recruitList;
+          } else if (response.status === 401) {
+            const result = await refreshAPI();
+            console.log(result);
+            const tokens = await result.data;
+            const token = tokens.accessToken;
+            const refToken = tokens.refreshToken;
+
+            AsyncStorage.multiSet([
+              ['@BaedalMate_JWTAccessToken', token],
+              ['@BaedalMate_JWTRefreshToken', refToken],
+            ]);
           } else if (response.status === 403) {
             props.navigation.navigate('거점 인증');
           }
           return false;
         })
-        .catch(function (error) {
+        .catch(async function (error) {
           console.log(error);
           console.log(error.response.status);
           if (error.response.status === 403) {
             props.navigation.navigate('거점 인증');
+          } else if (error.response.status === 401) {
+            const result = await refreshAPI();
+            console.log(result);
+            const tokens = await result.data;
+            const token = tokens.accessToken;
+            const refToken = tokens.refreshToken;
+
+            AsyncStorage.multiSet([
+              ['@BaedalMate_JWTAccessToken', token],
+              ['@BaedalMate_JWTRefreshToken', refToken],
+            ]);
           }
           return false;
         });
@@ -223,6 +250,7 @@ const Main: React.FunctionComponent<MainProps> = props => {
       return BoardListData;
     } catch (error) {
       console.log(error);
+
       return false;
     }
   };
@@ -243,20 +271,42 @@ const Main: React.FunctionComponent<MainProps> = props => {
             // sort: 'deadlineDate',
           },
         })
-        .then(function (response) {
+        .then(async function (response) {
           if (response.status === 200) {
             console.log(response.data);
             setMainTagRecruitList(response.data);
             return response.data.recruitList;
           } else if (response.status === 403) {
             props.navigation.navigate('거점 인증');
+          } else if (response.status === 401) {
+            const result = await refreshAPI();
+            console.log(result);
+            const tokens = await result.data;
+            const token = tokens.accessToken;
+            const refToken = tokens.refreshToken;
+
+            AsyncStorage.multiSet([
+              ['@BaedalMate_JWTAccessToken', token],
+              ['@BaedalMate_JWTRefreshToken', refToken],
+            ]);
           }
           return false;
         })
-        .catch(function (error) {
+        .catch(async function (error) {
           console.log(error);
           if (error.response.status === 403) {
             props.navigation.navigate('거점 인증');
+          } else if (error.response.status === 401) {
+            const result = await refreshAPI();
+            console.log(result);
+            const tokens = await result.data;
+            const token = tokens.accessToken;
+            const refToken = tokens.refreshToken;
+
+            AsyncStorage.multiSet([
+              ['@BaedalMate_JWTAccessToken', token],
+              ['@BaedalMate_JWTRefreshToken', refToken],
+            ]);
           }
           return false;
         });
@@ -329,11 +379,11 @@ const Main: React.FunctionComponent<MainProps> = props => {
   //     setTarget(originTarget);
   // };
 
-  useEffect(() => {
-    getUserData();
-    getMainRecruitList();
-    getMainTagRecruitList();
-  }, []);
+  // useEffect(() => {
+  //   getUserData();
+  //   getMainRecruitList();
+  //   getMainTagRecruitList();
+  // }, []);
 
   // 렌더링 시 유저 정보 받아오기
   useEffect(() => {

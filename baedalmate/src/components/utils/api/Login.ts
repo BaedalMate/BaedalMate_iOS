@@ -3,6 +3,8 @@ import axios from 'axios';
 import {getJWTRefreshToken, getJWTToken} from './Recruit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 export const refreshURL = url + '/api/v1/refresh';
+export const logoutURL = url + '/logout';
+export const withdrawURL = url + '/api/v1/user/deactivate';
 
 export const refreshAPI = async () => {
   const JWTAccessToken = await getJWTToken();
@@ -16,7 +18,7 @@ export const refreshAPI = async () => {
         {
           headers: {
             Authorization: 'Bearer ' + JWTAccessToken,
-            'Refresh-Token': 'Bearer ' + JWTRefreshToken,
+            'Refresh-Token': JWTRefreshToken,
           },
         },
       )
@@ -29,11 +31,66 @@ export const refreshAPI = async () => {
       })
       .catch(function (error) {
         console.log(error);
-        return false;
+        return error;
       });
     return result;
   } catch (error) {
     console.log(error);
-    return false;
+    return error;
+  }
+};
+
+export const logoutAPI = async () => {
+  const JWTAccessToken = await getJWTToken();
+  console.log(JWTAccessToken);
+  try {
+    const result = await axios
+      .post(
+        logoutURL,
+        {},
+        {
+          headers: {
+            Authorization: 'Bearer ' + JWTAccessToken,
+            // 'Refresh-Token': 'Bearer ' + JWTRefreshToken,
+          },
+        },
+      )
+      .then(function (response) {
+        return response;
+      })
+      .catch(function (error) {
+        console.log(error);
+        return error;
+      });
+    return result;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const deactivateAPI = async () => {
+  const JWTAccessToken = await getJWTToken();
+  const JWTRefreshToken = await getJWTRefreshToken();
+  console.log(JWTAccessToken);
+  try {
+    const result = await axios
+      .get(withdrawURL, {
+        headers: {
+          Authorization: 'Bearer ' + JWTAccessToken,
+          'Refresh-Token': 'Bearer ' + JWTRefreshToken,
+        },
+      })
+      .then(function (response) {
+        return response;
+      })
+      .catch(function (error) {
+        console.log(error);
+        return error;
+      });
+    return result;
+  } catch (error) {
+    console.log(error);
+    return error;
   }
 };

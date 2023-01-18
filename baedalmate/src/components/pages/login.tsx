@@ -10,7 +10,7 @@ import {
 } from '@react-native-seoul/kakao-login';
 
 import React, {useEffect, useState} from 'react';
-import {Image, TouchableOpacity, View} from 'react-native';
+import {Image, Linking, TouchableOpacity, View} from 'react-native';
 
 import BtnKakaoLoginWrapper from '../atoms/Button/BtnKakaoLogin';
 import {TextKRBold} from 'themes/text';
@@ -26,6 +26,8 @@ import appleAuth, {
   AppleRequestScope,
 } from '@invertase/react-native-apple-authentication';
 import {Text} from 'react-native-paper';
+import {getJWTToken} from 'components/utils/api/Recruit';
+import {refreshAPI} from 'components/utils/api/Login';
 
 const loginURL = url + '/login/oauth2/kakao';
 
@@ -34,7 +36,7 @@ interface LoginProps {
 }
 
 function Login({navigation}: LoginProps): React.ReactElement {
-  const [result, setResult] = useState<string>('');
+  // const [result, setResult] = useState<string>('');
   const [kakaoAccessToken, setKakaoAccessToken] = useState<string>('');
   // const [JWTRefreshToken, setJWTRefreshToken] = useState([]);
 
@@ -51,18 +53,19 @@ function Login({navigation}: LoginProps): React.ReactElement {
       // console.warn(token);
 
       setKakaoAccessToken(token.accessToken);
-      setResult(JSON.stringify(token));
+      // setResult(JSON.stringify(token));
 
       // JWTtoken 받아온 후 메인 페이지 이동
       // const JWTTokens = await getJWTTokens_localdb();
-      const values = await AsyncStorage.multiGet([
-        '@BaedalMate_JWTAccessToken',
-        '@BaedalMate_JWTRefreshToken',
-      ]);
-      if (values[0][0]) {
-        console.log(values);
+      // const values = await AsyncStorage.multiGet([
+      //   '@BaedalMate_JWTAccessToken',
+      //   '@BaedalMate_JWTRefreshToken',
+      // ]);
+      const value = await getJWTToken();
+      if (value) {
+        console.log(value);
         navigation.navigate('BoardStackComponent', {
-          tokens: values,
+          token: value,
         });
         navigation.reset({
           index: 0,
@@ -84,16 +87,14 @@ function Login({navigation}: LoginProps): React.ReactElement {
   const signOutWithKakao = async (): Promise<void> => {
     const message = await logout();
 
-    setResult(message);
+    // setResult(message);
   };
 
   // 프로필 가져오기 (에러 해결 필요)
   const getProfile = async (): Promise<void> => {
     try {
-      const profile: any = await getKakaoProfile();
-      console.log(JSON.stringify(profile.profileImageUrl));
-      profile && setResult(JSON.stringify(profile));
-      AsyncStorage.setItem('@BaedalMate_ProfileImg', profile.profileImageUrl);
+      const profile = await getKakaoProfile();
+      // profile && setResult(JSON.stringify(profile));
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error('signOut error', err);
@@ -103,7 +104,7 @@ function Login({navigation}: LoginProps): React.ReactElement {
   // 카카오 로그인 연결 끊기
   const unlinkKakao = async (): Promise<void> => {
     const message = await unlink();
-    setResult(message);
+    // setResult(message);
   };
 
   // 서버에 accessToken을 포함한 request를 보내고 JWT token을 받아옴
@@ -130,7 +131,8 @@ function Login({navigation}: LoginProps): React.ReactElement {
       return response;
     } catch (error) {
       console.log(error);
-
+      const result = await refreshAPI();
+      console.log(result);
       return false;
     }
   };
@@ -189,7 +191,11 @@ function Login({navigation}: LoginProps): React.ReactElement {
           }}>
           가입 시 배달메이트의{' '}
         </TextKRBold>
-        <TouchableOpacity onPressOut={() => {}} style={{}}>
+        <TouchableOpacity
+          onPress={() => {
+            Linking.openURL(url + '/terms/service.html');
+          }}
+          style={{}}>
           <Text
             style={{
               textDecorationLine: 'underline',
@@ -208,7 +214,11 @@ function Login({navigation}: LoginProps): React.ReactElement {
           }}>
           및{' '}
         </TextKRBold>
-        <TouchableOpacity onPressOut={() => {}} style={{}}>
+        <TouchableOpacity
+          onPress={() => {
+            Linking.openURL(url + '/terms/service-privacy.html');
+          }}
+          style={{}}>
           <Text
             style={{
               textDecorationLine: 'underline',

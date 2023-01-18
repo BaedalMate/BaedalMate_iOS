@@ -4,32 +4,74 @@ import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {DARK_GRAY_COLOR} from 'themes/theme';
 import {TextKRReg} from 'themes/text';
 import {UsePopup} from 'components/utils/usePopup';
+import {deactivateAPI, logoutAPI} from 'components/utils/api/Login';
+import {useNavigation} from '@react-navigation/native';
 
 export type BtnWithoutTextProps = {
   onPress(): void;
 };
 
 const MyPageBottom = () => {
-  const [logoutModal, setLogoutModal] = useState(false);
-  const handleLogoutModal = () => {
-    logoutModal ? setLogoutModal(false) : setLogoutModal(true);
+  const navigation = useNavigation();
+  const [modal, setModal] = useState(false);
+  const handleModal = () => {
+    modal ? setModal(false) : setModal(true);
+  };
+
+  const [modalData, setModalData] = useState<{
+    title: string;
+    description: string;
+    modal: boolean;
+    handleModal: any;
+    confirmEvent: any;
+    choiceCnt: number;
+  }>();
+  const logout = async () => {
+    const result = await logoutAPI();
+    console.log(result);
+    if (result.status == 200) {
+      // handleModal();
+      setTimeout(() => {
+        navigation.navigate('Login' as never);
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'Login' as never}],
+        });
+      }, 1000);
+    }
+  };
+
+  const withdraw = async () => {
+    const result = await deactivateAPI();
+    console.log(result);
+    if (result.status == 200) {
+      // handleModal();
+      setTimeout(() => {
+        navigation.navigate('Login' as never);
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'Login' as never}],
+        });
+      }, 1000);
+    }
   };
   const logoutModalData = {
     title: '로그아웃 하시겠습니까?',
     description:
       '로그아웃시, 다음 앱 접속시에 다시 로그인을 해야 이용 가능합니다.',
-    modal: logoutModal,
-    handleModal: handleLogoutModal,
+    modal: modal,
+    handleModal: handleModal,
+    confirmEvent: logout,
+    choiceCnt: 2,
   };
-  const [withdrawModal, setWithdrawModal] = useState(false);
-  const handleWithdrawModal = () => {
-    withdrawModal ? setWithdrawModal(false) : setWithdrawModal(true);
-  };
+
   const withdrawModalData = {
     title: '탈퇴 하시겠습니까?',
     description: '회원 탈퇴시, 현재까지 모집글에 참여한 기록이 삭제됩니다.',
-    modal: withdrawModal,
-    handleModal: handleWithdrawModal,
+    modal: modal,
+    handleModal: handleModal,
+    confirmEvent: withdraw,
+    choiceCnt: 2,
   };
 
   return (
@@ -46,16 +88,20 @@ const MyPageBottom = () => {
           flex: 1,
         }}
         onPress={() => {
-          handleLogoutModal();
+          setModalData(logoutModalData);
+          handleModal();
         }}>
-        <UsePopup
-          title={logoutModalData.title}
-          description={logoutModalData.description}
-          modal={logoutModal}
-          handleModal={handleLogoutModal}
-          // 추가 필요
-          confirmEvent={undefined}
-        />
+        {modalData && (
+          <UsePopup
+            title={modalData.title}
+            description={modalData.description}
+            modal={modal}
+            handleModal={handleModal}
+            // 추가 필요
+            confirmEvent={modalData.confirmEvent}
+            choiceCnt={modalData.choiceCnt}
+          />
+        )}
         <TextKRReg
           style={{
             paddingVertical: 15,
@@ -75,21 +121,23 @@ const MyPageBottom = () => {
           flex: 1,
         }}
         onPress={() => {
-          handleWithdrawModal();
+          setModalData(withdrawModalData);
+          handleModal();
         }}>
-        <UsePopup
-          title={withdrawModalData.title}
-          description={withdrawModalData.description}
-          modal={withdrawModal}
-          handleModal={handleWithdrawModal}
-          // 추가 필요
-          confirmEvent={undefined}
-        />
+        {modalData && (
+          <UsePopup
+            title={modalData.title}
+            description={modalData.description}
+            modal={modal}
+            handleModal={handleModal}
+            confirmEvent={modalData.confirmEvent}
+            choiceCnt={modalData.choiceCnt}
+          />
+        )}
         <TextKRReg
           style={{
             paddingVertical: 15,
             textAlign: 'center',
-            // borderWidth: 1,
             borderRadius: 10,
             fontSize: 14,
             lineHeight: 24,
