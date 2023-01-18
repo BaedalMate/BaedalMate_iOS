@@ -6,6 +6,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import {TextKRBold, TextKRReg} from 'themes/text';
@@ -28,8 +29,8 @@ import {
   endStandardType,
   CntInput,
   PriceInput,
-  TimeInput,
 } from 'components/atoms/CreateRecruit/Input';
+import RNDateTimePicker from '@react-native-community/datetimepicker';
 
 export interface RecruitItemProps {
   createDate: string;
@@ -52,16 +53,19 @@ export interface RecruitItemProps {
 const {StatusBarManager} = NativeModules;
 
 const CreateRecruit1 = props => {
-  const [currentShippingFeeRange, setCurrentShippingFeeRange] = useState(0);
-  const [lastShippingFeeRange, setLastShippingFeeRange] = useState(
-    currentShippingFeeRange,
-  );
-  const [lastShippingFee, setLastShippingFee] = useState();
+  const [timePicker, setTimePicker] = useState(false);
+  const [time, setTime] = useState(new Date(Date.now()));
+  const showTimePicker = () => {
+    setTimePicker(true);
+  };
+  const onTimeSelected = (event, value) => {
+    setTime(value);
+    setTimePicker(false);
+  };
+
   const {
     control,
     handleSubmit,
-    register,
-    watch,
     setValue,
     getValues,
     formState: {errors},
@@ -97,16 +101,10 @@ const CreateRecruit1 = props => {
     rules: {
       validate: {},
     },
-    // rules: {
-    //   validate:
-    // }
   });
   const onSubmit = data => {
     console.log(data);
-    const now = new Date();
-    const deadline = new Date(now);
-    deadline.setHours(now.getHours() + Number(data.orderHour));
-    deadline.setMinutes(now.getMinutes() + Number(data.orderMinute));
+    const deadline = time;
 
     const shippingFee: {
       lowerPrice: number;
@@ -138,19 +136,8 @@ const CreateRecruit1 = props => {
       categoryId: props.route.params.categoryId,
     });
   };
-
-  // const [selection, setSelection] = useState({start: 0, end: 0});
-  // const [minPrice, setMinPrice] = useState('');
-  // const [minPeople, setMinPeople] = useState(1);
-  // const [orderHour, setOrderHour] = useState('');
-  // const [orderMinute, setOrderMinute] = useState('');
-  // const [title, setTitle] = useState('');
   const [endStandard, setEndStadard] = useState<endStandardType>('people');
   const [checked, setChecked] = useState('true');
-  // const ref = useRef(null);
-  // const priceFormat = value => {
-  //   return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  // };
   const [statusBarHeight, setStatusBarHeight] = useState(0);
   const [shippingFeeCnt, setShippingFeeCnt] = useState<number>(0);
   useEffect(() => {
@@ -161,27 +148,6 @@ const CreateRecruit1 = props => {
       : null;
   }, []);
 
-  // const shippingFeeComponent = () => {
-  //   const ret: JSX.Element[] = [];
-  //   for (let i = 0; i < shippingFeeCnt + 1; i++) {
-  //     ret.push(
-  //       <DeliveryFee
-  //         i={i}
-  //         cnt={shippingFeeCnt}
-  //         setCnt={setShippingFeeCnt}
-  //         setShippingFeeList={setShippingFeeList}
-  //         error={errors}
-  //         name={'shippingFee'}
-  //         control={control}
-  //         rules={{
-  //           required: checked === 'false' && true,
-  //         }}
-  //       />,
-  //     );
-  //   }
-  //   return ret;
-  // };
-
   useEffect(() => {
     console.log(shippingFeeFields, shippingFeeRangeFields);
   }, [shippingFeeFields, shippingFeeRangeFields]);
@@ -190,6 +156,16 @@ const CreateRecruit1 = props => {
       style={{
         backgroundColor: WHITE_COLOR,
       }}>
+      {/* {timePicker && (
+        <RNDateTimePicker
+          value={time}
+          mode={'time'}
+          // display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+          is24Hour={true}
+          onChange={onTimeSelected}
+          style={styles.datePicker}
+        />
+      )} */}
       <KeyboardAvoidingView
         style={styles.avoidingView}
         behavior={Platform.select({ios: 'padding'})}
@@ -333,13 +309,48 @@ const CreateRecruit1 = props => {
               <TextKRReg style={styles.Description}>
                 마감시간이 되면 모집이 완료됩니다
               </TextKRReg>
+
               <View
                 style={{
                   flexDirection: 'row',
                   justifyContent: 'space-between',
                   alignItems: 'center',
+                  // marginHorizontal: 15,
                 }}>
-                <TimeInput
+                <TouchableOpacity
+                  style={{
+                    width: '100%',
+                    height: 45,
+                    borderRadius: 10,
+                    backgroundColor: WHITE_COLOR,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                  onPress={showTimePicker}>
+                  {/* <Text>00시 00분</Text> */}
+                  <RNDateTimePicker
+                    value={time}
+                    mode={'time'}
+                    // display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                    is24Hour={true}
+                    onChange={onTimeSelected}
+                    style={styles.datePicker}
+                    accentColor={PRIMARY_COLOR}
+                    // accessibilityViewIsModal={true}
+                    placeholderText={'00시 00분'}
+                    textColor={PRIMARY_COLOR}
+                  />
+                </TouchableOpacity>
+                {/* {show && (
+                  <RNDateTimePicker
+                    testID="dateTimePicker"
+                    value={date}
+                    mode={'time'}
+                    is24Hour={true}
+                    onChange={onChange}
+                  />
+                )} */}
+                {/* <TimeInput
                   error={errors}
                   name={'orderHour'}
                   control={control}
@@ -351,7 +362,7 @@ const CreateRecruit1 = props => {
                   control={control}
                   rules={{required: true, min: 0, max: 59}}
                 />
-                <TextKRReg>뒤 주문</TextKRReg>
+                <TextKRReg>뒤 주문</TextKRReg> */}
               </View>
             </View>
             <View
@@ -780,6 +791,14 @@ const styles = StyleSheet.create({
   },
   avoidingView: {
     // flex: 1,
+  },
+  datePicker: {
+    display: 'flex',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    // width: 320,
+    // height: 260,
   },
 });
 
