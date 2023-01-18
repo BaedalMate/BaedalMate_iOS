@@ -476,6 +476,7 @@ export const DetailChatRoom = props => {
                       modal={blockModal}
                       handleModal={handleBlockModal}
                       confirmEvent={blockUser}
+                      choiceCnt={2}
                     />
                     <Image
                       source={BLOCK_ICON}
@@ -491,7 +492,7 @@ export const DetailChatRoom = props => {
                       handleEachUserModal();
                       handleModal();
                       props.navigation.navigate('사용자 신고하기', {
-                        user: selectedUser,
+                        userInfo: selectedUser,
                       } as never);
                     }}>
                     <Image
