@@ -1,15 +1,24 @@
 import {useNavigation} from '@react-navigation/native';
 import {UserProfileImage} from 'components/atoms/Image/UserImage';
 import {RecruitItemProps} from 'components/pages/Detail';
-import React from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  Easing,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import StarRating, {StarIconProps} from 'react-native-star-rating-widget';
 import {TextKRBold} from 'themes/text';
 import {
   BLACK_COLOR,
   DARK_GRAY_COLOR,
   MARKER_BLACK,
-  STAR_LINEORANGE,
-  STAR_PRIMARY,
+  PRIMARY_COLOR,
+  STAR_ACTIVE,
+  STAR_DEACTIVE,
 } from 'themes/theme';
 
 export type BtnWithoutTextProps = {
@@ -18,6 +27,11 @@ export type BtnWithoutTextProps = {
 
 const UserInfo = ({item}: {item: RecruitItemProps | undefined}) => {
   const navigation = useNavigation();
+  const [rating, setRating] = useState(0);
+  useEffect(() => {
+    item?.userInfo.score && setRating(item?.userInfo.score);
+  }, [item]);
+
   return (
     <View
       style={{
@@ -39,10 +53,44 @@ const UserInfo = ({item}: {item: RecruitItemProps | undefined}) => {
           marginLeft: 11,
           justifyContent: 'space-around',
         }}>
-        <TextKRBold>{item?.userInfo.nickname}</TextKRBold>
-        <View style={{flexDirection: 'row'}}>
-          <Image source={STAR_LINEORANGE} />
-          <TextKRBold>
+        <TextKRBold style={{fontSize: 16}}>
+          {item?.userInfo.nickname}
+        </TextKRBold>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            // borderWidth: 1,
+          }}>
+          <StarRating
+            rating={rating}
+            onChange={() => {}}
+            starSize={20}
+            color={PRIMARY_COLOR}
+            starStyle={{
+              width: 14,
+              marginRight: 3,
+              display: 'flex',
+              // borderWidth: 1,
+              justifyContent: 'flex-end',
+              alignItems: 'flex-end',
+            }}
+            animationConfig={{
+              scale: 1,
+              duration: 0,
+              delay: 0,
+              easing: Easing.elastic(1),
+            }}
+          />
+          <TextKRBold
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              textAlignVertical: 'center',
+              fontSize: 14,
+              lineHeight: 20,
+            }}>
             {item?.userInfo.score
               ? Math.round(item?.userInfo.score * 10) / 10
               : 0}
@@ -65,7 +113,13 @@ const UserInfo = ({item}: {item: RecruitItemProps | undefined}) => {
         {!item?.host && (
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('게시글 신고하기' as never);
+              navigation.navigate(
+                '게시글 신고하기' as never,
+                {
+                  item: item,
+                  userInfo: item?.userInfo,
+                } as never,
+              );
             }}
             style={{
               borderBottomWidth: 1,

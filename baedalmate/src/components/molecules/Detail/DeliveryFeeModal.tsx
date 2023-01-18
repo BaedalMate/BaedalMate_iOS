@@ -113,7 +113,7 @@ const DeliveryFeeModal = ({item}: {item: RecruitItemProps | undefined}) => {
                 style={{
                   marginTop: 10,
                   marginBottom: 10,
-                  paddingBottom: 30,
+                  // paddingBottom: 30,
                   borderBottomWidth: 1,
                   borderBottomColor: LINE_GRAY_COLOR,
                 }}>
@@ -122,35 +122,61 @@ const DeliveryFeeModal = ({item}: {item: RecruitItemProps | undefined}) => {
                     fontSize: 18,
                     lineHeight: 22,
                     color: PRIMARY_COLOR,
+                    marginBottom: 8,
                   }}>
                   배달비 상세정보
                 </TextKRBold>
+                <TextKRReg style={styles.Description}>
+                  배달팁 계산 시, 나누어 떨어지지 않는 경우 1원이 추가되어
+                  계산됩니다.
+                </TextKRReg>
               </View>
               <View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    marginBottom: 10,
-                  }}>
-                  <TextKRReg style={styles.Label}>주문금액</TextKRReg>
-                  <TextKRReg style={styles.Label}>배달팁</TextKRReg>
-                </View>
-                {item?.shippingFeeDetail.map((v, i) => (
+                {item?.shippingFeeDetail && (
                   <View
-                    key={i}
                     style={{
                       flexDirection: 'row',
                       justifyContent: 'space-between',
+                      marginBottom: 10,
                     }}>
-                    <TextKRReg style={styles.Description}>
-                      {formPrice(v.lowerPrice)}원 이상
-                    </TextKRReg>
-                    <TextKRReg style={styles.Description}>
-                      {formPrice(v.shippingFee)}원
-                    </TextKRReg>
+                    <TextKRReg style={styles.Label}>주문금액</TextKRReg>
+                    <TextKRReg style={styles.Label}>배달팁</TextKRReg>
                   </View>
-                ))}
+                )}
+
+                {item?.shippingFeeDetail ? (
+                  item?.shippingFeeDetail.map((v, i) => (
+                    <View
+                      key={i}
+                      style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                      }}>
+                      <TextKRReg style={styles.Description}>
+                        {formPrice(v.lowerPrice)}원 이상
+                      </TextKRReg>
+                      <TextKRReg style={styles.Description}>
+                        {formPrice(v.shippingFee)}원
+                      </TextKRReg>
+                    </View>
+                  ))
+                ) : (
+                  <View
+                    style={{
+                      height: 120,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <TextKRBold
+                      style={{
+                        fontSize: 24,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}>
+                      배달비 없음
+                    </TextKRBold>
+                  </View>
+                )}
               </View>
             </View>
             <View
