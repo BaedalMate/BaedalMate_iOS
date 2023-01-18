@@ -186,7 +186,7 @@ const Slider = ({
         }}
       />
       <Pagination
-        dotsLength={mainTagRecruitList?.recruitList?.length}
+        dotsLength={mainTagRecruitList?.recruitList?.length + 1}
         activeDotIndex={index}
         dotStyle={{
           width: 7,
