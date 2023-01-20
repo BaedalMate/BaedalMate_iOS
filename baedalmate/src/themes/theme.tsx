@@ -154,7 +154,13 @@ const TIME_GRAY_ICON = require('../assets/icons/time/time_gray.png');
 const MARKER_GRAY_ICON = require('../assets/icons/location/marker_gray.png');
 const MARKER_GRAY_4X_ICON = require('../assets/icons/location/marker_gray_4x.png');
 
+const LOADING_PRIMARY_ICON = require('../assets/icons/loading/loading_primary.png');
+
+const DEFAULT_PROFILE_IMG = require('../assets/images/defaultProfileImage/default_profile_image.png');
+
 export {
+  DEFAULT_PROFILE_IMG,
+  LOADING_PRIMARY_ICON,
   TASK_GRAY_4X_ICON,
   TASK_GRAY_2X_ICON,
   MARKER_GRAY_4X_ICON,
