@@ -5,14 +5,6 @@ import {View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import NowGatheringItem from '../../atoms/Main/NowGatheringItem';
 
-// interface CategoryProps {
-//   navigation: NavigationProp<any, any>;
-//   user: {
-//     userName: string;
-//     userAddress: string;
-//   };
-// }
-
 const NowGathering = ({
   mainRecruitList,
 }: {
@@ -27,10 +19,6 @@ const NowGathering = ({
         }}>
         {mainRecruitList.map((v, i) => (
           <NowGatheringItem item={v} key={i}></NowGatheringItem>
-          // <NowGatheringItem item={mainRecruitList[1]}></NowGatheringItem>
-          // <NowGatheringItem item={mainRecruitList[2]}></NowGatheringItem>
-          // <NowGatheringItem item={mainRecruitList[3]}></NowGatheringItem>
-          // <NowGatheringItem item={mainRecruitList[4]}></NowGatheringItem>
         ))}
       </ScrollView>
     </View>

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
 import TodayMenuItem from './TodayMenuItem';
@@ -186,7 +186,11 @@ const Slider = ({
         }}
       />
       <Pagination
-        dotsLength={mainTagRecruitList?.recruitList?.length + 1}
+        dotsLength={
+          mainTagRecruitList?.recruitList?.length >= 5
+            ? mainTagRecruitList.recruitList.length
+            : mainTagRecruitList.recruitList.length + 1
+        }
         activeDotIndex={index}
         dotStyle={{
           width: 7,

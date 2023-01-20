@@ -4,7 +4,6 @@ import {
   StyleSheet,
   View,
   Image,
-  TouchableOpacity,
   ImageSourcePropType,
   TouchableHighlight,
 } from 'react-native';

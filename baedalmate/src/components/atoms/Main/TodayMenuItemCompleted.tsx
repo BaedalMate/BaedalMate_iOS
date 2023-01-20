@@ -1,20 +1,11 @@
 import React from 'react';
-import {
-  GestureResponderEvent,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {WHITE_COLOR} from 'themes/theme';
-import {Fonts} from '../../../assets/Fonts';
-import {wrap} from 'module';
 export type TodayMenuItemProps = {
   text: string;
 };
 import {STAR_PRIMARY} from 'themes/theme';
-import {TextKRBold, TextKRReg} from 'themes/text';
+import {TextKRBold} from 'themes/text';
 import {TagComponent} from './TodayMenuItem';
 import {eachMainTagRecruitListI} from 'components/pages/Main';
 import {formPrice} from 'components/utils/api/Recruit';

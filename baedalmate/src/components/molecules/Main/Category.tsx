@@ -18,13 +18,6 @@ import {
   CATEGORY_WESTERN_IMG,
 } from 'themes/theme';
 
-// interface CategoryProps {
-//   navigation: NavigationProp<any, any>;
-//   user: {
-//     userName: string;
-//     userAddress: string;
-//   };
-// }
 export const categoryData = [
   {
     categoryId: 0,

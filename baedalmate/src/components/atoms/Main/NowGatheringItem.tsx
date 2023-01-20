@@ -86,8 +86,12 @@ const NowGatheringItem = ({item}: {item: eachMainRecruitListI}) => {
                 }}>
                 <Image source={PEOPLE_WHITE} /> {item?.currentPeople}/
                 {item?.minPeople}
-                {'\t'}
-                <Image source={TIMER_WHITE} /> {timeText}
+                {item.active && (
+                  <>
+                    {'\t'}
+                    <Image source={TIMER_WHITE} /> {timeText}
+                  </>
+                )}
               </TextKRBold>
             </View>
 

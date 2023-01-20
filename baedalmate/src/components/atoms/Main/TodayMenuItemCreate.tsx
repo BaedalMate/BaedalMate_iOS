@@ -1,20 +1,10 @@
 import React from 'react';
-import {
-  GestureResponderEvent,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {BLACK_COLOR, RightArrowBlack, WHITE_COLOR} from 'themes/theme';
-import {Fonts} from '../../../assets/Fonts';
-import {wrap} from 'module';
 export type TodayMenuItemProps = {
   text: string;
 };
-import {STAR_PRIMARY} from 'themes/theme';
-import {TextKRBold, TextKRReg} from 'themes/text';
+import {TextKRBold} from 'themes/text';
 import {TagComponent} from './TodayMenuItem';
 import {useNavigation} from '@react-navigation/native';
 
@@ -43,7 +33,7 @@ const TodayMenuItemCreate = () => {
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate('상세 설정' as never);
+        navigation.navigate('상세 설정' as never, {type: 'CREATE'} as never);
       }}>
       <TagComponent item={createItemData} />
 

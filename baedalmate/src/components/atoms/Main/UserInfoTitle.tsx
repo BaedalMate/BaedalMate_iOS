@@ -4,88 +4,36 @@ import {View, Modal, FlatList} from 'react-native';
 import {LINE_GRAY_COLOR, PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
 import {TextKRBold, TextKRReg} from 'themes/text';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import ChangeDormitory, {
-  DormitoryList,
-} from '../BottomSheet/ChangeDormitoryBottomSheet';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
-import {userURL} from 'components/pages/Main';
-import {getJWTToken} from 'components/utils/api/Recruit';
 import {useNavigation} from '@react-navigation/native';
+import {useRecoilState, useResetRecoilState} from 'recoil';
+import {selectDormitoryState} from 'components/utils/recoil/atoms/User';
 
-const Item = ({title}) => null;
 export type UserAddressProps = {
   onPress(): void;
   text: string;
 };
-
-const UserInfoTitle = ({userName, userAddress, setDormitory}) => {
+export const DormitoryList = [
+  {id: 0, value: '성림학사'},
+  {id: 1, value: 'KB학사'},
+  {id: 2, value: '불암학사'},
+  {id: 3, value: '누리학사'},
+  {id: 4, value: '수림학사'},
+];
+const UserInfoTitle = ({userName, userAddress}) => {
   const [modal, setModal] = useState(false);
-  const [selectedAddress, setSelectedAddress] = useState(userAddress);
-  const handleModal = () => {
+  // const [selectedAddress, setSelectedAddress] = useState(userAddress);
+  const [selectedAddress, setSelectedAddress] =
+    useRecoilState(selectDormitoryState);
+  const resetSelectedAddress = useResetRecoilState(selectDormitoryState);
+  useEffect(() => {
+    setSelectedAddress(userAddress);
+  }, []);
+  const handleModal = (confirm: boolean) => {
+    confirm === false && resetSelectedAddress();
     modal ? setModal(false) : setModal(true);
   };
   const navigation = useNavigation();
-  useEffect(() => {
-    setSelectedAddress(userAddress);
-  }, [userAddress]);
-  // User dormitory 변경
-  const putUserDormitory = async () => {
-    let changedDormitory =
-      selectedAddress === 'KB학사'
-        ? 'KB'
-        : selectedAddress === '성림학사'
-        ? 'SUNGLIM'
-        : selectedAddress === '수림학사'
-        ? 'SULIM'
-        : selectedAddress === '불암학사'
-        ? 'BURAM'
-        : 'NURI';
-    // let dormIndex =
-    //   changedDormitory === 'NURI'
-    //     ? 0
-    //     : changedDormitory === 'SUNGLIM'
-    //     ? 1
-    //     : changedDormitory === 'KB'
-    //     ? 2
-    //     : changedDormitory === 'BURAM'
-    //     ? 3
-    //     : 4;
-    const JWTAccessToken = await getJWTToken();
-    console.log(changedDormitory, JWTAccessToken);
-    try {
-      const {data} = await axios
-        .put(
-          userURL,
-          {},
-          {
-            params: {
-              dormitory: changedDormitory,
-            },
-            headers: {
-              Authorization: 'Bearer ' + JWTAccessToken,
-            },
-          },
-        )
-        .then(function (response) {
-          console.log('put dormitory', response);
-          console.log(response);
-          // AsyncStorage에 유저 이름과 배달 거점 저장
-          AsyncStorage.setItem('@BaedalMate_Dormitory', changedDormitory);
-          // 해당 페이지는 렌더링 문제로 state 설정 후 사용
-          setDormitory(changedDormitory);
-          return response.data;
-        })
-        .catch(function (error) {
-          console.log('put dormitory', error);
-          return false;
-        });
-      return data;
-    } catch (error) {
-      console.log(error);
-      return false;
-    }
-  };
+
   const renderItem = ({item}) => {
     return (
       <TouchableOpacity
@@ -113,9 +61,6 @@ const UserInfoTitle = ({userName, userAddress, setDormitory}) => {
     );
   };
 
-  // useEffect(() => {
-  //   putUserDormitory();
-  // }, [selectedAddress]);
   useEffect(() => {
     console.log(userAddress, selectedAddress);
     setSelectedAddress(userAddress);
@@ -179,7 +124,7 @@ const UserInfoTitle = ({userName, userAddress, setDormitory}) => {
           }}>
           배달 거점{'\t'}
           <TouchableOpacity
-            onPress={handleModal}
+            onPress={() => handleModal(false)}
             style={{
               height: 20,
               justifyContent: 'center',
@@ -194,13 +139,12 @@ const UserInfoTitle = ({userName, userAddress, setDormitory}) => {
             </TextKRBold>
           </TouchableOpacity>
         </TextKRBold>
-        {/* <ChangeDormitory userAddress={userAddress} /> */}
         <View>
           <Modal
             transparent={true}
             visible={modal}
             animationType={'slide'}
-            onRequestClose={handleModal}>
+            onRequestClose={() => handleModal(false)}>
             <View
               style={{
                 width: '100%',
@@ -211,7 +155,7 @@ const UserInfoTitle = ({userName, userAddress, setDormitory}) => {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
-              onTouchEnd={handleModal}></View>
+              onTouchEnd={() => handleModal(false)}></View>
             <View
               style={{
                 position: 'absolute',
@@ -245,7 +189,11 @@ const UserInfoTitle = ({userName, userAddress, setDormitory}) => {
               </View>
               <TouchableOpacity
                 onPress={() => {
-                  handleModal(), navigation.navigate('거점 인증' as never);
+                  handleModal(true),
+                    navigation.navigate(
+                      '거점 인증' as never,
+                      {target: selectedAddress} as never,
+                    );
                 }}
                 style={{
                   width: '100%',
@@ -265,8 +213,6 @@ const UserInfoTitle = ({userName, userAddress, setDormitory}) => {
             </View>
           </Modal>
         </View>
-
-        {/* 해당 부분 화살표가 선택지인지 혹은 그냥 디자인인지 확인 필요 */}
       </View>
     </>
   );

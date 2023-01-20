@@ -11,8 +11,9 @@ import {getJWTToken} from 'components/utils/api/Recruit';
 const BaedalMateRecommendation = ({}: {}) => {
   const [option, setOption] = useState(null);
 
-  const [mainRecruitSortList, setMainRecruitSortList] =
-    useState<eachMainRecruitListI[]>();
+  const [mainRecruitSortList, setMainRecruitSortList] = useState<
+    eachMainRecruitListI[]
+  >([]);
   // 메인 모집글 리스트 api
   // 모집글 리스트 Api 받아옴
   const getMainRecruitSortList = async () => {
@@ -34,9 +35,9 @@ const BaedalMateRecommendation = ({}: {}) => {
           if (response.status === 200) {
             console.log(response.data.recruitList);
             setMainRecruitSortList(response.data.recruitList);
-            // return response.data.recruitList;
+            return response.data.recruitList;
           }
-          // return false;
+          return false;
         })
         .catch(function (error) {
           console.log(error);

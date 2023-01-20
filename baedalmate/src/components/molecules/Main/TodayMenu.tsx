@@ -11,14 +11,12 @@ interface UserDataProps {
   dormitory: string;
   nickname: string;
   mainTagRecruitList: mainTagRecruitListI;
-  setDormitory: Function;
 }
 
 const TodayMenu: React.FunctionComponent<UserDataProps> = ({
   dormitory,
   nickname,
   mainTagRecruitList,
-  setDormitory,
 }) => {
   return (
     <View
@@ -29,11 +27,7 @@ const TodayMenu: React.FunctionComponent<UserDataProps> = ({
         paddingHorizontal: '5%',
       }}>
       <Header />
-      <UserInfoTitle
-        userName={nickname}
-        userAddress={dormitory}
-        setDormitory={setDormitory}
-      />
+      <UserInfoTitle userName={nickname} userAddress={dormitory} />
 
       <Slider mainTagRecruitList={mainTagRecruitList} />
     </View>

@@ -15,6 +15,15 @@ import {getJWTToken} from 'components/utils/api/Recruit';
 import {getUserAPI} from 'components/utils/api/User';
 import {refreshAPI} from 'components/utils/api/Login';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useRecoilState} from 'recoil';
+import {
+  selectDormitoryState,
+  userDormitoryState,
+  userIdState,
+  userNicknameState,
+  userProfileImageState,
+  userScoreState,
+} from 'components/utils/recoil/atoms/User';
 export const userURL = url + '/api/v1/user';
 export const recruitListURL = url + '/api/v1/recruit/list';
 export const mainRecruitListURL = url + '/api/v1/recruit/main/list';
@@ -72,23 +81,6 @@ export interface MainProps {
   };
 }
 
-// // AsyncStorge에 저장한 JWT token을 받아옴
-// export const getJWTToken = async () => {
-//   const JWTAccessToken = await AsyncStorage.getItem(
-//     '@BaedalMate_JWTAccessToken',
-//   );
-//   return String(JWTAccessToken);
-// };
-export const arrayBufferToBase64 = buffer => {
-  let binary = '';
-  let bytes = new Uint8Array(buffer);
-  let len = bytes.byteLength;
-  for (let i = 0; i < len; i++) {
-    binary += String.fromCharCode(bytes[i]);
-  }
-  return btoa(binary);
-};
-
 // 메인 태그 모집글 리스트 api
 // 모집글 리스트 Api 받아옴
 // let imageURLList: any = [];
@@ -115,8 +107,11 @@ const Main: React.FunctionComponent<MainProps> = props => {
   const [yOffset, setYOffset] = useState(0);
   const [StatusBGColor, setStatusBGColor] = useState(PRIMARY_COLOR);
   //user 관련 state
-  const [nickname, setNickname] = useState('캡스톤');
-  const [dormitory, setDormitory] = useState('');
+  const [nickname, setNickname] = useRecoilState(userNicknameState);
+  const [dormitory, setDormitory] = useRecoilState(selectDormitoryState);
+  const [profileImage, setProfileImage] = useRecoilState(userProfileImageState);
+  const [userId, setUserId] = useRecoilState(userIdState);
+  const [score, setScore] = useRecoilState(userScoreState);
   //recruit 관련 state
   const [mainRecruitList, setMainRecruitList] =
     useState<eachMainRecruitListI[]>();
@@ -124,57 +119,6 @@ const Main: React.FunctionComponent<MainProps> = props => {
     useState<mainTagRecruitListI>({
       recruitList: [],
     });
-
-  // // User Api 를 받아옴
-  // const getUserData = async () => {
-  //   const JWTAccessToken = await getJWTToken();
-  //   try {
-  //     const UserData = axios
-  //       .get(userURL, {
-  //         headers: {
-  //           Authorization: 'Bearer ' + JWTAccessToken,
-  //         },
-  //       })
-  //       .then(async function (response) {
-  //         console.log(response);
-  //         // AsyncStorage에 유저 이름과 배달 거점 저장
-  //         AsyncStorage.setItem('@BaedalMate_UserName', response.data.nickname);
-  //         AsyncStorage.setItem(
-  //           '@BaedalMate_Dormitory',
-  //           response.data.dormitory,
-  //         );
-  //         AsyncStorage.setItem(
-  //           '@BaedalMate_UserId',
-  //           response.data.userId.toString(),
-  //         );
-  //         const profile = await AsyncStorage.getItem(
-  //           '@BaedalMate_ProfileImage',
-  //         );
-
-  //         // 해당 페이지는 렌더링 문제로 state 설정 후 사용
-  //         setNickname(response.data.nickname);
-  //         setDormitory(response.data.dormitory);
-  //         profile && setProfileImage(profile);
-
-  //         return response.data;
-  //       })
-  //       .catch(function (error) {
-  //         console.log(error);
-  //         return false;
-  //       });
-  //     return UserData;
-  //   } catch (error) {
-  //     console.log(error);
-  //     return false;
-  //   }
-  // };
-
-  const getUserData = async () => {
-    const result = await getUserAPI();
-    setDormitory(result.dormitory);
-    setNickname(result.nickname);
-    console.log(result);
-  };
 
   // 메인 모집글 리스트 api
   // 모집글 리스트 Api 받아옴
@@ -194,18 +138,9 @@ const Main: React.FunctionComponent<MainProps> = props => {
         })
         .then(async function (response) {
           if (response.status === 200) {
-            // setMainRecruitList(response.data.recruitList);
-
             response.data.recruitList.map(async v => {
-              // const image = await getImages(v.image);
-
-              // setMainRecruitImgList([...mainRecruitImgList, image]);
-              // console.log(image);
               console.log(v);
               return v;
-              // console.log('getImage', image);
-              // v.image = image;
-              // console.log('v.image', v.image, 'image', image);
             });
             console.log(response.data.recruitList);
             setMainRecruitList(response.data.recruitList);
@@ -223,7 +158,8 @@ const Main: React.FunctionComponent<MainProps> = props => {
               ['@BaedalMate_JWTRefreshToken', refToken],
             ]);
           } else if (response.status === 403) {
-            props.navigation.navigate('거점 인증');
+            // props.navigation.navigate('거점 인증');
+            props.navigation.navigate('프로필 설정');
           }
           return false;
         })
@@ -231,7 +167,8 @@ const Main: React.FunctionComponent<MainProps> = props => {
           console.log(error);
           console.log(error.response.status);
           if (error.response.status === 403) {
-            props.navigation.navigate('거점 인증');
+            // props.navigation.navigate('거점 인증');
+            props.navigation.navigate('프로필 설정');
           } else if (error.response.status === 401) {
             const result = await refreshAPI();
             console.log(result);
@@ -277,7 +214,8 @@ const Main: React.FunctionComponent<MainProps> = props => {
             setMainTagRecruitList(response.data);
             return response.data.recruitList;
           } else if (response.status === 403) {
-            props.navigation.navigate('거점 인증');
+            // props.navigation.navigate('거점 인증');
+            props.navigation.navigate('프로필 설정');
           } else if (response.status === 401) {
             const result = await refreshAPI();
             console.log(result);
@@ -295,7 +233,9 @@ const Main: React.FunctionComponent<MainProps> = props => {
         .catch(async function (error) {
           console.log(error);
           if (error.response.status === 403) {
-            props.navigation.navigate('거점 인증');
+            props.navigation.navigate('프로필 설정');
+
+            // props.navigation.navigate('거점 인증');
           } else if (error.response.status === 401) {
             const result = await refreshAPI();
             console.log(result);
@@ -316,40 +256,6 @@ const Main: React.FunctionComponent<MainProps> = props => {
       return false;
     }
   };
-
-  // // 모집글 리스트 Api 받아옴
-  // const getBoardListData = async () => {
-  //   try {
-  //     const BoardListData = axios
-  //       .get(recruitListURL, {
-  //         params: {
-  //           page: 0,
-  //           size: 10,
-  //           sort: 'deadlineDate,ASC',
-  //         },
-  //       })
-  //       .then(function (response) {
-  //         if (response.status === 200) {
-  //           setRecruitList(response.data.recruitList);
-  //           return response.data.recruitList;
-  //         }
-  //         return false;
-  //       })
-  //       .catch(function (error) {
-  //         console.log(error);
-  //         return false;
-  //       });
-  //     return BoardListData;
-  //   } catch (error) {
-  //     console.log(error);
-  //     return false;
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getBoardListData();
-  // }, []);
-
   // 스크롤바 위치에 따른 status bar 화면 배경 색상 변경 코드
   useEffect(() => {
     yOffset <= 387
@@ -357,41 +263,25 @@ const Main: React.FunctionComponent<MainProps> = props => {
       : setStatusBGColor(WHITE_COLOR);
   }, [yOffset]);
 
-  // useEffect(() => {
-  //   async () => {
-  //     const data = await AsyncStorage.getItem('@BaedalMate_Dormitory');
-  //     let dorm =
-  //       data === 'KB'
-  //         ? 'KB학사'
-  //         : data === 'NURI'
-  //         ? '누리학사'
-  //         : data === 'BURAM'
-  //         ? '불암학사'
-  //         : data === 'NURI'
-  //         ? '누리학사'
-  //         : '성림학사';
-  //     setDormitory(dorm);
-  //   };
-  // }, [dormitory]);
-
-  // const getDormitory = async () => {
-  //     const dormitory = await AsyncStorage.getItem('@BaedalMate_Dormitory');
-  //     setTarget(originTarget);
-  // };
-
-  // useEffect(() => {
-  //   getUserData();
-  //   getMainRecruitList();
-  //   getMainTagRecruitList();
-  // }, []);
-
-  // 렌더링 시 유저 정보 받아오기
+  const getUserData = async () => {
+    const result = await getUserAPI();
+    console.log('main user data', result);
+    setNickname(result.nickname);
+    setDormitory(result.dormitory);
+    setProfileImage(result.profileImage);
+    setUserId(result.userId);
+    setScore(result.score);
+  };
   useEffect(() => {
     getUserData();
+  }, []);
+  // 렌더링 시 유저 정보 받아오기
+  useEffect(() => {
+    console.log('main recoil data', nickname, dormitory);
     getMainRecruitList();
     getMainTagRecruitList();
-    // getRecruitList();
   }, [nickname, dormitory]);
+
   return (
     <>
       <View
@@ -405,8 +295,7 @@ const Main: React.FunctionComponent<MainProps> = props => {
       <View style={{flex: 1}}>
         <BtnFloating
           onPress={() => {
-            props.navigation.navigate('상세 설정');
-            // 임시 값. 변경 필요
+            props.navigation.navigate('상세 설정', {type: 'CREATE'});
           }}
         />
         <ScrollView
@@ -417,14 +306,8 @@ const Main: React.FunctionComponent<MainProps> = props => {
             dormitory={dormitory}
             nickname={nickname}
             mainTagRecruitList={mainTagRecruitList}
-            setDormitory={setDormitory}
           />
-          <Category
-            navigation={props.navigation}
-            // onPress={() => {
-            //   props.navigation.navigate('카테고리');
-            // }}
-          />
+          <Category navigation={props.navigation} />
           <View
             style={{
               width: '95%',
