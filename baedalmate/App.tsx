@@ -11,16 +11,19 @@ import {StyleSheet} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {RootNavigator} from './src/Routes';
+import {RecoilEnv, RecoilRoot} from 'recoil';
 export const url = 'http://3.35.27.107:8080';
 // export const url = 'http://192.168.1.58:8080';
-
+RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
 const Tab = createBottomTabNavigator();
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <RootNavigator></RootNavigator>
-    </NavigationContainer>
+    <RecoilRoot>
+      <NavigationContainer>
+        <RootNavigator></RootNavigator>
+      </NavigationContainer>
+    </RecoilRoot>
   );
 };
 
