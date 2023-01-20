@@ -1,8 +1,6 @@
 import React from 'react';
 import {ScrollView, View} from 'react-native';
-import BlockedUserItem from 'components/atoms/BlockedUserItem/BlockedUserItem';
 import {DARK_GRAY_COLOR, LINE_GRAY_COLOR, WHITE_COLOR} from 'themes/theme';
-import NoticeListItem from 'components/atoms/Setting/NoticeListItem';
 import {TextKRBold, TextKRReg} from 'themes/text';
 
 export const dummyBoardListData = Array(10).fill({

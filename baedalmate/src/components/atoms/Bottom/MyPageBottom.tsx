@@ -1,10 +1,9 @@
-import {Fonts} from 'assets/Fonts';
 import React, {useState} from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import {DARK_GRAY_COLOR} from 'themes/theme';
 import {TextKRReg} from 'themes/text';
 import {UsePopup} from 'components/utils/usePopup';
-import {deactivateAPI, logoutAPI} from 'components/utils/api/Login';
+import {logoutAPI, withdrawalAPI} from 'components/utils/api/Login';
 import {useNavigation} from '@react-navigation/native';
 
 export type BtnWithoutTextProps = {
@@ -42,7 +41,7 @@ const MyPageBottom = () => {
   };
 
   const withdraw = async () => {
-    const result = await deactivateAPI();
+    const result = await withdrawalAPI();
     console.log(result);
     if (result.status == 200) {
       // handleModal();
@@ -149,18 +148,5 @@ const MyPageBottom = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  mypageText: {
-    fontFamily: Fonts.Ko,
-    fontStyle: 'normal',
-    fontWeight: '400',
-    fontSize: 14,
-    lineHeight: 24,
-    color: DARK_GRAY_COLOR,
-    textAlign: 'center',
-    textAlignVertical: 'center',
-  },
-});
 
 export default MyPageBottom;

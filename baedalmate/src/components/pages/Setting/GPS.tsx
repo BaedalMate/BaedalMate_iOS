@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Geolocation from '@react-native-community/geolocation';
 import axios from 'axios';
 import BtnVerticalDeactive from 'components/atoms/Button/BtnVerticalDeactive';
@@ -11,6 +10,13 @@ import SelectDropdown from 'react-native-select-dropdown';
 import {WHITE_COLOR, BOTTOM_ARROW, LINE_ORANGE_COLOR} from 'themes/theme';
 import {dormitoryList} from '../CreateRecuit/second';
 import {userURL} from '../Main';
+import {UsePopup} from 'components/utils/usePopup';
+import {useRecoilState} from 'recoil';
+import {
+  selectDormitoryState,
+  userDormitoryState,
+} from 'components/utils/recoil/atoms/User';
+import {useNavigation} from '@react-navigation/native';
 
 export const DORMITORY_SUNGLIM_LOCATION = {
   longitude: 127.07597,
@@ -46,13 +52,13 @@ export type DormitoryType = 'SUNGLIM' | 'KB' | 'BURAM' | 'NURI' | 'SULIM';
 const DormitoryDropDown = ({target, setTarget}) => {
   const [dormIndex, setDormIndex] = useState<number>();
   useEffect(() => {
-    target === 'NURI'
+    target === 'NURI' || target === '누리학사'
       ? setDormIndex(0)
-      : target === 'SUNGLIM'
+      : target === 'SUNGLIM' || target === '성림학사'
       ? setDormIndex(1)
-      : target === 'KB'
+      : target === 'KB' || target === 'KB학사'
       ? setDormIndex(2)
-      : target === 'BURAM'
+      : target === 'BURAM' || target === '불암학사'
       ? setDormIndex(3)
       : setDormIndex(4);
   }, [target]);
@@ -129,27 +135,31 @@ const DormitoryDropDown = ({target, setTarget}) => {
 
 const changeTargetToDormitory = target => {
   let changedDormitory =
-    target === 'KB'
+    target === 'KB' || target === 'KB학사'
       ? 'KB학사'
-      : target === 'SUNGLIM'
+      : target === 'SUNGLIM' || target === '성림학사'
       ? '성림학사'
-      : target === 'SULIM'
+      : target === 'SULIM' || target === '수림학사'
       ? '수림학사'
-      : target === 'BURAM'
+      : target === 'BURAM' || target === '불암학사'
       ? '불암학사'
       : '누리학사';
   return changedDormitory;
 };
 const GPS = props => {
+  const navigation = useNavigation();
   const [location, setLocation] = useState<LocationI>();
-  const [target, setTarget] = useState<string | null>();
+  const [dormitory, setDormitory] = useRecoilState(userDormitoryState);
+  const [target, setTarget] = useRecoilState(selectDormitoryState);
   const [targetLocation, setTargetLocation] = useState<LocationI>();
   const [distance, setDistance] = useState<number>();
   // const Authentication = (latitude: number, longitude: number) => {};
 
   const getTarget = async () => {
-    const originTarget = await AsyncStorage.getItem('@BaedalMate_Dormitory');
-    setTarget(originTarget);
+    // const originTarget = await AsyncStorage.getItem('@BaedalMate_Dormitory');
+    props.route.params && props.route.params.target
+      ? setTarget(props.route.params.target)
+      : setTarget(dormitory);
   };
 
   const success = position => {
@@ -191,19 +201,19 @@ const GPS = props => {
   // User dormitory 변경
   const putUserDormitory = async () => {
     let changedDormitory =
-      target === 'KB학사'
+      target === 'KB학사' || target === 'KB'
         ? 'KB'
-        : target === '성림학사'
+        : target === '성림학사' || target === 'SUNGLIM'
         ? 'SUNGLIM'
-        : target === '수림학사'
+        : target === '수림학사' || target === 'SULIM'
         ? 'SULIM'
-        : target === '불암학사'
+        : target === '불암학사' || target === 'BURAM'
         ? 'BURAM'
         : 'NURI';
     const JWTAccessToken = await getJWTToken();
     console.log(changedDormitory, JWTAccessToken);
     try {
-      const {data} = await axios
+      const data = await axios
         .put(
           userURL,
           {},
@@ -220,11 +230,24 @@ const GPS = props => {
           console.log('put dormitory', response);
           console.log(response);
           // AsyncStorage에 유저 이름과 배달 거점 저장
-          AsyncStorage.setItem('@BaedalMate_Dormitory', changedDormitory);
+          // AsyncStorage.setItem('@BaedalMate_Dormitory', changedDormitory);
           // 해당 페이지는 렌더링 문제로 state 설정 후 사용
-          props.setDormitory(changedDormitory);
+          if (response.status === 200) {
+            setDormitory(changeTargetToDormitory(changedDormitory));
+            setTarget(dormitory);
+            navigation.navigate(
+              'BoardStackComponent' as never,
+              {
+                token: JWTAccessToken,
+              } as never,
+            );
+            navigation.reset({
+              index: 0,
+              routes: [{name: 'BoardStackComponent' as never}],
+            });
+          }
 
-          return response.data;
+          return response;
         })
         .catch(function (error) {
           console.log('put dormitory', error);
@@ -240,9 +263,7 @@ const GPS = props => {
   useEffect(() => {
     getTarget();
   }, []);
-  useEffect(() => {
-    console.log(target);
-  }, [target]);
+
   useEffect(() => {
     switch (target) {
       case 'SUNGLIM' || '성림학사':
@@ -263,6 +284,7 @@ const GPS = props => {
       default:
         break;
     }
+    console.log(target, targetLocation);
   }, [target]);
   useEffect(() => {
     location &&
@@ -285,18 +307,53 @@ const GPS = props => {
         Geolocation.clearWatch(watchId);
       }
     };
-  }, []);
+  }, [location]);
 
   useEffect(() => {
     console.log(location);
   }, [location]);
+  const [modal, setModal] = useState(true);
+  const handleModal = () => {
+    modal ? setModal(false) : setModal(true);
+  };
+  const loadingModalData = {
+    title: '잠시만 기다려주세요!',
+    description: '',
+    modal: modal,
+    handleModal: handleModal,
+    confirmEvent: handleModal,
+    choiceCnt: 1,
+  };
+  const [modalData, setModalData] = useState<{
+    title: string;
+    modal: boolean;
+    handleModal: () => void;
+    confirmEvent: any;
+    choiceCnt: number;
+    description?: string;
+  }>(loadingModalData);
+  // useEffect(() => {
+  //   handleModal();
+  // }, [location]);
   return (
     <View>
       {location ? (
         <View style={{width: '100%', height: '100%'}}>
           <DormitoryDropDown setTarget={setTarget} target={target} />
           <View style={{flex: 6}}>
-            <Map location={location} />
+            {location ? (
+              <Map location={location} handleModal={handleModal} />
+            ) : (
+              modalData && (
+                <UsePopup
+                  title={modalData.title}
+                  modal={modal}
+                  handleModal={handleModal}
+                  choiceCnt={modalData.choiceCnt}
+                  icon={true}
+                />
+              )
+            )}
           </View>
           {(distance && distance <= 0.2) || distance === 0 ? (
             <></>
@@ -325,9 +382,9 @@ const GPS = props => {
                 onPress={() => {
                   putUserDormitory();
                 }}
-                text={'인증하기'}></BtnVerticalOrange>
+                text={'거점 인증하기'}></BtnVerticalOrange>
             ) : (
-              <BtnVerticalDeactive text="인증하기" onPress={() => {}} />
+              <BtnVerticalDeactive text="거점 인증하기" onPress={() => {}} />
             )}
           </View>
         </View>
@@ -336,7 +393,14 @@ const GPS = props => {
         //   <Text>Latitude:{location.latitude}</Text>
         //   <Text>Longitude:{location.longitude}</Text>
         // </>
-        <Text>Loading</Text>
+        // <Text>Loading</Text>
+        <UsePopup
+          title={modalData?.title}
+          modal={modal}
+          handleModal={handleModal}
+          choiceCnt={modalData?.choiceCnt}
+          icon={true}
+        />
       )}
     </View>
   );

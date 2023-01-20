@@ -1,9 +1,14 @@
-import {url} from '../../../../App';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import WebView from 'react-native-webview';
 import {LocationI} from 'components/pages/Setting/GPS';
 
-export const Map = ({location}: {location: LocationI}) => {
+export const Map = ({
+  location,
+  handleModal,
+}: {
+  location: LocationI;
+  handleModal;
+}) => {
   const [url, setUrl] = useState('');
   const placeUrl =
     'https://map.kakao.com/link/map/' +
@@ -23,10 +28,24 @@ export const Map = ({location}: {location: LocationI}) => {
       source={{
         uri: placeUrl,
       }}
+      // cacheEnabled={false}
       geolocationEnabled={true}
       javaScriptEnabled={true}
       domStorageEnabled={true}
       startInLoadingState={false}
+      onLoadStart={handleModal}
+      onLoadEnd={handleModal}
+      incognito={true}
+      cacheEnabled={false}
+      cacheMode={'LOAD_NO_CACHE'}
+      // onNavigationStateChange={navState => {
+      //   // Linking.openURL(navState.url);
+      //   return false;
+      // }}
+      // onShouldStartLoadWithRequest={event => {
+      //   // Linking.openURL(event.url);
+      //   return false;
+      // }}
     />
   );
 };

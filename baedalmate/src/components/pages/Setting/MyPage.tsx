@@ -7,7 +7,13 @@ import MyPageBar from 'components/atoms/Setting/MyPageBar';
 import MyPageBottom from 'components/atoms/Bottom/MyPageBottom';
 import {getUserAPI} from 'components/utils/api/User';
 import {TextKRBold, TextKRReg} from 'themes/text';
-
+import {useRecoilState} from 'recoil';
+import {
+  userDormitoryState,
+  userNicknameState,
+  userProfileImageState,
+  userScoreState,
+} from 'components/utils/recoil/atoms/User';
 export interface MyPageI {
   userId: number;
   nickname: string;
@@ -15,22 +21,26 @@ export interface MyPageI {
   dormitory: string;
   score: number;
 }
-export const MyPageUserDummyData = {
-  profileImage:
-    'https://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg',
-  userName: '김예빈',
-  score: '4.3',
-  dormitory: '성림학사',
-};
+// export const MyPageUserDummyData = {
+//   profileImage:
+//     'https://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg',
+//   userName: '김예빈',
+//   score: '4.3',
+//   dormitory: '성림학사',
+// };
 
 const MyPage = ({route, navigation}) => {
-  // const navigation = useNavigation();
-  const [mypageUserInfo, setMyPageUserInfo] = useState();
+  const [nickname, setNickname] = useRecoilState(userNicknameState);
+  const [dormitory, setDormitory] = useRecoilState(userDormitoryState);
+  const [score, setScore] = useRecoilState(userScoreState);
+  const [profileImage, setProfileImage] = useRecoilState(userProfileImageState);
   const MyPageSettingList = [
     {
       name: '프로필 수정',
       onPress: () => {
-        navigation.navigate('프로필 수정' as never, {userInfo: mypageUserInfo});
+        navigation.navigate('프로필 수정' as never, {
+          userInfo: {nickname, setNickname, dormitory, setDormitory},
+        });
       },
     },
     {
@@ -61,13 +71,23 @@ const MyPage = ({route, navigation}) => {
 
   const getMyPageUserData = async () => {
     const result = await getUserAPI();
-    setMyPageUserInfo(result);
+    // setMyPageUserInfo(result);
+    setNickname(result.nickname);
+    setDormitory(result.dormitory);
+    setScore(result.score);
+    setProfileImage(result.profileImage);
     console.log(result);
   };
 
   useEffect(() => {
     getMyPageUserData();
   }, []);
+
+  useEffect(() => {
+    getMyPageUserData();
+  }, [nickname, dormitory, score, profileImage]);
+
+  useEffect(() => {});
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
@@ -79,7 +99,7 @@ const MyPage = ({route, navigation}) => {
         padding: 15,
         backgroundColor: WHITE_COLOR,
       }}>
-      <MypageUserInfo item={mypageUserInfo} />
+      <MypageUserInfo nickname={nickname} dormitory={dormitory} score={score} />
       <View style={{marginTop: 18, marginBottom: 35}}>
         <TextKRBold
           style={{

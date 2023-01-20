@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ActionSheetIOS,
   Image,
@@ -25,7 +25,6 @@ import {
   userNicknameState,
   userProfileImageState,
 } from 'components/utils/recoil/atoms/User';
-import Toast from 'react-native-root-toast';
 
 export interface MyPageI {
   userId: number;
@@ -71,14 +70,10 @@ const NicknameInput = ({nickname, name, control, rules, setValue}) => {
       placeholderTextColor={MAIN_GRAY_COLOR}></TextInput>
   );
 };
-const EditProfile = ({route, navigation}) => {
-  // const {nickname, setNickname, profileImage, setProfileImage} = route.params;
+const SetProfile = ({route, navigation}) => {
   const [nickname, setNickname] = useRecoilState(userNicknameState);
   const [profileImage, setProfileImage] = useRecoilState(userProfileImageState);
   const [isDefaultImage, setIsDefaultImage] = useState(false);
-
-  // const userInfo = route.params.userInfo;
-  // const slicedNickname = userInfo.nickname.slice(0, 5);
   const useFormReturn = useForm({
     defaultValues: {
       nickname: nickname,
@@ -151,22 +146,15 @@ const EditProfile = ({route, navigation}) => {
       },
       buttonIndex => {
         if (buttonIndex === 0) {
-          // handleDropdownModal();
         } else if (buttonIndex === 1) {
           onTakeCamera();
           setIsDefaultImage(false);
-
-          // closeRecruit();
-          // handleDropdownModal();
         } else if (buttonIndex === 2) {
           onSelectImageFromLibrary();
           setIsDefaultImage(false);
-          // cancelRecruit();
-          // handleDropdownModal();
         } else if (buttonIndex === 3) {
           setIsDefaultImage(true);
           setImage(null);
-          // handleDropdownModal();
         } else {
         }
       },
@@ -180,16 +168,11 @@ const EditProfile = ({route, navigation}) => {
       console.log(result);
       setNickname(result.nickname);
       setProfileImage(result.profileImage);
-      Toast.show('프로필 수정이 완료되었습니다.');
-      // setDormitory(result.dormitory);
-      // setUserId(result.userId);
-      // setScore(result.score);
-      // AsyncStorage.setItem('@BaedalMate_UserName', result.nickname);
-      // AsyncStorage.setItem('@BaedalMate_Dormitory', result.dormitory);
-      // AsyncStorage.setItem('@BaedalMate_UserId', result.userId.toString());
-      // AsyncStorage.setItem('@BaedalMate_ProfileImage', result.profileImage);
     }
   };
+  useEffect(() => {
+    navigation.navigate('거점 인증');
+  }, [nickname]);
 
   return (
     <View
@@ -198,7 +181,6 @@ const EditProfile = ({route, navigation}) => {
         height: '100%',
         padding: 15,
         backgroundColor: WHITE_COLOR,
-        // justifyContent: 'center',
         alignItems: 'center',
       }}>
       <TouchableOpacity
@@ -260,7 +242,7 @@ const EditProfile = ({route, navigation}) => {
           name={'nickname'}
           control={control}
           setValue={setValue}
-          rules={{maxLength: 5}}
+          rules={{maxLength: 5, required: true}}
         />
       </View>
       <View style={{width: '100%', position: 'absolute', bottom: 45}}>
@@ -268,11 +250,11 @@ const EditProfile = ({route, navigation}) => {
           onPress={() => {
             onSubmit();
           }}
-          text={'저장하기'}
+          text={'다음으로'}
         />
       </View>
     </View>
   );
 };
 
-export default EditProfile;
+export default SetProfile;

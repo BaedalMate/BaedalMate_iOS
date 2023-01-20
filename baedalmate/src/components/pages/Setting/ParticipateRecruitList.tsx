@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {ScrollView, View} from 'react-native';
-import BoardItem from 'components/atoms/BoardList/BoardItem';
-import {dummyBoardListData} from './HostingRecruitList';
 import MyRecruitItem from 'components/atoms/Setting/MyRecruitItem';
 import {WHITE_COLOR} from 'themes/theme';
 import {getParticipatedRecruitAPI} from 'components/utils/api/User';

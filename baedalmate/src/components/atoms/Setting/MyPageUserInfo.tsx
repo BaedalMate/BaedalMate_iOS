@@ -1,4 +1,3 @@
-import {MyPageI} from 'components/pages/Setting/MyPage';
 import React from 'react';
 import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {TextKRBold, TextKRReg} from 'themes/text';
@@ -11,8 +10,9 @@ export type BtnWithoutTextProps = {
   onPress(): void;
 };
 
-const MyPageUserInfo = ({item}: {item: MyPageI | undefined}) => {
+const MyPageUserInfo = ({nickname, dormitory, score}) => {
   const navigation = useNavigation();
+
   return (
     <View
       style={{
@@ -31,7 +31,7 @@ const MyPageUserInfo = ({item}: {item: MyPageI | undefined}) => {
           height: 55,
         }}>
         <View style={{flexDirection: 'row'}}>
-          <MyPageUserProfileImage item={item} />
+          <MyPageUserProfileImage />
 
           <View
             style={{
@@ -40,23 +40,18 @@ const MyPageUserInfo = ({item}: {item: MyPageI | undefined}) => {
               alignItems: 'stretch',
             }}>
             <TextKRBold style={{color: 'white', fontSize: 18, lineHeight: 22}}>
-              {item?.nickname}
+              {nickname}
             </TextKRBold>
             <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'flex-start',
                 alignItems: 'center',
-                // height: 41,
-                // marginLeft: 50,
-                // justifyContent: 'flex-end',
-                // bottom: 5,
-                // justifyContent: 'flex-start',
               }}>
               <WhiteTag />
               <TextKRBold
                 style={{color: 'white', fontSize: 14, lineHeight: 17}}>
-                {item?.dormitory}
+                {dormitory}
               </TextKRBold>
             </View>
           </View>
@@ -65,7 +60,7 @@ const MyPageUserInfo = ({item}: {item: MyPageI | undefined}) => {
           <Image source={STAR_WHITE} />
           <TextKRBold style={{color: 'white'}}>
             {' '}
-            {item?.score ? Math.round(item?.score * 10) / 10 : 0}
+            {score ? Math.round(Number(score) * 10) / 10 : 0}
           </TextKRBold>
         </View>
       </View>
@@ -100,15 +95,6 @@ const MyPageUserInfo = ({item}: {item: MyPageI | undefined}) => {
           <TextKRReg style={{color: 'white'}}>주최한 모집글</TextKRReg>
         </TouchableOpacity>
       </View>
-      {/* <View
-        style={{
-          position: 'absolute',
-          right: 15,
-          height: 41,
-          marginLeft: 11,
-          justifyContent: 'space-around',
-          alignItems: 'flex-end',
-        }}></View> */}
     </View>
   );
 };

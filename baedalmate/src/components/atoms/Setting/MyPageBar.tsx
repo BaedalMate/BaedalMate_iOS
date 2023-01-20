@@ -1,7 +1,6 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
-import {DARK_GRAY_COLOR, LINE_GRAY_COLOR} from 'themes/theme';
-import {Fonts} from '../../../assets/Fonts';
+import {View} from 'react-native';
+import {LINE_GRAY_COLOR} from 'themes/theme';
 
 const MyPageBar = ({height}: {height: number}) => {
   return (

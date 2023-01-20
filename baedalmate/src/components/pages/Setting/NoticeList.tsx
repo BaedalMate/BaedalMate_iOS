@@ -1,6 +1,5 @@
 import React from 'react';
 import {ScrollView, View} from 'react-native';
-import BlockedUserItem from 'components/atoms/BlockedUserItem/BlockedUserItem';
 import {WHITE_COLOR} from 'themes/theme';
 import NoticeListItem from 'components/atoms/Setting/NoticeListItem';
 
