@@ -1,11 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  View,
-} from 'react-native';
+import {ScrollView, StyleSheet, View} from 'react-native';
 
 import {TextKRBold, TextKRReg} from 'themes/text';
 import {Fonts} from 'assets/Fonts';
@@ -18,6 +12,7 @@ import {
 import BtnCreateFloating from 'components/atoms/Button/BtnCreateFloating';
 import MenuList from 'components/molecules/CreateRecruit/MenuList';
 import {
+  formPrice,
   menuI,
   postRecruitAPI,
   postRecruitI,
@@ -63,6 +58,7 @@ const CreateRecruit4 = props => {
   const [deliveryFee, setDeliveryFee] = useState<shippingFeeI[]>(
     props.route.params.shippingFee,
   );
+  const [shippingFee, setShippingFee] = useState(0);
   const [couponPrice, setCouponPrice] = useState(
     props.route.params.data.coupon,
   );
@@ -74,19 +70,21 @@ const CreateRecruit4 = props => {
       price += v.price * v.quantity;
     });
     setMemuTotalPrice(price);
-
+    // setShippingFee(
+    //   props.route.params.shippingFee[props.route.params.shippingFee - 1]
+    //     .shippingFee,
+    // );
     props.route.params.shippingFee?.map((v, i) => {
       if (
         (v.upperPrice > price && price >= v.lowerPrice) ||
         (v.upperPrice === 0 && price >= v.lowerPrice)
       ) {
-        setShippingFee(v.shippingFee);
+        setShippingFee(Number(v.shippingFee));
       }
     });
     setCouponPrice(props.route.params.data.coupon);
   }, [menuList, deliveryFee]);
   console.log(menuList);
-  const [shippingFee, setShippingFee] = useState(0);
 
   useEffect(() => {
     props.route.params.shippingFee?.sort((a, b) => {
@@ -177,7 +175,7 @@ const CreateRecruit4 = props => {
                       lineHeight: 19,
                       fontStyle: 'normal',
                     }}>
-                    {menuTotalPrice} 원
+                    {formPrice(menuTotalPrice)} 원
                   </TextKRReg>
                 </View>
                 <View
@@ -203,7 +201,7 @@ const CreateRecruit4 = props => {
                       display: 'flex',
                       alignItems: 'center',
                     }}>
-                    {shippingFee} 원
+                    {formPrice(shippingFee)} 원
                   </TextKRReg>
                 </View>
                 <View
@@ -216,7 +214,7 @@ const CreateRecruit4 = props => {
                       lineHeight: 19,
                       fontStyle: 'normal',
                     }}>
-                    {menuTotalPrice + shippingFee} 원
+                    {formPrice(menuTotalPrice + shippingFee)} 원
                   </TextKRBold>
                 </View>
               </View>
@@ -250,7 +248,7 @@ const CreateRecruit4 = props => {
                       display: 'flex',
                       alignItems: 'center',
                     }}>
-                    {couponPrice} 원
+                    {formPrice(couponPrice)} 원
                   </TextKRReg>
                 </View>
                 <View
@@ -263,7 +261,7 @@ const CreateRecruit4 = props => {
                       lineHeight: 19,
                       fontStyle: 'normal',
                     }}>
-                    {menuTotalPrice + shippingFee - couponPrice} 원
+                    {formPrice(menuTotalPrice + shippingFee - couponPrice)} 원
                   </TextKRBold>
                 </View>
               </View>
@@ -295,7 +293,7 @@ const CreateRecruit4 = props => {
                         fontSize: 24,
                         lineHeight: 29,
                       }}>
-                      {menuTotalPrice + shippingFee - couponPrice}
+                      {formPrice(menuTotalPrice + shippingFee - couponPrice)}
                     </TextKRBold>
                     원
                   </TextKRBold>
@@ -326,7 +324,7 @@ const CreateRecruit4 = props => {
             let data: postRecruitI = {
               categoryId: props.route.params.categoryId,
               criteria: props.route.params.criteria,
-              coupon: props.route.params.data.coupon,
+              coupon: Number(props.route.params.data.coupon),
               dormitory: dorm,
               deadlineDate: props.route.params.deadlineDate,
               description: props.route.params.description,

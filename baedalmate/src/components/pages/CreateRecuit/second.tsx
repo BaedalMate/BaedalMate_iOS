@@ -61,46 +61,87 @@ export const dormitoryList = [
   '수림학사',
 ];
 const CreateRecruit2 = props => {
+  const defaultItem = props.route.params.defaultItem;
   const [platform, setPlatform] = useState('BAEMIN');
   const {
     control,
     handleSubmit,
+    reset,
     setValue,
     formState: {errors},
   } = useForm({
     defaultValues: {
-      dormitory: '누리학사',
-      description: '',
-      platform: 'BAEMIN',
-      coupon: 0,
+      dormitory:
+        defaultItem && defaultItem.dormitory
+          ? defaultItem.dormitory
+          : '누리학사',
+      description:
+        defaultItem && defaultItem.description ? defaultItem.description : '',
+      platform:
+        defaultItem && defaultItem.platform ? defaultItem.platform : 'BAEMIN',
+      coupon: defaultItem && defaultItem.coupon ? defaultItem.coupon : 0,
       place: {
-        name: '',
-        addressName: '',
-        roadAddressName: '',
-        x: 0,
-        y: 0,
+        name:
+          defaultItem && defaultItem.place.name ? defaultItem.place.name : '',
+        addressName:
+          defaultItem && defaultItem.place.addressName
+            ? defaultItem && defaultItem.place.addressName
+            : '',
+        roadAddressName:
+          defaultItem && defaultItem.place.roadAddressName
+            ? defaultItem && defaultItem.place.roadAddressName
+            : '',
+        x: defaultItem && defaultItem.place.x ? defaultItem.place.x : 0,
+        y: defaultItem && defaultItem.place.y ? defaultItem.place.y : 0,
       },
     },
     mode: 'onSubmit',
     shouldUnregister: false,
   });
+
   console.log(props.route.params.data);
 
   const onSubmit = data => {
     console.log(data);
     console.log(props.route.params.data);
-    props.navigation.navigate('상세 설정3', {
-      data,
-      categoryId: props.route.params.data.data.categoryId,
-      criteria: props.route.params.data.data.data.criteria,
-      freeShipping: props.route.params.data.data.data.freeShipping,
-      minPeople: props.route.params.data.data.data.minPeople,
-      minPrice: Number(props.route.params.data.data.data.minPrice),
-      deadlineDate: props.route.params.data.data.deadlineDate,
-      shippingFee: props.route.params.data.data.shippingFee,
-    });
+    defaultItem
+      ? props.navigation.navigate('상세 설정3', {
+          data,
+          name: defaultItem.place.name ? defaultItem.place.name : '',
+          addressName: defaultItem.place.addressName
+            ? defaultItem.place.addressName
+            : '',
+          roadAddressName: defaultItem.place.roadAddressName
+            ? defaultItem.place.roadAddressName
+            : '',
+          x: defaultItem.place.x ? defaultItem.place.x : 0,
+          y: defaultItem.place.y ? defaultItem.place.y : 0,
+          categoryId: props.route.params.categoryId,
+          criteria: props.route.params.data.criteria,
+          freeShipping: props.route.params.data.freeShipping,
+          minPeople: props.route.params.data.minPeople,
+          minPrice: Number(props.route.params.data.minPrice),
+          deadlineDate: props.route.params.deadlineDate,
+          shippingFee: props.route.params.shippingFee,
+        })
+      : props.navigation.navigate('상세 설정3', {
+          data,
+          categoryId: props.route.params.data.categoryId,
+          criteria: props.route.params.data.data.criteria,
+          freeShipping: props.route.params.data.data.freeShipping,
+          minPeople: props.route.params.data.data.minPeople,
+          minPrice: Number(props.route.params.data.data.minPrice),
+          deadlineDate: props.route.params.data.deadlineDate,
+          shippingFee: props.route.params.data.shippingFee,
+        });
   };
-
+  // useEffect(() => {
+  //   setValue('place.name', defaultItem.place.name);
+  //   setValue('place.addressName', defaultItem.place.addressName);
+  //   setValue('place.roadAddressName', defaultItem.place.roadAddressName);
+  //   setValue('place.x', defaultItem.place.x);
+  //   setValue('place.y', defaultItem.place.y);
+  // }, [defaultItem]);
   // const getPlace = async () => {
   //   // const place_name = await AsyncStorage.getItem('place_name');
   //   // const address_name = await AsyncStorage.getItem('address_name');
@@ -282,7 +323,8 @@ const CreateRecruit2 = props => {
                   name="place.name"
                   control={control}
                   rules={{
-                    required: true,
+                    required:
+                      defaultItem && defaultItem.place.name ? false : true,
                   }}
                   defaultValue={''}
                   render={() => {
@@ -310,23 +352,25 @@ const CreateRecruit2 = props => {
                           value={
                             props.route.params.name
                               ? props.route.params.name
+                              : defaultItem && defaultItem.place.name
+                              ? defaultItem.place.name
                               : ''
                           }
                           onTouchStart={() => {
                             props.navigation.navigate('배달 가게 선택', {
                               data: props.route.params,
                             });
-                            setValue('place.name', props.route.params.name);
-                            setValue(
-                              'place.addressName',
-                              props.route.params.addressName,
-                            );
-                            setValue(
-                              'place.roadAddressName',
-                              props.route.params.roadAddressName,
-                            );
-                            setValue('place.x', Number(props.route.params.x));
-                            setValue('place.y', Number(props.route.params.y));
+                            // setValue('place.name', props.route.params.name);
+                            // setValue(
+                            //   'place.addressName',
+                            //   props.route.params.addressName,
+                            // );
+                            // setValue(
+                            //   'place.roadAddressName',
+                            //   props.route.params.roadAddressName,
+                            // );
+                            // setValue('place.x', Number(props.route.params.x));
+                            // setValue('place.y', Number(props.route.params.y));
                           }}
                         />
                       </View>

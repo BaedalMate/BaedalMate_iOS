@@ -12,7 +12,6 @@ import {useForm} from 'react-hook-form';
 import {
   KeyboardAvoidingView,
   Modal,
-  NativeModules,
   Platform,
   StyleSheet,
   TouchableOpacity,

@@ -243,7 +243,7 @@ const PlaceSearch = props => {
                           locationList.documents[i].road_address_name,
                         x: locationList.documents[i].x,
                         y: locationList.documents[i].y,
-                        data: props.route.params,
+                        data: props.route.params.data,
                       });
                     }}>
                     <TextKRBold>선택</TextKRBold>

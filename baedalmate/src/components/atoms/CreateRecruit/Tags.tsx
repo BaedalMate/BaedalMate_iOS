@@ -1,14 +1,7 @@
-import {BoardListProps} from 'components/molecules/BoardList/BoardList';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {TextKRBold, TextKRReg} from 'themes/text';
-import {
-  LINE_GRAY_COLOR,
-  LINE_ORANGE_COLOR,
-  MAIN_GRAY_COLOR,
-  PRIMARY_COLOR,
-  WHITE_COLOR,
-} from 'themes/theme';
+import {TextKRReg} from 'themes/text';
+import {LINE_GRAY_COLOR, PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
 
 const RecruitTag = ({text}: {text: string}) => {
   return (

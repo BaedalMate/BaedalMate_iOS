@@ -7,6 +7,7 @@
  */
 
 import {Fonts} from 'assets/Fonts';
+import {formPrice} from 'components/utils/api/Recruit';
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {DARK_GRAY_COLOR, DELETE_ICON, WHITE_COLOR} from 'themes/theme';
@@ -25,7 +26,7 @@ const MenuItem = (props: MenuType) => {
         <View>
           <Text style={styles.menuItemTitle}>{props.menu}</Text>
           <Text style={styles.menuItemSub}>
-            {props.cnt}개 · {props.price}원{' '}
+            {props.cnt}개 · {formPrice(props.price)}원{' '}
           </Text>
         </View>
       </View>

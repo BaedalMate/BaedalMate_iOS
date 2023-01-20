@@ -1,9 +1,7 @@
 import React from 'react';
-import {NativeModules, ScrollView, StyleSheet, View} from 'react-native';
+import {ScrollView, View} from 'react-native';
 
-import {Fonts} from 'assets/Fonts';
-import {DARK_GRAY_COLOR, PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
-import {useForm} from 'react-hook-form';
+import {WHITE_COLOR} from 'themes/theme';
 import {categoryData} from 'components/molecules/Main/Category';
 import SelectCategoryItem from 'components/atoms/CreateRecruit/CategorySelect';
 
@@ -31,7 +29,13 @@ export interface deliveryFeeProps {
   setCnt: (cnt: number) => void;
 }
 
-const SelectCategoryPage = () => {
+const SelectCategoryPage = props => {
+  console.log(props);
+  const defaultItem = props.route.params
+    ? props.route.params.defaultItem
+    : null;
+  const type = props.route.params ? props.route.params.type : 'CREATE';
+  console.log(defaultItem, type);
   return (
     <View
       style={{
@@ -46,7 +50,15 @@ const SelectCategoryPage = () => {
             alignItems: 'center',
           }}>
           {categoryData.map(
-            (v, i) => i !== 0 && <SelectCategoryItem item={v} key={i} />,
+            (v, i) =>
+              i !== 0 && (
+                <SelectCategoryItem
+                  item={v}
+                  defaultItem={defaultItem}
+                  type={type}
+                  key={i}
+                />
+              ),
           )}
         </View>
       </ScrollView>

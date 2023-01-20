@@ -30,7 +30,8 @@ import {
   CntInput,
   PriceInput,
 } from 'components/atoms/CreateRecruit/Input';
-import RNDateTimePicker from '@react-native-community/datetimepicker';
+import {formDigitTwo} from 'components/utils/api/Recruit';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 export interface RecruitItemProps {
   createDate: string;
@@ -53,16 +54,24 @@ export interface RecruitItemProps {
 const {StatusBarManager} = NativeModules;
 
 const CreateRecruit1 = props => {
+  console.log(props);
+
+  const defaultItem = props.route.params.defaultItem;
   const [timePicker, setTimePicker] = useState(false);
-  const [time, setTime] = useState(new Date(Date.now()));
+  const [time, setTime] = useState(new Date());
+  useEffect(() => {
+    defaultItem && setTime(new Date(defaultItem.deadlineDate));
+  }, [defaultItem]);
   const showTimePicker = () => {
     setTimePicker(true);
   };
-  const onTimeSelected = (event, value) => {
-    setTime(value);
+  const hideTimePicker = () => {
     setTimePicker(false);
   };
-
+  const handleConfirm = data => {
+    setTime(data);
+    hideTimePicker();
+  };
   const {
     control,
     handleSubmit,
@@ -71,12 +80,12 @@ const CreateRecruit1 = props => {
     formState: {errors},
   } = useForm({
     defaultValues: {
-      minPeople: 1,
-      minPrice: '',
-      orderHour: '',
-      orderMinute: '',
-      criteria: 'NUMBER',
-      freeShipping: true,
+      minPeople:
+        defaultItem && defaultItem.minPeople ? defaultItem.minPeople : 1,
+      minPrice: defaultItem && defaultItem.minPrice ? defaultItem.minPrice : '',
+      criteria:
+        defaultItem && defaultItem.criteria ? defaultItem.criteria : 'NUMBER',
+      freeShipping: defaultItem && defaultItem.shippingFee === 0 ? true : false,
       shippingFeeRange: [{name: ``, value: ''}],
       shippingFee: [{name: '', value: ''}],
     },
@@ -102,6 +111,14 @@ const CreateRecruit1 = props => {
       validate: {},
     },
   });
+  useEffect(() => {
+    if (defaultItem) {
+      for (let i = 0; i < defaultItem.shippingFeeDetail.length; i++) {
+        shippingFeeAppend(defaultItem.shippingFeeDetail[i].shippingFee);
+        shippingFeeRangeAppend(defaultItem.shippingFeeDetail[i].upperPrice);
+      }
+    }
+  }, [defaultItem]);
   const onSubmit = data => {
     console.log(data);
     const deadline = time;
@@ -156,16 +173,6 @@ const CreateRecruit1 = props => {
       style={{
         backgroundColor: WHITE_COLOR,
       }}>
-      {/* {timePicker && (
-        <RNDateTimePicker
-          value={time}
-          mode={'time'}
-          // display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-          is24Hour={true}
-          onChange={onTimeSelected}
-          style={styles.datePicker}
-        />
-      )} */}
       <KeyboardAvoidingView
         style={styles.avoidingView}
         behavior={Platform.select({ios: 'padding'})}
@@ -246,54 +253,6 @@ const CreateRecruit1 = props => {
                   isLast={true}
                 />
               </View>
-              {/* <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  paddingTop: 15,
-                }}>
-                <TextKRReg
-                  style={{
-                    fontSize: 14,
-                    lineHeight: 24,
-                    fontStyle: 'normal',
-                    display: 'flex',
-                    alignItems: 'center',
-                  }}>
-                  금액
-                </TextKRReg>
-                <Controller
-                  control={control}
-                  rules={{required: true}}
-                  name={'minPrice'}
-                  render={({field: {onChange, onBlur, value}}) => (
-                    <TextInput
-                      style={{
-                        backgroundColor: WHITE_COLOR,
-                        width: 300,
-                        height: 45,
-                        borderRadius: 10,
-                        padding: 15,
-                        textAlign: 'right',
-                        fontFamily: Fonts.Ko,
-                        fontStyle: 'normal',
-                        fontWeight: '700',
-                        fontSize: 16,
-                        lineHeight: 19,
-                        // textAlign: 'center',
-                        textAlignVertical: 'center',
-                      }}
-                      keyboardType={'number-pad'}
-                      ref={ref}
-                      value={value.toString().split('원')[0]}
-                      onChangeText={onChange}>
-                      원
-                    </TextInput>
-                  )}
-                />
-                {errors.minPrice && <Text>최소 주문 금액을 입력해주세요</Text>}
-              </View> */}
             </View>
             <View
               style={{
@@ -313,8 +272,10 @@ const CreateRecruit1 = props => {
               <View
                 style={{
                   flexDirection: 'row',
-                  justifyContent: 'space-between',
+                  justifyContent: 'center',
                   alignItems: 'center',
+                  width: '100%',
+                  margin: 'auto',
                   // marginHorizontal: 15,
                 }}>
                 <TouchableOpacity
@@ -327,42 +288,25 @@ const CreateRecruit1 = props => {
                     justifyContent: 'center',
                   }}
                   onPress={showTimePicker}>
-                  {/* <Text>00시 00분</Text> */}
-                  <RNDateTimePicker
-                    value={time}
-                    mode={'time'}
-                    // display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-                    is24Hour={true}
-                    onChange={onTimeSelected}
-                    style={styles.datePicker}
-                    accentColor={PRIMARY_COLOR}
-                    // accessibilityViewIsModal={true}
-                    placeholderText={'00시 00분'}
-                    textColor={PRIMARY_COLOR}
-                  />
+                  <Text style={{fontSize: 16}}>
+                    <Text style={{color: MAIN_GRAY_COLOR}}>
+                      {formDigitTwo(time.getHours())}
+                    </Text>{' '}
+                    시{' '}
+                    <Text style={{color: MAIN_GRAY_COLOR}}>
+                      {formDigitTwo(time.getMinutes())}
+                    </Text>{' '}
+                    분
+                  </Text>
                 </TouchableOpacity>
-                {/* {show && (
-                  <RNDateTimePicker
-                    testID="dateTimePicker"
-                    value={date}
-                    mode={'time'}
-                    is24Hour={true}
-                    onChange={onChange}
-                  />
-                )} */}
-                {/* <TimeInput
-                  error={errors}
-                  name={'orderHour'}
-                  control={control}
-                  rules={{required: true, min: 0}}
+                <DateTimePickerModal
+                  isVisible={timePicker}
+                  mode="time"
+                  confirmTextIOS="확인"
+                  onConfirm={handleConfirm}
+                  cancelTextIOS="취소"
+                  onCancel={hideTimePicker}
                 />
-                <TimeInput
-                  error={errors}
-                  name={'orderMinute'}
-                  control={control}
-                  rules={{required: true, min: 0, max: 59}}
-                />
-                <TextKRReg>뒤 주문</TextKRReg> */}
               </View>
             </View>
             <View
@@ -503,8 +447,6 @@ const CreateRecruit1 = props => {
                       }}>
                       <RadioButton.Android
                         value={'true'}
-                        // status={checked === 'true' ? 'checked' : 'unchecked'}
-                        // onPress={() => setChecked('true')}
                         color={PRIMARY_COLOR}
                         uncheckedColor={MAIN_GRAY_COLOR}
                       />
@@ -517,8 +459,6 @@ const CreateRecruit1 = props => {
                       }}>
                       <RadioButton.Android
                         value={'false'}
-                        // status={checked === 'false' ? 'checked' : 'unchecked'}
-                        // onPress={() => setChecked('false')}
                         color={PRIMARY_COLOR}
                         uncheckedColor={MAIN_GRAY_COLOR}
                       />
@@ -590,8 +530,6 @@ const CreateRecruit1 = props => {
                                 }
                               />
                             </View>
-                            {/* ))}
-                          {shippingFeeFields.map((data, index) => ( */}
                             <View
                               style={{
                                 width: '95%',
@@ -641,21 +579,6 @@ const CreateRecruit1 = props => {
                     <BtnAddDeliveryFee
                       onPress={() => {
                         console.log(shippingFeeRangeFields, shippingFeeFields);
-                        // setCurrentShippingFeeRange(
-                        //   Number(
-                        //     shippingFeeRangeFields[
-                        //       shippingFeeRangeFields.length - 1
-                        //     ].name,
-                        //   ),
-                        // );
-                        // setLastShippingFeeRange(currentShippingFeeRange);
-                        // if (
-                        //   shippingFeeRangeFields[shippingFeeFields.length - 1]
-                        //     .name &&
-                        //   shippingFeeFields[shippingFeeRangeFields.length - 1]
-                        //     .name
-                        // )
-
                         const values = getValues([
                           `shippingFee`,
                           `shippingFeeRange`,
@@ -718,18 +641,7 @@ const CreateRecruit1 = props => {
             marginHorizontal: 15,
           }}>
           <BtnCreateFloating
-            onPress={
-              handleSubmit(onSubmit)
-
-              // (handleSubmit(onSubmit),
-              //   () => props.navigation.navigate('상세 설정2')
-              // )
-            }
-            //   () => {
-            //   // handleSubmit(onSubmit);
-            //   props.navigation.navigate('상세 설정2');
-            // }
-
+            onPress={handleSubmit(onSubmit)}
             text={'다음으로'}
             id={1}
           />
@@ -793,12 +705,13 @@ const styles = StyleSheet.create({
     // flex: 1,
   },
   datePicker: {
-    display: 'flex',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    // width: 320,
-    // height: 260,
+    alignSelf: 'center',
+    color: PRIMARY_COLOR,
+    textDecorationColor: PRIMARY_COLOR,
+    backgroundColor: WHITE_COLOR,
   },
 });
 

@@ -1,24 +1,8 @@
 import React from 'react';
-import {
-  Image,
-  NativeModules,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Image, NativeModules, Text, TouchableOpacity, View} from 'react-native';
 
-import {TextKRReg} from 'themes/text';
-import {Fonts} from 'assets/Fonts';
-import {
-  BLACK_COLOR,
-  DARK_GRAY_COLOR,
-  PRIMARY_COLOR,
-  WHITE_COLOR,
-} from 'themes/theme';
+import {BLACK_COLOR, WHITE_COLOR} from 'themes/theme';
 import {useNavigation} from '@react-navigation/native';
-import {useController} from 'react-hook-form';
 
 export interface RecruitItemProps {
   createDate: string;
@@ -39,7 +23,6 @@ export interface RecruitItemProps {
 }
 
 const {StatusBarManager} = NativeModules;
-type endStandardType = 'people' | 'price' | 'time';
 export interface deliveryFeeProps {
   i: number;
   cnt: number;
@@ -51,7 +34,13 @@ export interface CategoryProps {
   categoryName: string;
   categoryImg: any;
 }
-const SelectCategoryItem = ({item}: {item: CategoryProps}) => {
+const SelectCategoryItem = ({
+  item,
+}: {
+  item: CategoryProps;
+  defaultItem?;
+  type?;
+}) => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity

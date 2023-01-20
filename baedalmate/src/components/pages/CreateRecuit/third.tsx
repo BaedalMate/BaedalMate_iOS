@@ -36,6 +36,8 @@ export interface RecruitItemProps {
 }
 
 const CreateRecruit3 = props => {
+  const defaultItem = props.route.params.defaultItem;
+
   const {
     control,
     handleSubmit,
@@ -43,8 +45,9 @@ const CreateRecruit3 = props => {
     formState: {errors},
   } = useForm({
     defaultValues: {
-      title: '',
-      description: '',
+      title: defaultItem && defaultItem.title ? defaultItem.title : '',
+      description:
+        defaultItem && defaultItem.description ? defaultItem.description : '',
       tags: [{tagname: ''}],
     },
   });

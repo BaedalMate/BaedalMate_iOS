@@ -26,7 +26,9 @@ export const getJWTRefreshToken = async () => {
 export const formPrice = (text: number | undefined) => {
   return text?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
-
+export const formDigitTwo = (text: number | undefined) => {
+  return text?.toString().padStart(2, '0');
+};
 export interface userMenuI {
   menu: menuI[];
   userId: number;
