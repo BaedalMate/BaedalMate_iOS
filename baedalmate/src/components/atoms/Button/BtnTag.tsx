@@ -9,13 +9,7 @@
 import {BtnWithTextProps} from 'components/molecules/Button/BtnHorizontal2';
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {
-  LINE_GRAY_COLOR,
-  LINE_ORANGE_COLOR,
-  MAIN_GRAY_COLOR,
-  PRIMARY_COLOR,
-  WHITE_COLOR,
-} from 'themes/theme';
+import {LINE_ORANGE_COLOR, WHITE_COLOR} from 'themes/theme';
 import {Fonts} from '../../../assets/Fonts';
 const BtnTag = (props: BtnWithTextProps) => {
   return (

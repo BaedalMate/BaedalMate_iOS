@@ -1,15 +1,6 @@
 import React, {useState} from 'react';
-import {
-  GestureResponderEvent,
-  Pressable,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {LINE_ORANGE_COLOR, PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
-import {Fonts} from '../../../assets/Fonts';
-import {TextKRBold, TextKRReg} from 'themes/text';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {LINE_ORANGE_COLOR, WHITE_COLOR} from 'themes/theme';
 export type TagProps = {
   text: string;
   active: boolean;

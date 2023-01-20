@@ -11,12 +11,6 @@ import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {Fonts} from '../../../assets/Fonts';
 
-// export type BtnWithTextProps = {
-//   navigation: any;
-//   onPress(): void;
-//   text: string;
-// };
-
 const BtnHorizontalGray = (props: BtnWithTextProps) => {
   return (
     <TouchableOpacity

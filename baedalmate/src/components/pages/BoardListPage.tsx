@@ -10,6 +10,7 @@ import {recruitListURL} from './Main';
 import {getJWTToken} from 'components/utils/api/Recruit';
 
 export const sortData = [
+  {name: '최신순', value: 'createDate'},
   {name: '마감순', value: 'deadlineDate'},
   {name: '평점순', value: 'score'},
   {name: '인기순', value: 'view'},
@@ -102,7 +103,7 @@ const BoardListPage = ({route, navigation}) => {
       <BoardList categoryId={categoryId} boardList={recruitList} />
       <BtnFloating
         onPress={() => {
-          navigation.navigate('상세 설정');
+          navigation.navigate('상세 설정', {type: 'CREATE'});
           // 임시 값. 변경 필요
         }}
       />

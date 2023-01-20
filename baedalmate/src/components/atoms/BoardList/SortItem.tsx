@@ -1,7 +1,6 @@
 import React from 'react';
-import {View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {TextKRBold, TextKRReg} from 'themes/text';
+import {TextKRReg} from 'themes/text';
 import {
   DARK_GRAY_COLOR,
   LINE_GRAY_COLOR,

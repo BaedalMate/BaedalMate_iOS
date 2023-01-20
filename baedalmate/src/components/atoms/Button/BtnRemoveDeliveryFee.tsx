@@ -6,7 +6,6 @@
  * @flow strict-local
  */
 
-import {BtnWithTextProps} from 'components/molecules/Button/BtnHorizontal2';
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {DARK_GRAY_COLOR, LINE_GRAY_COLOR} from 'themes/theme';

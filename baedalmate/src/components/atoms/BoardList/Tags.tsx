@@ -2,11 +2,10 @@ import {BoardListProps} from 'components/molecules/BoardList/BoardList';
 import {recruitI} from 'components/utils/api/Chat';
 import {formPrice} from 'components/utils/api/Recruit';
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {View} from 'react-native';
 import {TextKRBold, TextKRReg} from 'themes/text';
 import {
   DARK_GRAY_COLOR,
-  LINE_GRAY_COLOR,
   LINE_ORANGE_COLOR,
   MAIN_GRAY_COLOR,
   WHITE_COLOR,
@@ -108,9 +107,9 @@ const OrangeMainTag = ({item}: {item: BoardListProps | recruitI}) => {
           color: LINE_ORANGE_COLOR,
         }}>
         {item.criteria === 'PRICE'
-          ? '현재 ' + formPrice(item.minPrice) + '원'
+          ? '현재 ' + formPrice(item.currentPrice) + '원'
           : item.criteria === 'NUMBER'
-          ? '현재인원' + item.minPeople + '인'
+          ? '현재인원' + item.currentPeople + '인'
           : timeText.includes('마감')
           ? timeText
           : timeText + ' 남음'}
@@ -174,26 +173,5 @@ const WhiteTag = () => {
     </View>
   );
 };
-const styles = StyleSheet.create({
-  boardItemWrapper: {
-    display: 'flex',
-    flexDirection: 'row',
-    paddingVertical: 18,
-    paddingHorizontal: 15,
-    width: '100%',
-    height: 120,
-    borderWidth: 1,
-    borderColor: LINE_GRAY_COLOR,
-    alignItems: 'stretch',
-    backgroundColor: 'white',
-    marginBottom: 10,
-  },
-  storeImg: {
-    width: 75,
-    height: 75,
-    borderRadius: 75 / 2,
-    marginRight: 15,
-  },
-});
 
 export {GrayTag, OrangeMainTag, OrangeChatTag, WhiteTag};

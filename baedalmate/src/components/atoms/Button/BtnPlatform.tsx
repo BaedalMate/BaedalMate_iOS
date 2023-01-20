@@ -67,7 +67,7 @@ const PlatformSelect = ({setPlatform, control, name, rules, setValue}) => {
   const data = [
     {value: 'BAEMIN', url: BAEMIN_ICON},
     {value: 'YOGIYO', url: YOGIYO_ICON},
-    {value: 'COUPANGEATS', url: COUPANGEATS_ICON},
+    {value: 'COUPANG', url: COUPANGEATS_ICON},
     {value: 'DDANGYO', url: DDANGYO_ICON},
     {value: 'ETC', url: ETC_ICON},
   ];

@@ -2,7 +2,7 @@ import {useNavigation} from '@react-navigation/native';
 import {url} from '../../../../App';
 import {BoardListProps} from 'components/molecules/BoardList/BoardList';
 import React, {useState} from 'react';
-import {Image, StyleSheet, Text, TouchableHighlight, View} from 'react-native';
+import {Image, StyleSheet, TouchableHighlight, View} from 'react-native';
 import {TextKRBold, TextKRReg} from 'themes/text';
 import {
   DARK_GRAY_COLOR,
@@ -43,36 +43,38 @@ const BoardItem = ({item}: {item: BoardListProps}) => {
           }}
           style={[styles.storeImg]}
         />
-        <View
-          style={{
-            position: 'absolute',
-            left: 15,
-            top: 18,
-            width: 75,
-            height: 75,
-            borderRadius: 75 / 2,
-            flexDirection: 'row',
-            backgroundColor: 'rgba(33, 33, 35, 0.7)',
-            zIndex: 1,
-          }}>
-          <TextKRBold
+        {!item.active && (
+          <View
             style={{
-              color: 'white',
-              display: 'flex',
+              position: 'absolute',
+              left: 15,
+              top: 18,
               width: 75,
               height: 75,
-              textAlign: 'center',
-              lineHeight: 75,
-              fontSize: 14,
+              borderRadius: 75 / 2,
+              flexDirection: 'row',
+              backgroundColor: 'rgba(33, 33, 35, 0.7)',
+              zIndex: 1,
             }}>
-            모집완료
-          </TextKRBold>
-        </View>
+            <TextKRBold
+              style={{
+                color: 'white',
+                display: 'flex',
+                width: 75,
+                height: 75,
+                textAlign: 'center',
+                lineHeight: 75,
+                fontSize: 14,
+              }}>
+              모집완료
+            </TextKRBold>
+          </View>
+        )}
         {/* <Image
-          source={{
-            uri: item.image !== null ? item.image : '',
-          }}
-          style={styles.storeImg}
+        source={{
+          uri: item.image !== null ? item.image : '',
+        }}
+        style={styles.storeImg}
         /> */}
         <View
           style={{

@@ -22,6 +22,4 @@ const BtnKakaoLoginWrapper = (props: BtnWithoutTextProps) => {
   );
 };
 
-const styles = StyleSheet.create({});
-
 export default BtnKakaoLoginWrapper;

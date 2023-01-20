@@ -1,6 +1,6 @@
-import {SortActive, SortDefault} from 'components/atoms/BoardList/SortItem';
+import {SortDefault} from 'components/atoms/BoardList/SortItem';
 import {sortData} from 'components/pages/BoardListPage';
-import React, {useState} from 'react';
+import React from 'react';
 import {View} from 'react-native';
 
 const Sort = ({selectedSort, setSelectedSort}) => {

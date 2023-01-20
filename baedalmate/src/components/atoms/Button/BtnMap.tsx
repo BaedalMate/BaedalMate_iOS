@@ -7,29 +7,10 @@
  */
 
 import {useNavigation} from '@react-navigation/native';
-import {BoardListProps} from 'components/molecules/BoardList/BoardList';
 import {RecruitItemProps} from 'components/pages/Detail';
-import React, {useState} from 'react';
-import {useController} from 'react-hook-form';
-import {
-  Image,
-  Pressable,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {
-  BAEMIN_ICON,
-  COUPANGEATS_ICON,
-  DARK_GRAY_COLOR,
-  DDANGYO_ICON,
-  ETC_ICON,
-  MAP_ORANGE,
-  WHITE_COLOR,
-  YOGIYO_ICON,
-} from 'themes/theme';
-import BtnRadio from './BtnRadio';
+import React from 'react';
+import {Image, TouchableOpacity} from 'react-native';
+import {MAP_ORANGE} from 'themes/theme';
 
 export type BtnPlatformProps = {
   onPress(): void;
@@ -41,7 +22,6 @@ export type BtnPlatformProps = {
 const BtnMap = ({item}: {item: RecruitItemProps | undefined}) => {
   const navigation = useNavigation();
   return (
-    // <View>
     <TouchableOpacity
       style={{
         width: 36,
@@ -63,25 +43,7 @@ const BtnMap = ({item}: {item: RecruitItemProps | undefined}) => {
       }}>
       <Image source={MAP_ORANGE} />
     </TouchableOpacity>
-    // </View>
   );
 };
-
-const styles = StyleSheet.create({
-  selected: {
-    backgroundColor: '',
-    opacity: 1,
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-  },
-  unselected: {
-    backgroundColor: 'gray',
-    opacity: 0.3,
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-  },
-});
 
 export default BtnMap;
