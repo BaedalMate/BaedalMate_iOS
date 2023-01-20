@@ -1,12 +1,13 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Modal from 'react-native-modal/dist/modal';
-import {View, TouchableOpacity, TouchableHighlight} from 'react-native';
+import {View, TouchableHighlight, Image} from 'react-native';
 import {TextKRBold, TextKRReg} from 'themes/text';
 import {
   WHITE_COLOR,
   LINE_GRAY_COLOR,
   PRIMARY_COLOR,
   DARK_GRAY_COLOR,
+  LOADING_PRIMARY_ICON,
 } from 'themes/theme';
 
 export const UsePopup = ({
@@ -16,6 +17,15 @@ export const UsePopup = ({
   handleModal,
   choiceCnt,
   confirmEvent,
+  icon,
+}: {
+  title;
+  modal;
+  handleModal;
+  choiceCnt;
+  confirmEvent?;
+  description?;
+  icon?;
 }) => {
   return (
     <View>
@@ -45,10 +55,18 @@ export const UsePopup = ({
                 style={{
                   justifyContent: 'center',
                   alignItems: 'center',
-                  borderBottomWidth: 1,
+                  borderBottomWidth: icon ? 0 : 1,
                   borderColor: LINE_GRAY_COLOR,
                   paddingHorizontal: 15,
                 }}>
+                {icon && (
+                  <View style={{marginBottom: 24}}>
+                    <Image
+                      source={LOADING_PRIMARY_ICON}
+                      style={{width: 50, height: 50}}
+                    />
+                  </View>
+                )}
                 <View style={{}}>
                   <TextKRBold
                     style={{
@@ -74,13 +92,32 @@ export const UsePopup = ({
                   </TextKRReg>
                 </View>
               </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-around',
-                  alignItems: 'center',
-                }}>
-                {choiceCnt > 1 && (
+              {confirmEvent && (
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-around',
+                    alignItems: 'center',
+                  }}>
+                  {choiceCnt > 1 && (
+                    <TouchableHighlight
+                      style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        flex: 1,
+                        paddingTop: 8,
+                        paddingBottom: 10,
+                        borderBottomLeftRadius: 10,
+                      }}
+                      onPress={() => {
+                        handleModal();
+                      }}
+                      underlayColor={LINE_GRAY_COLOR}>
+                      <TextKRReg style={{fontSize: 16, lineHeight: 24}}>
+                        취소
+                      </TextKRReg>
+                    </TouchableHighlight>
+                  )}
                   <TouchableHighlight
                     style={{
                       justifyContent: 'center',
@@ -88,36 +125,19 @@ export const UsePopup = ({
                       flex: 1,
                       paddingTop: 8,
                       paddingBottom: 10,
-                      borderBottomLeftRadius: 10,
+                      borderBottomRightRadius: 10,
                     }}
                     onPress={() => {
+                      confirmEvent();
                       handleModal();
                     }}
                     underlayColor={LINE_GRAY_COLOR}>
                     <TextKRReg style={{fontSize: 16, lineHeight: 24}}>
-                      취소
+                      확인
                     </TextKRReg>
                   </TouchableHighlight>
-                )}
-                <TouchableHighlight
-                  style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flex: 1,
-                    paddingTop: 8,
-                    paddingBottom: 10,
-                    borderBottomRightRadius: 10,
-                  }}
-                  onPress={() => {
-                    confirmEvent();
-                    handleModal();
-                  }}
-                  underlayColor={LINE_GRAY_COLOR}>
-                  <TextKRReg style={{fontSize: 16, lineHeight: 24}}>
-                    확인
-                  </TextKRReg>
-                </TouchableHighlight>
-              </View>
+                </View>
+              )}
             </View>
           </View>
         </View>
