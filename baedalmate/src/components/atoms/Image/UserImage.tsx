@@ -1,8 +1,9 @@
 import {RecruitItemProps} from 'components/pages/Detail';
 import React from 'react';
 import {Image, StyleSheet, View} from 'react-native';
-import {MyPageI} from 'components/pages/Setting/MyPage';
 import {url} from '../../../../App';
+import {useRecoilValue} from 'recoil';
+import {getUserProfileImageSelector} from 'components/utils/recoil/selectors/User';
 
 export type BtnWithoutTextProps = {
   onPress(): void;
@@ -27,13 +28,16 @@ const UserProfileImage = ({item}: {item: RecruitItemProps | undefined}) => {
   );
 };
 
-const MyPageUserProfileImage = ({item}: {item: MyPageI | undefined}) => {
+const MyPageUserProfileImage = () => {
+  // const [profileImage, setProfileImage] = useRecoilState(userProfileImageState);
+  const profileImage = useRecoilValue(getUserProfileImageSelector);
+
   return (
     <View style={{}}>
       <Image
         source={{
           // uri: item?.profileImage,
-          uri: url + '/images/' + item?.profileImage,
+          uri: url + '/images/' + profileImage,
         }}
         style={{
           width: 55,
