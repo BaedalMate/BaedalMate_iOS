@@ -6,9 +6,7 @@ import {
   CntInput,
 } from 'components/atoms/CreateRecruit/Input';
 import MenuItem from 'components/atoms/CreateRecruit/MenuItem';
-import {RecruitItemProps} from 'components/pages/Detail';
 import {
-  formPrice,
   postParticipateRecruitAPI,
   updateParticipateRecruitAPI,
 } from 'components/utils/api/Recruit';
@@ -16,13 +14,11 @@ import React, {useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 
 import {
-  Image,
   KeyboardAvoidingView,
   Modal,
   Platform,
   ScrollView,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -33,7 +29,6 @@ import {
   PRIMARY_COLOR,
   DARK_GRAY_COLOR,
   ERROR_COLOR,
-  QUESTION_MARK,
 } from 'themes/theme';
 
 interface menuListProps {

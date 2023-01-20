@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {LINE_ORANGE_COLOR, PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
+import {LINE_ORANGE_COLOR, WHITE_COLOR} from 'themes/theme';
 import BtnRadio from 'components/atoms/Button/BtnRadio';
 export type TagProps = {
   text: string;

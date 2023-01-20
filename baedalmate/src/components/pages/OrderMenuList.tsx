@@ -1,12 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  Image,
-  NativeModules,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {TextKRBold, TextKRReg} from 'themes/text';
 import {Fonts} from 'assets/Fonts';
 import {
@@ -45,8 +38,6 @@ export interface RecruitItemProps {
   username: string;
 }
 
-const {StatusBarManager} = NativeModules;
-
 const MyOrderPriceInfo = ({item}: {item: recruitMenuI}) => {
   return (
     <View
@@ -65,8 +56,6 @@ const MyOrderPriceInfo = ({item}: {item: recruitMenuI}) => {
         },
         shadowRadius: 3.84,
         elevation: 5,
-        // shadowRadius: 5,
-        // box-shadow: 0px -5px 3px rgba(0, 0, 0, 0.1);
       }}>
       <View
         style={{
@@ -289,13 +278,9 @@ const OrderMenuItem = ({
           flexDirection: 'row',
           alignItems: 'center',
           marginVertical: 10,
-          // justifyContent: 'center',
         }}>
         <Image
           source={{uri: url + '/images/' + currentParticipant?.image}}
-          // source={{
-          //   uri: currentParticipant?.image?.replace('http', 'https'),
-          // }}
           style={{
             width: 45,
             height: 45,
@@ -381,7 +366,6 @@ const OrderMenuList = props => {
         style={{
           backgroundColor: WHITE_COLOR,
           padding: 10,
-          // paddingBottom: 300,
         }}>
         <View
           style={{

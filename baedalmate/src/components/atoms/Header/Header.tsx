@@ -1,7 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 
-import {StyleSheet, View, Image, TouchableOpacity} from 'react-native';
+import {View, Image, TouchableOpacity} from 'react-native';
 import {ALARM_WHITE, SEARCH_WHITE} from 'themes/theme';
 
 const Header = () => {

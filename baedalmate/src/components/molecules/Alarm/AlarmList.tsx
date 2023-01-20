@@ -1,47 +1,14 @@
 import React from 'react';
-import BoardItem from 'components/atoms/BoardList/BoardItem';
 import {ScrollView, View} from 'react-native';
 import {DARK_GRAY_COLOR} from 'themes/theme';
 import {TextKRBold} from 'themes/text';
 import AlarmItem from 'components/atoms/Alarm/AlarmItem';
 
 const renderItem = alarmList => {
-  // const [alarmList, setalarmList] = useState<alarmListProps[]>(alarmList);
   const date = new Date().getDate();
   const time = new Date().getTime();
   console.log(date);
   console.log(time);
-  // // 모집글 리스트 Api 받아옴
-  // const getalarmListData = async () => {
-  //   try {
-  //     const alarmListData = axios
-  //       .get(recruitListURL, {
-  //         params: {
-  //           // page: 0,
-  //           // size: 10,
-  //         },
-  //       })
-  //       .then(function (response) {
-  //         if (response.status === 200) {
-  //           setalarmList(response.data.recruitList);
-  //           return response.data.recruitList;
-  //         }
-  //         return false;
-  //       })
-  //       .catch(function (error) {
-  //         console.log(error);
-  //         return false;
-  //       });
-  //     return alarmListData;
-  //   } catch (error) {
-  //     console.log(error);
-  //     return false;
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getalarmListData();
-  // }, []);
 
   return (
     <View>

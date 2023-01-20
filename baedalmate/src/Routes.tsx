@@ -47,6 +47,7 @@ import EditProfile from 'components/pages/Setting/EditProfile';
 import BlockedUserList from 'components/pages/Setting/BlockedUserList';
 import NoticeList from 'components/pages/Setting/NoticeList';
 import DetailNotice from 'components/pages/Setting/DetailNotice';
+import SetProfile from 'components/pages/Setting/SetProfile';
 
 const AuthStack = createNativeStackNavigator();
 const MainScreenTab = createBottomTabNavigator();
@@ -464,7 +465,7 @@ export const BoardStackComponent = () => {
           ),
         })}
       />
-      <BoardScreenStack.Screen
+      {/* <BoardScreenStack.Screen
         name="거점 인증"
         component={GPS}
         options={({navigation, route}) => ({
@@ -478,10 +479,10 @@ export const BoardStackComponent = () => {
             </TouchableOpacity>
           ),
         })}
-      />
+      /> */}
       <BoardScreenStack.Screen
-        name="내 거점 설정"
-        component={Dormitory}
+        name="거점 인증"
+        component={GPS}
         options={({navigation, route}) => ({
           headerBackVisible: false,
           headerLeft: () => (
@@ -541,6 +542,21 @@ export const BoardStackComponent = () => {
         })}
       />
       <BoardScreenStack.Screen
+        name="프로필 설정"
+        component={SetProfile}
+        options={({navigation, route}) => ({
+          headerBackVisible: false,
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image source={BACK_GRAY} />
+            </TouchableOpacity>
+          ),
+        })}
+      />
+      <BoardScreenStack.Screen
         name="프로필 수정"
         component={EditProfile}
         options={({navigation, route}) => ({
@@ -574,8 +590,13 @@ export const BoardStackComponent = () => {
   );
 };
 
-export const CreateRecruitStackComponent = () => {
+export const CreateRecruitStackComponent = props => {
   const navigation = useNavigation();
+  const {defaultItem, type} = props.route.params;
+  // console.log(defaultItem)
+  // navigation.setParams({defaultItem, type} as never);
+  // navigation.navigate('카테고리 선택' as never, {params} as never);
+  // console.log(props);
   return (
     <CategoryStack.Navigator>
       <CategoryStack.Screen
@@ -592,6 +613,7 @@ export const CreateRecruitStackComponent = () => {
             </TouchableOpacity>
           ),
         })}
+        initialParams={{type: type, defaultItem: defaultItem}}
       />
       <CategoryStack.Screen
         name="상세 설정1"
@@ -607,6 +629,7 @@ export const CreateRecruitStackComponent = () => {
             </TouchableOpacity>
           ),
         })}
+        initialParams={{type: type, defaultItem: defaultItem}}
       />
       <CategoryStack.Screen
         name="상세 설정2"
@@ -622,6 +645,7 @@ export const CreateRecruitStackComponent = () => {
             </TouchableOpacity>
           ),
         })}
+        initialParams={{type: type, defaultItem: defaultItem}}
       />
       <CategoryStack.Screen
         name="상세 설정3"
@@ -637,6 +661,7 @@ export const CreateRecruitStackComponent = () => {
             </TouchableOpacity>
           ),
         })}
+        initialParams={{type: type, defaultItem: defaultItem}}
       />
       <CategoryStack.Screen
         name="상세 설정4"
@@ -652,6 +677,7 @@ export const CreateRecruitStackComponent = () => {
             </TouchableOpacity>
           ),
         })}
+        initialParams={{type: type, defaultItem: defaultItem}}
       />
       <CategoryStack.Screen
         name="배달 가게 선택"
@@ -667,6 +693,7 @@ export const CreateRecruitStackComponent = () => {
             </TouchableOpacity>
           ),
         })}
+        initialParams={{type: type, defaultItem: defaultItem}}
       />
     </CategoryStack.Navigator>
   );

@@ -16,45 +16,8 @@ export const sortData = [
   {name: '인기순', value: 'view'},
 ];
 const SearchPage = ({route, navigation}) => {
-  // const {categoryIndex} = route.params;
-  // const [categoryIdcategoryId, setCategoryId] = useState(0);
-  // const [selectedSort, setSelectedSort] = useState(sortData[0].value);
   const [keyword, setKeword] = useState('키워드');
   const [recruitList, setRecruitList] = useState([]);
-  // useEffect(() => {
-  //   setCategoryId(route.params.categoryId);
-  // }, [route.params]);
-  // 모집글 리스트 Api 받아옴
-  // const getBoardListData = async () => {
-  //   try {
-  //     const JWTAccessToken = await getJWTToken();
-
-  //     const BoardListData = await axios
-  //       .get(recruitListURL, {
-  //         headers: {
-  //           Authorization: 'Bearer ' + JWTAccessToken,
-  //         },
-  //       })
-  //       .then(function (response) {
-  //         if (response.status === 200) {
-  //           // console.log(selectedSort);
-  //           console.log(response.data);
-  //           setRecruitList(response.data.recruitList);
-  //           return response.data.recruitList;
-  //         }
-  //         return false;
-  //       })
-  //       .catch(function (error) {
-  //         console.log(error);
-  //         return false;
-  //       });
-
-  //     return BoardListData;
-  //   } catch (error) {
-  //     console.log(error);
-  //     return false;
-  //   }
-  // };
   useEffect(() => {
     console.log('result', route.params);
     route.params &&
@@ -136,8 +99,7 @@ const SearchPage = ({route, navigation}) => {
             </Text>
             <BtnVerticalOrange
               onPress={() => {
-                navigation.navigate('상세 설정');
-                // 임시 값. 변경 필요
+                navigation.navigate('상세 설정', {type: 'CREATE'});
               }}
               text={'모집글 작성하러 가기'}
             />

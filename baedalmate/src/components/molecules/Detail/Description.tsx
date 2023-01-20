@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/native';
 import {RecruitItemProps} from 'components/pages/Detail';
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
@@ -9,6 +10,8 @@ export type BtnWithoutTextProps = {
 };
 
 const Description = ({item}: {item: RecruitItemProps | undefined}) => {
+  const navigation = useNavigation();
+  console.log(item);
   return (
     <View
       style={{
@@ -26,7 +29,18 @@ const Description = ({item}: {item: RecruitItemProps | undefined}) => {
         </TextKRBold>
         {item?.host && (
           <TouchableOpacity
-            style={{borderBottomWidth: 1, borderColor: DARK_GRAY_COLOR}}>
+            style={{borderBottomWidth: 1, borderColor: DARK_GRAY_COLOR}}
+            onPress={() => {
+              navigation.navigate(
+                '상세 설정' as never,
+                {type: 'UPDATE', defaultItem: item} as never,
+              );
+              // navigation.setParams({
+              //   type: 'UPDATE',
+              //   defaultItem: item,
+              // } as never);
+              // 임시 값. 변경 필요
+            }}>
             <Text
               style={{
                 color: DARK_GRAY_COLOR,

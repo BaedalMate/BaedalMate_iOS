@@ -1,5 +1,4 @@
 import {url} from '../../../../App';
-import {messageI} from 'components/utils/api/Chat';
 import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';

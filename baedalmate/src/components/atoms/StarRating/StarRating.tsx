@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {UseFormReturn} from 'react-hook-form';
 import {Image} from 'react-native';
 import StarRating, {StarIconProps} from 'react-native-star-rating-widget';
-import {Svg, SvgProps} from 'react-native-svg';
 import {STAR_ACTIVE, STAR_DEACTIVE} from 'themes/theme';
 
 const StarIcon = ({color, size, type}: StarIconProps) => {

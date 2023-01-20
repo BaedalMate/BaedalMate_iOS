@@ -1,7 +1,6 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {url} from '../../../../App';
 import axios from 'axios';
-import {getJWTToken, placeI, shippingFeeI} from './Recruit';
+import {getJWTToken} from './Recruit';
 
 export interface eachChatRoomI {
   chatRoomId: number;
@@ -38,6 +37,8 @@ export interface recruitI {
   criteria: string;
   minPrice: number;
   minPeople: number;
+  currentPeople?: number;
+  currentPrice: number;
   deadlineDate: string;
   active: boolean;
   cancel: boolean;

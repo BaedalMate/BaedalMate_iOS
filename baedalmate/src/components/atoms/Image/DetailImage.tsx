@@ -1,7 +1,7 @@
 import {url} from '../../../../App';
 import {RecruitItemProps} from 'components/pages/Detail';
 import React from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, View} from 'react-native';
 
 export type BtnWithoutTextProps = {
   onPress(): void;

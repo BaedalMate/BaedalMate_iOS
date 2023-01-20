@@ -10,15 +10,13 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import StarRating, {StarIconProps} from 'react-native-star-rating-widget';
+import StarRating from 'react-native-star-rating-widget';
 import {TextKRBold} from 'themes/text';
 import {
   BLACK_COLOR,
   DARK_GRAY_COLOR,
   MARKER_BLACK,
   PRIMARY_COLOR,
-  STAR_ACTIVE,
-  STAR_DEACTIVE,
 } from 'themes/theme';
 
 export type BtnWithoutTextProps = {
@@ -108,7 +106,7 @@ const UserInfo = ({item}: {item: RecruitItemProps | undefined}) => {
         }}>
         <Text>
           <Image source={MARKER_BLACK} />
-          {item?.dormitory}
+          {' ' + item?.dormitory}
         </Text>
         {!item?.host && (
           <TouchableOpacity

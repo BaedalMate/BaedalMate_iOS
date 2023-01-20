@@ -1,13 +1,11 @@
 import {url} from '../../../../App';
 import {participantI} from 'components/utils/api/Chat';
-import {View, Image, Text, TouchableOpacity} from 'react-native';
+import {View, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {MAX_USERNAME_LIMIT} from 'components/molecules/Chat/Message';
-import {LINE_GRAY_COLOR} from 'themes/theme';
 import {TextKRBold} from 'themes/text';
 export const MemberList = ({
   item,
-  handleModal,
   handleEachUserModal,
   setSelectedUser,
 }: {

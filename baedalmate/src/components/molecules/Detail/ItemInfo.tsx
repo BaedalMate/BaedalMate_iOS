@@ -1,9 +1,9 @@
 import {RecruitItemProps} from 'components/pages/Detail';
 import {formPrice} from 'components/utils/api/Recruit';
-import React, {useEffect, useState} from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 import {TextKRBold} from 'themes/text';
-import {DARK_GRAY_COLOR, LINE_GRAY_COLOR, QUESTION_MARK} from 'themes/theme';
+import {DARK_GRAY_COLOR, LINE_GRAY_COLOR} from 'themes/theme';
 import DeliveryFeeModal from './DeliveryFeeModal';
 
 export type BtnWithoutTextProps = {

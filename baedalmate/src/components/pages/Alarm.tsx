@@ -1,5 +1,4 @@
 import AlarmList from 'components/molecules/Alarm/AlarmList';
-import BoardList from 'components/molecules/BoardList/BoardList';
 import React from 'react';
 import {View} from 'react-native';
 import {WHITE_COLOR} from 'themes/theme';

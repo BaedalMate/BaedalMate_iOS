@@ -2,7 +2,6 @@ import {NavigationProp} from '@react-navigation/native';
 
 import {
   KakaoOAuthToken,
-  KakaoProfile,
   login,
   logout,
   unlink,
@@ -17,14 +16,8 @@ import {TextKRBold} from 'themes/text';
 import axios from 'axios';
 import {url} from '../../../App';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {LOGO, LOGO_WITH_TEXT} from 'themes/theme';
+import {LOGO_WITH_TEXT} from 'themes/theme';
 import BtnAppleAuth from 'components/atoms/Button/BtnAppleAuth';
-import appleAuth, {
-  AppleCredentialState,
-  AppleError,
-  AppleRequestOperation,
-  AppleRequestScope,
-} from '@invertase/react-native-apple-authentication';
 import {Text} from 'react-native-paper';
 import {getJWTToken} from 'components/utils/api/Recruit';
 import {refreshAPI} from 'components/utils/api/Login';

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Image, StyleSheet, View} from 'react-native';
 import {TextKRBold} from 'themes/text';
 import {LINE_GRAY_COLOR} from 'themes/theme';
@@ -6,7 +6,6 @@ import BtnHorizontalWhiteS from '../Button/BtnHorizontalWhiteS';
 import {url} from '../../../../App';
 import {participantI} from 'components/utils/api/Chat';
 import {postUnBlockAPI} from 'components/utils/api/Block';
-import {useNavigation} from '@react-navigation/native';
 
 const BlockedUserItem = ({
   item,

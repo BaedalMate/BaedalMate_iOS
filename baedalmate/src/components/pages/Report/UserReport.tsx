@@ -144,7 +144,6 @@ const UserReport = ({route, navigation}) => {
           description={modalData.description}
           modal={modal}
           handleModal={handleModal}
-          // 추가 필요
           confirmEvent={modalData.confirmEvent}
           choiceCnt={modalData.choiceCnt}
         />

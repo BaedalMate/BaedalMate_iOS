@@ -4,7 +4,7 @@ import {getJWTRefreshToken, getJWTToken} from './Recruit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 export const refreshURL = url + '/api/v1/refresh';
 export const logoutURL = url + '/logout';
-export const withdrawURL = url + '/api/v1/user/deactivate';
+export const withdrawalURL = url + '/api/v1/user/withdrawal';
 
 export const refreshAPI = async () => {
   const JWTAccessToken = await getJWTToken();
@@ -69,13 +69,13 @@ export const logoutAPI = async () => {
   }
 };
 
-export const deactivateAPI = async () => {
+export const withdrawalAPI = async () => {
   const JWTAccessToken = await getJWTToken();
   const JWTRefreshToken = await getJWTRefreshToken();
   console.log(JWTAccessToken);
   try {
     const result = await axios
-      .get(withdrawURL, {
+      .delete(withdrawalURL, {
         headers: {
           Authorization: 'Bearer ' + JWTAccessToken,
           'Refresh-Token': 'Bearer ' + JWTRefreshToken,

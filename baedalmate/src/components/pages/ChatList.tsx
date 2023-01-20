@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {ScrollView, View} from 'react-native';
-import {TextKRBold} from 'themes/text';
-import {url} from '../../../App';
 import {getJWTToken} from 'components/utils/api/Recruit';
 import axios from 'axios';
 import {chatRoomListI, chatRoomURL} from 'components/utils/api/Chat';
