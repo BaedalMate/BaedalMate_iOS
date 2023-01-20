@@ -35,7 +35,6 @@ import MyPage from 'components/pages/Setting/MyPage';
 import HostingRecruitList from 'components/pages/Setting/HostingRecruitList';
 import ParticipateRecruitList from 'components/pages/Setting/ParticipateRecruitList';
 import GPS from 'components/pages/Setting/GPS';
-import Dormitory from 'components/pages/Setting/Dormitory';
 import OrderMenuList from 'components/pages/OrderMenuList';
 import SearchPage from 'components/pages/Search';
 import {useController, useForm} from 'react-hook-form';
