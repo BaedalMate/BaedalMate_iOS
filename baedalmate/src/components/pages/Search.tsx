@@ -9,6 +9,8 @@ import {
 import BoardList from 'components/molecules/BoardList/BoardList';
 import {TextKRBold, TextKRReg} from 'themes/text';
 import BtnVerticalOrange from 'components/atoms/Button/BtnVerticalOrange';
+import {useRecoilState} from 'recoil';
+import {searchRecruitListState} from 'components/utils/recoil/atoms/RecruitList';
 
 export const sortData = [
   {name: '마감순', value: 'deadlineDate'},
@@ -17,7 +19,7 @@ export const sortData = [
 ];
 const SearchPage = ({route, navigation}) => {
   const [keyword, setKeword] = useState('키워드');
-  const [recruitList, setRecruitList] = useState([]);
+  const [recruitList, setRecruitList] = useRecoilState(searchRecruitListState);
   useEffect(() => {
     console.log('result', route.params);
     route.params &&
@@ -48,7 +50,7 @@ const SearchPage = ({route, navigation}) => {
         </TextKRBold>
       </View>
       {recruitList && recruitList.length > 0 ? (
-        <BoardList boardList={recruitList} />
+        <BoardList />
       ) : (
         <View
           style={{

@@ -8,7 +8,7 @@ interface CategoryProps {
   text: string;
   isActive: boolean;
 }
-const categoryData = [
+export const categoryData = [
   {
     id: 0,
     text: '전체',

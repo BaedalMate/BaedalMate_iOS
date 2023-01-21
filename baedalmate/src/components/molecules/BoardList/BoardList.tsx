@@ -1,17 +1,20 @@
-import React from 'react';
+import React, {useState} from 'react';
 import BoardItem from 'components/atoms/BoardList/BoardItem';
-import {ScrollView, Text, View} from 'react-native';
+import {FlatList, ScrollView, Text, View} from 'react-native';
 import {DARK_GRAY_COLOR, PRIMARY_COLOR} from 'themes/theme';
 import {TextKRBold, TextKRReg} from 'themes/text';
+import {
+  recruitListCategoryIdxState,
+  recruitListState,
+  searchRecruitListState,
+  totalRecruitListState,
+} from 'components/utils/recoil/atoms/RecruitList';
+import {useRecoilState} from 'recoil';
 
 export interface BoardListProps {
   active: boolean;
-  cancel?: boolean;
-  fail?: boolean;
   createDate: string;
-  criteria: string;
   currentPeople: number;
-  currentPrice: number;
   deadlineDate: string;
   dormitory: string;
   image: string | null;
@@ -19,10 +22,14 @@ export interface BoardListProps {
   minPrice: number;
   place: string;
   recruitId: number;
-  title: string;
+  shippingFee?: number;
   userScore: number;
-  // deliveryFee?: number;
-  // username?: string;
+  username?: string;
+  cancel?: boolean;
+  fail?: boolean;
+  criteria: string;
+  currentPrice: number;
+  title: string;
 }
 const categoryData = [
   {
@@ -90,9 +97,9 @@ const categoryData = [
 const changeCategoryIdToString = categoryId => {
   return categoryData[categoryId].text;
 };
-const renderItem = (boardList, categoryId) => {
+const renderItem = boardList => {
   return (
-    <View>
+    <View style={{width: '100%'}}>
       {boardList === undefined || boardList.length === 0 ? (
         <View></View>
       ) : (
@@ -130,14 +137,61 @@ const renderItem = (boardList, categoryId) => {
   );
 };
 const BoardList = ({
-  categoryId,
-  boardList,
-}: {
-  categoryId?: number;
-  boardList;
+  search,
+  onEndReached,
+}: // categoryId,
+// boardList,
+{
+  search?: boolean;
+  onEndReached: any;
+  // categoryId?: number;
+  // boardList;
 }) => {
+  const [categoryId, setCategoryId] = useRecoilState(
+    recruitListCategoryIdxState,
+  );
+  const [boardList, setBoardList] = search
+    ? useRecoilState(searchRecruitListState)
+    : useRecoilState(recruitListState);
   return boardList && boardList.length !== 0 ? (
-    <ScrollView>{renderItem(boardList, categoryId)}</ScrollView>
+    // <ScrollView style={{width: '100%'}}>
+    //   {renderItem(boardList, categoryId)}
+    // </ScrollView>
+    <FlatList
+      data={boardList}
+      style={{width: '100%'}}
+      onEndReached={onEndReached}
+      onEndReachedThreshold={1}
+      renderItem={({item}: {item: BoardListProps}) => {
+        const dateString = item.createDate;
+        const time = dateString.replace(' ', 'T');
+        const createTime = new Date(time);
+        const currentTime = new Date();
+        const durationYear =
+          currentTime.getFullYear() - createTime.getFullYear();
+        const durationMonth = currentTime.getMonth() - createTime.getMonth();
+        const durationDate = currentTime.getDate() - createTime.getDate();
+        const durationHour = currentTime.getHours() - createTime.getHours();
+        const durationMinutes =
+          currentTime.getMinutes() - createTime.getMinutes();
+        const durationSeconds =
+          currentTime.getSeconds() - createTime.getSeconds();
+
+        durationYear > 0
+          ? (item = {...item, createDate: durationYear + '년 전'})
+          : durationMonth > 0
+          ? (item = {...item, createDate: durationMonth + '달 전'})
+          : durationDate > 0
+          ? (item = {...item, createDate: durationDate + '일 전'})
+          : durationHour > 0
+          ? (item = {...item, createDate: durationHour + '시간 전'})
+          : durationMinutes > 0
+          ? (item = {...item, createDate: durationMinutes + '분 전'})
+          : (item = {...item, createDate: '방금 전'});
+
+        return <BoardItem item={item} key={item.recruitId} />;
+      }}
+    />
   ) : (
     <View
       style={{

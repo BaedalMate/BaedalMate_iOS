@@ -46,6 +46,7 @@
     "react-native-snap-carousel": "^3.9.1",
     "react-native-star-rating-widget": "^1.5.0",
     "react-native-svg": "^13.6.0",
+    "react-native-swiper-view": "^1.2.0",
     "react-native-webview": "^11.23.1",
     "recoil": "^0.7.6",
     "sockjs-client": "^1.6.1",
