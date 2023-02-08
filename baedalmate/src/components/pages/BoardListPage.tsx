@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {View} from 'react-native';
+import {Text, View} from 'react-native';
 import {
   BLACK_COLOR,
+  DARK_GRAY_COLOR,
   LINE_GRAY_COLOR,
   PRIMARY_COLOR,
   WHITE_COLOR,
@@ -22,6 +23,8 @@ import {
   // totalRecruitListState,
 } from 'components/utils/recoil/atoms/RecruitList';
 import SwiperView from 'components/molecules/BoardList/SwiperView';
+import Checkbox from '@react-native-community/checkbox';
+
 export const sortData = [
   {name: '최신순', value: 'createDate'},
   {name: '마감순', value: 'deadlineDate'},
@@ -37,6 +40,7 @@ const BoardListPage = ({route, navigation}) => {
   const [loading, setLoading] = useState(false);
   const [last, setLast] = useState(false);
   const [selectedSort, setSelectedSort] = useState(sortData[0].value);
+  const [exceptClose, setExceptClose] = useState(false);
   const [recruitList, setRecruitList] = useRecoilState(recruitListState);
   // const [totalList, setTotalList] = useRecoilState(totalRecruitListState);
 
@@ -60,6 +64,7 @@ const BoardListPage = ({route, navigation}) => {
                     page: pageCnt,
                     size: 10,
                     sort: selectedSort,
+                    except_close: exceptClose,
                   },
                 },
               )
@@ -93,12 +98,13 @@ const BoardListPage = ({route, navigation}) => {
                   page: pageCnt,
                   size: 10,
                   sort: selectedSort,
+                  except_close: exceptClose,
                 },
               })
               .then(function (response) {
                 if (response.status === 200) {
                   console.log(selectedSort);
-                  console.log(response.data);
+                  console.log(response);
                   recruitList.length > 0
                     ? setRecruitList(
                         prev =>
@@ -149,7 +155,7 @@ const BoardListPage = ({route, navigation}) => {
     setPageCnt(0);
     setRecruitList([]);
     getBoardListData();
-  }, [selectedSort, categoryId, categoryIndex, route.params]);
+  }, [selectedSort, categoryId, categoryIndex, exceptClose, route.params]);
   useEffect(() => {
     console.log(pageCnt);
   }, [pageCnt]);
@@ -160,8 +166,13 @@ const BoardListPage = ({route, navigation}) => {
       name: categoryData[i].text,
       component: (
         <View style={{width: '100%', height: '100%'}}>
-          <Sort selectedSort={selectedSort} setSelectedSort={setSelectedSort} />
-          <BoardList onEndReached={onEndReached} />
+          <Sort
+            selectedSort={selectedSort}
+            setSelectedSort={setSelectedSort}
+            exceptClose={exceptClose}
+            setExceptClose={setExceptClose}
+          />
+          <BoardList onEndReached={onEndReached} loading={loading} />
         </View>
       ),
     } as never);

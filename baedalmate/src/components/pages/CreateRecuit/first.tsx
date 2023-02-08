@@ -30,7 +30,7 @@ import {
   CntInput,
   PriceInput,
 } from 'components/atoms/CreateRecruit/Input';
-import {formDigitTwo} from 'components/utils/api/Recruit';
+import {detailRecruitI, formDigitTwo} from 'components/utils/api/Recruit';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 export interface RecruitItemProps {
@@ -56,11 +56,21 @@ const {StatusBarManager} = NativeModules;
 const CreateRecruit1 = props => {
   console.log(props);
 
-  const defaultItem = props.route.params.defaultItem;
+  const defaultItem: detailRecruitI =
+    props.route.params && props.route.params.defaultItem
+      ? props.route.params.defaultItem
+      : undefined;
   const [timePicker, setTimePicker] = useState(false);
   const [time, setTime] = useState(new Date());
+  const [endStandard, setEndStadard] = useState<endStandardType>('NUMBER');
+  const [checked, setChecked] = useState('true');
+  const [statusBarHeight, setStatusBarHeight] = useState(0);
+  const [shippingFeeCnt, setShippingFeeCnt] = useState<number>(0);
+  const now = new Date();
   useEffect(() => {
-    defaultItem && setTime(new Date(defaultItem.deadlineDate));
+    defaultItem &&
+      (setTime(new Date(defaultItem.deadlineDate)),
+      setChecked(defaultItem.freeShipping === true ? 'true' : 'false'));
   }, [defaultItem]);
   const showTimePicker = () => {
     setTimePicker(true);
@@ -69,9 +79,14 @@ const CreateRecruit1 = props => {
     setTimePicker(false);
   };
   const handleConfirm = data => {
+    // time.getHours() < data.getHours() && data.setDate(data.getDate() + 1);
+
     setTime(data);
+    console.log(time.getTime(), now.getTime());
+    time.getTime() < now.getTime() && time.setDate(time.getDate() + 1);
     hideTimePicker();
   };
+
   const {
     control,
     handleSubmit,
@@ -85,7 +100,8 @@ const CreateRecruit1 = props => {
       minPrice: defaultItem && defaultItem.minPrice ? defaultItem.minPrice : '',
       criteria:
         defaultItem && defaultItem.criteria ? defaultItem.criteria : 'NUMBER',
-      freeShipping: defaultItem && defaultItem.shippingFee === 0 ? true : false,
+      freeShipping:
+        defaultItem && defaultItem.freeShipping === true ? true : false,
       shippingFeeRange: [{name: ``, value: ''}],
       shippingFee: [{name: '', value: ''}],
     },
@@ -113,11 +129,29 @@ const CreateRecruit1 = props => {
   });
   useEffect(() => {
     if (defaultItem) {
-      for (let i = 0; i < defaultItem.shippingFeeDetail.length; i++) {
-        shippingFeeAppend(defaultItem.shippingFeeDetail[i].shippingFee);
-        shippingFeeRangeAppend(defaultItem.shippingFeeDetail[i].upperPrice);
-      }
+      const defaultShippingFee = defaultItem.shippingFee;
+      shippingFeeRemove();
+      shippingFeeRangeRemove();
+      defaultShippingFee.map((item, idx) => {
+        shippingFeeAppend({
+          name: `${item.shippingFee}`,
+          value: '',
+        });
+        shippingFeeRangeAppend({
+          name: `${item.lowerPrice}`,
+          value: '',
+        });
+      });
     }
+    defaultItem &&
+      defaultItem.criteria &&
+      setEndStadard(
+        defaultItem.criteria === 'NUMBER'
+          ? 'NUMBER'
+          : defaultItem.criteria === 'PRICE'
+          ? 'PRICE'
+          : 'TIME',
+      );
   }, [defaultItem]);
   const onSubmit = data => {
     console.log(data);
@@ -150,13 +184,10 @@ const CreateRecruit1 = props => {
         deadline.getTime() - deadline.getTimezoneOffset() * 60000,
       ).toISOString(),
       shippingFee: shippingFee,
-      categoryId: props.route.params.categoryId,
+      categoryId: props.route.params.item.categoryId,
     });
   };
-  const [endStandard, setEndStadard] = useState<endStandardType>('people');
-  const [checked, setChecked] = useState('true');
-  const [statusBarHeight, setStatusBarHeight] = useState(0);
-  const [shippingFeeCnt, setShippingFeeCnt] = useState<number>(0);
+
   useEffect(() => {
     Platform.OS == 'ios'
       ? StatusBarManager.getHeight(statusBarFrameData => {
@@ -302,6 +333,7 @@ const CreateRecruit1 = props => {
                 <DateTimePickerModal
                   isVisible={timePicker}
                   mode="time"
+                  is24Hour={true}
                   confirmTextIOS="확인"
                   onConfirm={handleConfirm}
                   cancelTextIOS="취소"
@@ -320,9 +352,9 @@ const CreateRecruit1 = props => {
               }}>
               <TextKRBold style={styles.Label}>마감 기준</TextKRBold>
               <TextKRReg style={styles.Description}>
-                {endStandard === 'people'
+                {endStandard === 'NUMBER'
                   ? '최소 모집인원이 마감시간 내에 충족된 경우, 최소주문 금액에 관계없이 자동으로 모집이 종료됩니다. (모집성공) 마감시간 까지 최소 모집인원이 충족되지 못한경우, 모집이 취소됩니다. (모집실패)'
-                  : endStandard === 'price'
+                  : endStandard === 'PRICE'
                   ? '최소 주문금액이 마감시간 내에 충족된 경우, 최소주문 금액에 관계없이 자동으로 모집이 종료됩니다. (모집성공) 마감시간 까지 최소 모집인원이 충족되지 못한경우, 모집이 취소됩니다. (모집실패)'
                   : '최소 모집인원과 최소주문 금액 목표에 관계없이 마감시간이 된 경우에만 모집이 종료됩니다.'}
               </TextKRReg>
@@ -332,49 +364,49 @@ const CreateRecruit1 = props => {
                   flexDirection: 'row',
                   justifyContent: 'space-between',
                 }}>
-                {endStandard === 'people' ? (
+                {endStandard === 'NUMBER' ? (
                   <>
                     <BtnActive
                       onPress={() => {
-                        setEndStadard('people');
+                        setEndStadard('NUMBER');
                         setValue('criteria', 'NUMBER');
                       }}
                       text={'모집 인원'}
                     />
                     <BtnDeactive
                       onPress={() => {
-                        setEndStadard('price');
+                        setEndStadard('PRICE');
                         setValue('criteria', 'PRICE');
                       }}
                       text={'최소 주문'}
                     />
                     <BtnDeactive
                       onPress={() => {
-                        setEndStadard('time');
+                        setEndStadard('TIME');
                         setValue('criteria', 'TIME');
                       }}
                       text={'마감 시간'}
                     />
                   </>
-                ) : endStandard === 'price' ? (
+                ) : endStandard === 'PRICE' ? (
                   <>
                     <BtnDeactive
                       onPress={() => {
-                        setEndStadard('people');
+                        setEndStadard('NUMBER');
                         setValue('criteria', 'NUMBER');
                       }}
                       text={'모집 인원'}
                     />
                     <BtnActive
                       onPress={() => {
-                        setEndStadard('price');
+                        setEndStadard('PRICE');
                         setValue('criteria', 'PRICE');
                       }}
                       text={'최소 주문'}
                     />
                     <BtnDeactive
                       onPress={() => {
-                        setEndStadard('time');
+                        setEndStadard('TIME');
                         setValue('criteria', 'TIME');
                       }}
                       text={'마감 시간'}
@@ -384,19 +416,22 @@ const CreateRecruit1 = props => {
                   <>
                     <BtnDeactive
                       onPress={() => {
-                        setEndStadard('people');
+                        setEndStadard('NUMBER');
+                        setValue('criteria', 'NUMBER');
                       }}
                       text={'모집 인원'}
                     />
                     <BtnDeactive
                       onPress={() => {
-                        setEndStadard('price');
+                        setEndStadard('PRICE');
+                        setValue('criteria', 'PRICE');
                       }}
                       text={'최소 주문'}
                     />
                     <BtnActive
                       onPress={() => {
-                        setEndStadard('time');
+                        setEndStadard('TIME');
+                        setValue('criteria', 'TIME');
                       }}
                       text={'마감 시간'}
                     />

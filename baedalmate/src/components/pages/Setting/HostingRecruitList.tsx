@@ -31,7 +31,7 @@ const renderItem = boardList => {
         <View></View>
       ) : (
         boardList.map(item => {
-          return <MyRecruitItem item={item} />;
+          return <MyRecruitItem item={item} key={item.recruitId} />;
         })
       )}
     </View>

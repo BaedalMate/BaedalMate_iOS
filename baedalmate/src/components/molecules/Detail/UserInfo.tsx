@@ -101,14 +101,14 @@ const UserInfo = ({item}: {item: RecruitItemProps | undefined}) => {
           right: 15,
           height: 41,
           marginLeft: 11,
-          justifyContent: 'space-around',
+          // justifyContent: 'space-around',
           alignItems: 'flex-end',
         }}>
         <Text>
           <Image source={MARKER_BLACK} />
           {' ' + item?.dormitory}
         </Text>
-        {!item?.host && (
+        {/* {!item?.host && (
           <TouchableOpacity
             onPress={() => {
               navigation.navigate(
@@ -130,7 +130,7 @@ const UserInfo = ({item}: {item: RecruitItemProps | undefined}) => {
               신고하기
             </Text>
           </TouchableOpacity>
-        )}
+        )} */}
       </View>
     </View>
   );

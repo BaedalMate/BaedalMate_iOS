@@ -8,12 +8,22 @@ import {eachMainRecruitListI, mainRecruitListURL} from 'components/pages/Main';
 import axios from 'axios';
 import {getJWTToken} from 'components/utils/api/Recruit';
 
-const BaedalMateRecommendation = ({}: {}) => {
-  const [option, setOption] = useState(null);
+const BaedalMateRecommendation = ({
+  mainRecruitSortList,
+  setMainRecruitSortList,
+  option,
+  setOption,
+}: {
+  mainRecruitSortList;
+  setMainRecruitSortList;
+  option;
+  setOption;
+}) => {
+  // const [option, setOption] = useState(null);
 
-  const [mainRecruitSortList, setMainRecruitSortList] = useState<
-    eachMainRecruitListI[]
-  >([]);
+  // const [mainRecruitSortList, setMainRecruitSortList] = useState<
+  //   eachMainRecruitListI[]
+  // >([]);
   // 메인 모집글 리스트 api
   // 모집글 리스트 Api 받아옴
   const getMainRecruitSortList = async () => {
@@ -33,7 +43,7 @@ const BaedalMateRecommendation = ({}: {}) => {
         })
         .then(function (response) {
           if (response.status === 200) {
-            console.log(response.data.recruitList);
+            console.log(response);
             setMainRecruitSortList(response.data.recruitList);
             return response.data.recruitList;
           }
@@ -75,10 +85,7 @@ const BaedalMateRecommendation = ({}: {}) => {
         }}>
         {mainRecruitSortList &&
           mainRecruitSortList.map((v, i) => (
-            <BaedalMateRecommendationItem
-              item={mainRecruitSortList[0]}
-              key={v.recruitId}
-            />
+            <BaedalMateRecommendationItem item={v} key={v.recruitId} />
           ))}
       </ScrollView>
     </View>

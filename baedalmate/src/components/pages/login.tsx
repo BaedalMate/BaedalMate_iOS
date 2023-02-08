@@ -2,6 +2,7 @@ import {NavigationProp} from '@react-navigation/native';
 
 import {
   KakaoOAuthToken,
+  KakaoProfile,
   login,
   logout,
   unlink,
@@ -16,8 +17,14 @@ import {TextKRBold} from 'themes/text';
 import axios from 'axios';
 import {url} from '../../../App';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {LOGO_WITH_TEXT} from 'themes/theme';
+import {LOGO, LOGO_WITH_TEXT} from 'themes/theme';
 import BtnAppleAuth from 'components/atoms/Button/BtnAppleAuth';
+import appleAuth, {
+  AppleCredentialState,
+  AppleError,
+  AppleRequestOperation,
+  AppleRequestScope,
+} from '@invertase/react-native-apple-authentication';
 import {Text} from 'react-native-paper';
 import {getJWTToken} from 'components/utils/api/Recruit';
 import {refreshAPI} from 'components/utils/api/Login';
@@ -49,12 +56,12 @@ function Login({navigation}: LoginProps): React.ReactElement {
       // setResult(JSON.stringify(token));
 
       // JWTtoken 받아온 후 메인 페이지 이동
-      // const JWTTokens = await getJWTTokens_localdb();
+      const value = await getJWTTokens_localdb();
       // const values = await AsyncStorage.multiGet([
       //   '@BaedalMate_JWTAccessToken',
       //   '@BaedalMate_JWTRefreshToken',
       // ]);
-      const value = await getJWTToken();
+      // const value = await getJWTToken();
       if (value) {
         console.log(value);
         navigation.navigate('BoardStackComponent', {
@@ -64,6 +71,19 @@ function Login({navigation}: LoginProps): React.ReactElement {
           index: 0,
           routes: [{name: 'BoardStackComponent'}],
         });
+      } else {
+        getJWTTokens_server();
+        const value = await getJWTToken();
+        if (value) {
+          console.log(value);
+          navigation.navigate('BoardStackComponent', {
+            token: value,
+          });
+          navigation.reset({
+            index: 0,
+            routes: [{name: 'BoardStackComponent'}],
+          });
+        }
       }
       // if (JWTTokens[0][1]) {
       //   console.log(JWTTokens);
@@ -90,7 +110,7 @@ function Login({navigation}: LoginProps): React.ReactElement {
       // profile && setResult(JSON.stringify(profile));
     } catch (err) {
       // eslint-disable-next-line no-console
-      console.error('signOut error', err);
+      console.log('signOut error', err);
     }
   };
 

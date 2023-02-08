@@ -24,6 +24,7 @@ import {
   userProfileImageState,
   userScoreState,
 } from 'components/utils/recoil/atoms/User';
+import {dormitoryList} from './CreateRecuit/second';
 export const userURL = url + '/api/v1/user';
 export const recruitListURL = url + '/api/v1/recruit/list';
 export const mainRecruitListURL = url + '/api/v1/recruit/main/list';
@@ -108,7 +109,9 @@ const Main: React.FunctionComponent<MainProps> = props => {
   const [StatusBGColor, setStatusBGColor] = useState(PRIMARY_COLOR);
   //user 관련 state
   const [nickname, setNickname] = useRecoilState(userNicknameState);
-  const [dormitory, setDormitory] = useRecoilState(selectDormitoryState);
+  const [selectDormitory, setSelectDormitory] =
+    useRecoilState(selectDormitoryState);
+  const [dormitory, setDormitory] = useRecoilState(userDormitoryState);
   const [profileImage, setProfileImage] = useRecoilState(userProfileImageState);
   const [userId, setUserId] = useRecoilState(userIdState);
   const [score, setScore] = useRecoilState(userScoreState);
@@ -119,6 +122,7 @@ const Main: React.FunctionComponent<MainProps> = props => {
     useState<mainTagRecruitListI>({
       recruitList: [],
     });
+  const [option, setOption] = useState(null);
 
   // 메인 모집글 리스트 api
   // 모집글 리스트 Api 받아옴
@@ -138,10 +142,10 @@ const Main: React.FunctionComponent<MainProps> = props => {
         })
         .then(async function (response) {
           if (response.status === 200) {
-            response.data.recruitList.map(async v => {
-              console.log(v);
-              return v;
-            });
+            // response.data.recruitList.map(async v => {
+            //   console.log(v);
+            //   return v;
+            // });
             console.log(response.data.recruitList);
             setMainRecruitList(response.data.recruitList);
 
@@ -159,7 +163,11 @@ const Main: React.FunctionComponent<MainProps> = props => {
             ]);
           } else if (response.status === 403) {
             // props.navigation.navigate('거점 인증');
-            props.navigation.navigate('프로필 설정');
+            if (nickname !== '') {
+              props.navigation.navigate('거점 인증');
+            } else {
+              props.navigation.navigate('프로필 설정');
+            }
           }
           return false;
         })
@@ -168,7 +176,11 @@ const Main: React.FunctionComponent<MainProps> = props => {
           console.log(error.response.status);
           if (error.response.status === 403) {
             // props.navigation.navigate('거점 인증');
-            props.navigation.navigate('프로필 설정');
+            if (nickname !== '') {
+              props.navigation.navigate('거점 인증');
+            } else {
+              props.navigation.navigate('프로필 설정');
+            }
           } else if (error.response.status === 401) {
             const result = await refreshAPI();
             console.log(result);
@@ -215,7 +227,11 @@ const Main: React.FunctionComponent<MainProps> = props => {
             return response.data.recruitList;
           } else if (response.status === 403) {
             // props.navigation.navigate('거점 인증');
-            props.navigation.navigate('프로필 설정');
+            if (nickname !== '') {
+              props.navigation.navigate('거점 인증');
+            } else {
+              props.navigation.navigate('프로필 설정');
+            }
           } else if (response.status === 401) {
             const result = await refreshAPI();
             console.log(result);
@@ -233,7 +249,11 @@ const Main: React.FunctionComponent<MainProps> = props => {
         .catch(async function (error) {
           console.log(error);
           if (error.response.status === 403) {
-            props.navigation.navigate('프로필 설정');
+            if (nickname !== '') {
+              props.navigation.navigate('거점 인증');
+            } else {
+              props.navigation.navigate('프로필 설정');
+            }
 
             // props.navigation.navigate('거점 인증');
           } else if (error.response.status === 401) {
@@ -264,24 +284,57 @@ const Main: React.FunctionComponent<MainProps> = props => {
   }, [yOffset]);
 
   const getUserData = async () => {
-    const result = await getUserAPI();
-    console.log('main user data', result);
-    setNickname(result.nickname);
-    setDormitory(result.dormitory);
-    setProfileImage(result.profileImage);
-    setUserId(result.userId);
-    setScore(result.score);
+    try {
+      const result = await getUserAPI();
+      console.log('main user data', result);
+      if (result !== false) {
+        setNickname(result.nickname);
+        dormitoryList.map((item, id) => {
+          item.name === result.dormitory &&
+            (setDormitory(item), setSelectDormitory(item));
+        });
+        // setDormitory(result.dormitory);
+        setProfileImage(result.profileImage);
+        setUserId(result.userId);
+        setScore(result.score);
+        return result;
+      } else {
+        const result = await getUserAPI();
+        console.log('main user data', result);
+        if (result !== false) {
+          setNickname(result.nickname);
+          dormitoryList.map((item, id) => {
+            item.name === result.dormitory &&
+              (setDormitory(item), setSelectDormitory(item));
+          });
+          // setDormitory(result.dormitory);
+          setProfileImage(result.profileImage);
+          setUserId(result.userId);
+          setScore(result.score);
+          return result;
+        }
+        return false;
+      }
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
   };
   useEffect(() => {
     getUserData();
+    getMainRecruitList();
+    getMainTagRecruitList();
   }, []);
   // 렌더링 시 유저 정보 받아오기
+
   useEffect(() => {
-    console.log('main recoil data', nickname, dormitory);
     getMainRecruitList();
     getMainTagRecruitList();
   }, [nickname, dormitory]);
 
+  //  const [mainRecruitSortList, setMainRecruitSortList] = useState<
+  //    eachMainRecruitListI[]
+  //  >([]);
   return (
     <>
       <View
@@ -303,7 +356,7 @@ const Main: React.FunctionComponent<MainProps> = props => {
             setYOffset(event.nativeEvent.contentOffset.y);
           }}>
           <TodayMenu
-            dormitory={dormitory}
+            dormitory={selectDormitory}
             nickname={nickname}
             mainTagRecruitList={mainTagRecruitList}
           />
@@ -358,7 +411,12 @@ const Main: React.FunctionComponent<MainProps> = props => {
               }}>
               배달메이트 추천
             </TextKRBold>
-            <BaedalMateRecommendation />
+            <BaedalMateRecommendation
+              mainRecruitSortList={mainRecruitList}
+              setMainRecruitSortList={setMainRecruitList}
+              option={option}
+              setOption={setOption}
+            />
           </View>
         </ScrollView>
       </View>

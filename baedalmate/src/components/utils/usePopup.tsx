@@ -10,6 +10,15 @@ import {
   LOADING_PRIMARY_ICON,
 } from 'themes/theme';
 
+export interface popupProps {
+  title: string;
+  description?: string;
+  modal: boolean;
+  handleModal: any;
+  confirmEvent?: any;
+  choiceCnt: number;
+  icon?;
+}
 export const UsePopup = ({
   title,
   description,

@@ -10,7 +10,15 @@ export type BtnWithoutTextProps = {
   onPress(): void;
 };
 
-const MyPageUserInfo = ({nickname, dormitory, score}) => {
+const MyPageUserInfo = ({
+  nickname,
+  dormitory,
+  score,
+}: {
+  nickname: string;
+  dormitory: {id: number; name: string; value: string};
+  score: number;
+}) => {
   const navigation = useNavigation();
 
   return (
@@ -51,7 +59,7 @@ const MyPageUserInfo = ({nickname, dormitory, score}) => {
               <WhiteTag />
               <TextKRBold
                 style={{color: 'white', fontSize: 14, lineHeight: 17}}>
-                {dormitory}
+                {dormitory.name}
               </TextKRBold>
             </View>
           </View>

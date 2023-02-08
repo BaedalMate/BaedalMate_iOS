@@ -7,7 +7,7 @@ import {
 import {StyleSheet, Text, View} from 'react-native';
 import {PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
 import {formTime, messageI} from 'components/utils/api/Chat';
-import {recvI, sendI} from 'components/pages/DetailChatRoom';
+import {messageProps, recvI, sendI} from 'components/pages/DetailChatRoom';
 
 export const MAX_USERNAME_LIMIT = 5;
 export const MyMessage = ({message}: {message: messageI}) => {
@@ -88,28 +88,29 @@ export const OpponentMessage = ({message}: {message: messageI}) => {
   );
 };
 
-// export const LiveMyMessage = ({message}: {message: recvI}) => {
-//   const currentTime = new Date();
-//   return (
-//     <View
-//       style={{
-//         flexDirection: 'row',
-//         width: '100%',
-//         alignItems: 'flex-end',
-//         justifyContent: 'flex-end',
-//       }}>
-//       <Text
-//         style={{
-//           textAlign: 'center',
-//           textAlignVertical: 'bottom',
-//           marginRight: 15,
-//         }}>
-//         {formTime(new Date().toString())}
-//       </Text>
-//       <MessageOrange text={message.message} />
-//     </View>
-//   );
-// };
+export const LiveMyMessage = ({message}: {message: messageProps}) => {
+  const currentTime = new Date();
+  return (
+    <View
+      style={{
+        flexDirection: 'row',
+        width: '100%',
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end',
+        marginBottom: 10,
+      }}>
+      <Text
+        style={{
+          textAlign: 'center',
+          textAlignVertical: 'bottom',
+          marginRight: 15,
+        }}>
+        {formTime(currentTime.toString())}
+      </Text>
+      <MessageOrange text={message.message} />
+    </View>
+  );
+};
 
 // export const LiveOpponentMessage = ({message}: {message: recvI}) => {
 //   const currentTime = new Date();

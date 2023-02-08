@@ -3,6 +3,7 @@ import {Image, NativeModules, Text, TouchableOpacity, View} from 'react-native';
 
 import {BLACK_COLOR, WHITE_COLOR} from 'themes/theme';
 import {useNavigation} from '@react-navigation/native';
+import {detailRecruitI} from 'components/utils/api/Recruit';
 
 export interface RecruitItemProps {
   createDate: string;
@@ -22,7 +23,6 @@ export interface RecruitItemProps {
   username: string;
 }
 
-const {StatusBarManager} = NativeModules;
 export interface deliveryFeeProps {
   i: number;
   cnt: number;
@@ -36,16 +36,20 @@ export interface CategoryProps {
 }
 const SelectCategoryItem = ({
   item,
+  defaultItem,
 }: {
   item: CategoryProps;
-  defaultItem?;
+  defaultItem?: detailRecruitI;
   type?;
 }) => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate('상세 설정1' as never, item as never);
+        navigation.navigate(
+          '상세 설정1' as never,
+          {item, defaultItem} as never,
+        );
       }}>
       <View
         style={{
@@ -60,6 +64,8 @@ const SelectCategoryItem = ({
             height: 124,
             borderRadius: 62,
             backgroundColor: WHITE_COLOR,
+            opacity: item.categoryId === defaultItem?.categoryId ? 0.3 : 1,
+
             // tintColor: 'gray',
             // borderWidth: 1,
             // borderColor: BLACK_COLOR,

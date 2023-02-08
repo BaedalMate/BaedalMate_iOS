@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, Text, TextInput, View} from 'react-native';
 import {TextKRBold} from 'themes/text';
 import {Fonts} from 'assets/Fonts';
@@ -65,6 +65,10 @@ const CreateRecruit3 = props => {
   const [text, setText] = useState('');
   const [newTag, setNewTag] = useState('');
   const [tagList, setTagList] = useState<{tagname: string}[]>([]);
+  useEffect(() => {
+    defaultItem && defaultItem.tags && setTagList(defaultItem.tags);
+  }, [defaultItem]);
+
   return (
     <View
       style={{

@@ -20,12 +20,12 @@ export interface chatRoomListI {
 }
 
 export interface messageI {
-  id: number;
-  message: string;
-  sender: string;
+  messageId: number;
   senderId: number;
-  sendDate: string;
+  sender: string;
   senderImage: string;
+  message: string;
+  sendDate: string;
   // type: 'TALK' | 'ENTER';
 }
 

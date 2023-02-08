@@ -9,13 +9,13 @@ export const userNicknameState = atom({
 
 export const userDormitoryState = atom({
   key: 'userDormitoryState',
-  default: '',
+  default: {id: -1, name: '', value: ''},
   // dangerouslyAllowMutability: true,
 });
 
 export const selectDormitoryState = atom({
   key: 'selectDormitoryState',
-  default: userDormitoryState,
+  default: {id: -1, name: '', value: ''},
   // dangerouslyAllowMutability: true,
 });
 

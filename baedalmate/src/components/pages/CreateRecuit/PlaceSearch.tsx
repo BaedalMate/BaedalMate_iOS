@@ -11,12 +11,12 @@ import {
 import {useForm} from 'react-hook-form';
 import axios from 'axios';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-export type dormitory =
-  | '누리학사'
-  | '성림학사'
-  | 'KB학사'
-  | '불암학사'
-  | '수림학사';
+// export type dormitory =
+//   | '누리학사'
+//   | '성림학사'
+//   | 'KB학사'
+//   | '불암학사'
+//   | '수림학사';
 export interface RecruitItemProps {
   createDate: string;
   deadlineDate: string;
@@ -35,13 +35,13 @@ export interface RecruitItemProps {
   username: string;
 }
 export const RESTAPI_KEY = '87b35370ef59bf008c5f34f627b1818b';
-const dormitoryList = [
-  '누리학사',
-  '성림학사',
-  'KB학사',
-  '불암학사',
-  '수림학사',
-];
+// const dormitoryList = [
+//   '누리학사',
+//   '성림학사',
+//   'KB학사',
+//   '불암학사',
+//   '수림학사',
+// ];
 interface LocationList {
   address_name: string;
   category_group_code: string;

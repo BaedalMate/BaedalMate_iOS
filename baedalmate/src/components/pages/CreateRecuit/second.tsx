@@ -29,12 +29,14 @@ import {
   PriceInput,
 } from 'components/atoms/CreateRecruit/Input';
 import PlatformSelect from 'components/atoms/Button/BtnPlatform';
-export type dormitory =
-  | '누리학사'
-  | '성림학사'
-  | 'KB학사'
-  | '불암학사'
-  | '수림학사';
+import {userDormitoryState} from 'components/utils/recoil/atoms/User';
+import {useRecoilState} from 'recoil';
+// export type dormitory =
+//   | '누리학사'
+//   | '성림학사'
+//   | 'KB학사'
+//   | '불암학사'
+//   | '수림학사';
 export interface RecruitItemProps {
   createDate: string;
   deadlineDate: string;
@@ -54,19 +56,20 @@ export interface RecruitItemProps {
 }
 export const RESTAPI_KEY = '87b35370ef59bf008c5f34f627b1818b';
 export const dormitoryList = [
-  '누리학사',
-  '성림학사',
-  'KB학사',
-  '불암학사',
-  '수림학사',
+  {id: 0, name: '누리학사', value: 'NURI'},
+  {id: 1, name: '성림학사', value: 'SUNGLIM'},
+  {id: 2, name: 'KB학사', value: 'KB'},
+  {id: 3, name: '불암학사', value: 'BURAM'},
+  {id: 4, name: '수림학사', value: 'SULIM'},
 ];
 const CreateRecruit2 = props => {
   const defaultItem = props.route.params.defaultItem;
+  const [dormitory, setDormitory] = useRecoilState(userDormitoryState);
+
   const [platform, setPlatform] = useState('BAEMIN');
   const {
     control,
     handleSubmit,
-    reset,
     setValue,
     formState: {errors},
   } = useForm({
@@ -74,7 +77,7 @@ const CreateRecruit2 = props => {
       dormitory:
         defaultItem && defaultItem.dormitory
           ? defaultItem.dormitory
-          : '누리학사',
+          : dormitory.value,
       description:
         defaultItem && defaultItem.description ? defaultItem.description : '',
       platform:
@@ -99,11 +102,11 @@ const CreateRecruit2 = props => {
     shouldUnregister: false,
   });
 
-  console.log(props.route.params.data);
+  console.log(props.route.params);
 
   const onSubmit = data => {
     console.log(data);
-    console.log(props.route.params.data);
+    console.log(props.route.params);
     defaultItem
       ? props.navigation.navigate('상세 설정3', {
           data,
@@ -164,7 +167,6 @@ const CreateRecruit2 = props => {
   //   getPlace();
   // });
   const [locationObj, setLocationObj] = useState();
-  console.log(props.route.params);
   // const [location, setLocation] = useState();
   // const getLocalAPI = () => {
   //   const place = axios
@@ -194,9 +196,11 @@ const CreateRecruit2 = props => {
     setValue('place.x', props.route.params.x);
     setValue('place.y', props.route.params.y);
   }, [props.route.params.name]);
-  const {StatusBarManager} = NativeModules;
   const [statusBarHeight, setStatusBarHeight] = useState(0);
 
+  useEffect(() => {
+    defaultItem && defaultItem.platform && setPlatform(defaultItem.platform);
+  }, [defaultItem]);
   return (
     <View
       style={{
@@ -275,20 +279,21 @@ const CreateRecruit2 = props => {
                       fontWeight: '400',
                     }}
                     data={dormitoryList}
-                    defaultValueByIndex={0}
-                    defaultValue={''}
+                    defaultValueByIndex={dormitory.id}
+                    // defaultValue={dormitory}
+                    // defaultValue={dormitory}
                     renderDropdownIcon={() => {
                       return <Image source={BOTTOM_ARROW} />;
                     }}
                     onSelect={(selectedItem, index) => {
                       console.log(selectedItem, index);
-                      setValue('dormitory', selectedItem);
+                      setValue('dormitory', selectedItem.value);
                     }}
                     buttonTextAfterSelection={selectedItem => {
-                      return selectedItem;
+                      return selectedItem.name;
                     }}
                     rowTextForSelection={item => {
-                      return item;
+                      return item.name;
                     }}
                   />
                 </View>
@@ -414,6 +419,7 @@ const CreateRecruit2 = props => {
                   flexDirection: 'row',
                 }}>
                 <PlatformSelect
+                  platform={platform}
                   setPlatform={setPlatform}
                   control={control}
                   name={'platform'}

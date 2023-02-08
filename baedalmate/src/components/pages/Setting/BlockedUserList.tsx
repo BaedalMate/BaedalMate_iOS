@@ -18,7 +18,9 @@ const renderItem = (blockedUserList, getData) => {
         <View></View>
       ) : (
         blockedUserList.map(item => {
-          return <BlockedUserItem item={item} getData={getData} />;
+          return (
+            <BlockedUserItem item={item} getData={getData} key={item.userId} />
+          );
         })
       )}
     </View>

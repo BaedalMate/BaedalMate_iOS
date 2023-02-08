@@ -7,7 +7,11 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {MyMessage, OpponentMessage} from 'components/molecules/Chat/Message';
+import {
+  LiveMyMessage,
+  MyMessage,
+  OpponentMessage,
+} from 'components/molecules/Chat/Message';
 import {url} from '../../../App';
 import {getJWTToken} from 'components/utils/api/Recruit';
 import axios from 'axios';
@@ -43,8 +47,10 @@ import BtnVerticalOrange from 'components/atoms/Button/BtnVerticalOrange';
 import {MemberList} from 'components/atoms/Chat/MemberListItem';
 import {getReviewParticipantsAPI} from 'components/utils/api/Review';
 import Modal from 'react-native-modal/dist/modal';
-import {UsePopup} from 'components/utils/usePopup';
-import {postBlockAPI} from 'components/utils/api/Block';
+import {UsePopup, popupProps} from 'components/utils/usePopup';
+import {postBlockAPI, postUnBlockAPI} from 'components/utils/api/Block';
+import Toast from 'react-native-root-toast';
+import {getUserAPI} from 'components/utils/api/User';
 
 export interface sendI {
   senderId: number;
@@ -102,7 +108,7 @@ let ws = Stomp.over(function () {
 export const DetailChatRoom = props => {
   ws.configure({});
   const [recv, setRecv] = useState<recvI>();
-  const [messageText, setMessageText] = useState<string>();
+  const [messageText, setMessageText] = useState<string>('');
   const [detailChat, setDetailChat] = useState<eachDetailChatRoomI>();
   const [participantsInfo, setParticipantsInfo] =
     useState<recruitParticipantsI>();
@@ -150,16 +156,18 @@ export const DetailChatRoom = props => {
     }
   };
 
-  const [userId, setUserId] = useState('');
-  // const [myNickname, setMyNickname] = useState('');
-  const [JWTAccessToken, setJWTAccessToken] = useState('');
+  const [userId, setUserId] = useState(-1);
+  const [myNickname, setMyNickname] = useState('');
+  // const [JWTAccessToken, setJWTAccessToken] = useState('');
   const getMyInfo = async () => {
-    const JWTAccessToken = await getJWTToken();
-    setJWTAccessToken(JWTAccessToken);
+    // const JWTAccessToken = await getJWTToken();
+    // setJWTAccessToken(JWTAccessToken);
+    const result = await getUserAPI();
+    setUserId(result.userId);
+    setMyNickname(result.nickname);
     // const myNickname = await AsyncStorage.getItem('@BaedalMate_UserName');
-    const userId = await AsyncStorage.getItem('@BaedalMate_UserId');
+    // const userId = await AsyncStorage.getItem('@BaedalMate_UserId');
     // myNickname !== null && setMyNickname(myNickname);
-    userId !== null && setUserId(userId);
   };
 
   // console.log('----------------------------------\n', userId, detailChat);
@@ -370,23 +378,52 @@ export const DetailChatRoom = props => {
     const handleBlockModal = () => {
       blockModal ? setBlockModal(false) : setBlockModal(true);
     };
+
+    const blockUser = async () => {
+      if (selectedUser?.userId) {
+        console.log(selectedUser);
+        console.log(selectedUser.userId);
+        const result = await postBlockAPI(selectedUser?.userId);
+        if (result.result === 'success') {
+          Toast.show('차단이 완료되었습니다.');
+        } else {
+          Toast.show('차단에 실패하였습니다.');
+        }
+        // if (result) {
+        //   console.log('block user', result);
+        // }
+      }
+    };
+    const unblockUser = async () => {
+      if (selectedUser?.userId) {
+        console.log(selectedUser);
+        console.log(selectedUser.userId);
+        const result = await postUnBlockAPI(selectedUser?.userId);
+        if (result.result === 'success') {
+          Toast.show('차단 해제가 완료되었습니다.');
+        } else {
+          Toast.show('차단 해제에 실패하였습니다.');
+        }
+      }
+    };
     const blockModalData = {
       title: selectedUser?.nickname + '님을 차단 하시겠습니까?',
       description:
         '차단하더라도, 해당 사용자가 주최자 역할이 아닌 참여하고 있는 모집글과 채팅방은 정상적으로 보여지게 됩니다.',
       modal: blockModal,
       handleModal: handleBlockModal,
+      confirmEvent: blockUser,
+      choiceCnt: 2,
     };
-    const blockUser = async () => {
-      if (selectedUser?.userId) {
-        console.log(selectedUser);
-        console.log(selectedUser.userId);
-        const result = await postBlockAPI(selectedUser?.userId);
-        if (result) {
-          console.log('block user', result);
-        }
-      }
+    const unblockModalData = {
+      title: '차단을 해제하시겠습니까?',
+      description: '해당 유저가 주최하는 모집글을 다시 볼 수 있게 됩니다.',
+      modal: modal,
+      handleModal: handleBlockModal,
+      confirmEvent: unblockUser,
+      choiceCnt: 2,
     };
+    const [modalData, setModalData] = useState<popupProps>(blockModalData);
 
     return (
       <View>
@@ -468,14 +505,20 @@ export const DetailChatRoom = props => {
                     onPress={() => {
                       // handleModal();
                       // handleEachUserModal();
+                      selectedUser?.block
+                        ? setModalData(unblockModalData)
+                        : setModalData(blockModalData);
                       handleBlockModal();
                     }}>
                     <UsePopup
-                      title={blockModalData.title}
-                      description={blockModalData.description}
+                      title={modalData.title}
+                      description={modalData.description}
                       modal={blockModal}
                       handleModal={handleBlockModal}
-                      confirmEvent={blockUser}
+                      confirmEvent={
+                        modalData.confirmEvent
+                        // selectedUser?.block ? unblockUser : blockUser
+                      }
                       choiceCnt={2}
                     />
                     <Image
@@ -483,7 +526,7 @@ export const DetailChatRoom = props => {
                       style={{width: 28, height: 28, marginBottom: 8}}
                     />
                     <TextKRReg style={{fontSize: 11, lineHeight: 13}}>
-                      차단하기
+                      {selectedUser?.block ? '차단해제' : '차단하기'}
                     </TextKRReg>
                   </TouchableOpacity>
                   <TouchableOpacity
@@ -512,7 +555,7 @@ export const DetailChatRoom = props => {
     );
   };
   const addMessages = msg => {
-    setMessages(prev => [...prev, msg]);
+    setMessages(prev => [...prev, {sender: myNickname, message: msg}]);
     connect();
   };
 
@@ -533,7 +576,9 @@ export const DetailChatRoom = props => {
     connect();
     getEachChatRoom();
   }, [messages, recv]);
+
   useEffect(() => {
+    console.log(messages);
     reset({
       message: '',
     });
@@ -577,6 +622,10 @@ export const DetailChatRoom = props => {
   useEffect(() => {
     detailChat?.recruit.recruitId && getUsers(detailChat?.recruit.recruitId);
   }, [detailChat?.recruit.recruitId]);
+
+  useEffect(() => {
+    console.log(userId);
+  }, [userId]);
   return (
     <>
       <MemberListModal>
@@ -624,17 +673,20 @@ export const DetailChatRoom = props => {
                             .split(' ')[0]
                             .split('-')[2]) && <ChatDate item={v} key={i} />}
                     {v.message !== '' && (
-                      <Text>
-                        {v.senderId.toString() === userId ? (
-                          <MyMessage message={v} />
+                      <Text key={`text-${v.messageId}`}>
+                        {v.senderId === userId ? (
+                          <MyMessage message={v} key={v.messageId} />
                         ) : (
                           <>
-                            <OpponentMessage message={v} />
+                            <OpponentMessage message={v} key={v.messageId} />
                           </>
                         )}
                       </Text>
                     )}
                   </View>
+                ))}
+                {messages?.map((v, i) => (
+                  <LiveMyMessage message={v} />
                 ))}
                 {/* {recv && recv.sender !== myNickname ? (
       <>
@@ -691,6 +743,8 @@ export const DetailChatRoom = props => {
                 setMessageText(d.message);
                 sendMessage(d.message);
                 setValue('message', '');
+
+                // sendMessage(d.message);
               })}>
               <Image source={SEND_GRAY_FILLED_ICON} />
             </TouchableOpacity>

@@ -8,6 +8,7 @@ import ReportListItem from 'components/atoms/Report/ReportListItem';
 import {postBlockAPI} from 'components/utils/api/Block';
 import {postReportUserAPI} from 'components/utils/api/Report';
 import {UsePopup} from 'components/utils/usePopup';
+import Toast from 'react-native-root-toast';
 
 export interface MyPageI {
   userId: number;
@@ -71,6 +72,11 @@ const UserReport = ({route, navigation}) => {
       const result = await postBlockAPI(userInfo?.userId);
       if (result) {
         console.log('block user', result);
+        if (result.result === 'success') {
+          Toast.show('차단이 완료되었습니다.');
+        } else {
+          Toast.show('차단에 실패하였습니다.');
+        }
       }
     }
   };

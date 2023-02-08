@@ -10,6 +10,7 @@ import {
   totalRecruitListState,
 } from 'components/utils/recoil/atoms/RecruitList';
 import {useRecoilState} from 'recoil';
+import {RecruitListInfinityScroll} from 'components/animations/RecruitListInfinityScroll';
 
 export interface BoardListProps {
   active: boolean;
@@ -139,11 +140,13 @@ const renderItem = boardList => {
 const BoardList = ({
   search,
   onEndReached,
+  loading,
 }: // categoryId,
 // boardList,
 {
   search?: boolean;
   onEndReached: any;
+  loading;
   // categoryId?: number;
   // boardList;
 }) => {
@@ -161,7 +164,18 @@ const BoardList = ({
       data={boardList}
       style={{width: '100%'}}
       onEndReached={onEndReached}
-      onEndReachedThreshold={1}
+      // keyExtractor={item => String(item.recruitId)}
+      onEndReachedThreshold={0.8}
+      ListFooterComponent={
+        loading && <RecruitListInfinityScroll />
+        // loading && (
+        //   <View>
+        //     <Text>loading</Text>
+        //   </View>
+        // )
+      }
+      // refreshing={loading}
+      // onRefresh={() => console.log(loading)}
       renderItem={({item}: {item: BoardListProps}) => {
         const dateString = item.createDate;
         const time = dateString.replace(' ', 'T');

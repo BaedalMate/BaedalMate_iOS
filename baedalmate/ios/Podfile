@@ -5,9 +5,11 @@ platform :ios, '11.0'
 install! 'cocoapods', :deterministic_uuids => false
 # use_frameworks! # This is important
 
+use_frameworks! :linkage => :static
 
 target 'baedalmate' do
   config = use_native_modules!
+  pod 'GoogleUtilities', :modular_headers => true
 
   # Flags change depending on the env values.
   flags = get_default_flags()
@@ -30,7 +32,7 @@ target 'baedalmate' do
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable the next line.
-  use_flipper!()
+#  use_flipper!()
 
   post_install do |installer|
     installer.pods_project.build_configurations.each do |config|

@@ -8,7 +8,7 @@ import Header from '../../atoms/Header/Header';
 import UserInfoTitle from '../../atoms/Main/UserInfoTitle';
 
 interface UserDataProps {
-  dormitory: string;
+  dormitory: {id: number; name: string; value: string};
   nickname: string;
   mainTagRecruitList: mainTagRecruitListI;
 }

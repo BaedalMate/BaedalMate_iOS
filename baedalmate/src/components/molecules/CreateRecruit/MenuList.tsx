@@ -59,6 +59,7 @@ const MenuList = (props: menuListProps) => {
     props?.menuList
       ? props.setMenuList([...props.menuList, data])
       : props?.setMenuList([data]);
+    reset({name: '', price: 0, quantity: 1});
     handleModal();
   };
   const handleModal = () => {
@@ -68,6 +69,7 @@ const MenuList = (props: menuListProps) => {
     control,
     handleSubmit,
     setValue,
+    reset,
     formState: {errors},
   } = useForm({
     defaultValues: {

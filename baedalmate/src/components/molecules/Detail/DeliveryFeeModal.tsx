@@ -127,12 +127,12 @@ const DeliveryFeeModal = ({item}: {item: RecruitItemProps | undefined}) => {
                   배달비 상세정보
                 </TextKRBold>
                 <TextKRReg style={styles.Description}>
-                  배달팁 계산 시, 나누어 떨어지지 않는 경우 1원이 추가되어
-                  계산됩니다.
+                  해당 모집글의 총 주문금액에 따른 배달팁 구간이 강조되어
+                  표시됩니다.
                 </TextKRReg>
               </View>
               <View>
-                {item?.shippingFeeDetail && (
+                {item?.shippingFeeDetail && item?.shippingFeeDetail.length > 0 && (
                   <View
                     style={{
                       flexDirection: 'row',
@@ -144,22 +144,35 @@ const DeliveryFeeModal = ({item}: {item: RecruitItemProps | undefined}) => {
                   </View>
                 )}
 
-                {item?.shippingFeeDetail ? (
-                  item?.shippingFeeDetail.map((v, i) => (
-                    <View
-                      key={i}
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                      }}>
-                      <TextKRReg style={styles.Description}>
-                        {formPrice(v.lowerPrice)}원 이상
-                      </TextKRReg>
-                      <TextKRReg style={styles.Description}>
-                        {formPrice(v.shippingFee)}원
-                      </TextKRReg>
-                    </View>
-                  ))
+                {item?.shippingFeeDetail &&
+                item?.shippingFeeDetail.length > 0 ? (
+                  item?.shippingFeeDetail.map((v, i) => {
+                    let isCurrent = false;
+                    if (v.shippingFee === item.shippingFee) isCurrent = true;
+                    return (
+                      <View
+                        key={i}
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                        }}>
+                        <TextKRReg
+                          style={[
+                            styles.Description,
+                            isCurrent && {color: PRIMARY_COLOR},
+                          ]}>
+                          {formPrice(v.lowerPrice)}원 이상
+                        </TextKRReg>
+                        <TextKRReg
+                          style={[
+                            styles.Description,
+                            isCurrent && {color: PRIMARY_COLOR},
+                          ]}>
+                          {formPrice(v.shippingFee)}원
+                        </TextKRReg>
+                      </View>
+                    );
+                  })
                 ) : (
                   <View
                     style={{

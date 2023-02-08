@@ -1,5 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import {RecruitItemProps} from 'components/pages/Detail';
+import {detailRecruitI} from 'components/utils/api/Recruit';
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {TextKRBold} from 'themes/text';
@@ -9,9 +10,15 @@ export type BtnWithoutTextProps = {
   onPress(): void;
 };
 
-const Description = ({item}: {item: RecruitItemProps | undefined}) => {
+const Description = ({
+  item,
+  defaultItem,
+}: {
+  item: RecruitItemProps | undefined;
+  defaultItem: detailRecruitI | undefined;
+}) => {
   const navigation = useNavigation();
-  console.log(item);
+  console.log('defaultItem', defaultItem);
   return (
     <View
       style={{
@@ -27,13 +34,13 @@ const Description = ({item}: {item: RecruitItemProps | undefined}) => {
           }}>
           상세설명
         </TextKRBold>
-        {item?.host && (
+        {/* {item?.host && (
           <TouchableOpacity
             style={{borderBottomWidth: 1, borderColor: DARK_GRAY_COLOR}}
             onPress={() => {
               navigation.navigate(
                 '상세 설정' as never,
-                {type: 'UPDATE', defaultItem: item} as never,
+                {type: 'UPDATE', defaultItem} as never,
               );
               // navigation.setParams({
               //   type: 'UPDATE',
@@ -48,7 +55,7 @@ const Description = ({item}: {item: RecruitItemProps | undefined}) => {
               모집글 수정하기
             </Text>
           </TouchableOpacity>
-        )}
+        )} */}
       </View>
       <View style={{marginTop: 16}}>
         <Text

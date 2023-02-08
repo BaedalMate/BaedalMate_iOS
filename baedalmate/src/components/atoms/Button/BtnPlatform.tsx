@@ -24,8 +24,8 @@ export type BtnPlatformProps = {
   isChecked: boolean;
 };
 
-const BtnPlatform = ({data, onSelect}) => {
-  const [platform, setPlatform] = useState('BAEMIN');
+const BtnPlatform = ({platform, setPlatform, data, onSelect}) => {
+  // const [platform, setPlatform] = useState();
 
   const selectHandler = value => {
     onSelect(value);
@@ -63,7 +63,14 @@ const BtnPlatform = ({data, onSelect}) => {
   );
 };
 
-const PlatformSelect = ({setPlatform, control, name, rules, setValue}) => {
+const PlatformSelect = ({
+  platform,
+  setPlatform,
+  control,
+  name,
+  rules,
+  setValue,
+}) => {
   const data = [
     {value: 'BAEMIN', url: BAEMIN_ICON},
     {value: 'YOGIYO', url: YOGIYO_ICON},
@@ -74,7 +81,7 @@ const PlatformSelect = ({setPlatform, control, name, rules, setValue}) => {
   // const [option, setOption] = useState(null);
   const {field} = useController({
     control,
-    defaultValue: 'BAEMIN',
+    defaultValue: platform ? platform : 'BAEMIN',
     name,
     rules,
   });
@@ -86,6 +93,8 @@ const PlatformSelect = ({setPlatform, control, name, rules, setValue}) => {
           setValue('platform', value);
           setPlatform(value);
         }}
+        platform={platform}
+        setPlatform={setPlatform}
       />
     </View>
   );

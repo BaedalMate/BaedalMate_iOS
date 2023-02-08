@@ -3,9 +3,10 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Login from './components/pages/login';
 import Main from './components/pages/Main';
-import {Image, TextInput, TouchableOpacity} from 'react-native';
+import {ActionSheetIOS, Image, TextInput, TouchableOpacity} from 'react-native';
 import {
   BACK_GRAY,
+  BLACK_COLOR,
   CHATTIING_PRIMARY_OUTLINE,
   CHATTIING_REGULAR,
   DARK_GRAY_COLOR,
@@ -92,23 +93,25 @@ const AppTabComponent = () => {
         component={CategoryStackComponent}
         options={{
           headerShown: false,
+          headerShadowVisible: false,
         }}
       />
       <MainScreenTab.Screen
         name="채팅"
         component={ChatStackComponent}
         options={{
+          headerShadowVisible: false,
+
           headerShown: false,
         }}
       />
       <MainScreenTab.Screen
         name="마이페이지"
         component={MyPage}
-        options={
-          {
-            // headerShown: false,
-          }
-        }
+        options={{
+          headerShadowVisible: false,
+          // headerShown: false,
+        }}
       />
     </MainScreenTab.Navigator>
   );
@@ -122,6 +125,7 @@ const CategoryStackComponent = () => {
         component={Main}
         options={{
           headerShown: false,
+          headerShadowVisible: false,
         }}
       />
       <CategoryStack.Screen
@@ -129,6 +133,8 @@ const CategoryStackComponent = () => {
         component={BoardListPage}
         options={({navigation, route}) => ({
           headerBackVisible: false,
+          headerShadowVisible: false,
+
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
@@ -203,6 +209,7 @@ export const BoardStackComponent = () => {
         component={AppTabComponent}
         options={{
           headerShown: false,
+          headerShadowVisible: false,
         }}
       />
       <BoardScreenStack.Screen
@@ -210,6 +217,8 @@ export const BoardStackComponent = () => {
         component={BoardListPage}
         options={({navigation, route}) => ({
           headerBackVisible: false,
+          headerShadowVisible: false,
+
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
@@ -223,8 +232,10 @@ export const BoardStackComponent = () => {
       <BoardScreenStack.Screen
         name="글 상세 보기"
         component={BoardItemDetail}
-        options={({navigation, route}) => ({
+        options={({navigation, route}: {navigation; route}) => ({
           headerBackVisible: false,
+          headerShadowVisible: false,
+
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
@@ -233,24 +244,20 @@ export const BoardStackComponent = () => {
               <Image source={BACK_GRAY} />
             </TouchableOpacity>
           ),
-          // headerRight: () => (
-          //   <TouchableOpacity
-          //     onPress={() => {
-          //       // let showModal =
-          //       //   route.params && route.params.modal
-          //       //     ? route.params.modal
-          //       //     : false;
-          //       navigation.navigate(
-          //         '글 상세 보기',
-          //         // ,
-          //         // {
-          //         // modal: !showModal,
-          //         // }
-          //       );
-          //     }}>
-          //     <Image source={SETTING_HORIZONTAL_GRAY_ICON} />
-          //   </TouchableOpacity>
-          // ),
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => {
+                let showModal =
+                  route.params && route.params.modal
+                    ? route.params.modal
+                    : false;
+                navigation.navigate('글 상세 보기', {
+                  modal: !showModal,
+                });
+              }}>
+              <Image source={SETTING_HORIZONTAL_GRAY_ICON} />
+            </TouchableOpacity>
+          ),
         })}
       />
       <BoardScreenStack.Screen
@@ -258,6 +265,8 @@ export const BoardStackComponent = () => {
         component={Map}
         options={({navigation, route}) => ({
           headerBackVisible: false,
+          headerShadowVisible: false,
+
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
@@ -280,6 +289,7 @@ export const BoardStackComponent = () => {
         component={SearchPage}
         options={({navigation, route}) => ({
           headerTitleAlign: 'left',
+
           headerTitle: () => (
             <SearchInput
               error={errors}
@@ -376,8 +386,10 @@ export const BoardStackComponent = () => {
       <BoardScreenStack.Screen
         name="채팅방"
         component={DetailChatRoom}
-        options={({navigation, route}) => ({
+        options={({navigation, route}: {navigation; route}) => ({
           headerBackVisible: false,
+          headerShadowVisible: false,
+
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
@@ -392,20 +404,6 @@ export const BoardStackComponent = () => {
           headerRight: () => (
             <TouchableOpacity
               onPress={() => {
-                // ActionSheetIOS.showActionSheetWithOptions(
-                //   {
-                //     options: ['취소', '모집 마감하기', '모집 취소하기'],
-                //     // destructiveButtonIndex: 2,
-                //     // cancelButtonIndex: 0,
-                //     // userInterfaceStyle: 'light',
-                //   },
-                //   buttonIndex => {
-                //     // if (buttonIndex === 0) {
-                //     // } else if (buttonIndex === 1) {
-                //     // } else if (buttonIndex === 2) {
-                //     // }
-                //   },
-                // );
                 let showModal =
                   route.params && route.params.modal
                     ? route.params.modal
@@ -439,6 +437,8 @@ export const BoardStackComponent = () => {
         component={HostingRecruitList}
         options={({navigation, route}) => ({
           headerBackVisible: false,
+          headerShadowVisible: false,
+
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
@@ -454,6 +454,8 @@ export const BoardStackComponent = () => {
         component={ParticipateRecruitList}
         options={({navigation, route}) => ({
           headerBackVisible: false,
+          headerShadowVisible: false,
+
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
@@ -484,6 +486,8 @@ export const BoardStackComponent = () => {
         component={GPS}
         options={({navigation, route}) => ({
           headerBackVisible: false,
+          headerShadowVisible: false,
+
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
@@ -499,6 +503,8 @@ export const BoardStackComponent = () => {
         component={BlockedUserList}
         options={({navigation, route}) => ({
           headerBackVisible: false,
+          headerShadowVisible: false,
+
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
@@ -514,6 +520,8 @@ export const BoardStackComponent = () => {
         component={NoticeList}
         options={({navigation, route}) => ({
           headerBackVisible: false,
+          headerShadowVisible: false,
+
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
@@ -529,6 +537,8 @@ export const BoardStackComponent = () => {
         component={DetailNotice}
         options={({navigation, route}) => ({
           headerBackVisible: false,
+          headerShadowVisible: false,
+
           headerTitle: '공지사항',
           headerLeft: () => (
             <TouchableOpacity
@@ -545,6 +555,8 @@ export const BoardStackComponent = () => {
         component={SetProfile}
         options={({navigation, route}) => ({
           headerBackVisible: false,
+          headerShadowVisible: false,
+
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
@@ -560,6 +572,8 @@ export const BoardStackComponent = () => {
         component={EditProfile}
         options={({navigation, route}) => ({
           headerBackVisible: false,
+          headerShadowVisible: false,
+
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
@@ -575,6 +589,8 @@ export const BoardStackComponent = () => {
         component={OrderMenuList}
         options={({navigation, route}) => ({
           headerBackVisible: false,
+          headerShadowVisible: false,
+
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
@@ -603,6 +619,8 @@ export const CreateRecruitStackComponent = props => {
         component={SelectCategoryPage}
         options={({navigation, route}) => ({
           headerBackVisible: false,
+          headerShadowVisible: false,
+
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
@@ -619,6 +637,8 @@ export const CreateRecruitStackComponent = props => {
         component={CreateRecruit1}
         options={({navigation, route}) => ({
           headerBackVisible: false,
+          headerShadowVisible: false,
+
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
@@ -635,6 +655,8 @@ export const CreateRecruitStackComponent = props => {
         component={CreateRecruit2}
         options={({navigation, route}) => ({
           headerBackVisible: false,
+          headerShadowVisible: false,
+
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
@@ -651,6 +673,8 @@ export const CreateRecruitStackComponent = props => {
         component={CreateRecruit3}
         options={({navigation, route}) => ({
           headerBackVisible: false,
+          headerShadowVisible: false,
+
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
@@ -667,6 +691,8 @@ export const CreateRecruitStackComponent = props => {
         component={CreateRecruit4}
         options={({navigation, route}) => ({
           headerBackVisible: false,
+          headerShadowVisible: false,
+
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
@@ -683,6 +709,8 @@ export const CreateRecruitStackComponent = props => {
         component={PlaceSearch}
         options={({navigation, route}) => ({
           headerBackVisible: false,
+          headerShadowVisible: false,
+
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
@@ -706,6 +734,7 @@ export const ChatStackComponent = () => {
         component={Chat}
         options={{
           headerTitle: '채팅',
+          headerShadowVisible: false,
         }}
       />
     </ChatStack.Navigator>

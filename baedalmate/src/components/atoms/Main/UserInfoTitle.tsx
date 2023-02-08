@@ -1,25 +1,38 @@
 import React, {useEffect, useState} from 'react';
 
-import {View, Modal, FlatList} from 'react-native';
-import {LINE_GRAY_COLOR, PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
+import {View, Modal, FlatList, Image} from 'react-native';
+import {
+  BOTTOM_ARROW_MAIN_WIDE,
+  BOTTOM_ARROW_WHITE,
+  LINE_GRAY_COLOR,
+  PRIMARY_COLOR,
+  WHITE_COLOR,
+} from 'themes/theme';
 import {TextKRBold, TextKRReg} from 'themes/text';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
 import {useRecoilState, useResetRecoilState} from 'recoil';
 import {selectDormitoryState} from 'components/utils/recoil/atoms/User';
+import {dormitoryList} from 'components/pages/CreateRecuit/second';
 
 export type UserAddressProps = {
   onPress(): void;
   text: string;
 };
-export const DormitoryList = [
-  {id: 0, value: '성림학사'},
-  {id: 1, value: 'KB학사'},
-  {id: 2, value: '불암학사'},
-  {id: 3, value: '누리학사'},
-  {id: 4, value: '수림학사'},
-];
-const UserInfoTitle = ({userName, userAddress}) => {
+// export const DormitoryList = [
+//   {id: 0, value: '성림학사'},
+//   {id: 1, value: 'KB학사'},
+//   {id: 2, value: '불암학사'},
+//   {id: 3, value: '누리학사'},
+//   {id: 4, value: '수림학사'},
+// ];
+const UserInfoTitle = ({
+  userName,
+  userAddress,
+}: {
+  userName: string;
+  userAddress: {id: number; name: string; value: string};
+}) => {
   const [modal, setModal] = useState(false);
   // const [selectedAddress, setSelectedAddress] = useState(userAddress);
   const [selectedAddress, setSelectedAddress] =
@@ -34,37 +47,50 @@ const UserInfoTitle = ({userName, userAddress}) => {
   };
   const navigation = useNavigation();
 
-  const renderItem = ({item}) => {
+  const renderItem = ({
+    item,
+  }: {
+    item: {id: number; name: string; value: string};
+  }) => {
     return (
       <TouchableOpacity
         onPress={() => {
-          setSelectedAddress(item.value);
+          setSelectedAddress(item);
         }}
         style={{
           height: 52,
           width: '100%',
           paddingHorizontal: 15,
-          justifyContent: 'center',
+          justifyContent: 'space-between',
           borderBottomColor: LINE_GRAY_COLOR,
           borderBottomWidth: 1,
+          flexDirection: 'row',
+          alignItems: 'center',
         }}>
         <TextKRReg
           style={{
             fontWeight: '400',
             fontSize: 16,
             lineHeight: 24,
-            color: selectedAddress === item.value ? PRIMARY_COLOR : '#666666',
+            color:
+              selectedAddress.value === item.value ? PRIMARY_COLOR : '#666666',
           }}>
-          {item.value}
+          {item.name}
         </TextKRReg>
+        {selectedAddress.value === item.value && (
+          <Image
+            source={BOTTOM_ARROW_MAIN_WIDE}
+            style={{width: 18, height: 9, resizeMode: 'contain'}}
+          />
+        )}
       </TouchableOpacity>
     );
   };
 
-  useEffect(() => {
-    console.log(userAddress, selectedAddress);
-    setSelectedAddress(userAddress);
-  }, []);
+  // useEffect(() => {
+  //   console.log(userAddress, selectedAddress);
+  //   setSelectedAddress(userAddress);
+  // }, []);
   return (
     <>
       <View
@@ -128,6 +154,7 @@ const UserInfoTitle = ({userName, userAddress}) => {
             style={{
               height: 20,
               justifyContent: 'center',
+              flexDirection: 'row',
             }}>
             <TextKRBold
               style={{
@@ -135,8 +162,18 @@ const UserInfoTitle = ({userName, userAddress}) => {
                 color: WHITE_COLOR,
                 fontWeight: 'bold',
               }}>
-              서울과기대 {selectedAddress}
+              서울과기대 {selectedAddress.name}
             </TextKRBold>
+            <Image
+              source={BOTTOM_ARROW_WHITE}
+              style={{
+                marginLeft: 7,
+                width: 10,
+                height: 5,
+                resizeMode: 'contain',
+                alignSelf: 'center',
+              }}
+            />
           </TouchableOpacity>
         </TextKRBold>
         <View>
@@ -185,7 +222,7 @@ const UserInfoTitle = ({userName, userAddress}) => {
                 </TextKRReg>
               </View>
               <View>
-                <FlatList data={DormitoryList} renderItem={renderItem} />
+                <FlatList data={dormitoryList} renderItem={renderItem} />
               </View>
               <TouchableOpacity
                 onPress={() => {

@@ -14,6 +14,7 @@ import {
   userProfileImageState,
   userScoreState,
 } from 'components/utils/recoil/atoms/User';
+import {dormitoryList} from '../CreateRecuit/second';
 export interface MyPageI {
   userId: number;
   nickname: string;
@@ -73,7 +74,10 @@ const MyPage = ({route, navigation}) => {
     const result = await getUserAPI();
     // setMyPageUserInfo(result);
     setNickname(result.nickname);
-    setDormitory(result.dormitory);
+    // setDormitory(result.dormitory);
+    dormitoryList.map((item, id) => {
+      item.name === result.dormitory && setDormitory(item);
+    });
     setScore(result.score);
     setProfileImage(result.profileImage);
     console.log(result);

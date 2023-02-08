@@ -28,7 +28,7 @@ import {
 import SelectDropdown from 'react-native-select-dropdown';
 import {dormitoryList} from 'components/pages/CreateRecuit/second';
 
-export type endStandardType = 'people' | 'price' | 'time';
+export type endStandardType = 'NUMBER' | 'PRICE' | 'TIME';
 export interface shippingFeeProps {
   i: number;
   cnt: number;
@@ -144,20 +144,20 @@ export const DormitoryInput = ({error, name, control, rules, setValue}) => {
         fontWeight: '400',
       }}
       data={dormitoryList}
-      defaultValueByIndex={0}
-      defaultValue={''}
+      // defaultValueByIndex={}
+      defaultValue={field.value}
       renderDropdownIcon={() => {
         return <Image source={BOTTOM_ARROW} />;
       }}
       onSelect={(selectedItem, index) => {
         console.log(selectedItem, index);
-        setValue('dormitory', selectedItem);
+        setValue('dormitory', selectedItem.value);
       }}
       buttonTextAfterSelection={selectedItem => {
-        return selectedItem;
+        return selectedItem.name;
       }}
       rowTextForSelection={item => {
-        return item;
+        return item.name;
       }}
     />
   );

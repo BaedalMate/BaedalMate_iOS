@@ -62,7 +62,6 @@ const CreateRecruit4 = props => {
   const [couponPrice, setCouponPrice] = useState(
     props.route.params.data.coupon,
   );
-  const [statusBarHeight, setStatusBarHeight] = useState(0);
 
   useEffect(() => {
     let price = 0;
@@ -201,7 +200,7 @@ const CreateRecruit4 = props => {
                       display: 'flex',
                       alignItems: 'center',
                     }}>
-                    {formPrice(shippingFee)} 원
+                    + {formPrice(shippingFee)} 원
                   </TextKRReg>
                 </View>
                 <View
@@ -248,7 +247,7 @@ const CreateRecruit4 = props => {
                       display: 'flex',
                       alignItems: 'center',
                     }}>
-                    {formPrice(couponPrice)} 원
+                    - {formPrice(couponPrice)} 원
                   </TextKRReg>
                 </View>
                 <View
@@ -311,21 +310,21 @@ const CreateRecruit4 = props => {
         <BtnCreateFloating
           onPress={async () => {
             // const result = await postRecruitAPI();
-            let dorm =
-              props.route.params.data.dormitory === '누리학사'
-                ? 'NURI'
-                : props.route.params.data.dormitory === '성림학사'
-                ? 'SUNGLIM'
-                : props.route.params.data.dormitory === '수림학사'
-                ? 'SULIM'
-                : props.route.params.data.dormitory === '불암학사'
-                ? 'BURAM'
-                : 'KB';
+            // let dorm =
+            //   props.route.params.data.dormitory === '누리학사'
+            //     ? 'NURI'
+            //     : props.route.params.data.dormitory === '성림학사'
+            //     ? 'SUNGLIM'
+            //     : props.route.params.data.dormitory === '수림학사'
+            //     ? 'SULIM'
+            //     : props.route.params.data.dormitory === '불암학사'
+            //     ? 'BURAM'
+            //     : 'KB';
             let data: postRecruitI = {
               categoryId: props.route.params.categoryId,
               criteria: props.route.params.criteria,
               coupon: Number(props.route.params.data.coupon),
-              dormitory: dorm,
+              dormitory: props.route.params.data.dormitory,
               deadlineDate: props.route.params.deadlineDate,
               description: props.route.params.description,
               freeShipping: props.route.params.freeShipping,
@@ -340,26 +339,27 @@ const CreateRecruit4 = props => {
             };
             console.log('data', data);
             const result = await postRecruitAPI(
-              props.route.params.categoryId,
-              props.route.params.data.coupon,
-              props.route.params.criteria,
-              props.route.params.deadlineDate,
-              props.route.params.description,
-              dorm,
-              props.route.params.freeShipping,
-              menuList ? menuList : [],
-              props.route.params.minPeople,
-              props.route.params.minPrice,
-              props.route.params.data.place,
-              props.route.params.data.platform,
-              props.route.params.shippingFee,
-              props.route.params.tags,
-              props.route.params.title,
+              data,
+              // props.route.params.categoryId,
+              // props.route.params.data.place,
+              // props.route.params.data.dormitory,
+              // props.route.params.criteria,
+              // props.route.params.minPrice,
+              // props.route.params.minPeople,
+              // props.route.params.shippingFee,
+              // Number(props.route.params.data.coupon),
+              // props.route.params.data.platform,
+              // props.route.params.deadlineDate,
+              // props.route.params.title,
+              // props.route.params.description,
+              // props.route.params.freeShipping,
+              // menuList ? menuList : [],
+              // props.route.params.tags,
             );
             console.log('post new recruit', result);
             props.navigation.navigate('홈');
           }}
-          text={'다음으로'}
+          text={'모집글 올리기'}
           id={4}
         />
       </View>

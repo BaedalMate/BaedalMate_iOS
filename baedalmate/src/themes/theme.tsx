@@ -114,6 +114,8 @@ const INCREASE_ACTIVE = require('../assets/icons/counter/increase_active.png');
 
 const BOTTOM_ARROW = require('../assets/icons/arrow/bottom_arrow.png');
 const BOTTOM_ARROW_MAIN = require('../assets/icons/arrow/bottom_arrow_main.png');
+const BOTTOM_ARROW_MAIN_WIDE = require('../assets/icons/arrow/bottom_arrow_main_wide.png');
+const BOTTOM_ARROW_WHITE = require('../assets/icons/arrow/bottom_arrow_white.png');
 
 const BAEMIN_ICON = require('../assets/images/baemin.png');
 const YOGIYO_ICON = require('../assets/images/yogiyo.png');
@@ -159,6 +161,8 @@ const LOADING_PRIMARY_ICON = require('../assets/icons/loading/loading_primary.pn
 const DEFAULT_PROFILE_IMG = require('../assets/images/defaultProfileImage/default_profile_image.png');
 
 export {
+  BOTTOM_ARROW_WHITE,
+  BOTTOM_ARROW_MAIN_WIDE,
   DEFAULT_PROFILE_IMG,
   LOADING_PRIMARY_ICON,
   TASK_GRAY_4X_ICON,

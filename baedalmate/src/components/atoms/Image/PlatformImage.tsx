@@ -17,7 +17,7 @@ export type BtnWithoutTextProps = {
 export const platformList = [
   {name: 'BAEMIN', url: BAEMIN_ICON},
   {name: 'YOGIYO', url: YOGIYO_ICON},
-  {name: 'COUPANGEATS', url: COUPANGEATS_ICON},
+  {name: 'COUPANG', url: COUPANGEATS_ICON},
   {name: 'DDANGYO', url: DDANGYO_ICON},
   {name: 'ETC', url: ETC_ICON},
 ];

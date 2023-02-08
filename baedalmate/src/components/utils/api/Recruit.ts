@@ -41,8 +41,8 @@ export interface menuI {
 }
 
 export interface placeI {
-  addressName: string;
   name: string;
+  addressName: string;
   roadAddressName: string;
   x: number;
   y: number;
@@ -75,53 +75,37 @@ export interface postRecruitI {
   tags: tagI[];
   title: string;
 }
-export const postRecruitAPI = async (
-  categoryId: number,
-  coupon: number,
-  criteria: string,
-  deadlineDate: string,
-  description: string,
-  dormitory: string,
-  freeShipping: boolean,
-  menu: menuI[],
-  minPeople: number,
-  minPrice: number,
-  place: placeI,
-  platform: string,
-  shippingFee: shippingFeeI[],
-  tags: tagI[],
-  title: string,
-) => {
+
+export interface detailRecruitI {
+  recruitId: number;
+  categoryId: number;
+  place: placeI;
+  dormitory: string;
+  criteria: string;
+  minPrice: number;
+  minPeople: number;
+  shippingFee: shippingFeeI[];
+  coupon: number;
+  platform: string;
+  deadlineDate: string;
+  title: string;
+  description: string;
+  freeShipping: boolean;
+  menu: menuI[];
+  tags: tagI[];
+}
+export const postRecruitAPI = async data => {
   const JWTAccessToken = await getJWTToken();
   console.log(JWTAccessToken);
   try {
     const result = await axios
-      .post(
-        createRecruitURL,
-        {
-          categoryId,
-          coupon,
-          criteria,
-          deadlineDate,
-          description,
-          dormitory,
-          freeShipping,
-          menu,
-          minPeople,
-          minPrice,
-          place,
-          platform,
-          shippingFee,
-          tags,
-          title,
+      .post(createRecruitURL, data, {
+        headers: {
+          Authorization: 'Bearer ' + JWTAccessToken,
         },
-        {
-          headers: {
-            Authorization: 'Bearer ' + JWTAccessToken,
-          },
-        },
-      )
+      })
       .then(function (response) {
+        console.log(response);
         return response;
       })
       .catch(function (error) {
@@ -133,6 +117,18 @@ export const postRecruitAPI = async (
     console.log(error);
     return false;
   }
+};
+
+export const getRecruitDetailDataForUpdateAPI = async id => {
+  const JWTAccessToken = await getJWTToken();
+  console.log(JWTAccessToken);
+  const result = await axios.get<detailRecruitI>(recruitURL + `/${id}/detail`, {
+    headers: {
+      Authorization: 'Bearer ' + JWTAccessToken,
+    },
+  });
+  console.log(result);
+  return result.data;
 };
 
 export const cancelRecruitAPI = async (id: number) => {

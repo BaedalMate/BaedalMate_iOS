@@ -21,7 +21,9 @@ import {
   cancelRecruitAPI,
   closeRecruitAPI,
   deleteRecruitOrderAPI,
+  detailRecruitI,
   getJWTToken,
+  getRecruitDetailDataForUpdateAPI,
   postParticipateRecruitAPI,
 } from 'components/utils/api/Recruit';
 import {menuListI} from 'components/molecules/CreateRecruit/MenuList';
@@ -32,6 +34,7 @@ import {
   DARK_GRAY_COLOR,
   ERROR_COLOR,
   LINE_GRAY_COLOR,
+  BLACK_COLOR,
 } from 'themes/theme';
 import {Fonts} from 'assets/Fonts';
 import PlatformImage from 'components/atoms/Image/PlatformImage';
@@ -47,6 +50,9 @@ import {
 } from 'components/atoms/CreateRecruit/Input';
 import {TextKRBold, TextKRReg} from 'themes/text';
 import MenuItem from 'components/atoms/CreateRecruit/MenuItem';
+import {UsePopup, popupProps} from 'components/utils/usePopup';
+import {postBlockAPI, postUnBlockAPI} from 'components/utils/api/Block';
+import Toast from 'react-native-root-toast';
 export interface RecruitItemProps {
   recruitId: number;
   image: string;
@@ -91,10 +97,13 @@ export interface DetailProps {
 const BoardItemDetail = props => {
   const navigation = useNavigation();
   const detailURL = url + `/api/v1/recruit/${props.route.params.id}`;
-  const [statusBarHeight, setStatusBarHeight] = useState(0);
   const [itemDetaildata, setItemDetailData] = useState<RecruitItemProps>();
   const [modal, setModal] = useState(false);
-  const [dropdownModal, setDropdownModal] = useState(false);
+  const [popupModal, setPopupModal] = useState(false);
+  const handlePopupModal = () => {
+    popupModal ? setPopupModal(false) : setPopupModal(true);
+  };
+  const [modalData, setModalData] = useState<popupProps>();
   const [menuList, setMenuList] = useState<menuListI[]>();
   const {
     control,
@@ -108,6 +117,7 @@ const BoardItemDetail = props => {
       quantity: 1,
     },
   });
+
   const onSubmitMenu = (data: menuListI) => {
     menuList ? setMenuList([...menuList, data]) : setMenuList([data]);
     // handleModal();
@@ -134,6 +144,8 @@ const BoardItemDetail = props => {
   const handleModal = () => {
     modal ? setModal(false) : setModal(true);
   };
+  const [dropdownModal, setDropdownModal] = useState(false);
+
   const handleDropdownModal = () => {
     dropdownModal
       ? (setDropdownModal(false), props.navigation.setParams({modal: false}))
@@ -169,51 +181,107 @@ const BoardItemDetail = props => {
       console.log(error);
     }
   };
+  const closeRecruitModalData = {
+    title: '모집을 마감하시겠습니까?',
+    description:
+      '모집 마감 시, 다른 참여자들이 해당 모집에 더 이상 참여할 수 없습니다.',
+    modal: popupModal,
+    handleModal: handlePopupModal,
+    confirmEvent: closeRecruit,
+    choiceCnt: 2,
+  };
+  const cancelRecruitModalData = {
+    title: '모집을 취소하시겠습니까?',
+    description: '모집 취소 시, 지금까지 진행된 모집이 중단됩니다.',
+    modal: popupModal,
+    handleModal: handlePopupModal,
+    confirmEvent: cancelRecruit,
+    choiceCnt: 2,
+  };
+  const cancelParticipateModalData = {
+    title: '모집을 나가시겠습니까?',
+    description: '',
+    modal: popupModal,
+    handleModal: handlePopupModal,
+    confirmEvent: cancelParticipate,
+    choiceCnt: 2,
+  };
+  const blockUser = async () => {
+    if (itemDetaildata?.userInfo.userId) {
+      console.log(itemDetaildata);
+      console.log(itemDetaildata.userInfo.userId);
+      const result = await postBlockAPI(itemDetaildata.userInfo.userId);
+      if (result.result === 'success') {
+        Toast.show('차단이 완료되었습니다.');
+      } else {
+        Toast.show('차단에 실패하였습니다.');
+      }
+      // if (result) {
+      //   console.log('block user', result);
+      // }
+    }
+  };
+  const unblockUser = async () => {
+    if (itemDetaildata?.userInfo.userId) {
+      console.log(itemDetaildata);
+      console.log(itemDetaildata.userInfo.userId);
+      const result = await postUnBlockAPI(itemDetaildata.userInfo.userId);
+      if (result.result === 'success') {
+        Toast.show('차단 해제가 완료되었습니다.');
+      } else {
+        Toast.show('차단 해제에 실패하였습니다.');
+      }
+    }
+  };
+  const blockModalData = {
+    title: itemDetaildata?.userInfo?.nickname + '님을 차단 하시겠습니까?',
+    description:
+      '차단하더라도, 해당 사용자가 주최자 역할이 아닌 참여하고 있는 모집글과 채팅방은 정상적으로 보여지게 됩니다.',
+    modal: popupModal,
+    handleModal: handlePopupModal,
+    confirmEvent: blockUser,
+    choiceCnt: 2,
+  };
+  const unblockModalData = {
+    title: '차단을 해제하시겠습니까?',
+    description: '해당 유저가 주최하는 모집글을 다시 볼 수 있게 됩니다.',
+    modal: popupModal,
+    handleModal: handlePopupModal,
+    confirmEvent: unblockUser,
+    choiceCnt: 2,
+  };
+
   useEffect(() => {
     if (dropdownModal) {
-      if (itemDetaildata?.host) {
-        ActionSheetIOS.showActionSheetWithOptions(
-          {
-            options: ['취소', '모집 마감하기', '모집 취소하기'],
-            destructiveButtonIndex: 2,
-            cancelButtonIndex: 0,
-            userInterfaceStyle: 'light',
-          },
-          buttonIndex => {
-            if (buttonIndex === 0) {
-              handleDropdownModal();
-            } else if (buttonIndex === 1) {
-              closeRecruit();
-              handleDropdownModal();
-            } else if (buttonIndex === 2) {
-              cancelRecruit();
-              handleDropdownModal();
-            } else {
-              handleDropdownModal();
-            }
-          },
-        );
-      } else if (itemDetaildata?.participate) {
-        ActionSheetIOS.showActionSheetWithOptions(
-          {
-            options: ['취소', '모집 나가기'],
-            destructiveButtonIndex: 1,
-            cancelButtonIndex: 0,
-            userInterfaceStyle: 'light',
-          },
-          buttonIndex => {
-            if (buttonIndex === 0) {
-              handleDropdownModal();
-            } else if (buttonIndex === 1) {
-              cancelParticipate();
-              handleDropdownModal();
-            } else {
-              handleDropdownModal();
-            }
-          },
-        );
-      } else {
-      }
+      ActionSheetIOS.showActionSheetWithOptions(
+        {
+          options: ['취소', '차단하기', '신고하기'],
+          // destructiveButtonIndex: 2,
+          cancelButtonIndex: 0,
+          userInterfaceStyle: 'light',
+          tintColor: BLACK_COLOR,
+        },
+        buttonIndex => {
+          if (buttonIndex === 0) {
+            handleDropdownModal();
+          } else if (buttonIndex === 1) {
+            setModalData(blockModalData);
+            handlePopupModal();
+            handleDropdownModal();
+          } else if (buttonIndex === 2) {
+            navigation.navigate(
+              '게시글 신고하기' as never,
+              {
+                item: itemDetaildata,
+                userInfo: itemDetaildata?.userInfo,
+              } as never,
+            );
+            handleDropdownModal();
+          } else {
+            handleDropdownModal();
+          }
+        },
+      );
     }
   }, [dropdownModal]);
   useEffect(() => {
@@ -251,11 +319,23 @@ const BoardItemDetail = props => {
       return false;
     }
   };
+  const [defaultItem, setDefaultItem] = useState<detailRecruitI>();
+
+  const getDefaultItem = async () => {
+    if (itemDetaildata?.host) {
+      const id = itemDetaildata ? itemDetaildata.recruitId : -1;
+      const result = await getRecruitDetailDataForUpdateAPI(id);
+      console.log(result);
+      setDefaultItem(result);
+    }
+  };
 
   useEffect(() => {
     getDetailData();
   }, []);
-
+  useEffect(() => {
+    getDefaultItem();
+  }, [itemDetaildata]);
   // const particiPantsDropdownModalListData = [
   //   {id: 0, text: '모집 나가기', onclick: () => {}},
   // ];
@@ -263,15 +343,26 @@ const BoardItemDetail = props => {
   //   {id: 0, text: '모집 마감하기'},
   //   {id: 1, text: '모집 취소하기'},
   // ];
+
   return (
     <ScrollView style={{backgroundColor: WHITE_COLOR}}>
+      {modalData && (
+        <UsePopup
+          title={modalData.title}
+          description={modalData.description}
+          modal={popupModal}
+          handleModal={handlePopupModal}
+          confirmEvent={modalData.confirmEvent}
+          choiceCnt={modalData.choiceCnt}
+        />
+      )}
       <DetailImage item={itemDetaildata} />
       <PlatformImage item={itemDetaildata} />
       <BtnMap item={itemDetaildata} />
       <UserInfo item={itemDetaildata} />
       <Title item={itemDetaildata} />
       <ItemInfo item={itemDetaildata} />
-      <Description item={itemDetaildata} />
+      <Description item={itemDetaildata} defaultItem={defaultItem} />
       <View
         style={{
           marginHorizontal: 15,
@@ -284,7 +375,9 @@ const BoardItemDetail = props => {
               <View style={{flex: 1}}>
                 <BtnVerticalWhite
                   onPress={() => {
-                    cancelRecruit();
+                    setModalData(cancelParticipateModalData);
+                    handlePopupModal();
+                    // cancelRecruit();
                   }}
                   text="모집 취소"
                 />
@@ -293,7 +386,9 @@ const BoardItemDetail = props => {
               <View style={{flex: 4}}>
                 <BtnVerticalOrange
                   onPress={() => {
-                    closeRecruit();
+                    setModalData(closeRecruitModalData);
+                    handlePopupModal();
+                    // closeRecruit();
                   }}
                   text="모집 마감하기"
                 />
@@ -302,7 +397,9 @@ const BoardItemDetail = props => {
           ) : itemDetaildata?.participate ? (
             <BtnVerticalOrange
               onPress={() => {
-                cancelParticipate();
+                setModalData(cancelParticipateModalData);
+                handlePopupModal();
+                // cancelParticipate();
               }}
               text="모집 나가기"
             />

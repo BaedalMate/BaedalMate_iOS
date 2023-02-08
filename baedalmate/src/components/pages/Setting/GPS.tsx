@@ -17,7 +17,8 @@ import {
   userDormitoryState,
 } from 'components/utils/recoil/atoms/User';
 import {useNavigation} from '@react-navigation/native';
-
+import Toast from 'react-native-root-toast';
+export const dormitoryURL = userURL + '/dormitory';
 export const DORMITORY_SUNGLIM_LOCATION = {
   longitude: 127.07597,
   latitude: 37.63556,
@@ -49,19 +50,25 @@ export interface LocationI {
 }
 export type DormitoryType = 'SUNGLIM' | 'KB' | 'BURAM' | 'NURI' | 'SULIM';
 
-const DormitoryDropDown = ({target, setTarget}) => {
-  const [dormIndex, setDormIndex] = useState<number>();
-  useEffect(() => {
-    target === 'NURI' || target === '누리학사'
-      ? setDormIndex(0)
-      : target === 'SUNGLIM' || target === '성림학사'
-      ? setDormIndex(1)
-      : target === 'KB' || target === 'KB학사'
-      ? setDormIndex(2)
-      : target === 'BURAM' || target === '불암학사'
-      ? setDormIndex(3)
-      : setDormIndex(4);
-  }, [target]);
+const DormitoryDropDown = ({
+  target,
+  setTarget,
+}: {
+  target: {id: number; name: string; value: string};
+  setTarget: any;
+}) => {
+  // const [dormIndex, setDormIndex] = useState<number>();
+  // useEffect(() => {
+  //   target === 'NURI' || target === '누리학사'
+  //     ? setDormIndex(0)
+  //     : target === 'SUNGLIM' || target === '성림학사'
+  //     ? setDormIndex(1)
+  //     : target === 'KB' || target === 'KB학사'
+  //     ? setDormIndex(2)
+  //     : target === 'BURAM' || target === '불암학사'
+  //     ? setDormIndex(3)
+  //     : setDormIndex(4);
+  // }, [target]);
 
   return (
     <View
@@ -102,30 +109,32 @@ const DormitoryDropDown = ({target, setTarget}) => {
             fontWeight: '400',
           }}
           data={dormitoryList}
-          defaultValueByIndex={dormIndex}
-          defaultValue={''}
+          defaultButtonText="거점을 선택하세요"
+          defaultValueByIndex={target.id}
+          defaultValue={target}
           renderDropdownIcon={() => {
             return <Image source={BOTTOM_ARROW} />;
           }}
           onSelect={(selectedItem, index) => {
             console.log(selectedItem, index);
-            if (selectedItem === '누리학사') {
-              setTarget('NURI');
-            } else if (selectedItem === '성림학사') {
-              setTarget('SUNGLIM');
-            } else if (selectedItem === 'KB학사') {
-              setTarget('KB');
-            } else if (selectedItem === '불암학사') {
-              setTarget('BURAM');
-            } else if (selectedItem === '수림학사') {
-              setTarget('SULIM');
-            }
+            setTarget(selectedItem);
+            // if (selectedItem === '누리학사') {
+            //   setTarget('NURI');
+            // } else if (selectedItem === '성림학사') {
+            //   setTarget('SUNGLIM');
+            // } else if (selectedItem === 'KB학사') {
+            //   setTarget('KB');
+            // } else if (selectedItem === '불암학사') {
+            //   setTarget('BURAM');
+            // } else if (selectedItem === '수림학사') {
+            //   setTarget('SULIM');
+            // }
           }}
           buttonTextAfterSelection={selectedItem => {
-            return selectedItem;
+            return selectedItem.name;
           }}
           rowTextForSelection={item => {
-            return item;
+            return item.name;
           }}
         />
       </View>
@@ -133,19 +142,19 @@ const DormitoryDropDown = ({target, setTarget}) => {
   );
 };
 
-const changeTargetToDormitory = target => {
-  let changedDormitory =
-    target === 'KB' || target === 'KB학사'
-      ? 'KB학사'
-      : target === 'SUNGLIM' || target === '성림학사'
-      ? '성림학사'
-      : target === 'SULIM' || target === '수림학사'
-      ? '수림학사'
-      : target === 'BURAM' || target === '불암학사'
-      ? '불암학사'
-      : '누리학사';
-  return changedDormitory;
-};
+// const changeTargetToDormitory = target => {
+//   let changedDormitory =
+//     target === 'KB' || target === 'KB학사'
+//       ? 'KB학사'
+//       : target === 'SUNGLIM' || target === '성림학사'
+//       ? '성림학사'
+//       : target === 'SULIM' || target === '수림학사'
+//       ? '수림학사'
+//       : target === 'BURAM' || target === '불암학사'
+//       ? '불암학사'
+//       : '누리학사';
+//   return changedDormitory;
+// };
 const GPS = props => {
   const navigation = useNavigation();
   const [location, setLocation] = useState<LocationI>();
@@ -200,27 +209,25 @@ const GPS = props => {
 
   // User dormitory 변경
   const putUserDormitory = async () => {
-    let changedDormitory =
-      target === 'KB학사' || target === 'KB'
-        ? 'KB'
-        : target === '성림학사' || target === 'SUNGLIM'
-        ? 'SUNGLIM'
-        : target === '수림학사' || target === 'SULIM'
-        ? 'SULIM'
-        : target === '불암학사' || target === 'BURAM'
-        ? 'BURAM'
-        : 'NURI';
+    // let changedDormitory =
+    //   target === 'KB학사' || target === 'KB'
+    //     ? 'KB'
+    //     : target === '성림학사' || target === 'SUNGLIM'
+    //     ? 'SUNGLIM'
+    //     : target === '수림학사' || target === 'SULIM'
+    //     ? 'SULIM'
+    //     : target === '불암학사' || target === 'BURAM'
+    //     ? 'BURAM'
+    //     : 'NURI';
     const JWTAccessToken = await getJWTToken();
-    console.log(changedDormitory, JWTAccessToken);
+    console.log(target, JWTAccessToken);
     try {
       const data = await axios
         .put(
-          userURL,
-          {},
+          dormitoryURL,
+          {dormitory: target.value},
           {
-            params: {
-              dormitory: changedDormitory,
-            },
+            // params: {},
             headers: {
               Authorization: 'Bearer ' + JWTAccessToken,
             },
@@ -233,8 +240,9 @@ const GPS = props => {
           // AsyncStorage.setItem('@BaedalMate_Dormitory', changedDormitory);
           // 해당 페이지는 렌더링 문제로 state 설정 후 사용
           if (response.status === 200) {
-            setDormitory(changeTargetToDormitory(changedDormitory));
-            setTarget(dormitory);
+            setDormitory(target);
+            // setTarget(dormitory);
+            Toast.show('거점 인증이 완료되었습니다.');
             navigation.navigate(
               'BoardStackComponent' as never,
               {
@@ -251,11 +259,14 @@ const GPS = props => {
         })
         .catch(function (error) {
           console.log('put dormitory', error);
+          Toast.show('거점 인증에 실패했습니다.');
           return false;
         });
       return data;
     } catch (error) {
       console.log(error);
+      Toast.show('거점 인증에 실패했습니다.');
+
       return false;
     }
   };
@@ -265,20 +276,20 @@ const GPS = props => {
   }, []);
 
   useEffect(() => {
-    switch (target) {
-      case 'SUNGLIM' || '성림학사':
+    switch (target.value) {
+      case 'SUNGLIM':
         setTargetLocation(DORMITORY_SUNGLIM_LOCATION);
         break;
-      case 'KB' || 'KB학사':
+      case 'KB':
         setTargetLocation(DORMITORY_KB_LOCATION);
         break;
-      case 'BURAM' || '불암학사':
+      case 'BURAM':
         setTargetLocation(DORMITORY_BURAM_LOCATION);
         break;
-      case 'NURI' || '누리학사':
+      case 'NURI':
         setTargetLocation(DORMITORY_NURI_LOCATION);
         break;
-      case 'SULIM' || '수림학사':
+      case 'SULIM':
         setTargetLocation(DORMITORY_SULIM_LOCATION);
         break;
       default:
@@ -355,7 +366,9 @@ const GPS = props => {
               )
             )}
           </View>
-          {(distance && distance <= 0.2) || distance === 0 ? (
+          {target.id === -1 ||
+          (distance && distance <= 0.2) ||
+          distance === 0 ? (
             <></>
           ) : (
             <View
@@ -372,7 +385,7 @@ const GPS = props => {
                   textAlign: 'center',
                   color: 'white',
                 }}>
-                현재 위치가 '{changeTargetToDormitory(target)}'에 있지 않습니다.
+                현재 위치가 '{target.name}'에 있지 않습니다.
               </Text>
             </View>
           )}
