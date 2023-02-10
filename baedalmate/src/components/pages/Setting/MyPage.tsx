@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {ScrollView, Switch, View} from 'react-native';
+import {Linking, Platform, ScrollView, Switch, View} from 'react-native';
 import {DARK_GRAY_COLOR, PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
 import MypageUserInfo from 'components/atoms/Setting/MyPageUserInfo';
 import MyPageListItem from 'components/atoms/Setting/MyPageListItem';
@@ -91,9 +91,14 @@ const MyPage = ({route, navigation}) => {
     getMyPageUserData();
   }, [nickname, dormitory, score, profileImage]);
 
-  useEffect(() => {});
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+
+  useEffect(() => {
+    if (isEnabled) {
+      if (Platform.OS === 'ios') Linking.openURL('App-Prefs:root');
+    }
+  }, [isEnabled]);
 
   return (
     <ScrollView

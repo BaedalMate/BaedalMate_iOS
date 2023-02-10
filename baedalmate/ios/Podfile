@@ -10,8 +10,8 @@ use_frameworks! :linkage => :static
 target 'baedalmate' do
   config = use_native_modules!
   pod 'GoogleUtilities', :modular_headers => true
-
   # Flags change depending on the env values.
+
   flags = get_default_flags()
 
   use_react_native!(
@@ -40,6 +40,7 @@ target 'baedalmate' do
     end
   end
 
+  
   # pod 'RNSentry', :podspec => '../node_modules/@sentry/react-native/RNSentry.podspec' # or your path to node_modules
 
 #   post_install do |installer|

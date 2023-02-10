@@ -1,7 +1,7 @@
 import {NavigationProp} from '@react-navigation/native';
 import Category from 'components/molecules/Main/Category';
 import React, {useEffect, useState} from 'react';
-import {View, Platform, StatusBar} from 'react-native';
+import {View, Platform, StatusBar, Alert} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {LINE_GRAY_COLOR, PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
 import {TextKRBold} from 'themes/text';
@@ -17,6 +17,7 @@ import {refreshAPI} from 'components/utils/api/Login';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useRecoilState} from 'recoil';
 import {
+  FCMTokenState,
   selectDormitoryState,
   userDormitoryState,
   userIdState,
@@ -24,7 +25,10 @@ import {
   userProfileImageState,
   userScoreState,
 } from 'components/utils/recoil/atoms/User';
+import messaging from '@react-native-firebase/messaging';
+
 import {dormitoryList} from './CreateRecuit/second';
+import {saveTokenToDatabase} from './login';
 export const userURL = url + '/api/v1/user';
 export const recruitListURL = url + '/api/v1/recruit/list';
 export const mainRecruitListURL = url + '/api/v1/recruit/main/list';
@@ -85,28 +89,30 @@ export interface MainProps {
 // 메인 태그 모집글 리스트 api
 // 모집글 리스트 Api 받아옴
 // let imageURLList: any = [];
-export const getImages = async fileOriginName => {
-  const BoardListData = await axios
-    .get(imageURL + `${fileOriginName}`)
-    .then(function (response) {
-      if (response.status === 200) {
-        return response.data;
-      }
-      return false;
-    })
-    .catch(async function (error) {
-      console.log(error);
-      if (error.response.data.code === 401) {
-        const result = await refreshAPI();
-        console.log(result);
-      }
-      return false;
-    });
-  return BoardListData;
-};
+// export const getImages = async fileOriginName => {
+//   const BoardListData = await axios
+//     .get(imageURL + `${fileOriginName}`)
+//     .then(function (response) {
+//       if (response.status === 200) {
+//         return response.data;
+//       }
+//       return false;
+//     })
+//     .catch(async function (error) {
+//       console.log(error);
+//       if (error.response.data.code === 401) {
+//         const result = await refreshAPI();
+//         console.log(result);
+//       }
+//       return false;
+//     });
+//   return BoardListData;
+// };
 const Main: React.FunctionComponent<MainProps> = props => {
   const [yOffset, setYOffset] = useState(0);
   const [StatusBGColor, setStatusBGColor] = useState(PRIMARY_COLOR);
+
+  // const [FCMToken, setFCMToken] = useRecoilState(FCMTokenState);
   //user 관련 state
   const [nickname, setNickname] = useRecoilState(userNicknameState);
   const [selectDormitory, setSelectDormitory] =
@@ -325,16 +331,45 @@ const Main: React.FunctionComponent<MainProps> = props => {
     getMainRecruitList();
     getMainTagRecruitList();
   }, []);
-  // 렌더링 시 유저 정보 받아오기
+  // // 렌더링 시 유저 정보 받아오기
 
   useEffect(() => {
     getMainRecruitList();
     getMainTagRecruitList();
   }, [nickname, dormitory]);
 
-  //  const [mainRecruitSortList, setMainRecruitSortList] = useState<
-  //    eachMainRecruitListI[]
-  //  >([]);
+  // React.useEffect(() => {
+  //   const unsubscribe = messaging().onMessage(async remoteMessage => {
+  //     Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+  //   });
+  //   return unsubscribe;
+  // });
+  // useEffect(() => {
+  //   saveTokenToDatabase(FCMToken);
+  // }, [FCMToken]);
+  // useEffect(() => {
+  //   // Get the device token
+  //   messaging()
+  //     .getToken()
+  //     .then(token => {
+  //       return saveTokenToDatabase(token);
+  //     });
+
+  //   // If using other push notification providers (ie Amazon SNS, etc)
+  //   // you may need to get the APNs token instead for iOS:
+  //   if (Platform.OS == 'ios') {
+  //     messaging()
+  //       .getAPNSToken()
+  //       .then(token => {
+  //         return saveTokenToDatabase(token);
+  //       });
+  //   }
+
+  //   // Listen to whether the token changes
+  //   return messaging().onTokenRefresh(token => {
+  //     saveTokenToDatabase(token);
+  //   });
+  // }, []);
   return (
     <>
       <View

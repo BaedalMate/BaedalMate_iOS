@@ -15,7 +15,7 @@ import {Image, Linking, TouchableOpacity, View} from 'react-native';
 import BtnKakaoLoginWrapper from '../atoms/Button/BtnKakaoLogin';
 import {TextKRBold} from 'themes/text';
 import axios from 'axios';
-import {url} from '../../../App';
+import {FCMURL, url} from '../../../App';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {LOGO, LOGO_WITH_TEXT} from 'themes/theme';
 import BtnAppleAuth from 'components/atoms/Button/BtnAppleAuth';
@@ -28,13 +28,70 @@ import appleAuth, {
 import {Text} from 'react-native-paper';
 import {getJWTToken} from 'components/utils/api/Recruit';
 import {refreshAPI} from 'components/utils/api/Login';
+import {
+  getBrand,
+  getVersion,
+  getBuildNumber,
+  getSystemVersion,
+  getUniqueId,
+  getModel,
+} from 'react-native-device-info';
 
 const loginURL = url + '/login/oauth2/kakao';
 
 interface LoginProps {
   navigation: NavigationProp<any, any>;
 }
+export async function saveTokenToDatabase(token) {
+  const JWTAccessToken = await getJWTToken();
 
+  console.log(token);
+  // const apiLevel = await getApiLevel(); // only android
+  const brand = await getBrand(); // apple samsung
+  const version = await getVersion(); // 1.0
+  const buildNumber = await getBuildNumber(); // 1
+  const systemVersion = await getSystemVersion(); // iOS 13.4, Android 9
+  const uniqueId = await getUniqueId(); // 휴대폰마다 고유 id가 있음. ex) iOS: 59C63C5F-0776-4E4B-8AEF-D27AAF79BCFA
+  const model = await getModel(); // 기종 SM-G960N or iPhone 8
+
+  console.log(uniqueId);
+
+  try {
+    const result = axios
+      .post(
+        FCMURL,
+        {},
+        {
+          headers: {
+            Authorization: 'Bearer ' + JWTAccessToken,
+            'Fcm-Token': token,
+            'Device-Code': uniqueId,
+          },
+        },
+      )
+      .then(function (response) {
+        console.log(response);
+        return response.data;
+      })
+      .catch(function (error) {
+        console.log(error);
+        return false;
+      });
+    return result;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+  // Assume user is already signed in
+  // const userId = auth().currentUser.uid;
+  // Add the token to the users datastore
+  // await firestore()
+  //   .collection('users')
+  //   .doc(userId)
+  //   .update({
+  //     tokens: firestore.FieldValue.arrayUnion(token),
+  //   });
+}
 function Login({navigation}: LoginProps): React.ReactElement {
   // const [result, setResult] = useState<string>('');
   const [kakaoAccessToken, setKakaoAccessToken] = useState<string>('');
@@ -62,7 +119,7 @@ function Login({navigation}: LoginProps): React.ReactElement {
       //   '@BaedalMate_JWTRefreshToken',
       // ]);
       // const value = await getJWTToken();
-      if (value) {
+      if (value[0][1]) {
         console.log(value);
         navigation.navigate('BoardStackComponent', {
           token: value,

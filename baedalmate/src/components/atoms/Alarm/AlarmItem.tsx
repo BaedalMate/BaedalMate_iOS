@@ -1,9 +1,11 @@
+import {url} from '../../../../App';
+import {notificationsProps} from 'components/utils/api/Notifications';
 import React from 'react';
 import {Image, StyleSheet, TouchableHighlight, View} from 'react-native';
 import {TextKRBold, TextKRReg} from 'themes/text';
 import {DARK_GRAY_COLOR, LINE_GRAY_COLOR} from 'themes/theme';
 
-const AlarmItem = ({item}: {item}) => {
+const AlarmItem = ({item}: {item: notificationsProps}) => {
   return (
     <TouchableHighlight
       style={styles.AlarmItemWrapper}
@@ -20,8 +22,8 @@ const AlarmItem = ({item}: {item}) => {
       <>
         <Image
           source={{
-            uri: item?.image,
-            // uri: url + '/images/' + item.image,
+            // uri: item?.image,
+            uri: url + '/images/' + item.image,
           }}
           style={styles.storeImg}
         />
@@ -72,7 +74,7 @@ const AlarmItem = ({item}: {item}) => {
                 marginTop: 5,
                 // flex: 1,
               }}>
-              {item.description}
+              {item.body}
             </TextKRReg>
           </View>
           <View

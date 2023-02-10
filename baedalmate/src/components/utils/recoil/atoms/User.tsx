@@ -1,6 +1,11 @@
 import {atom} from 'recoil';
 import {DEFAULT_PROFILE_IMG} from 'themes/theme';
 
+export const FCMTokenState = atom({
+  key: 'FCMTokenState',
+  default: '',
+});
+
 export const userNicknameState = atom({
   key: 'userNicknameState',
   default: '',

@@ -3,8 +3,9 @@ import {ScrollView, View} from 'react-native';
 import {DARK_GRAY_COLOR} from 'themes/theme';
 import {TextKRBold} from 'themes/text';
 import AlarmItem from 'components/atoms/Alarm/AlarmItem';
+import {notificationsProps} from 'components/utils/api/Notifications';
 
-const renderItem = alarmList => {
+const renderItem = (alarmList: notificationsProps[]) => {
   const date = new Date().getDate();
   const time = new Date().getTime();
   console.log(date);
@@ -16,8 +17,8 @@ const renderItem = alarmList => {
         <View></View>
       ) : (
         alarmList.map((item, i) => {
-          console.log(item.time);
-          const dateString = item.time;
+          console.log(item.createDate);
+          const dateString = item.createDate;
           const time = dateString.replace(' ', 'T');
           const createTime = new Date(time);
           const currentTime = new Date();
@@ -49,7 +50,11 @@ const renderItem = alarmList => {
     </View>
   );
 };
-const AlarmList = ({alarmList}: {alarmList}) => {
+const AlarmList = ({
+  alarmList,
+}: {
+  alarmList: notificationsProps[] | undefined;
+}) => {
   return alarmList && alarmList.length !== 0 ? (
     <ScrollView>{renderItem(alarmList)}</ScrollView>
   ) : (
