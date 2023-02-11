@@ -1,52 +1,27 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React, {useEffect, useState} from 'react';
-import {Alert, Clipboard, Platform, StyleSheet} from 'react-native';
-import {NavigationContainer, useNavigation} from '@react-navigation/native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {Alert, Platform, StyleSheet} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
 import {RootNavigator} from './src/Routes';
-import {RecoilEnv, RecoilRoot, useRecoilState} from 'recoil';
+import {RecoilEnv, RecoilRoot} from 'recoil';
 import {RootSiblingParent} from 'react-native-root-siblings';
 import messaging from '@react-native-firebase/messaging';
-import DeviceInfo, {
-  getApiLevel,
-  getBrand,
-  getVersion,
-  getBuildNumber,
-  getSystemVersion,
-  getUniqueId,
-  getModel,
-} from 'react-native-device-info';
-import axios from 'axios';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
-import {saveTokenToDatabase} from 'components/pages/login';
-// import {FCMTokenState} from 'components/utils/recoil/atoms/User';
-import {fcmService} from 'components/utils/FCMService';
-import {localNotificationService} from 'components/utils/LocalNotificationService';
-// import FCMContainer from 'components/FCMContainer';
+import {callApiSubscribeTopic} from 'components/utils/FCMSubscribeTopic';
 
 export const url = 'http://3.35.27.107:8080';
-// export const url = 'http://192.168.1.58:8080';
 export const FCMURL = url + '/api/v1/fcm';
 RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
-const Tab = createBottomTabNavigator();
-// const [FCMToken, setFCMToken] = useRecoilState(FCMTokenState);
-async function requestUserPermission() {
-  const authStatus = await messaging().requestPermission();
-  const enabled =
-    authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-    authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+// const Tab = createBottomTabNavigator();
+// async function requestUserPermission() {
+//   const authStatus = await messaging().requestPermission();
+//   const enabled =
+//     authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+//     authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
-  if (enabled) {
-    console.log('Authorization status:', authStatus);
-  }
-}
+//   if (enabled) {
+//     console.log('Authorization status:', authStatus);
+//   }
+// }
 
 const App = () => {
   const [permissions, setPermissions] = useState({});
@@ -113,6 +88,7 @@ const App = () => {
         });
     }
 
+    callApiSubscribeTopic();
     // Listen to whether the token changes
     return messaging().onTokenRefresh(token => {
       console.log(token);
@@ -120,13 +96,7 @@ const App = () => {
       // saveTokenToDatabase(token);
     });
   }, []);
-  // useEffect(() => {
-  //   const unsubscribe = messaging().onMessage(async remoteMessage => {
-  //     Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-  //   });
 
-  //   return unsubscribe;
-  // }, []);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -158,6 +128,7 @@ const App = () => {
   if (loading) {
     return null;
   }
+
   return (
     <RecoilRoot>
       <RootSiblingParent>
