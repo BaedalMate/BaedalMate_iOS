@@ -11,6 +11,11 @@ const LINE_ORANGE_COLOR = '#FFA077';
 const ERROR_COLOR = '#FF0000';
 
 // logo
+const LOGO_SOLID_STROKE_GRAY = require('../assets/icons/logo/baedalmate_logo_solid_stroke_gray.png');
+const LOGO_SOLID_STROKE_MAIN = require('../assets/icons/logo/baedalmate_logo_solid_stroke_main.png');
+const LOGO_SOLID_STROKE_MAIN7 = require('../assets/icons/logo/baedalmate_logo_solid_stroke_main_7.png');
+const LOGO_SOLID_STROKE_GRAY7 = require('../assets/icons/logo/baedalmate_logo_solid_stroke_gray_7.png');
+
 const LOGO_WITH_TEXT = require('../assets/icons/logo/logo_with_text/logo.png');
 const LOGO_WITH_TEXT_BG_WHITE = require('../assets/icons/logo/logo_with_text/logo_bg_white.jpg');
 const LOGO_SOLID_MAIN = require('../assets/icons/logo/logo_without_text/baedalmate_logo_solid_main.png');
@@ -161,6 +166,10 @@ const LOADING_PRIMARY_ICON = require('../assets/icons/loading/loading_primary.pn
 const DEFAULT_PROFILE_IMG = require('../assets/images/defaultProfileImage/default_profile_image.png');
 
 export {
+  LOGO_SOLID_STROKE_GRAY,
+  LOGO_SOLID_STROKE_GRAY7,
+  LOGO_SOLID_STROKE_MAIN,
+  LOGO_SOLID_STROKE_MAIN7,
   BOTTOM_ARROW_WHITE,
   BOTTOM_ARROW_MAIN_WIDE,
   DEFAULT_PROFILE_IMG,

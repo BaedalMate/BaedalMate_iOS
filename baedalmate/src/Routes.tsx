@@ -12,6 +12,8 @@ import {
   DARK_GRAY_COLOR,
   HOME_PRIMARY_OUTLINE,
   HOME_REGULAR,
+  LOGO_SOLID_STROKE_GRAY7,
+  LOGO_SOLID_STROKE_MAIN7,
   MAIN_GRAY_COLOR,
   PRIMARY_COLOR,
   PROFILE_PRIMARY_OUTLINE,
@@ -76,13 +78,24 @@ const AppTabComponent = () => {
         tabBarIcon: ({focused}) => {
           let iconName;
           if (route.name === '홈') {
-            iconName = focused ? HOME_PRIMARY_OUTLINE : HOME_REGULAR;
+            iconName = focused
+              ? LOGO_SOLID_STROKE_MAIN7
+              : LOGO_SOLID_STROKE_GRAY7;
           } else if (route.name === '채팅') {
             iconName = focused ? CHATTIING_PRIMARY_OUTLINE : CHATTIING_REGULAR;
           } else if (route.name === '마이페이지') {
             iconName = focused ? PROFILE_PRIMARY_OUTLINE : PROFILE_REGULAR;
           }
-          return <Image source={iconName} />;
+          return (
+            <Image
+              source={iconName}
+              style={{
+                maxWidth: route.name === '홈' ? 31 : 25,
+                maxHeight: route.name === '홈' ? 28 : 25,
+                aspectRatio: 20 / 18,
+              }}
+            />
+          );
         },
       })}
       sceneContainerStyle={{
