@@ -228,8 +228,8 @@ const Main: React.FunctionComponent<MainProps> = props => {
         })
         .then(async function (response) {
           if (response.status === 200) {
-            console.log(response.data);
-            setMainTagRecruitList(response.data);
+            await console.log(response.data);
+            await setMainTagRecruitList(response.data);
             return response.data.recruitList;
           } else if (response.status === 403) {
             // props.navigation.navigate('거점 인증');
