@@ -558,6 +558,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = baedalmate/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "배달메이트";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -596,6 +597,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = baedalmate/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "배달메이트";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

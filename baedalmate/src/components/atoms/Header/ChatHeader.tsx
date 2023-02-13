@@ -8,7 +8,14 @@ import {
   recruitParticipantsI,
 } from 'components/utils/api/Chat';
 import React, {useEffect, useState} from 'react';
-import {Image, Modal, StyleSheet, TouchableHighlight, View} from 'react-native';
+import {
+  Image,
+  Modal,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  View,
+} from 'react-native';
 import {TextKRBold, TextKRReg} from 'themes/text';
 import {DARK_GRAY_COLOR, PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
 import {OrangeChatTag} from '../BoardList/Tags';
@@ -307,17 +314,21 @@ export const ChatHeader = ({
                   lineHeight: 24,
                   color: DARK_GRAY_COLOR,
                 }}>
-                {formDate(item.recruit.createDate) +
+                {item.recruit.createDate}
+                {/* {formDate(item.recruit.createDate) +
                   ' ' +
-                  formTime(item.recruit.createDate)}
+                  formTime(item.recruit.createDate)} */}
               </TextKRReg>
-              <TextKRBold
+              <Text
                 style={{
+                  fontWeight: 'bold',
                   fontSize: 16,
                   lineHeight: 22,
-                }}>
+                }}
+                numberOfLines={1}
+                ellipsizeMode="tail">
                 {item.recruit.title}
-              </TextKRBold>
+              </Text>
               <View
                 style={{
                   display: 'flex',

@@ -685,9 +685,9 @@ export const DetailChatRoom = props => {
                     )}
                   </View>
                 ))}
-                {messages?.map((v, i) => (
+                {/* {messages?.map((v, i) => (
                   <LiveMyMessage message={v} />
-                ))}
+                ))} */}
                 {/* {recv && recv.sender !== myNickname ? (
       <>
         <Text>{recv.sender}</Text>
