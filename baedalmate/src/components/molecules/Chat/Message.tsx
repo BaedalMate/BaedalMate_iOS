@@ -44,19 +44,19 @@ export const OpponentMessage = ({message}: {message: messageI}) => {
       style={{
         flexDirection: 'column',
       }}>
-      <View
+      {/* <View
         style={{
           marginTop: 10,
-        }}>
-        <Text
+        }}> */}
+      {/* <Text
           style={{
             width: '100%',
           }}>
           {message.sender.length >= MAX_USERNAME_LIMIT
             ? message.sender.substring(0, MAX_USERNAME_LIMIT) + '...'
             : message.sender}
-        </Text>
-      </View>
+        </Text> */}
+      {/* </View> */}
       <View
         style={{
           flexDirection: 'row',
@@ -67,13 +67,24 @@ export const OpponentMessage = ({message}: {message: messageI}) => {
         <View
           style={{
             alignItems: 'center',
-            justifyContent: 'center',
+            justifyContent: 'flex-start',
             marginRight: 15,
             width: 30,
           }}>
           <ChatProfileImage image={message.senderImage} />
         </View>
-        <MessageGray text={message.message} />
+        <View>
+          <Text
+            style={{
+              width: '100%',
+              marginBottom: 5,
+            }}>
+            {message.sender.length >= MAX_USERNAME_LIMIT
+              ? message.sender.substring(0, MAX_USERNAME_LIMIT) + '...'
+              : message.sender}
+          </Text>
+          <MessageGray text={message.message} />
+        </View>
         <Text
           style={{
             textAlign: 'center',
