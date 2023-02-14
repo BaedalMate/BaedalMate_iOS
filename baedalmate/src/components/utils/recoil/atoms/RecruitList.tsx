@@ -4,7 +4,6 @@ export const recruitListCategoryIdxState = atom({
   key: 'recruitListCategoryIdx',
   default: 0,
 });
-
 export const recruitListState = atom({
   key: 'recruitListState',
   default: [],

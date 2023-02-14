@@ -3,23 +3,18 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Login from './components/pages/login';
 import Main from './components/pages/Main';
-import {ActionSheetIOS, Image, TextInput, TouchableOpacity} from 'react-native';
+import {Image, TextInput, TouchableOpacity} from 'react-native';
 import {
   BACK_GRAY,
-  BLACK_COLOR,
   CHATTIING_GRAY,
   CHATTIING_PRIMARY_OUTLINE,
-  CHATTIING_REGULAR,
   DARK_GRAY_COLOR,
-  HOME_PRIMARY_OUTLINE,
-  HOME_REGULAR,
   LOGO_SOLID_STROKE_GRAY7,
   LOGO_SOLID_STROKE_MAIN7,
   MAIN_GRAY_COLOR,
   PRIMARY_COLOR,
   PROFILE_GRAY,
   PROFILE_PRIMARY_OUTLINE,
-  PROFILE_REGULAR,
   SEARCH_PRIMARY,
   SETTING_HORIZONTAL_GRAY_ICON,
   WHITE_COLOR,
@@ -52,6 +47,7 @@ import BlockedUserList from 'components/pages/Setting/BlockedUserList';
 import NoticeList from 'components/pages/Setting/NoticeList';
 import DetailNotice from 'components/pages/Setting/DetailNotice';
 import SetProfile from 'components/pages/Setting/SetProfile';
+import Notification from 'components/pages/Setting/Notification';
 
 const AuthStack = createNativeStackNavigator();
 const MainScreenTab = createBottomTabNavigator();
@@ -480,11 +476,13 @@ export const BoardStackComponent = () => {
           ),
         })}
       />
-      {/* <BoardScreenStack.Screen
-        name="거점 인증"
-        component={GPS}
+      <BoardScreenStack.Screen
+        name="알림 설정"
+        component={Notification}
         options={({navigation, route}) => ({
           headerBackVisible: false,
+          headerShadowVisible: false,
+
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
@@ -494,7 +492,7 @@ export const BoardStackComponent = () => {
             </TouchableOpacity>
           ),
         })}
-      /> */}
+      />
       <BoardScreenStack.Screen
         name="거점 인증"
         component={GPS}
@@ -529,6 +527,7 @@ export const BoardStackComponent = () => {
           ),
         })}
       />
+
       <BoardScreenStack.Screen
         name="공지사항"
         component={NoticeList}

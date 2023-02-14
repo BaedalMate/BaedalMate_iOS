@@ -37,6 +37,12 @@ const MyPage = ({route, navigation}) => {
   const [profileImage, setProfileImage] = useRecoilState(userProfileImageState);
   const MyPageSettingList = [
     {
+      name: '알림 설정',
+      onPress: () => {
+        navigation.navigate('알림 설정' as never);
+      },
+    },
+    {
       name: '프로필 수정',
       onPress: () => {
         navigation.navigate('프로필 수정' as never, {
@@ -119,28 +125,9 @@ const MyPage = ({route, navigation}) => {
           설정
         </TextKRBold>
         <View>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              paddingVertical: 10,
-            }}>
-            <TextKRReg
-              style={{fontSize: 14, lineHeight: 24, color: DARK_GRAY_COLOR}}>
-              {'알림 설정'}
-            </TextKRReg>
-            <Switch
-              trackColor={{false: DARK_GRAY_COLOR, true: PRIMARY_COLOR}}
-              thumbColor={WHITE_COLOR}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitch}
-              value={isEnabled}
-            />
-          </View>
           {MyPageSettingList.map((v, i) => (
             <View key={i}>
-              <MyPageBar height={1} />
+              {i != 0 && <MyPageBar height={1} />}
               <MyPageListItem item={v} />
             </View>
           ))}

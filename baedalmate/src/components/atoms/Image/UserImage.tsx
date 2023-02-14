@@ -36,13 +36,11 @@ const MyPageUserProfileImage = () => {
     <View style={{}}>
       <Image
         source={{
-          // uri: item?.profileImage,
           uri: url + '/images/' + profileImage,
         }}
         style={{
           width: 55,
           height: 55,
-          backgroundColor: '#ffffff',
           borderRadius: 55 / 2,
           marginRight: 15,
           marginLeft: 5,
