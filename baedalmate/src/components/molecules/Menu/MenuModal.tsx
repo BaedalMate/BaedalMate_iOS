@@ -102,7 +102,7 @@ const MenuModal = ({id, defaultMenuList, modal, handleModal}) => {
       <Modal
         transparent={true}
         visible={modal}
-        animationType={'slide'}
+        animationType={'fade'}
         onRequestClose={handleModal}>
         <View
           style={{

@@ -84,7 +84,7 @@ const DeliveryFeeModal = ({item}: {item: RecruitItemProps | undefined}) => {
         <Modal
           transparent={true}
           visible={modal}
-          animationType={'slide'}
+          animationType={'fade'}
           onRequestClose={handleModal}>
           <View
             // onTouchStart={handleModal}

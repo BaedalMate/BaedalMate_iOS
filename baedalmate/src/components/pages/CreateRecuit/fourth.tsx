@@ -44,13 +44,13 @@ export interface menuProps {
   cnt: number;
 }
 
-const dummyMenu = [
-  {
-    name: '하와이안 피자 (L, 콜라 500ml 추가)',
-    price: 12400,
-    quantity: 1,
-  },
-];
+// const dummyMenu = [
+//   {
+//     name: '하와이안 피자 (L, 콜라 500ml 추가)',
+//     price: 12400,
+//     quantity: 1,
+//   },
+// ];
 
 const CreateRecruit4 = props => {
   const [menuList, setMenuList] = useState<menuI[]>();

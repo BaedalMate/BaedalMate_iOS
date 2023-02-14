@@ -148,7 +148,7 @@ export const ReviewModal = ({
       <Modal
         transparent={true}
         visible={modal}
-        animationType={'slide'}
+        animationType={'fade'}
         onRequestClose={handleModal}>
         <View
           style={{

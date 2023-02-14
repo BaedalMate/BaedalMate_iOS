@@ -419,7 +419,7 @@ const BoardItemDetail = props => {
         <Modal
           transparent={true}
           visible={modal}
-          animationType={'slide'}
+          animationType={'fade'}
           onRequestClose={handleModal}>
           <View
             style={{

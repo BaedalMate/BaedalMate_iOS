@@ -180,7 +180,7 @@ const UserInfoTitle = ({
           <Modal
             transparent={true}
             visible={modal}
-            animationType={'slide'}
+            animationType={'fade'}
             onRequestClose={() => handleModal(false)}>
             <View
               style={{

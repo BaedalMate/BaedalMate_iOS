@@ -51,7 +51,7 @@ const MenuList = (props: menuListProps) => {
   };
 
   const [modal, setModal] = useState(false);
-  const [newMenu, setNewMenu] = useState();
+  // const [newMenu, setNewMenu] = useState();
   // const [menuList, setMenuList] = useState<menuListI[]>();
   const onSubmit = (data: menuListI) => {
     if (data.name === '' && data.price === 0) return;
@@ -105,7 +105,7 @@ const MenuList = (props: menuListProps) => {
           <Modal
             transparent={true}
             visible={modal}
-            animationType={'slide'}
+            animationType={'fade'}
             onRequestClose={handleModal}>
             <View
               // onTouchStart={handleModal}
