@@ -1010,6 +1010,8 @@ PODS:
   - React-jsinspector (0.68.1)
   - React-logger (0.68.1):
     - glog
+  - react-native-color-matrix-image-filters (6.0.3):
+    - React-Core
   - react-native-geolocation (3.0.3):
     - React-Core
   - react-native-image-picker (5.0.1):
@@ -1182,6 +1184,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
+  - react-native-color-matrix-image-filters (from `../node_modules/react-native-color-matrix-image-filters/react-native-color-matrix-image-filters.podspec`)
   - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
@@ -1292,6 +1295,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   React-logger:
     :path: "../node_modules/react-native/ReactCommon/logger"
+  react-native-color-matrix-image-filters:
+    :path: "../node_modules/react-native-color-matrix-image-filters/react-native-color-matrix-image-filters.podspec"
   react-native-geolocation:
     :path: "../node_modules/@react-native-community/geolocation"
   react-native-image-picker:
@@ -1410,6 +1415,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 4a4bae5671b064a2248a690cf75957669489d08c
   React-jsinspector: 218a2503198ff28a085f8e16622a8d8f507c8019
   React-logger: f79dd3cc0f9b44f5611c6c7862badd891a862cf8
+  react-native-color-matrix-image-filters: c945260077dabac82d8e25af937c18fff4021707
   react-native-geolocation: 2b4052c14edff18ba402795f4ce0f2a093c4ba3e
   react-native-image-picker: 8cb4280e2c1efc3daeb2d9d597f9429a60472e40
   react-native-netinfo: 2517ad504b3d303e90d7a431b0fcaef76d207983
@@ -1445,6 +1451,6 @@ SPEC CHECKSUMS:
   Sentry: 08884c523575ec0f6690d94ed3ccb0246a1600bf
   Yoga: 17cd9a50243093b547c1e539c749928dd68152da
 
-PODFILE CHECKSUM: 38afbdb05ced99f37c5f8c277ee195ab0bc1c084
+PODFILE CHECKSUM: 4a624cd4fc5d11067584e20198ef1c7f09a6b751
 
 COCOAPODS: 1.11.3

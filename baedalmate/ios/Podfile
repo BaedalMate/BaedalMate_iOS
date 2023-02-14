@@ -10,6 +10,7 @@ use_frameworks! :linkage => :static
 target 'baedalmate' do
   config = use_native_modules!
   pod 'GoogleUtilities', :modular_headers => true
+  pod 'react-native-color-matrix-image-filters', :path => '../node_modules/react-native-color-matrix-image-filters/react-native-color-matrix-image-filters.podspec'
   # Flags change depending on the env values.
 
   flags = get_default_flags()

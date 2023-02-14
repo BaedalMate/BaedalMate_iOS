@@ -16,6 +16,7 @@ import {
   ETC_ICON,
   YOGIYO_ICON,
 } from 'themes/theme';
+import {Grayscale} from 'react-native-color-matrix-image-filters';
 
 export type BtnPlatformProps = {
   onPress(): void;
@@ -48,14 +49,27 @@ const BtnPlatform = ({platform, setPlatform, data, onSelect}) => {
                 marginRight: 15,
               },
             ]}>
-            <Image
-              source={item.url}
-              style={{
-                width: 60,
-                height: 60,
-                borderRadius: 30,
-              }}
-            />
+            {item.value === platform ? (
+              <Image
+                source={item.url}
+                style={{
+                  width: 60,
+                  height: 60,
+                  borderRadius: 30,
+                }}
+              />
+            ) : (
+              <Grayscale>
+                <Image
+                  source={item.url}
+                  style={{
+                    width: 60,
+                    height: 60,
+                    borderRadius: 30,
+                  }}
+                />
+              </Grayscale>
+            )}
           </Pressable>
         );
       })}
@@ -110,7 +124,7 @@ const styles = StyleSheet.create({
   },
   unselected: {
     backgroundColor: 'gray',
-    opacity: 0.3,
+    opacity: 0.9,
     width: 60,
     height: 60,
     borderRadius: 30,
