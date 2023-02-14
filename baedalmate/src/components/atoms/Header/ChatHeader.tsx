@@ -385,6 +385,7 @@ export const ChatHeader = ({
               />
             ) : (
               <BtnHorizontalWhiteS
+                disabled={item.reviewed}
                 onPress={handleModal}
                 text={'후기 작성하기'}
               />

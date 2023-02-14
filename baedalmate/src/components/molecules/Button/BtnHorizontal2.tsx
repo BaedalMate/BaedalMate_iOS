@@ -14,6 +14,7 @@ import BtnHorizontalWhite from '../../atoms/Button/BtnHorizontalWhite';
 export interface BtnWithTextProps {
   onPress(): void;
   text: string;
+  disabled?: boolean;
 }
 
 const BtnHorizontal2: React.FunctionComponent<BtnWithTextProps> = props => {

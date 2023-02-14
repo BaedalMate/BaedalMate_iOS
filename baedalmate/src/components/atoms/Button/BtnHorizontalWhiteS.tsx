@@ -14,6 +14,7 @@ import {TextKRReg} from 'themes/text';
 const BtnHorizontalWhiteS = (props: BtnWithTextProps) => {
   return (
     <TouchableOpacity
+      disabled={props.disabled}
       style={styles.btnHorizontalWhiteSWrapper}
       onPress={props.onPress}>
       <TextKRReg style={styles.btnHorizontalWhiteSText}>{props.text}</TextKRReg>
