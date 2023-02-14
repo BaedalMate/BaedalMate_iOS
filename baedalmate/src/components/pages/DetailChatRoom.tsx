@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {
   Image,
   KeyboardAvoidingView,
+  Platform,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
@@ -480,7 +481,7 @@ export const DetailChatRoom = props => {
   useEffect(() => {
     connect();
     getEachChatRoom();
-  }, [messages, recv]);
+  }, [messages, recv, messageText]);
 
   useEffect(() => {
     reset({
@@ -488,7 +489,7 @@ export const DetailChatRoom = props => {
     });
   }, [messages]);
 
-  const [statusBarHeight, setStatusBarHeight] = useState(0);
+  // const [statusBarHeight, setStatusBarHeight] = useState(0);
   const [reviewUserList, setReviewUserList] = useState<recruitParticipantsI>();
   const [selectedUser, setSelectedUser] = useState<participantI>();
   const scrollViewRef = useRef<any>(null);
@@ -618,7 +619,10 @@ export const DetailChatRoom = props => {
             bottom: 0,
           }}
           behavior={'position'}
-          keyboardVerticalOffset={statusBarHeight + 44}>
+          keyboardVerticalOffset={44 + 44}
+          // behavior={Platform.select({ios: 'padding'})}
+          // keyboardVerticalOffset={statusBarHeight}
+        >
           <View
             style={{
               position: 'absolute',
