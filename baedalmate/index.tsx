@@ -21,7 +21,12 @@ PushNotification.configure({
     console.log('NOTIFICATION:', notification);
 
     // process the notification
-
+    if (
+      notification.foreground &&
+      (notification.userInteraction || notification.remote)
+    ) {
+      PushNotification.localNotification(notification);
+    }
     // (required) Called when a remote is received or opened, or local notification is opened
     notification.finish(PushNotificationIOS.FetchResult.NoData);
   },

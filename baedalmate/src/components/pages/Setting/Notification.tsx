@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {Linking, Platform, ScrollView, Switch, View} from 'react-native';
+import React, {useEffect} from 'react';
+import {ScrollView, Switch, View} from 'react-native';
 import {
   BLACK_COLOR,
   DARK_GRAY_COLOR,
@@ -7,7 +7,6 @@ import {
   PRIMARY_COLOR,
   WHITE_COLOR,
 } from 'themes/theme';
-import MyPageBottom from 'components/atoms/Bottom/MyPageBottom';
 import {TextKRBold, TextKRReg} from 'themes/text';
 import {
   getNotificationAllowAPI,

@@ -1,30 +1,84 @@
 import React, {useEffect, useState} from 'react';
-import {Alert, Platform, StyleSheet} from 'react-native';
+import {Alert, Linking, Platform, StyleSheet} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {RootNavigator} from './src/Routes';
-import {RecoilEnv, RecoilRoot} from 'recoil';
+import {RecoilEnv, RecoilRoot, useRecoilState} from 'recoil';
 import {RootSiblingParent} from 'react-native-root-siblings';
 import messaging from '@react-native-firebase/messaging';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
+import PushNotification from 'react-native-push-notification';
+
 import {callApiSubscribeTopic} from 'components/utils/FCMSubscribeTopic';
 
 export const url = 'http://3.35.27.107:8080';
 export const FCMURL = url + '/api/v1/fcm';
 RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
 // const Tab = createBottomTabNavigator();
-// async function requestUserPermission() {
-//   const authStatus = await messaging().requestPermission();
-//   const enabled =
-//     authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-//     authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+async function requestUserPermission() {
+  const authStatus = await messaging().requestPermission();
+  const enabled =
+    authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+    authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
-//   if (enabled) {
-//     console.log('Authorization status:', authStatus);
-//   }
-// }
+  if (enabled) {
+    console.log('Authorization status:', authStatus);
+    if (Platform.OS === 'ios') Linking.openURL('App-Prefs:root');
+  }
+}
 
 const App = () => {
   const [permissions, setPermissions] = useState({});
+  // const [isEnabledAll, setIsEnabledAll] = useRecoilState(
+  //   NotificationAllAllowState,
+  // );
+  // const [isEnabledNotice, setIsEnabledNotice] = useRecoilState(
+  //   NotificationNoticeAllowState,
+  // );
+  // useEffect(() => {
+  //   const type = 'notification';
+  //   PushNotificationIOS.addEventListener(type, onRemoteNotification);
+  //   return () => {
+  //     PushNotificationIOS.removeEventListener(type);
+  //   };
+  // });
+
+  // const onRemoteNotification = notification => {
+  //   const isClicked = notification.getData().userInteraction === 1;
+
+  //   if (isClicked) {
+  //     // Navigate user to another screen
+  //   } else {
+  //     // Do something else with push notification
+  //   }
+  //   // Use the appropriate result based on what you needed to do for this notification
+  //   const result = PushNotificationIOS.FetchResult.NoData;
+  //   notification.finish(result);
+  // };
+  /**
+   * By calling this function, notification with category `userAction` will have action buttons
+   */
+  const setNotificationCategories = () => {
+    PushNotificationIOS.setNotificationCategories([
+      {
+        id: 'userAction',
+        actions: [
+          {id: 'open', title: 'Open', options: {foreground: true}},
+          {
+            id: 'ignore',
+            title: 'Desruptive',
+            options: {foreground: true, destructive: true},
+          },
+          {
+            id: 'text',
+            title: 'Text Input',
+            options: {foreground: true},
+            textInput: {buttonTitle: 'Send'},
+          },
+        ],
+      },
+    ]);
+  };
+
   useEffect(() => {
     const type = 'notification';
     PushNotificationIOS.addEventListener(type, onRemoteNotification);
@@ -34,18 +88,21 @@ const App = () => {
   });
 
   const onRemoteNotification = notification => {
-    const isClicked = notification.getData().userInteraction === 1;
+    const actionIdentifier = notification.getActionIdentifier();
 
-    if (isClicked) {
-      // Navigate user to another screen
-    } else {
-      // Do something else with push notification
+    if (actionIdentifier === 'open') {
+      // Perform action based on open action
+    }
+
+    if (actionIdentifier === 'text') {
+      // Text that of user input.
+      const userText = notification.getUserText();
+      // Perform action based on textinput action
     }
     // Use the appropriate result based on what you needed to do for this notification
     const result = PushNotificationIOS.FetchResult.NoData;
     notification.finish(result);
   };
-
   // Background, Quit 상태일 경우
   messaging().setBackgroundMessageHandler(async remoteMessage => {
     console.log('Message handled in the background!', remoteMessage);
@@ -61,7 +118,17 @@ const App = () => {
   // Foreground 상태인 경우
   React.useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
-      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+      console.log('A new FCM message arrived!', JSON.stringify(remoteMessage));
+      // PushNotification.localNotification(remoteMessage);
+      remoteMessage &&
+        remoteMessage.notification &&
+        remoteMessage.messageId &&
+        PushNotificationIOS.addNotificationRequest({
+          id: remoteMessage.messageId,
+          body: remoteMessage.notification.body,
+          title: remoteMessage.notification.title,
+          userInfo: remoteMessage.data,
+        });
     });
     return unsubscribe;
   });
@@ -88,7 +155,6 @@ const App = () => {
         });
     }
 
-    callApiSubscribeTopic();
     // Listen to whether the token changes
     return messaging().onTokenRefresh(token => {
       console.log(token);
