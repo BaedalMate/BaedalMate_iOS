@@ -1,16 +1,17 @@
 import {useNavigation} from '@react-navigation/native';
+import {detailNoticeI, noticeListI} from 'components/utils/api/Notice';
 import React from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {TextKRBold, TextKRReg} from 'themes/text';
 import {DARK_GRAY_COLOR, LINE_GRAY_COLOR} from 'themes/theme';
 
-const NoticeListItem = ({item}: {item}) => {
+const NoticeListItem = ({item}: {item: noticeListI}) => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
       style={styles.NoticeListItemWrapper}
       onPress={() =>
-        navigation.navigate('상세 공지' as never, {id: item.noticeId} as never)
+        navigation.navigate('상세 공지' as never, {id: item.id} as never)
       }>
       <View
         style={{

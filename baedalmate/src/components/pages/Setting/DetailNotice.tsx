@@ -1,20 +1,21 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {ScrollView, View} from 'react-native';
 import {DARK_GRAY_COLOR, LINE_GRAY_COLOR, WHITE_COLOR} from 'themes/theme';
 import {TextKRBold, TextKRReg} from 'themes/text';
+import {detailNoticeI, getDetailNoticeAPI} from 'components/utils/api/Notice';
 
-export const dummyBoardListData = Array(10).fill({
-  title: '[공지] 공지사항 내용',
-  createDate: '2021.08.01',
-  description:
-    '글에 대한 내용이 적힐 부분입니다. 글에 대한 내용이 적힐 부분입니다. 글에 대한 내용이 적힐 부분입니다. 글에 대한 내용이 적힐 부분입니다. 글에 대한 내용이 적힐 부분입니다. 글에 대한 내용이 적힐 부분입니다. 글에 대한 내용이 적힐 부분입니다. 글에 대한 내용이 적힐 부분입니다. 글에 대한 내용이 적힐 부분입니다. 글에 대한 내용이 적힐 부분입니다. 글에 대한 내용이 적힐 부분입니다. 글에 대한 내용이 적힐 부분입니다. 글에 대한 내용이 적힐 부분입니다. 글에 대한 내용이 적힐 부분입니다. 글에 대한 내용이 적힐 부분입니다. ',
-  noticeId: 0,
-});
-for (let i = 0; i < 10; i++) {
-  dummyBoardListData[i].noticeId = i;
-}
+// export const dummyBoardListData = Array(10).fill({
+//   title: '[공지] 공지사항 내용',
+//   createDate: '2021.08.01',
+//   description:
+//     '글에 대한 내용이 적힐 부분입니다. 글에 대한 내용이 적힐 부분입니다. 글에 대한 내용이 적힐 부분입니다. 글에 대한 내용이 적힐 부분입니다. 글에 대한 내용이 적힐 부분입니다. 글에 대한 내용이 적힐 부분입니다. 글에 대한 내용이 적힐 부분입니다. 글에 대한 내용이 적힐 부분입니다. 글에 대한 내용이 적힐 부분입니다. 글에 대한 내용이 적힐 부분입니다. 글에 대한 내용이 적힐 부분입니다. 글에 대한 내용이 적힐 부분입니다. 글에 대한 내용이 적힐 부분입니다. 글에 대한 내용이 적힐 부분입니다. 글에 대한 내용이 적힐 부분입니다. ',
+//   noticeId: 0,
+// });
+// for (let i = 0; i < 10; i++) {
+//   dummyBoardListData[i].noticeId = i;
+// }
 
-const renderItem = item => {
+const renderItem = (item: detailNoticeI) => {
   return (
     <View style={{backgroundColor: WHITE_COLOR, paddingHorizontal: 15}}>
       <View
@@ -52,9 +53,17 @@ const renderItem = item => {
 };
 
 const DetailNotice = props => {
+  const [detailNotice, setDetailNotice] = useState<detailNoticeI>();
+  const getDetailNoticeData = async () => {
+    const result = await getDetailNoticeAPI(props.route.params.id);
+    setDetailNotice(result);
+  };
+  useEffect(() => {
+    getDetailNoticeData();
+  }, []);
   return (
     <ScrollView style={{backgroundColor: WHITE_COLOR}}>
-      {renderItem(dummyBoardListData[props.route.params.id])}
+      {detailNotice && renderItem(detailNotice)}
     </ScrollView>
   );
 };
