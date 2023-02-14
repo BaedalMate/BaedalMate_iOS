@@ -9,7 +9,7 @@ const BLACK_COLOR = '#000000';
 const WHITE_COLOR = '#FFFFFF';
 const LINE_ORANGE_COLOR = '#FFA077';
 const ERROR_COLOR = '#FF0000';
-
+const OVERLAY_COLOR = '#9B9B9B';
 // logo
 const LOGO_SOLID_STROKE_GRAY = require('../assets/icons/logo/baedalmate_logo_solid_stroke_gray.png');
 const LOGO_SOLID_STROKE_MAIN = require('../assets/icons/logo/baedalmate_logo_solid_stroke_main.png');
@@ -225,6 +225,7 @@ export {
   DECREASE_ACTIVE,
   DECREASE_DEACTIVE,
   INCREASE_ACTIVE,
+  OVERLAY_COLOR,
   PRIMARY_COLOR,
   TEXT_COLOR,
   DARK_GRAY_COLOR,

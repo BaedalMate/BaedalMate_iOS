@@ -158,7 +158,6 @@ const CategoryStackComponent = () => {
     </CategoryStack.Navigator>
   );
 };
-const particiPantsDropdownModalListData = [{id: 0, text: '모집 나가기'}];
 const SearchInput = ({error, name, control, rules}) => {
   const {field} = useController({
     control,
@@ -173,15 +172,7 @@ const SearchInput = ({error, name, control, rules}) => {
         marginRight: 80,
         width: '75%',
         alignSelf: 'flex-start',
-        // flex: 1,
-        // maxWidth: '100%',
-        // width: '100% - 144px',
-        // marginHorizontal: 72,
-        // left: 15,
-        // height: 45,
-        // borderRadius: 10,
         padding: 15,
-        // borderWidth: 1,
         color: DARK_GRAY_COLOR,
         fontSize: 14,
         fontWeight: '400',
@@ -191,9 +182,6 @@ const SearchInput = ({error, name, control, rules}) => {
       onChangeText={field.onChange}
       placeholder={'검색할 키워드를 입력해주세요                       '}
       placeholderTextColor={MAIN_GRAY_COLOR}
-      // value={field.value}
-      // onChangeText={field.onChange}
-      // maxLength={20}
     />
   );
 };

@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     textAlign: 'center',
     justifyContent: 'center',
-    marginRight: 5,
+    // marginRight: 5,
     // paddingHorizontal: 5,
   },
   btnHorizontalWhiteSText: {

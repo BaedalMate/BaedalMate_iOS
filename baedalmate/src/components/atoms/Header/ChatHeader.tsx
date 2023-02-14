@@ -3,7 +3,9 @@ import {url} from '../../../../App';
 import {
   eachDetailChatRoomI,
   formDate,
+  formDateWithDot,
   formDateWithTwoDigit,
+  formDateWithTwoDigitDot,
   formTime,
   formTime24,
   participantI,
@@ -19,7 +21,12 @@ import {
   View,
 } from 'react-native';
 import {TextKRBold, TextKRReg} from 'themes/text';
-import {DARK_GRAY_COLOR, PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
+import {
+  DARK_GRAY_COLOR,
+  OVERLAY_COLOR,
+  PRIMARY_COLOR,
+  WHITE_COLOR,
+} from 'themes/theme';
 import {OrangeChatTag} from '../BoardList/Tags';
 import BtnHorizontalWhiteS from '../Button/BtnHorizontalWhiteS';
 import StarRatingComponent from '../StarRating/StarRating';
@@ -303,24 +310,14 @@ export const ChatHeader = ({
           />
           <View
             style={{
+              height: '100%',
               display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
+              justifyContent: 'space-evenly',
               flex: 1,
-              alignItems: 'center',
+              alignItems: 'stretch',
+              marginHorizontal: 15,
             }}>
             <View style={{}}>
-              <TextKRReg
-                style={{
-                  fontSize: 14,
-                  lineHeight: 24,
-                  color: DARK_GRAY_COLOR,
-                }}>
-                {item.recruit.createDate}
-                {/* {formDate(item.recruit.createDate) +
-                  ' ' +
-                  formTime(item.recruit.createDate)} */}
-              </TextKRReg>
               <Text
                 style={{
                   fontWeight: 'bold',
@@ -329,36 +326,56 @@ export const ChatHeader = ({
                 }}
                 numberOfLines={1}
                 ellipsizeMode="tail">
+                <Text
+                  style={{
+                    color: item.recruit.active
+                      ? PRIMARY_COLOR
+                      : item.recruit.cancel
+                      ? OVERLAY_COLOR
+                      : item.recruit.fail
+                      ? OVERLAY_COLOR
+                      : PRIMARY_COLOR,
+                  }}>
+                  [모집
+                  {item.recruit.active
+                    ? '중'
+                    : item.recruit.cancel
+                    ? '취소'
+                    : item.recruit.fail
+                    ? '실패'
+                    : '완료'}
+                  ]{' '}
+                </Text>
                 {item.recruit.title}
               </Text>
-              <View
+            </View>
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <OrangeChatTag item={item.recruit} />
+              <TextKRReg
                 style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
+                  fontSize: 14,
+                  lineHeight: 24,
+                  color: DARK_GRAY_COLOR,
+                  textAlignVertical: 'center',
                 }}>
-                <OrangeChatTag item={item.recruit} />
-                <TextKRReg
-                  style={{
-                    fontSize: 14,
-                    lineHeight: 24,
-                    color: DARK_GRAY_COLOR,
-                    textAlignVertical: 'center',
-                  }}>
-                  {item.recruit.criteria === 'PRICE'
-                    ? formPrice(item.recruit.minPrice) + '원'
-                    : item.recruit.criteria === 'NUMBER'
-                    ? item.recruit.minPeople + '인'
-                    : formDateWithTwoDigit(item.recruit.deadlineDate) +
-                      ' ' +
-                      formTime24(item.recruit.deadlineDate)}
-                </TextKRReg>
-              </View>
+                {item.recruit.criteria === 'PRICE'
+                  ? formPrice(item.recruit.minPrice) + '원'
+                  : item.recruit.criteria === 'NUMBER'
+                  ? item.recruit.minPeople + '인'
+                  : formDateWithDot(item.recruit.deadlineDate) +
+                    ' ' +
+                    formTime24(item.recruit.deadlineDate)}
+              </TextKRReg>
             </View>
           </View>
           <View
             style={{
-              width: 85,
+              // width: 85,
               height: 40,
             }}>
             {item.recruit.active ? (
@@ -391,13 +408,11 @@ const styles = StyleSheet.create({
     borderColor: '#F7F8FA',
     alignItems: 'center',
     backgroundColor: '#F7F8FA',
-    // marginBottom: 10,
   },
   storeImg: {
     width: 75,
     height: 75,
     borderRadius: 75 / 2,
-    marginRight: 15,
   },
 });
 

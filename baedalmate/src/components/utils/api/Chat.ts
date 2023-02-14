@@ -64,6 +64,7 @@ export interface eachDetailChatRoomI {
   id: number;
   messages: messageI[];
   recruit: recruitI;
+  reviewed: boolean;
 }
 export interface participantI {
   nickname: string;
@@ -121,6 +122,18 @@ export const formDate = (time: string) => {
     '월 ' +
     date.getDate() +
     '일';
+  return dateText;
+};
+export const formDateWithTwoDigitDot = (time: string) => {
+  let date = new Date(time);
+
+  let dateText =
+    date.getFullYear().toString().substring(2, 4) +
+    '.' +
+    (date.getMonth() + 1) +
+    '.' +
+    date.getDate() +
+    '';
   return dateText;
 };
 export const formDateWithTwoDigit = (time: string) => {

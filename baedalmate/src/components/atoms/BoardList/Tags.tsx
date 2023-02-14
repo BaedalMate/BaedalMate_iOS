@@ -141,7 +141,7 @@ const OrangeChatTag = ({item}: {item: BoardListProps | recruitI}) => {
       <TextKRReg
         style={{
           fontSize: 14,
-          lineHeight: 24,
+          lineHeight: 20,
           color: LINE_ORANGE_COLOR,
         }}>
         {criteriaText}
