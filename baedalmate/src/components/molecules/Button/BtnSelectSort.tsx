@@ -9,9 +9,9 @@ export type TagProps = {
 
 const BtnSelectSort = ({option, setOption}) => {
   const data = [
-    {name: '마감순', value: 'deadlineDate'},
     {name: '인기순', value: 'view'},
     {name: '평점순', value: 'score'},
+    {name: '마감순', value: 'deadlineDate'},
   ];
   // const [option, setOption] = useState(null);
 
