@@ -254,48 +254,54 @@ const CreateRecruit2 = props => {
                   rules={{required: true}}
                   setValue={setValue}
                 /> */}
-                  <SelectDropdown
-                    buttonStyle={{
-                      // borderWidth: errors.place ? 1 : 0,
-                      // borderColor: errors.place ? ERROR_COLOR : WHITE_COLOR,
+                  <View
+                    style={{
                       backgroundColor: WHITE_COLOR,
                       borderRadius: 10,
                       height: 45,
                       flex: 1,
-                      // width: 255,
-                    }}
-                    dropdownStyle={{
-                      borderRadius: 10,
-                      backgroundColor: WHITE_COLOR,
-                    }}
-                    buttonTextStyle={{
-                      fontSize: 14,
-                      lineHeight: 17,
-                      fontWeight: '700',
-                    }}
-                    rowTextStyle={{
-                      fontSize: 14,
-                      lineHeight: 24,
-                      fontWeight: '400',
-                    }}
-                    data={dormitoryList}
-                    defaultValueByIndex={dormitory.id}
-                    // defaultValue={dormitory}
-                    // defaultValue={dormitory}
-                    renderDropdownIcon={() => {
-                      return <Image source={BOTTOM_ARROW} />;
-                    }}
-                    onSelect={(selectedItem, index) => {
-                      console.log(selectedItem, index);
-                      setValue('dormitory', selectedItem.value);
-                    }}
-                    buttonTextAfterSelection={selectedItem => {
-                      return selectedItem.name;
-                    }}
-                    rowTextForSelection={item => {
-                      return item.name;
-                    }}
-                  />
+                      alignItems: 'flex-end',
+                    }}>
+                    <SelectDropdown
+                      buttonStyle={{
+                        backgroundColor: WHITE_COLOR,
+                        borderRadius: 10,
+                        height: 45,
+                        // flex: 1,
+                        // width: '100%',
+                        // width: 255,
+                      }}
+                      dropdownStyle={{
+                        borderRadius: 10,
+                        backgroundColor: WHITE_COLOR,
+                      }}
+                      buttonTextStyle={{
+                        fontSize: 14,
+                        lineHeight: 17,
+                        fontWeight: '700',
+                      }}
+                      rowTextStyle={{
+                        fontSize: 14,
+                        lineHeight: 24,
+                        fontWeight: '400',
+                      }}
+                      data={dormitoryList}
+                      defaultValueByIndex={dormitory.id}
+                      renderDropdownIcon={() => {
+                        return <Image source={BOTTOM_ARROW} />;
+                      }}
+                      onSelect={(selectedItem, index) => {
+                        console.log(selectedItem, index);
+                        setValue('dormitory', selectedItem.value);
+                      }}
+                      buttonTextAfterSelection={selectedItem => {
+                        return selectedItem.name;
+                      }}
+                      rowTextForSelection={item => {
+                        return item.name;
+                      }}
+                    />
+                  </View>
                 </View>
 
                 {/* <DormitoryDescriptionInput
@@ -365,44 +371,12 @@ const CreateRecruit2 = props => {
                             props.navigation.navigate('배달 가게 선택', {
                               data: props.route.params,
                             });
-                            // setValue('place.name', props.route.params.name);
-                            // setValue(
-                            //   'place.addressName',
-                            //   props.route.params.addressName,
-                            // );
-                            // setValue(
-                            //   'place.roadAddressName',
-                            //   props.route.params.roadAddressName,
-                            // );
-                            // setValue('place.x', Number(props.route.params.x));
-                            // setValue('place.y', Number(props.route.params.y));
                           }}
                         />
                       </View>
                     );
                   }}
                 />
-                {/* <PlaceInput
-                error={errors}
-                name={'place'}
-                control={control}
-                rules={{required: true}}
-                // setValue={setValue}
-                value={props.route.params.name}
-                navigation={props.navigation}
-              /> */}
-                {/* <TextInput
-                style={{
-                  backgroundColor: WHITE_COLOR,
-                  width: '100%',
-                  height: 45,
-                  borderRadius: 10,
-                  padding: 15,
-                }}
-                value={props.route.params.name ? props.route.params.name : ''}
-                onTouchStart={() => props.navigation.navigate('배달 가게 선택')}
-                {...register('place', {required: true})}
-              /> */}
               </View>
             </View>
             <View
