@@ -398,12 +398,12 @@ const Main: React.FunctionComponent<MainProps> = props => {
           <Category navigation={props.navigation} />
           <View
             style={{
-              width: '95%',
               height: 1,
               borderColor: LINE_GRAY_COLOR,
               borderWidth: 1,
               marginTop: 24,
               marginBottom: 16,
+              marginHorizontal: '5%',
             }}
           />
           <View
@@ -426,12 +426,12 @@ const Main: React.FunctionComponent<MainProps> = props => {
           </View>
           <View
             style={{
-              width: '95%',
               height: 1,
               borderColor: LINE_GRAY_COLOR,
               borderWidth: 1,
               marginTop: 20,
               marginBottom: 16,
+              marginHorizontal: '5%',
             }}
           />
           <View
