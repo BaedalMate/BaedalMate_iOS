@@ -3,7 +3,9 @@ import {url} from '../../../../App';
 import {
   eachDetailChatRoomI,
   formDate,
+  formDateWithTwoDigit,
   formTime,
+  formTime24,
   participantI,
   recruitParticipantsI,
 } from 'components/utils/api/Chat';
@@ -239,33 +241,33 @@ export const ChatHeader = ({
   useEffect(() => {
     getDefaultMenu();
   }, []);
-  const now = new Date();
-  const text =
-    item?.recruit.deadlineDate.split(' ')[0] +
-    'T' +
-    item?.recruit.deadlineDate.split(' ')[1];
-  const deadline = new Date(text);
-  const time = deadline.getTime() - now.getTime();
-  const durationYear = deadline.getFullYear() - now.getFullYear();
-  const durationMonth = deadline.getMonth() - now.getMonth();
-  const durationDate = deadline.getDate() - now.getDate();
-  const durationHour = deadline.getHours() - now.getHours();
-  const durationMinutes = deadline.getMinutes() - now.getMinutes();
-  const durationSeconds = deadline.getSeconds() - now.getSeconds();
-  const timeText =
-    time < 0
-      ? '마감'
-      : durationYear > 0
-      ? durationYear + '년'
-      : durationMonth > 0
-      ? durationMonth + '달'
-      : durationDate > 0
-      ? durationDate + '일'
-      : durationHour > 0
-      ? durationHour + '시간'
-      : durationMinutes > 0
-      ? durationMinutes + '분'
-      : '마감 임박';
+  // const now = new Date();
+  // const text =
+  //   item?.recruit.deadlineDate.split(' ')[0] +
+  //   'T' +
+  //   item?.recruit.deadlineDate.split(' ')[1];
+  // const deadline = new Date(text);
+  // const time = deadline.getTime() - now.getTime();
+  // const durationYear = deadline.getFullYear() - now.getFullYear();
+  // const durationMonth = deadline.getMonth() - now.getMonth();
+  // const durationDate = deadline.getDate() - now.getDate();
+  // const durationHour = deadline.getHours() - now.getHours();
+  // const durationMinutes = deadline.getMinutes() - now.getMinutes();
+  // const durationSeconds = deadline.getSeconds() - now.getSeconds();
+  // const timeText =
+  //   time < 0
+  //     ? '마감'
+  //     : durationYear > 0
+  //     ? durationYear + '년'
+  //     : durationMonth > 0
+  //     ? durationMonth + '달'
+  //     : durationDate > 0
+  //     ? durationDate + '일'
+  //     : durationHour > 0
+  //     ? durationHour + '시간'
+  //     : durationMinutes > 0
+  //     ? durationMinutes + '분'
+  //     : '마감 임박';
   return (
     <>
       <MenuModal
@@ -340,18 +342,16 @@ export const ChatHeader = ({
                   style={{
                     fontSize: 14,
                     lineHeight: 24,
-                    // flex: 1,
                     color: DARK_GRAY_COLOR,
                     textAlignVertical: 'center',
                   }}>
-                  {/* {item.recruit.criteria === "TIME" ? } */}
                   {item.recruit.criteria === 'PRICE'
                     ? formPrice(item.recruit.minPrice) + '원'
                     : item.recruit.criteria === 'NUMBER'
                     ? item.recruit.minPeople + '인'
-                    : timeText.includes('마감')
-                    ? timeText
-                    : timeText + ' 남음'}
+                    : formDateWithTwoDigit(item.recruit.deadlineDate) +
+                      ' ' +
+                      formTime24(item.recruit.deadlineDate)}
                 </TextKRReg>
               </View>
             </View>

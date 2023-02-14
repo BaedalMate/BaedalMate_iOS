@@ -38,8 +38,9 @@ export interface recruitI {
   minPrice: number;
   minPeople: number;
   currentPeople?: number;
-  currentPrice: number;
+  currentPrice?: number;
   deadlineDate: string;
+  deactivateDate?: string;
   active: boolean;
   cancel: boolean;
   fail: boolean;
@@ -122,6 +123,18 @@ export const formDate = (time: string) => {
     '일';
   return dateText;
 };
+export const formDateWithTwoDigit = (time: string) => {
+  let date = new Date(time);
+
+  let dateText =
+    date.getFullYear().toString().substring(2, 4) +
+    '년 ' +
+    (date.getMonth() + 1) +
+    '월 ' +
+    date.getDate() +
+    '일';
+  return dateText;
+};
 
 export const formDateWithDot = (time: string) => {
   let date = new Date(time);
@@ -141,6 +154,15 @@ export const formTime = (time: string) => {
 
   let timeText =
     (date.getHours() < 12 ? '오전 ' : '오후 ') +
+    date.getHours().toString().padStart(2, '0') +
+    ':' +
+    date.getMinutes().toString().padStart(2, '0');
+  return timeText;
+};
+export const formTime24 = (time: string) => {
+  let date = new Date(time);
+
+  let timeText =
     date.getHours().toString().padStart(2, '0') +
     ':' +
     date.getMinutes().toString().padStart(2, '0');

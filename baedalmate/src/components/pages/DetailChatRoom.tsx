@@ -7,11 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {
-  LiveMyMessage,
-  MyMessage,
-  OpponentMessage,
-} from 'components/molecules/Chat/Message';
+import {MyMessage, OpponentMessage} from 'components/molecules/Chat/Message';
 import {url} from '../../../App';
 import {getJWTToken} from 'components/utils/api/Recruit';
 import axios from 'axios';
@@ -28,7 +24,6 @@ import {
   WHITE_COLOR,
 } from 'themes/theme';
 import ChatDate from 'components/atoms/Chat/ChatDate';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Text} from 'react-native-paper';
 import {MessageTextInput} from 'components/atoms/CreateRecruit/Input';
 import {useForm} from 'react-hook-form';
@@ -73,38 +68,6 @@ export interface messageProps {
 let ws = Stomp.over(function () {
   return new SockJS(url + '/ws/chat');
 });
-// ws.debug = text => console.log(text);
-
-// Object.assign(global, {WebSocket: require('websocket').w3cwebsocket});
-
-// export const MemberList = () => {
-//   return (
-//     <View
-//       style={{
-//         justifyContent: 'center',
-//         alignItems: 'center',
-//         width: '20%',
-//         paddingBottom: 15,
-//       }}>
-//       <Image
-//         source={{
-//           uri: 'https://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg',
-//         }}
-//         style={{
-//           width: 45,
-//           height: 45,
-//           backgroundColor: '#ffffff',
-//           borderRadius: 45 / 2,
-//           marginBottom: 6,
-//         }}
-//       />
-//       <View>
-//         <Text>김예빈</Text>
-//       </View>
-//     </View>
-//   );
-// };
-
 export const DetailChatRoom = props => {
   ws.configure({});
   const [recv, setRecv] = useState<recvI>();
@@ -124,7 +87,8 @@ export const DetailChatRoom = props => {
         .then(function (response) {
           if (response.status === 200) {
             setDetailChat(response.data);
-            return response.data.recruitList;
+            console.log(response);
+            return response.data;
           }
           return false;
         })
@@ -158,19 +122,12 @@ export const DetailChatRoom = props => {
 
   const [userId, setUserId] = useState(-1);
   const [myNickname, setMyNickname] = useState('');
-  // const [JWTAccessToken, setJWTAccessToken] = useState('');
   const getMyInfo = async () => {
-    // const JWTAccessToken = await getJWTToken();
-    // setJWTAccessToken(JWTAccessToken);
     const result = await getUserAPI();
     setUserId(result.userId);
     setMyNickname(result.nickname);
-    // const myNickname = await AsyncStorage.getItem('@BaedalMate_UserName');
-    // const userId = await AsyncStorage.getItem('@BaedalMate_UserId');
-    // myNickname !== null && setMyNickname(myNickname);
   };
 
-  // console.log('----------------------------------\n', userId, detailChat);
   const {
     control,
     handleSubmit,
@@ -185,14 +142,6 @@ export const DetailChatRoom = props => {
 
   const [messages, setMessages] = useState<messageProps[]>([]);
 
-  // const findRoom = () => {
-  //   const roomData: any = axios
-  //     .get(url + '/api/v1/room/' + props.route.params.id)
-  //     .then(response => {
-  //       // console.log(response.data);
-  //       setMessages(response.data.messages);
-  //     });
-  // };
   const sendMessage = messageText => {
     ws.send(
       '/app/chat/message',
@@ -204,11 +153,8 @@ export const DetailChatRoom = props => {
       }),
     );
     addMessages(messageText);
-    // setMessageText('');
-    // setValue('message', '');
   };
   const recvMessage = ({recv}: {recv: recvI}) => {
-    console.log({recv});
     recv && messages
       ? setMessages([
           ...messages,
@@ -236,9 +182,6 @@ export const DetailChatRoom = props => {
           '/topic/chat/room/' + props.route.params.id,
           function (message) {
             const recv = JSON.parse(message.body);
-            // vm.recvMessage(recv);
-            // console.log(recv);
-
             recvMessage(recv);
             setRecv(recv);
           },
@@ -248,7 +191,6 @@ export const DetailChatRoom = props => {
         if (reconnect++ <= 5) {
           setTimeout(function () {
             console.log('connection reconnect');
-            // sock = new SockJS(url + '/ws/chat');
             ws = Stomp.over(function () {
               return new SockJS(url + '/ws/chat');
             });
@@ -258,29 +200,6 @@ export const DetailChatRoom = props => {
       },
     );
   }
-
-  // const onConnected = () => {
-  //   console.log('onConnected');
-  //   ws.subscribe(
-  //     '/topic/chat/room/' + props.route.params.id,
-  //     function (message) {
-  //       const recv = JSON.parse(message.body);
-  //       // vm.recvMessage(recv);
-  //       recvMessage(recv);
-  //       // setRecv(recv);
-  //       console.log(recv);
-  //     },
-  //   );
-  //   ws.send(
-  //     '/app/chat/message',
-  //     {},
-  //     JSON.stringify({
-  //       roomId: props.route.params.id,
-  //       senderId: userId,
-  //       message: messageText,
-  //     }),
-  //   );
-  // };
 
   const MemberListModal = props => {
     return (
@@ -381,23 +300,16 @@ export const DetailChatRoom = props => {
 
     const blockUser = async () => {
       if (selectedUser?.userId) {
-        console.log(selectedUser);
-        console.log(selectedUser.userId);
         const result = await postBlockAPI(selectedUser?.userId);
         if (result.result === 'success') {
           Toast.show('차단이 완료되었습니다.');
         } else {
           Toast.show('차단에 실패하였습니다.');
         }
-        // if (result) {
-        //   console.log('block user', result);
-        // }
       }
     };
     const unblockUser = async () => {
       if (selectedUser?.userId) {
-        console.log(selectedUser);
-        console.log(selectedUser.userId);
         const result = await postUnBlockAPI(selectedUser?.userId);
         if (result.result === 'success') {
           Toast.show('차단 해제가 완료되었습니다.');
@@ -503,8 +415,6 @@ export const DetailChatRoom = props => {
                   <TouchableOpacity
                     style={{justifyContent: 'center', alignItems: 'center'}}
                     onPress={() => {
-                      // handleModal();
-                      // handleEachUserModal();
                       selectedUser?.block
                         ? setModalData(unblockModalData)
                         : setModalData(blockModalData);
@@ -515,10 +425,7 @@ export const DetailChatRoom = props => {
                       description={modalData.description}
                       modal={blockModal}
                       handleModal={handleBlockModal}
-                      confirmEvent={
-                        modalData.confirmEvent
-                        // selectedUser?.block ? unblockUser : blockUser
-                      }
+                      confirmEvent={modalData.confirmEvent}
                       choiceCnt={2}
                     />
                     <Image
@@ -569,30 +476,18 @@ export const DetailChatRoom = props => {
     detailChat?.recruit.recruitId &&
       getParticipants(detailChat?.recruit.recruitId);
   }, [detailChat?.recruit.recruitId]);
-  useEffect(() => {
-    console.log(participantsInfo);
-  }, [participantsInfo]);
+
   useEffect(() => {
     connect();
     getEachChatRoom();
   }, [messages, recv]);
 
   useEffect(() => {
-    console.log(messages);
     reset({
       message: '',
     });
   }, [messages]);
-  // useEffect(() => {
-  //   // let reconnect = 0;
-  //   // ws.onConnect(
-  //   //   {},
-  //   // connect();
-  //   if (messageText === '') return;
 
-  //   // sendMessage(messageText);
-  //   // );
-  // }, [messageText]);
   const [statusBarHeight, setStatusBarHeight] = useState(0);
   const [reviewUserList, setReviewUserList] = useState<recruitParticipantsI>();
   const [selectedUser, setSelectedUser] = useState<participantI>();
@@ -608,7 +503,6 @@ export const DetailChatRoom = props => {
     eachUserModal ? setEachUserModal(false) : setEachUserModal(true);
   };
   useEffect(() => {
-    console.log(props.route.params.modal);
     props.route.params.modal && setModal(props.route.params.modal);
   }, [props.route.params]);
   const getUsers = async id => {
@@ -623,9 +517,14 @@ export const DetailChatRoom = props => {
     detailChat?.recruit.recruitId && getUsers(detailChat?.recruit.recruitId);
   }, [detailChat?.recruit.recruitId]);
 
-  useEffect(() => {
-    console.log(userId);
-  }, [userId]);
+  const currentTime = Date.now();
+  const text =
+    detailChat?.recruit.deactivateDate?.split(' ')[0] +
+    'T' +
+    detailChat?.recruit.deactivateDate?.split(' ')[1];
+  const deactivateDate = new Date(text);
+  deactivateDate.setHours(deactivateDate.getHours() + 3);
+
   return (
     <>
       <MemberListModal>
@@ -685,28 +584,32 @@ export const DetailChatRoom = props => {
                     )}
                   </View>
                 ))}
-                {/* {messages?.map((v, i) => (
-                  <LiveMyMessage message={v} />
-                ))} */}
-                {/* {recv && recv.sender !== myNickname ? (
-      <>
-        <Text>{recv.sender}</Text>
-        <LiveOpponentMessage message={recv} />
-      </>
-    ) : (
-      recv && (
-        <>
-          <LiveMyMessage message={recv} />
-        </>
-      )
-    )} */}
-                {/* {messages?.map((v, i) => {
-      <Text>{(v.message, v.sender)}</Text>;
-    })} */}
               </View>
             </View>
           </View>
         </ScrollView>
+        {deactivateDate.getTime() <= currentTime && (
+          <View
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              zIndex: 10,
+              width: '100%',
+              height: 72,
+              backgroundColor: 'rgba(33, 33, 35, 0.69);',
+              justifyContent: 'center',
+            }}>
+            <TextKRBold
+              style={{
+                color: '#FFFFFF',
+                fontSize: 16,
+                alignItems: 'center',
+                textAlign: 'center',
+              }}>
+              모집 마감후 3시간까지만 채팅이 가능합니다
+            </TextKRBold>
+          </View>
+        )}
         <KeyboardAvoidingView
           style={{
             position: 'absolute',
@@ -722,7 +625,7 @@ export const DetailChatRoom = props => {
               bottom: 0,
               backgroundColor: LINE_GRAY_COLOR,
               width: '100%',
-              paddingBottom: 44,
+              // paddingBottom: 44,
               flexDirection: 'row',
               justifyContent: 'center',
               alignItems: 'center',
@@ -731,6 +634,7 @@ export const DetailChatRoom = props => {
             {/* <TouchableOpacity>
       <Image source={CAMERA_GRAY_FILLED_ICON} />
     </TouchableOpacity> */}
+
             <MessageTextInput
               error={errors}
               name={'message'}
@@ -739,7 +643,6 @@ export const DetailChatRoom = props => {
             />
             <TouchableOpacity
               onPress={handleSubmit(d => {
-                console.log(d.message);
                 setMessageText(d.message);
                 sendMessage(d.message);
                 setValue('message', '');
