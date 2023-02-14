@@ -36,6 +36,12 @@ import {
   getUniqueId,
   getModel,
 } from 'react-native-device-info';
+import {callApiSubscribeTopic} from 'components/utils/FCMSubscribeTopic';
+import {
+  NotificationAllAllowState,
+  NotificationNoticeAllowState,
+} from 'components/utils/recoil/atoms/FCMNotificationAllowList';
+import {useRecoilState} from 'recoil';
 
 const loginURL = url + '/login/oauth2/kakao';
 
@@ -93,6 +99,19 @@ export async function saveTokenToDatabase(token) {
   //   });
 }
 function Login({navigation}: LoginProps): React.ReactElement {
+  const [isEnabledAll, setIsEnabledAll] = useRecoilState(
+    NotificationAllAllowState,
+  );
+
+  const [isEnabledNotice, setIsEnabledNotice] = useRecoilState(
+    NotificationNoticeAllowState,
+  );
+  useEffect(() => {
+    if (isEnabledNotice) {
+      callApiSubscribeTopic();
+    }
+  }, []);
+
   // const [result, setResult] = useState<string>('');
   const [kakaoAccessToken, setKakaoAccessToken] = useState<string>('');
   // const [JWTRefreshToken, setJWTRefreshToken] = useState([]);
