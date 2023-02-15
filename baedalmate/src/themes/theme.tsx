@@ -122,6 +122,11 @@ const BOTTOM_ARROW_MAIN = require('../assets/icons/arrow/bottom_arrow_main.png')
 const BOTTOM_ARROW_MAIN_WIDE = require('../assets/icons/arrow/bottom_arrow_main_wide.png');
 const BOTTOM_ARROW_WHITE = require('../assets/icons/arrow/bottom_arrow_white.png');
 
+const BAEMIN_LOGO = require('../assets/images/baemin_logo.png');
+const COUPANGEATS_LOGO = require('../assets/images/coupangeats_logo.png');
+const DDANGYO_LOGO = require('../assets/images/ddangyo_logo.png');
+const ETC_LOGO = require('../assets/images/etc_logo.png');
+const YOGIYO_LOGO = require('../assets/images/yogiyo_new_logo_circle.png');
 const BAEMIN_ICON = require('../assets/images/baemin.png');
 const YOGIYO_ICON = require('../assets/images/yogiyo.png');
 const COUPANGEATS_ICON = require('../assets/images/coupang_eats.png');
@@ -166,6 +171,11 @@ const LOADING_PRIMARY_ICON = require('../assets/icons/loading/loading_primary.pn
 const DEFAULT_PROFILE_IMG = require('../assets/images/defaultProfileImage/default_profile_image.png');
 
 export {
+  BAEMIN_LOGO,
+  COUPANGEATS_LOGO,
+  DDANGYO_LOGO,
+  ETC_LOGO,
+  YOGIYO_LOGO,
   LOGO_SOLID_STROKE_GRAY,
   LOGO_SOLID_STROKE_GRAY7,
   LOGO_SOLID_STROKE_MAIN,

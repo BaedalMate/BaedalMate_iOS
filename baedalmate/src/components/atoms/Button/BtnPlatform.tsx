@@ -6,15 +6,15 @@
  * @flow strict-local
  */
 
-import React, {useState} from 'react';
+import React from 'react';
 import {useController} from 'react-hook-form';
 import {Image, Pressable, StyleSheet, View} from 'react-native';
 import {
-  BAEMIN_ICON,
-  COUPANGEATS_ICON,
-  DDANGYO_ICON,
-  ETC_ICON,
-  YOGIYO_ICON,
+  BAEMIN_LOGO,
+  COUPANGEATS_LOGO,
+  DDANGYO_LOGO,
+  ETC_LOGO,
+  YOGIYO_LOGO,
 } from 'themes/theme';
 import {Grayscale} from 'react-native-color-matrix-image-filters';
 
@@ -88,11 +88,11 @@ const PlatformSelect = ({
   setValue,
 }) => {
   const data = [
-    {value: 'BAEMIN', url: BAEMIN_ICON},
-    {value: 'YOGIYO', url: YOGIYO_ICON},
-    {value: 'COUPANG', url: COUPANGEATS_ICON},
-    {value: 'DDANGYO', url: DDANGYO_ICON},
-    {value: 'ETC', url: ETC_ICON},
+    {value: 'BAEMIN', url: BAEMIN_LOGO},
+    {value: 'YOGIYO', url: YOGIYO_LOGO},
+    {value: 'COUPANG', url: COUPANGEATS_LOGO},
+    {value: 'DDANGYO', url: DDANGYO_LOGO},
+    {value: 'ETC', url: ETC_LOGO},
   ];
   // const [option, setOption] = useState(null);
   const {field} = useController({
