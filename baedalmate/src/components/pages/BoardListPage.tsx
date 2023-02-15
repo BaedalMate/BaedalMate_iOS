@@ -46,7 +46,7 @@ const BoardListPage = ({route, navigation}) => {
     setCategoryId(route.params.categoryId);
   }, [route.params]);
   // 모집글 리스트 Api 받아옴
-  const getBoardListData = async () => {
+  const getBoardListData = async pageCnt => {
     try {
       const JWTAccessToken = await getJWTToken();
       const BoardListData =
@@ -130,9 +130,9 @@ const BoardListPage = ({route, navigation}) => {
   const getData = async () => {
     if (!last) {
       setLoading(true);
+      getBoardListData(pageCnt + 1);
       setPageCnt(pageCnt + 1);
       setTimeout(() => {
-        getBoardListData();
         setLoading(false);
       }, 1000);
       // const boardList = await getBoardListData();
@@ -151,7 +151,7 @@ const BoardListPage = ({route, navigation}) => {
   useEffect(() => {
     setPageCnt(0);
     setRecruitList([]);
-    getBoardListData();
+    getBoardListData(0);
   }, [selectedSort, categoryId, categoryIndex, exceptClose, route.params]);
   useEffect(() => {
     console.log(pageCnt);
