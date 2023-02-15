@@ -1,32 +1,59 @@
 import React, {useEffect, useState} from 'react';
-import {Alert, Linking, Platform, StyleSheet} from 'react-native';
+import {Alert, BackHandler, Linking, Platform, StyleSheet} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {RootNavigator} from './src/Routes';
-import {RecoilEnv, RecoilRoot, useRecoilState} from 'recoil';
+import {RecoilEnv, RecoilRoot} from 'recoil';
 import {RootSiblingParent} from 'react-native-root-siblings';
 import messaging from '@react-native-firebase/messaging';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import PushNotification from 'react-native-push-notification';
 
-import {callApiSubscribeTopic} from 'components/utils/FCMSubscribeTopic';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import VersionCheck from 'react-native-version-check';
 export const url = 'http://3.35.27.107:8080';
 export const FCMURL = url + '/api/v1/fcm';
 RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
-// const Tab = createBottomTabNavigator();
-async function requestUserPermission() {
-  const authStatus = await messaging().requestPermission();
-  const enabled =
-    authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-    authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+// const Tab = createBottomTa fbNavigator();
+// async function requestUserPermission() {
+//   const authStatus = await messaging().requestPermission();
+//   const enabled =
+//     authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+//     authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
-  if (enabled) {
-    console.log('Authorization status:', authStatus);
-    if (Platform.OS === 'ios') Linking.openURL('App-Prefs:root');
-  }
-}
+//   if (enabled) {
+//     console.log('Authorization status:', authStatus);
+//     if (Platform.OS === 'ios') Linking.openURL('App-Prefs:root');
+//   }
+// }
 
 const App = () => {
+  useEffect(() => {
+    checkVersion();
+  }, []);
+  const checkVersion = async () => {
+    try {
+      let updateNeeded = await VersionCheck.needUpdate();
+      if (updateNeeded && updateNeeded.isNeeded) {
+        Alert.alert(
+          '업데이트 안내',
+          '계속 앱을 사용하시려면 최신 버전의 앱으로 업데이트해야 합니다.',
+          [
+            {
+              text: 'Update',
+              onPress: () => {
+                BackHandler.exitApp();
+                Linking.openURL(updateNeeded.storeUrl);
+              },
+            },
+          ],
+          {cancelable: false},
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const [permissions, setPermissions] = useState({});
   // const [isEnabledAll, setIsEnabledAll] = useRecoilState(
   //   NotificationAllAllowState,
@@ -106,6 +133,16 @@ const App = () => {
   // Background, Quit 상태일 경우
   messaging().setBackgroundMessageHandler(async remoteMessage => {
     console.log('Message handled in the background!', remoteMessage);
+    remoteMessage &&
+      remoteMessage.data &&
+      remoteMessage.messageId &&
+      PushNotificationIOS.addNotificationRequest({
+        id: remoteMessage.messageId,
+        body: remoteMessage.data.body,
+        title: remoteMessage.data.title,
+        userInfo: remoteMessage.data,
+        sound: 'default',
+      });
 
     //  여기에 로직을 작성한다.
     //  remoteMessage.data로 메세지에 접근가능
@@ -119,7 +156,8 @@ const App = () => {
   React.useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       console.log('A new FCM message arrived!', JSON.stringify(remoteMessage));
-      // PushNotification.localNotification(remoteMessage);
+      PushNotification.localNotification(remoteMessage);
+
       remoteMessage &&
         remoteMessage.notification &&
         remoteMessage.messageId &&
@@ -138,6 +176,8 @@ const App = () => {
       .getToken()
       .then(token => {
         console.log(token);
+        AsyncStorage.setItem('@BaedalMate_FCMToken', token);
+
         // setFCMToken(token);
         // return saveTokenToDatabase(token);
       });
@@ -173,6 +213,15 @@ const App = () => {
         'Notification caused app to open from background state:',
         remoteMessage.notification,
       );
+      remoteMessage &&
+        remoteMessage.data &&
+        remoteMessage.messageId &&
+        PushNotificationIOS.addNotificationRequest({
+          id: remoteMessage.messageId,
+          body: remoteMessage.data.body,
+          title: remoteMessage.data.title,
+          userInfo: remoteMessage.data,
+        });
       // navigation.navigate(remoteMessage.data.type);
     });
 
@@ -185,6 +234,15 @@ const App = () => {
             'Notification caused app to open from quit state:',
             remoteMessage.notification,
           );
+          remoteMessage &&
+            remoteMessage.data &&
+            remoteMessage.messageId &&
+            PushNotificationIOS.addNotificationRequest({
+              id: remoteMessage.messageId,
+              body: remoteMessage.data.body,
+              title: remoteMessage.data.title,
+              userInfo: remoteMessage.data,
+            });
           // setInitialRoute(remoteMessage.data.type); // e.g. "Settings"
         }
         setLoading(false);
