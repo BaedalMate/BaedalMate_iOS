@@ -30,7 +30,7 @@ const BtnDeactive = (props: BtnWithTextProps) => {
 
 const styles = StyleSheet.create({
   brnActiveWrapper: {
-    width: 99,
+    // width: 99,
     height: 41,
     paddingVertical: 12,
     paddingHorizontal: 23,
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
   brnDeactiveWrapper: {
-    width: 99,
+    // width: 99,
     height: 41,
     paddingVertical: 12,
     paddingHorizontal: 23,

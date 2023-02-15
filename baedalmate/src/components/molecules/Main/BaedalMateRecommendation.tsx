@@ -29,31 +29,32 @@ const BaedalMateRecommendation = ({
   const getMainRecruitSortList = async () => {
     try {
       const JWTAccessToken = await getJWTToken();
-
-      const BoardListData = await axios
-        .get(mainRecruitListURL, {
-          headers: {
-            Authorization: 'Bearer ' + JWTAccessToken,
-          },
-          params: {
-            page: 0,
-            size: 5,
-            sort: option,
-          },
-        })
-        .then(function (response) {
-          if (response.status === 200) {
-            console.log(response);
-            setMainRecruitSortList(response.data.recruitList);
-            return response.data.recruitList;
-          }
-          return false;
-        })
-        .catch(function (error) {
-          console.log(error);
-          return false;
-        });
-      return BoardListData;
+      if (JWTAccessToken) {
+        const BoardListData = await axios
+          .get(mainRecruitListURL, {
+            headers: {
+              Authorization: 'Bearer ' + JWTAccessToken,
+            },
+            params: {
+              page: 0,
+              size: 5,
+              sort: option,
+            },
+          })
+          .then(function (response) {
+            if (response.status === 200) {
+              console.log(response);
+              setMainRecruitSortList(response.data.recruitList);
+              return response.data.recruitList;
+            }
+            return false;
+          })
+          .catch(function (error) {
+            console.log(error);
+            return false;
+          });
+        return BoardListData;
+      }
     } catch (error) {
       console.log(error);
       return false;

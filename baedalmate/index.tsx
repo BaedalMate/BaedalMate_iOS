@@ -2,13 +2,24 @@
  * @format
  */
 
-import {AppRegistry} from 'react-native';
+import {AppRegistry, Linking, Platform} from 'react-native';
 import App from './App';
 import {name as appName} from './app.json';
 import messaging from '@react-native-firebase/messaging';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import PushNotification from 'react-native-push-notification';
 
+async function requestUserPermission() {
+  const authStatus = await messaging().requestPermission();
+  const enabled =
+    authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+    authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+  if (enabled) {
+    console.log('Authorization status:', authStatus);
+    if (Platform.OS === 'ios') Linking.openURL('App-Prefs:root');
+  }
+}
 // Must be outside of any component LifeCycle (such as `componentDidMount`).
 PushNotification.configure({
   // (optional) Called when Token is generated (iOS and Android)
@@ -26,6 +37,13 @@ PushNotification.configure({
       (notification.userInteraction || notification.remote)
     ) {
       PushNotification.localNotification(notification);
+
+      PushNotificationIOS.addNotificationRequest({
+        id: notification.messageId,
+        body: notification.data.body,
+        title: notification.data.title,
+        userInfo: notification.data,
+      });
     }
     // (required) Called when a remote is received or opened, or local notification is opened
     notification.finish(PushNotificationIOS.FetchResult.NoData);
@@ -64,9 +82,29 @@ PushNotification.configure({
    */
   requestPermissions: true,
 });
+
 // Register background handler
 messaging().setBackgroundMessageHandler(async remoteMessage => {
   console.log('Message handled in the background!', remoteMessage);
+  // remoteMessage &&
+  //   remoteMessage.notification &&
+  //   remoteMessage.messageId &&
+  //   PushNotificationIOS.addNotificationRequest({
+  //     id: remoteMessage.messageId,
+  //     body: remoteMessage.notification.body,
+  //     title: remoteMessage.notification.title,
+  //     userInfo: remoteMessage.data,
+  //   });
+
+  remoteMessage &&
+    remoteMessage.data &&
+    remoteMessage.messageId &&
+    PushNotificationIOS.addNotificationRequest({
+      id: remoteMessage.messageId,
+      body: remoteMessage.data.body,
+      title: remoteMessage.data.title,
+      userInfo: remoteMessage.data,
+    });
 });
 
 AppRegistry.registerComponent(appName, () => App);

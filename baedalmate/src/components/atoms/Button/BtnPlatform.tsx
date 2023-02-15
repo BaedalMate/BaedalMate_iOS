@@ -37,6 +37,8 @@ const BtnPlatform = ({platform, setPlatform, data, onSelect}) => {
       style={{
         flexDirection: 'row',
         marginVertical: 15,
+        justifyContent: 'space-between',
+        width: '100%',
       }}>
       {data.map((item, i) => {
         return (
@@ -46,7 +48,7 @@ const BtnPlatform = ({platform, setPlatform, data, onSelect}) => {
             style={[
               item.value === platform ? styles.selected : styles.unselected,
               {
-                marginRight: 15,
+                // marginRight: 15,
               },
             ]}>
             {item.value === platform ? (
@@ -100,7 +102,15 @@ const PlatformSelect = ({
     rules,
   });
   return (
-    <View>
+    <View
+      style={{
+        width: '100%',
+        // justifyContent: 'space-between',
+        // flexDirection: 'row',
+        // justifyContent: 'space-between',
+        // width: '100%',
+        alignItems: 'center',
+      }}>
       <BtnPlatform
         data={data}
         onSelect={value => {

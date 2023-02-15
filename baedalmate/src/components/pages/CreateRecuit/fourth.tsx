@@ -18,6 +18,7 @@ import {
   postRecruitI,
   shippingFeeI,
 } from 'components/utils/api/Recruit';
+import Toast from 'react-native-root-toast';
 
 export interface RecruitItemProps {
   createDate: string;
@@ -320,44 +321,83 @@ const CreateRecruit4 = props => {
             //     : props.route.params.data.dormitory === '불암학사'
             //     ? 'BURAM'
             //     : 'KB';
-            let data: postRecruitI = {
-              categoryId: props.route.params.categoryId,
-              criteria: props.route.params.criteria,
-              coupon: Number(props.route.params.data.coupon),
-              dormitory: props.route.params.data.dormitory,
-              deadlineDate: props.route.params.deadlineDate,
-              description: props.route.params.description,
-              freeShipping: props.route.params.freeShipping,
-              menu: menuList ? menuList : [],
-              place: props.route.params.data.place,
-              platform: props.route.params.data.platform,
-              title: props.route.params.title,
-              tags: props.route.params.tags,
-              shippingFee: props.route.params.shippingFee,
-              minPrice: props.route.params.minPrice,
-              minPeople: props.route.params.minPeople,
-            };
-            console.log('data', data);
-            const result = await postRecruitAPI(
-              data,
-              // props.route.params.categoryId,
-              // props.route.params.data.place,
-              // props.route.params.data.dormitory,
-              // props.route.params.criteria,
-              // props.route.params.minPrice,
-              // props.route.params.minPeople,
-              // props.route.params.shippingFee,
-              // Number(props.route.params.data.coupon),
-              // props.route.params.data.platform,
-              // props.route.params.deadlineDate,
-              // props.route.params.title,
-              // props.route.params.description,
-              // props.route.params.freeShipping,
-              // menuList ? menuList : [],
-              // props.route.params.tags,
-            );
-            console.log('post new recruit', result);
-            props.navigation.navigate('홈');
+            if (menuList?.length === 0) {
+              Toast.show('메뉴를 추가해 주세요.');
+              return;
+            } else if (
+              // props.route.params.criteria === 'PRICE' &&
+              menuTotalPrice >= props.route.params.minPrice
+            ) {
+              Toast.show(
+                '모집기준이 금액인 경우, 메뉴의 총 금액이 최소금액보다 작아야 합니다.',
+              );
+              return;
+            } else {
+              let data: postRecruitI = {
+                categoryId: props.route.params.categoryId,
+                criteria: props.route.params.criteria,
+                coupon: Number(props.route.params.data.coupon),
+                dormitory: props.route.params.data.dormitory,
+                deadlineDate: props.route.params.deadlineDate,
+                description: props.route.params.description,
+                freeShipping: props.route.params.freeShipping,
+                menu: menuList ? menuList : [],
+                place: props.route.params.data.place,
+                platform: props.route.params.data.platform,
+                title: props.route.params.title,
+                tags: props.route.params.tags,
+                shippingFee: props.route.params.shippingFee,
+                minPrice: props.route.params.minPrice,
+                minPeople: props.route.params.minPeople,
+              };
+              console.log('data', data);
+              const result = await postRecruitAPI(
+                data,
+                // props.route.params.categoryId,
+                // props.route.params.data.place,
+                // props.route.params.data.dormitory,
+                // props.route.params.criteria,
+                // props.route.params.minPrice,
+                // props.route.params.minPeople,
+                // props.route.params.shippingFee,
+                // Number(props.route.params.data.coupon),
+                // props.route.params.data.platform,
+                // props.route.params.deadlineDate,
+                // props.route.params.title,
+                // props.route.params.description,
+                // props.route.params.freeShipping,
+                // menuList ? menuList : [],
+                // props.route.params.tags,
+              );
+              console.log('post new recruit', result);
+              if (result.status == 200) {
+                Toast.show('모집글을 성공적으로 올렸습니다.');
+                props.navigation.reset({
+                  index: 0,
+                  routes: [{name: '홈' as never}],
+                });
+
+                props.navigation.navigate(
+                  '글 상세 보기' as never,
+                  {
+                    id: result.data.recruitId,
+                  } as never,
+                );
+                // props.navigation.reset({
+                //   index: 1,
+                //   routes: [
+                //     {
+                //       name: '글 상세 보기' as never,
+                //       params: {id: result.data.recruitId},
+                //     },
+                //   ],
+                // });
+              } else {
+                Toast.show('모집글 올리기에 실패하였습니다.');
+                return;
+              }
+            }
+            // props.navigation.navigate('홈');
           }}
           text={'모집글 올리기'}
           id={4}

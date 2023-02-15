@@ -34,7 +34,7 @@ const GrayTag = ({item}: {item: BoardListProps | recruitI}) => {
       <TextKRReg
         style={{
           fontSize: 14,
-          lineHeight: 24,
+          lineHeight: 20,
           color: MAIN_GRAY_COLOR,
         }}>
         {criteriaText}

@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View} from 'react-native';
+import {View} from 'react-native';
 import {
   BLACK_COLOR,
-  DARK_GRAY_COLOR,
   LINE_GRAY_COLOR,
   PRIMARY_COLOR,
   WHITE_COLOR,
@@ -23,7 +22,6 @@ import {
   // totalRecruitListState,
 } from 'components/utils/recoil/atoms/RecruitList';
 import SwiperView from 'components/molecules/BoardList/SwiperView';
-import Checkbox from '@react-native-community/checkbox';
 
 export const sortData = [
   {name: '최신순', value: 'createDate'},
@@ -71,14 +69,13 @@ const BoardListPage = ({route, navigation}) => {
               .then(function (response) {
                 if (response.status === 200) {
                   console.log(selectedSort);
-                  console.log(response.data);
+                  console.log(response);
                   recruitList.length > 0
                     ? setRecruitList(
                         prev =>
                           [...prev, ...response.data.recruitList] as never[],
                       )
                     : setRecruitList(response.data.recruitList as never);
-                  //  setTotalList(response.data.recruitList);
                   setLast(response.data.last);
                   return response.data.recruitList;
                 }

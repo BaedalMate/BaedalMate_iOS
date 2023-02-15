@@ -20,7 +20,7 @@ const renderItem = blockedUserList => {
         <View></View>
       ) : (
         blockedUserList.map(item => {
-          return <NoticeListItem item={item} />;
+          return <NoticeListItem item={item} key={item.id} />;
         })
       )}
     </View>

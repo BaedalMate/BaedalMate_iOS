@@ -306,7 +306,7 @@ const BoardItemDetail = props => {
           },
         })
         .then(function (response) {
-          setItemDetailData(response.data);
+          response.data && setItemDetailData(response.data);
           return response.data;
         })
         .catch(function (error) {
@@ -383,7 +383,7 @@ const BoardItemDetail = props => {
                 />
               </View>
               <View style={{width: 10}} />
-              <View style={{flex: 4}}>
+              <View style={{flex: 3}}>
                 <BtnVerticalOrange
                   onPress={() => {
                     setModalData(closeRecruitModalData);

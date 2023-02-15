@@ -157,25 +157,12 @@ const BoardList = ({
     ? useRecoilState(searchRecruitListState)
     : useRecoilState(recruitListState);
   return boardList && boardList.length !== 0 ? (
-    // <ScrollView style={{width: '100%'}}>
-    //   {renderItem(boardList, categoryId)}
-    // </ScrollView>
     <FlatList
       data={boardList}
       style={{width: '100%'}}
       onEndReached={onEndReached}
-      // keyExtractor={item => String(item.recruitId)}
       onEndReachedThreshold={0.8}
-      ListFooterComponent={
-        loading && <RecruitListInfinityScroll />
-        // loading && (
-        //   <View>
-        //     <Text>loading</Text>
-        //   </View>
-        // )
-      }
-      // refreshing={loading}
-      // onRefresh={() => console.log(loading)}
+      ListFooterComponent={loading && <RecruitListInfinityScroll />}
       renderItem={({item}: {item: BoardListProps}) => {
         const dateString = item.createDate;
         const time = dateString.replace(' ', 'T');

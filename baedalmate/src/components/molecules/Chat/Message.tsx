@@ -5,7 +5,7 @@ import {
   MessageOrange,
 } from 'components/atoms/Chat/Message';
 import {StyleSheet, Text, View} from 'react-native';
-import {PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
+import {DARK_GRAY_COLOR, PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
 import {formTime, messageI} from 'components/utils/api/Chat';
 import {messageProps, recvI, sendI} from 'components/pages/DetailChatRoom';
 
@@ -21,13 +21,16 @@ export const MyMessage = ({message}: {message: messageI}) => {
         width: '100%',
         alignItems: 'flex-end',
         justifyContent: 'flex-end',
-        marginBottom: 10,
+        // marginBottom: 10,
+        paddingBottom: 20,
       }}>
       <Text
         style={{
+          maxWidth: '80%',
           textAlign: 'center',
           textAlignVertical: 'bottom',
           marginRight: 15,
+          color: DARK_GRAY_COLOR,
         }}>
         {formTime(timeText.toString())}
       </Text>
@@ -42,27 +45,17 @@ export const OpponentMessage = ({message}: {message: messageI}) => {
   return (
     <View
       style={{
+        width: '100%',
         flexDirection: 'column',
+        // paddingHorizontal: 15,
       }}>
-      {/* <View
-        style={{
-          marginTop: 10,
-        }}> */}
-      {/* <Text
-          style={{
-            width: '100%',
-          }}>
-          {message.sender.length >= MAX_USERNAME_LIMIT
-            ? message.sender.substring(0, MAX_USERNAME_LIMIT) + '...'
-            : message.sender}
-        </Text> */}
-      {/* </View> */}
       <View
         style={{
           flexDirection: 'row',
-          width: '100%',
-          marginBottom: 10,
+          // width: '100%',
           justifyContent: 'flex-start',
+          // alignItems: 'stretch',
+          paddingBottom: 20,
         }}>
         <View
           style={{
@@ -70,13 +63,14 @@ export const OpponentMessage = ({message}: {message: messageI}) => {
             justifyContent: 'flex-start',
             marginRight: 15,
             width: 30,
+            // width: 30,
           }}>
           <ChatProfileImage image={message.senderImage} />
         </View>
-        <View>
+        <View style={{maxWidth: '62%'}}>
           <Text
             style={{
-              width: '100%',
+              // width: '100%',
               marginBottom: 5,
             }}>
             {message.sender.length >= MAX_USERNAME_LIMIT
@@ -91,6 +85,7 @@ export const OpponentMessage = ({message}: {message: messageI}) => {
             textAlignVertical: 'bottom',
             marginLeft: 15,
             alignSelf: 'flex-end',
+            color: DARK_GRAY_COLOR,
           }}>
           {formTime(timeText)}
         </Text>
@@ -108,7 +103,7 @@ export const LiveMyMessage = ({message}: {message: messageProps}) => {
         width: '100%',
         alignItems: 'flex-end',
         justifyContent: 'flex-end',
-        marginBottom: 10,
+        paddingBottom: 10,
       }}>
       <Text
         style={{

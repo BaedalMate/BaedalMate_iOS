@@ -2,7 +2,7 @@ import {useNavigation} from '@react-navigation/native';
 import {url} from '../../../../App';
 import {BoardListProps} from 'components/molecules/BoardList/BoardList';
 import React, {useState} from 'react';
-import {Image, StyleSheet, TouchableHighlight, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableHighlight, View} from 'react-native';
 import {TextKRBold, TextKRReg} from 'themes/text';
 import {
   DARK_GRAY_COLOR,
@@ -36,7 +36,13 @@ const BoardItem = ({item}: {item: BoardListProps}) => {
           } as never,
         );
       }}>
-      <>
+      <View
+        style={{
+          flexDirection: 'row',
+          width: '100%',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
         <Image
           source={{
             uri: url + '/images/' + item.image,
@@ -47,8 +53,10 @@ const BoardItem = ({item}: {item: BoardListProps}) => {
           <View
             style={{
               position: 'absolute',
-              left: 15,
-              top: 18,
+              left: 0,
+              // position: 'absolute',
+              // left: 15,
+              // top: 18,
               width: 75,
               height: 75,
               borderRadius: 75 / 2,
@@ -91,7 +99,7 @@ const BoardItem = ({item}: {item: BoardListProps}) => {
             <TextKRBold
               style={{
                 fontSize: 16,
-                lineHeight: 22,
+                // lineHeight: 22,
               }}>
               {item.title}
             </TextKRBold>
@@ -109,18 +117,25 @@ const BoardItem = ({item}: {item: BoardListProps}) => {
               display: 'flex',
               flexDirection: 'row',
             }}>
-            <TextKRReg
+            <Text
               style={{
+                fontWeight: '400',
                 fontSize: 14,
-                lineHeight: 24,
+                color: DARK_GRAY_COLOR,
+                // lineHeight: 24,
                 flex: 1,
-              }}>
+              }}
+              // numberOfLines={1}
+              // ellipsizeMode="tail"
+            >
               <Image source={STORE_BLACK} /> {item.place}{' '}
-            </TextKRReg>
+            </Text>
             <TextKRReg
               style={{
                 fontSize: 14,
-                lineHeight: 24,
+                // lineHeight: 24,
+                color: DARK_GRAY_COLOR,
+
                 flex: 1,
               }}>
               <Image source={MARKER_BLACK} /> {item.dormitory}
@@ -132,12 +147,13 @@ const BoardItem = ({item}: {item: BoardListProps}) => {
               flexDirection: 'row',
               alignItems: 'center',
               flex: 1,
+              marginTop: 14,
             }}>
             <GrayTag item={item} />
             {item.active && <OrangeMainTag item={item} />}
           </View>
         </View>
-      </>
+      </View>
     </TouchableHighlight>
   );
 };
@@ -149,7 +165,7 @@ const styles = StyleSheet.create({
     paddingVertical: 18,
     paddingHorizontal: 15,
     width: '100%',
-    height: 120,
+    // height: 120,
     borderWidth: 1,
     borderColor: LINE_GRAY_COLOR,
     alignItems: 'stretch',

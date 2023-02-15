@@ -26,7 +26,7 @@ import appleAuth, {
   AppleRequestScope,
 } from '@invertase/react-native-apple-authentication';
 import {Text} from 'react-native-paper';
-import {getJWTToken} from 'components/utils/api/Recruit';
+import {getFCMToken, getJWTToken} from 'components/utils/api/Recruit';
 import {refreshAPI} from 'components/utils/api/Login';
 import {
   getBrand,
@@ -110,7 +110,7 @@ function Login({navigation}: LoginProps): React.ReactElement {
     if (isEnabledNotice) {
       callApiSubscribeTopic();
     }
-  }, []);
+  }, [isEnabledNotice]);
 
   // const [result, setResult] = useState<string>('');
   const [kakaoAccessToken, setKakaoAccessToken] = useState<string>('');
@@ -140,6 +140,9 @@ function Login({navigation}: LoginProps): React.ReactElement {
       // const value = await getJWTToken();
       if (value[0][1]) {
         console.log(value);
+        const FCMToken = await getFCMToken();
+
+        saveTokenToDatabase(FCMToken);
         navigation.navigate('BoardStackComponent', {
           token: value,
         });
@@ -150,6 +153,9 @@ function Login({navigation}: LoginProps): React.ReactElement {
       } else {
         getJWTTokens_server();
         const value = await getJWTToken();
+        const FCMToken = await getFCMToken();
+
+        saveTokenToDatabase(FCMToken);
         if (value) {
           console.log(value);
           navigation.navigate('BoardStackComponent', {
@@ -222,6 +228,13 @@ function Login({navigation}: LoginProps): React.ReactElement {
       console.log(error);
       const result = await refreshAPI();
       console.log(result);
+      // if (result.status === 200) {
+      //   navigation.navigate('BoardStackComponent');
+      //   navigation.reset({
+      //     index: 0,
+      //     routes: [{name: 'BoardStackComponent'}],
+      //   });
+      // }
       return false;
     }
   };

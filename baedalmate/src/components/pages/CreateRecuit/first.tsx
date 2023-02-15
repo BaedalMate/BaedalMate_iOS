@@ -62,7 +62,7 @@ const CreateRecruit1 = props => {
       : undefined;
   const [timePicker, setTimePicker] = useState(false);
   const [time, setTime] = useState(new Date());
-  const [endStandard, setEndStadard] = useState<endStandardType>('NUMBER');
+  const [endStandard, setEndStandard] = useState<endStandardType>('NUMBER');
   const [checked, setChecked] = useState('true');
   const [statusBarHeight, setStatusBarHeight] = useState(0);
   const [shippingFeeCnt, setShippingFeeCnt] = useState<number>(0);
@@ -145,7 +145,7 @@ const CreateRecruit1 = props => {
     }
     defaultItem &&
       defaultItem.criteria &&
-      setEndStadard(
+      setEndStandard(
         defaultItem.criteria === 'NUMBER'
           ? 'NUMBER'
           : defaultItem.criteria === 'PRICE'
@@ -221,6 +221,11 @@ const CreateRecruit1 = props => {
               }}>
               <TextKRBold style={styles.Title}>주문 조건</TextKRBold>
             </View>
+            {errors.minPeople && (
+              <Text style={styles.Validation}>
+                모집 인원이 마감 기준인 경우 2명 이상이어야 합니다.
+              </Text>
+            )}
             <View
               style={{
                 padding: 15,
@@ -237,7 +242,7 @@ const CreateRecruit1 = props => {
               <CntInput
                 name={'minPeople'}
                 control={control}
-                rules={{required: true}}
+                rules={{required: true, min: endStandard === 'NUMBER' ? 2 : 1}}
                 setValue={setValue}
               />
             </View>
@@ -362,27 +367,28 @@ const CreateRecruit1 = props => {
                 style={{
                   display: 'flex',
                   flexDirection: 'row',
+                  width: '100%',
                   justifyContent: 'space-between',
                 }}>
                 {endStandard === 'NUMBER' ? (
                   <>
                     <BtnActive
                       onPress={() => {
-                        setEndStadard('NUMBER');
+                        setEndStandard('NUMBER');
                         setValue('criteria', 'NUMBER');
                       }}
                       text={'모집 인원'}
                     />
                     <BtnDeactive
                       onPress={() => {
-                        setEndStadard('PRICE');
+                        setEndStandard('PRICE');
                         setValue('criteria', 'PRICE');
                       }}
                       text={'최소 주문'}
                     />
                     <BtnDeactive
                       onPress={() => {
-                        setEndStadard('TIME');
+                        setEndStandard('TIME');
                         setValue('criteria', 'TIME');
                       }}
                       text={'마감 시간'}
@@ -392,21 +398,21 @@ const CreateRecruit1 = props => {
                   <>
                     <BtnDeactive
                       onPress={() => {
-                        setEndStadard('NUMBER');
+                        setEndStandard('NUMBER');
                         setValue('criteria', 'NUMBER');
                       }}
                       text={'모집 인원'}
                     />
                     <BtnActive
                       onPress={() => {
-                        setEndStadard('PRICE');
+                        setEndStandard('PRICE');
                         setValue('criteria', 'PRICE');
                       }}
                       text={'최소 주문'}
                     />
                     <BtnDeactive
                       onPress={() => {
-                        setEndStadard('TIME');
+                        setEndStandard('TIME');
                         setValue('criteria', 'TIME');
                       }}
                       text={'마감 시간'}
@@ -416,21 +422,21 @@ const CreateRecruit1 = props => {
                   <>
                     <BtnDeactive
                       onPress={() => {
-                        setEndStadard('NUMBER');
+                        setEndStandard('NUMBER');
                         setValue('criteria', 'NUMBER');
                       }}
                       text={'모집 인원'}
                     />
                     <BtnDeactive
                       onPress={() => {
-                        setEndStadard('PRICE');
+                        setEndStandard('PRICE');
                         setValue('criteria', 'PRICE');
                       }}
                       text={'최소 주문'}
                     />
                     <BtnActive
                       onPress={() => {
-                        setEndStadard('TIME');
+                        setEndStandard('TIME');
                         setValue('criteria', 'TIME');
                       }}
                       text={'마감 시간'}

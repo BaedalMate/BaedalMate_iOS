@@ -162,10 +162,8 @@ const GPS = props => {
   const [target, setTarget] = useRecoilState(selectDormitoryState);
   const [targetLocation, setTargetLocation] = useState<LocationI>();
   const [distance, setDistance] = useState<number>();
-  // const Authentication = (latitude: number, longitude: number) => {};
 
-  const getTarget = async () => {
-    // const originTarget = await AsyncStorage.getItem('@BaedalMate_Dormitory');
+  const getTarget = () => {
     props.route.params && props.route.params.target
       ? setTarget(props.route.params.target)
       : setTarget(dormitory);
@@ -175,17 +173,10 @@ const GPS = props => {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
     setLocation({latitude, longitude});
-
-    // if (latitude === target.latitude && longitude === target.longitude) {
-    //   Authentication(latitude, longitude);
-    // }
   };
   const error = error => {
     console.error(error);
   };
-  // const options = {
-  //   enableHiAccuracy: true,
-  // };
   const deg2rad = deg => {
     return deg * (Math.PI / 180);
   };
@@ -209,16 +200,6 @@ const GPS = props => {
 
   // User dormitory 변경
   const putUserDormitory = async () => {
-    // let changedDormitory =
-    //   target === 'KB학사' || target === 'KB'
-    //     ? 'KB'
-    //     : target === '성림학사' || target === 'SUNGLIM'
-    //     ? 'SUNGLIM'
-    //     : target === '수림학사' || target === 'SULIM'
-    //     ? 'SULIM'
-    //     : target === '불암학사' || target === 'BURAM'
-    //     ? 'BURAM'
-    //     : 'NURI';
     const JWTAccessToken = await getJWTToken();
     console.log(target, JWTAccessToken);
     try {
@@ -227,7 +208,6 @@ const GPS = props => {
           dormitoryURL,
           {dormitory: target.value},
           {
-            // params: {},
             headers: {
               Authorization: 'Bearer ' + JWTAccessToken,
             },
@@ -343,9 +323,7 @@ const GPS = props => {
     choiceCnt: number;
     description?: string;
   }>(loadingModalData);
-  // useEffect(() => {
-  //   handleModal();
-  // }, [location]);
+
   return (
     <View>
       {location ? (
@@ -402,11 +380,6 @@ const GPS = props => {
           </View>
         </View>
       ) : (
-        // <>
-        //   <Text>Latitude:{location.latitude}</Text>
-        //   <Text>Longitude:{location.longitude}</Text>
-        // </>
-        // <Text>Loading</Text>
         <UsePopup
           title={modalData?.title}
           modal={modal}

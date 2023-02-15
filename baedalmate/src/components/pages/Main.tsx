@@ -86,28 +86,6 @@ export interface MainProps {
   };
 }
 
-// 메인 태그 모집글 리스트 api
-// 모집글 리스트 Api 받아옴
-// let imageURLList: any = [];
-// export const getImages = async fileOriginName => {
-//   const BoardListData = await axios
-//     .get(imageURL + `${fileOriginName}`)
-//     .then(function (response) {
-//       if (response.status === 200) {
-//         return response.data;
-//       }
-//       return false;
-//     })
-//     .catch(async function (error) {
-//       console.log(error);
-//       if (error.response.data.code === 401) {
-//         const result = await refreshAPI();
-//         console.log(result);
-//       }
-//       return false;
-//     });
-//   return BoardListData;
-// };
 const Main: React.FunctionComponent<MainProps> = props => {
   const [yOffset, setYOffset] = useState(0);
   const [StatusBGColor, setStatusBGColor] = useState(PRIMARY_COLOR);
@@ -148,10 +126,6 @@ const Main: React.FunctionComponent<MainProps> = props => {
         })
         .then(async function (response) {
           if (response.status === 200) {
-            // response.data.recruitList.map(async v => {
-            //   console.log(v);
-            //   return v;
-            // });
             console.log(response.data.recruitList);
             setMainRecruitList(response.data.recruitList);
 
@@ -228,9 +202,9 @@ const Main: React.FunctionComponent<MainProps> = props => {
         })
         .then(async function (response) {
           if (response.status === 200) {
-            await console.log(response.data);
-            await setMainTagRecruitList(response.data);
-            return response.data.recruitList;
+            console.log(response);
+            response.data && setMainTagRecruitList(response.data);
+            return response.data;
           } else if (response.status === 403) {
             // props.navigation.navigate('거점 인증');
             if (nickname !== '') {

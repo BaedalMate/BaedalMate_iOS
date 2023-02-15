@@ -2,6 +2,7 @@ import {url} from '../../../../App';
 import axios from 'axios';
 import {getJWTRefreshToken, getJWTToken} from './Recruit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {getUniqueId} from 'react-native-device-info';
 export const refreshURL = url + '/api/v1/refresh';
 export const logoutURL = url + '/logout';
 export const withdrawalURL = url + '/api/v1/user/withdrawal';
@@ -42,6 +43,7 @@ export const refreshAPI = async () => {
 
 export const logoutAPI = async () => {
   const JWTAccessToken = await getJWTToken();
+  const uniqueId = await getUniqueId();
   console.log(JWTAccessToken);
   try {
     const result = await axios
@@ -51,6 +53,8 @@ export const logoutAPI = async () => {
         {
           headers: {
             Authorization: 'Bearer ' + JWTAccessToken,
+            'Device-Code': uniqueId,
+
             // 'Refresh-Token': 'Bearer ' + JWTRefreshToken,
           },
         },

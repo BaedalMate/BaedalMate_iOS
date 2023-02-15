@@ -1,21 +1,25 @@
 import {atom} from 'recoil';
 
+// export const FCMTokenState = atom({
+//   key: 'FCMTokenState',
+//   default: '',
+// });
 export const NotificationAllAllowState = atom({
   key: 'notificationAllAllowState',
-  default: false,
+  default: true,
 });
 
 export const NotificationChatAllowState = atom({
   key: 'notificationChatAllowState',
-  default: false,
+  default: true,
 });
 
 export const NotificationNoticeAllowState = atom({
   key: 'notificationNoticeAllowState',
-  default: false,
+  default: true,
 });
 
 export const NotificationRecruitAllowState = atom({
   key: 'notificationRecruitAllowState',
-  default: false,
+  default: true,
 });

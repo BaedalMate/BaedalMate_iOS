@@ -19,6 +19,7 @@ import {
   NotificationRecruitAllowState,
 } from 'components/utils/recoil/atoms/FCMNotificationAllowList';
 import {useRecoilState} from 'recoil';
+import {callApiSubscribeTopic} from 'components/utils/FCMSubscribeTopic';
 export interface MyPageI {
   userId: number;
   nickname: string;
@@ -112,6 +113,12 @@ const Notification = ({route, navigation}) => {
       setIsEnabledAll(false);
     }
   }, [isEnabledChat, isEnabledNotice, isEnabledRecruit]);
+
+  useEffect(() => {
+    if (isEnabledNotice) {
+      callApiSubscribeTopic();
+    }
+  }, [isEnabledNotice]);
   return (
     <ScrollView
       style={{

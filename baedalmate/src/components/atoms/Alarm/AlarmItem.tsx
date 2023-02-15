@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/native';
 import {url} from '../../../../App';
 import {notificationsProps} from 'components/utils/api/Notifications';
 import React from 'react';
@@ -6,18 +7,19 @@ import {TextKRBold, TextKRReg} from 'themes/text';
 import {DARK_GRAY_COLOR, LINE_GRAY_COLOR} from 'themes/theme';
 
 const AlarmItem = ({item}: {item: notificationsProps}) => {
+  const navigation = useNavigation();
   return (
     <TouchableHighlight
       style={styles.AlarmItemWrapper}
       activeOpacity={0.6}
       underlayColor="#FFF3F0"
       onPress={() => {
-        // navigation.navigate(
-        //   '글 상세 보기' as never,
-        //   {
-        //     id: item.id,
-        //   } as never,
-        // );
+        navigation.navigate(
+          '채팅방' as never,
+          {
+            id: item.chatRoomId,
+          } as never,
+        );
       }}>
       <>
         <Image
@@ -97,7 +99,7 @@ const styles = StyleSheet.create({
     paddingVertical: 18,
     paddingHorizontal: 15,
     width: '100%',
-    height: 120,
+    height: 83,
     borderWidth: 1,
     borderColor: LINE_GRAY_COLOR,
     alignItems: 'stretch',
@@ -105,9 +107,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   storeImg: {
-    width: 75,
-    height: 75,
-    borderRadius: 75 / 2,
+    width: 40,
+    height: 40,
+    borderRadius: 40 / 2,
     marginRight: 15,
   },
 });

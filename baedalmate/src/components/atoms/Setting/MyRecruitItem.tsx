@@ -2,7 +2,7 @@ import {useNavigation} from '@react-navigation/native';
 import {url} from '../../../../App';
 import {BoardListProps} from 'components/molecules/BoardList/BoardList';
 import React, {useState} from 'react';
-import {Image, StyleSheet, TouchableHighlight, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableHighlight, View} from 'react-native';
 import {TextKRBold, TextKRReg} from 'themes/text';
 import {
   DARK_GRAY_COLOR,
@@ -61,14 +61,19 @@ const MyRecruitItem = ({item}: {item: BoardListProps}) => {
               flexDirection: 'row',
               justifyContent: 'space-between',
               marginBottom: 8,
+              width: '100%',
             }}>
-            <TextKRBold
+            <Text
               style={{
+                fontWeight: '700',
                 fontSize: 16,
                 lineHeight: 19,
-              }}>
+                flex: 1,
+              }}
+              numberOfLines={1}
+              ellipsizeMode="tail">
               {item.title}
-            </TextKRBold>
+            </Text>
             <TextKRBold
               style={{
                 fontSize: 14,

@@ -331,19 +331,19 @@ export const PriceInput = ({error, name, control, rules, isLast}) => {
               ? 178
               : name.indexOf('shippingFee') !== -1
               ? 210
-              : 290,
+              : 280,
           height: 45,
           borderTopLeftRadius: 10,
           borderBottomLeftRadius: 10,
-          padding: 15,
+          // padding: 15,
           textAlign: 'right',
           fontFamily: Fonts.Ko,
           fontStyle: 'normal',
           fontWeight: name.indexOf('shippingFeeRange') !== -1 ? '400' : '700',
           fontSize: 16,
-          lineHeight: 19,
+          // lineHeight: 19,
           textAlignVertical: 'center',
-          paddingRight: 5,
+          paddingRight: 10,
         }}
         keyboardType={'number-pad'}
         value={field.value.toString().split('원')[0]}

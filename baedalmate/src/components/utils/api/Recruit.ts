@@ -23,6 +23,11 @@ export const getJWTRefreshToken = async () => {
   return String(JWTRefreshToken);
 };
 
+export const getFCMToken = async () => {
+  const FCMToken = await AsyncStorage.getItem('@BaedalMate_FCMToken');
+  return await String(FCMToken);
+};
+
 export const formPrice = (text: number | undefined) => {
   return text?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
@@ -110,12 +115,12 @@ export const postRecruitAPI = async data => {
       })
       .catch(function (error) {
         console.log(error);
-        return false;
+        return error;
       });
     return result;
   } catch (error) {
     console.log(error);
-    return false;
+    return error;
   }
 };
 

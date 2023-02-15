@@ -555,7 +555,7 @@ export const DetailChatRoom = props => {
               style={{
                 paddingHorizontal: 15,
               }}>
-              <View>
+              <View style={{width: '100%'}}>
                 {detailChat?.messages.map((v, i) => (
                   <View key={i}>
                     {i === 0 && <ChatDate item={v} key={i} />}

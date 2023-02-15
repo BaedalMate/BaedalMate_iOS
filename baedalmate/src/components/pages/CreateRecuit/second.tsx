@@ -207,7 +207,6 @@ const CreateRecruit2 = props => {
         backgroundColor: WHITE_COLOR,
       }}>
       <KeyboardAvoidingView
-        // style={styles.avoidingView}
         behavior={Platform.select({ios: 'padding'})}
         keyboardVerticalOffset={statusBarHeight + 44}>
         <ScrollView
@@ -232,9 +231,9 @@ const CreateRecruit2 = props => {
                 borderBottomColor: WHITE_COLOR,
               }}>
               <TextKRBold style={styles.Label}>배달 거점</TextKRBold>
-              {/* <TextKRReg style={styles.Description}>
-              모집 인원에 도달하면 모집이 완료됩니다
-            </TextKRReg> */}
+              <TextKRReg style={styles.Description}>
+                모집 인원에 도달하면 모집이 완료됩니다
+              </TextKRReg>
               <View
                 style={{
                   paddingVertical: 15,
@@ -247,13 +246,6 @@ const CreateRecruit2 = props => {
                     }}>
                     서울과기대
                   </Text>
-                  {/* <DormitoryInput
-                  error={errors}
-                  name={'dormitory'}
-                  control={control}
-                  rules={{required: true}}
-                  setValue={setValue}
-                /> */}
                   <View
                     style={{
                       backgroundColor: WHITE_COLOR,
@@ -267,9 +259,6 @@ const CreateRecruit2 = props => {
                         backgroundColor: WHITE_COLOR,
                         borderRadius: 10,
                         height: 45,
-                        // flex: 1,
-                        // width: '100%',
-                        // width: 255,
                       }}
                       dropdownStyle={{
                         borderRadius: 10,
@@ -303,14 +292,6 @@ const CreateRecruit2 = props => {
                     />
                   </View>
                 </View>
-
-                {/* <DormitoryDescriptionInput
-                  error={errors}
-                  name={'description'}
-                  control={control}
-                  rules={{required: true}}
-                  setValue={setValue}
-                /> */}
               </View>
             </View>
             <View
@@ -324,11 +305,6 @@ const CreateRecruit2 = props => {
               <TextKRBold style={styles.Label}>
                 배달 가게 <Image source={MAP_GRAY} />
               </TextKRBold>
-              {/* {errors.place && (
-              <Text style={styles.Validation}>
-                배달 가게를 입력해주세요
-              </Text>
-            )} */}
               <View>
                 <Controller
                   name="place.name"
@@ -340,13 +316,7 @@ const CreateRecruit2 = props => {
                   defaultValue={''}
                   render={() => {
                     return (
-                      <View
-                        style={
-                          {
-                            // borderWidth: errors.place. ? 1 : 0,
-                            // borderColor: errors.place ? ERROR_COLOR : WHITE_COLOR,
-                          }
-                        }>
+                      <View style={{}}>
                         <TextInput
                           style={{
                             borderWidth: errors.place?.name ? 1 : 0,
@@ -385,13 +355,17 @@ const CreateRecruit2 = props => {
                 backgroundColor: '#F7F8FA',
                 borderBottomWidth: 5,
                 borderBottomColor: WHITE_COLOR,
+                width: '100%',
               }}>
               <TextKRBold style={styles.Label}>배달 플랫폼</TextKRBold>
               <View
-                style={{
-                  justifyContent: 'space-between',
-                  flexDirection: 'row',
-                }}>
+                style={
+                  {
+                    // width: '100%',
+                    // justifyContent: 'space-between',
+                    // flexDirection: 'row',
+                  }
+                }>
                 <PlatformSelect
                   platform={platform}
                   setPlatform={setPlatform}
