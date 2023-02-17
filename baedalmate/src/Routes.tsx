@@ -237,13 +237,22 @@ export const BoardStackComponent = () => {
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
-                let index = navigation.dangerouslyGetParent().state.index;
+                // let index = navigation.getParent().id;
                 // handle the index we get
-                if (index > 0) {
+                // navigation.goBack();
+                // check to see if it is possible to go back
+                let canGoBack = navigation.canGoBack();
+                // handle what we do it we can/cannot go back
+                if (canGoBack) {
                   navigation.goBack();
                 } else {
                   navigation.navigate('HomeBoard');
                 }
+
+                // if (index >= 0) {
+                // } else {
+                //   navigation.navigate('HomeBoard');
+                // }
                 // if (navigation.goBack()) {
                 //   navigation.goBack();
                 // } else {

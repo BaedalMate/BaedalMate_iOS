@@ -169,16 +169,21 @@ const App = () => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       console.log('A new FCM message arrived!', JSON.stringify(remoteMessage));
       PushNotification.localNotification(remoteMessage);
-
-      remoteMessage &&
-        remoteMessage.notification &&
-        remoteMessage.messageId &&
-        PushNotificationIOS.addNotificationRequest({
-          id: remoteMessage.messageId,
-          body: remoteMessage.notification.body,
-          title: remoteMessage.notification.title,
-          userInfo: remoteMessage.data,
-        });
+      remoteMessage.data &&
+        sendLocalNotificationWithSound(
+          remoteMessage.messageId,
+          remoteMessage.data.title,
+          remoteMessage.data.body,
+        );
+      // remoteMessage &&
+      //   remoteMessage.notification &&
+      //   remoteMessage.messageId &&
+      //   PushNotificationIOS.addNotificationRequest({
+      //     id: remoteMessage.messageId,
+      //     body: remoteMessage.notification.body,
+      //     title: remoteMessage.notification.title,
+      //     userInfo: remoteMessage.data,
+      //   });
     });
     return unsubscribe;
   });
@@ -337,15 +342,15 @@ const App = () => {
   //   });
   // };
 
-  // const sendLocalNotificationWithSound = (id, title, body) => {
-  //   PushNotificationIOS.addNotificationRequest({
-  //     id: id,
-  //     title: title,
-  //     body: body,
-  //     sound: 'default',
-  //     // badge: 1,
-  //   });
-  // };
+  const sendLocalNotificationWithSound = (id, title, body) => {
+    PushNotificationIOS.addNotificationRequest({
+      id: id,
+      title: title,
+      body: body,
+      sound: 'default',
+      // badge: 1,
+    });
+  };
 
   // const scheduleLocalNotification = () => {
   //   PushNotificationIOS.scheduleLocalNotification({
