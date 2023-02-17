@@ -145,16 +145,25 @@ const App = () => {
   // Background, Quit 상태일 경우
   messaging().setBackgroundMessageHandler(async remoteMessage => {
     console.log('Message handled in the background!', remoteMessage);
-    remoteMessage &&
-      remoteMessage.data &&
-      remoteMessage.messageId &&
-      PushNotificationIOS.addNotificationRequest({
-        id: remoteMessage.messageId,
-        body: remoteMessage.data.body,
-        title: remoteMessage.data.title,
-        userInfo: remoteMessage.data,
-        sound: 'default',
-      });
+    PushNotification.localNotification(remoteMessage);
+
+    remoteMessage.data &&
+      sendLocalNotificationWithSound(
+        remoteMessage.messageId,
+        remoteMessage.data.title,
+        remoteMessage.data.body,
+        remoteMessage.data.image,
+      );
+    // remoteMessage &&
+    //   remoteMessage.data &&
+    //   remoteMessage.messageId &&
+    //   PushNotificationIOS.addNotificationRequest({
+    //     id: remoteMessage.messageId,
+    //     body: remoteMessage.data.body,
+    //     title: remoteMessage.data.title,
+    //     userInfo: remoteMessage.data,
+    //     sound: 'default',
+    //   });
 
     //  여기에 로직을 작성한다.
     //  remoteMessage.data로 메세지에 접근가능
@@ -174,6 +183,8 @@ const App = () => {
           remoteMessage.messageId,
           remoteMessage.data.title,
           remoteMessage.data.body,
+
+          remoteMessage.data.image,
         );
       // remoteMessage &&
       //   remoteMessage.notification &&
@@ -233,6 +244,7 @@ const App = () => {
         'Notification caused app to open from background state:',
         remoteMessage.notification,
       );
+
       remoteMessage &&
         remoteMessage.data &&
         remoteMessage.messageId &&
@@ -240,7 +252,9 @@ const App = () => {
           id: remoteMessage.messageId,
           body: remoteMessage.data.body,
           title: remoteMessage.data.title,
-          userInfo: remoteMessage.data,
+          userInfo: {
+            image: url + '/images/' + remoteMessage.data.image,
+          },
         });
       // navigation.navigate(remoteMessage.data.type);
     });
@@ -342,12 +356,15 @@ const App = () => {
   //   });
   // };
 
-  const sendLocalNotificationWithSound = (id, title, body) => {
+  const sendLocalNotificationWithSound = (id, title, body, image) => {
     PushNotificationIOS.addNotificationRequest({
       id: id,
       title: title,
       body: body,
       sound: 'default',
+      userInfo: {
+        image: url + '/images/' + image,
+      },
       // badge: 1,
     });
   };
