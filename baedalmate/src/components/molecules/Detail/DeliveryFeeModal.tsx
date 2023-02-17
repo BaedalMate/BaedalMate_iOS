@@ -145,7 +145,11 @@ const DeliveryFeeModal = ({item}: {item: RecruitItemProps | undefined}) => {
                 )}
 
                 {item?.shippingFeeDetail &&
-                item?.shippingFeeDetail.length > 0 ? (
+                item?.shippingFeeDetail.length > 0 &&
+                !(
+                  item.shippingFeeDetail[0].lowerPrice === 0 &&
+                  item.shippingFeeDetail[0].shippingFee === 0
+                ) ? (
                   item?.shippingFeeDetail.map((v, i) => {
                     let isCurrent = false;
                     if (v.shippingFee === item.shippingFee) isCurrent = true;

@@ -64,7 +64,12 @@ const TodayMenuItemCompleted = ({item}: {item: eachMainTagRecruitListI}) => {
               padding: 12,
               justifyContent: 'space-evenly',
             }}>
-            <TextKRBold>{item.place} </TextKRBold>
+            <Text
+              style={{fontSize: 16, fontWeight: '700'}}
+              numberOfLines={1}
+              ellipsizeMode="tail">
+              {item.place}
+            </Text>
 
             <TextKRBold style={{textAlignVertical: 'center'}}>
               <Image

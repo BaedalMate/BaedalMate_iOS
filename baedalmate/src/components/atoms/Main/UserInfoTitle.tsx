@@ -12,7 +12,10 @@ import {TextKRBold, TextKRReg} from 'themes/text';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
 import {useRecoilState, useResetRecoilState} from 'recoil';
-import {selectDormitoryState} from 'components/utils/recoil/atoms/User';
+import {
+  selectDormitoryState,
+  userDormitoryState,
+} from 'components/utils/recoil/atoms/User';
 import {dormitoryList} from 'components/pages/CreateRecuit/second';
 
 export type UserAddressProps = {
@@ -35,9 +38,11 @@ const UserInfoTitle = ({
 }) => {
   const [modal, setModal] = useState(false);
   // const [selectedAddress, setSelectedAddress] = useState(userAddress);
+  const [userAddressState, setUserAddressState] =
+    useRecoilState(userDormitoryState);
   const [selectedAddress, setSelectedAddress] =
     useRecoilState(selectDormitoryState);
-  const resetSelectedAddress = useResetRecoilState(selectDormitoryState);
+  const resetSelectedAddress = () => setSelectedAddress(userAddressState);
   useEffect(() => {
     setSelectedAddress(userAddress);
   }, []);

@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
   btnFloatingText: {
     color: '#FFFFFF',
-    fontSize: 55,
+    fontSize: 60,
     fontWeight: '200',
     lineHeight: 60,
   },

@@ -41,23 +41,25 @@ const BaedalMateRecommendation = ({
               sort: option,
             },
           })
-          .then(function (response) {
+          .then(response => {
             if (response.status === 200) {
               console.log(response);
-              setMainRecruitSortList(response.data.recruitList);
+              response.data &&
+                response.data.recruitList &&
+                setMainRecruitSortList(response.data.recruitList);
               return response.data.recruitList;
             }
-            return false;
+            return response;
           })
           .catch(function (error) {
             console.log(error);
-            return false;
+            return error;
           });
         return BoardListData;
       }
     } catch (error) {
       console.log(error);
-      return false;
+      return error;
     }
   };
   useEffect(() => {

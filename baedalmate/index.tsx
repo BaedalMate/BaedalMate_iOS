@@ -106,5 +106,4 @@ messaging().setBackgroundMessageHandler(async remoteMessage => {
       userInfo: remoteMessage.data,
     });
 });
-
 AppRegistry.registerComponent(appName, () => App);

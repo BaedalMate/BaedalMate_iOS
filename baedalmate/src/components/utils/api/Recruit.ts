@@ -27,6 +27,10 @@ export const getFCMToken = async () => {
   const FCMToken = await AsyncStorage.getItem('@BaedalMate_FCMToken');
   return await String(FCMToken);
 };
+export const getAPNSToken = async () => {
+  const FCMToken = await AsyncStorage.getItem('@BaedalMate_APNSToken');
+  return await String(FCMToken);
+};
 
 export const formPrice = (text: number | undefined) => {
   return text?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');

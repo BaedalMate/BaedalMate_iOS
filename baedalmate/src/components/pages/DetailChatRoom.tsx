@@ -196,7 +196,7 @@ export const DetailChatRoom = props => {
               return new SockJS(url + '/ws/chat');
             });
             connect();
-          }, 10 * 1000);
+          }, 5 * 1000);
         }
       },
     );

@@ -331,7 +331,7 @@ export const PriceInput = ({error, name, control, rules, isLast}) => {
               ? 178
               : name.indexOf('shippingFee') !== -1
               ? 210
-              : 280,
+              : 300,
           height: 45,
           borderTopLeftRadius: 10,
           borderBottomLeftRadius: 10,
@@ -343,7 +343,7 @@ export const PriceInput = ({error, name, control, rules, isLast}) => {
           fontSize: 16,
           // lineHeight: 19,
           textAlignVertical: 'center',
-          paddingRight: 10,
+          paddingRight: 20,
         }}
         keyboardType={'number-pad'}
         value={field.value.toString().split('원')[0]}

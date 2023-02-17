@@ -237,7 +237,18 @@ export const BoardStackComponent = () => {
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
-                navigation.goBack();
+                let index = navigation.dangerouslyGetParent().state.index;
+                // handle the index we get
+                if (index > 0) {
+                  navigation.goBack();
+                } else {
+                  navigation.navigate('HomeBoard');
+                }
+                // if (navigation.goBack()) {
+                //   navigation.goBack();
+                // } else {
+                //   navigation.navigate('HomeBoard');
+                // }
               }}>
               <Image source={BACK_GRAY} />
             </TouchableOpacity>

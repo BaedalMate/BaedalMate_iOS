@@ -127,7 +127,10 @@ const Main: React.FunctionComponent<MainProps> = props => {
         .then(async function (response) {
           if (response.status === 200) {
             console.log(response.data.recruitList);
-            setMainRecruitList(response.data.recruitList);
+            response &&
+              response.data &&
+              response.data.recruitList &&
+              (await setMainRecruitList(response.data.recruitList));
 
             return response.data.recruitList;
           } else if (response.status === 401) {
@@ -149,7 +152,7 @@ const Main: React.FunctionComponent<MainProps> = props => {
               props.navigation.navigate('프로필 설정');
             }
           }
-          return false;
+          return response;
         })
         .catch(async function (error) {
           console.log(error);
@@ -173,14 +176,14 @@ const Main: React.FunctionComponent<MainProps> = props => {
               ['@BaedalMate_JWTRefreshToken', refToken],
             ]);
           }
-          return false;
+          return error;
         });
       console.log('BoardListData', BoardListData);
       return BoardListData;
     } catch (error) {
       console.log(error);
 
-      return false;
+      return error;
     }
   };
 

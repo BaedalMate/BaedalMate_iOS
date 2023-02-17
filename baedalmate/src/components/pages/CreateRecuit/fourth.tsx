@@ -19,6 +19,7 @@ import {
   shippingFeeI,
 } from 'components/utils/api/Recruit';
 import Toast from 'react-native-root-toast';
+import {CommonActions} from '@react-navigation/native';
 
 export interface RecruitItemProps {
   createDate: string;
@@ -372,26 +373,33 @@ const CreateRecruit4 = props => {
               console.log('post new recruit', result);
               if (result.status == 200) {
                 Toast.show('모집글을 성공적으로 올렸습니다.');
+
+                // props.navigation.dispatch(
+                //   CommonActions.reset({
+                //     index: 0,
+                //     routes: [{name: '홈' as never}],
+                //   }),
+                // );
                 props.navigation.reset({
                   index: 0,
                   routes: [{name: '홈' as never}],
-                });
+                }),
+                  // props.navigation.navigate(
+                  //   '글 상세 보기' as never,
+                  //   {
+                  //     id: result.data.recruitId,
+                  //   } as never,
+                  // );
 
-                props.navigation.navigate(
-                  '글 상세 보기' as never,
-                  {
-                    id: result.data.recruitId,
-                  } as never,
-                );
-                // props.navigation.reset({
-                //   index: 1,
-                //   routes: [
-                //     {
-                //       name: '글 상세 보기' as never,
-                //       params: {id: result.data.recruitId},
-                //     },
-                //   ],
-                // });
+                  props.navigation.reset({
+                    index: 1,
+                    routes: [
+                      {
+                        name: '글 상세 보기' as never,
+                        params: {id: result.data.recruitId},
+                      },
+                    ],
+                  });
               } else {
                 Toast.show('모집글 올리기에 실패하였습니다.');
                 return;

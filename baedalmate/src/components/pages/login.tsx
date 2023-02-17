@@ -26,7 +26,11 @@ import appleAuth, {
   AppleRequestScope,
 } from '@invertase/react-native-apple-authentication';
 import {Text} from 'react-native-paper';
-import {getFCMToken, getJWTToken} from 'components/utils/api/Recruit';
+import {
+  getAPNSToken,
+  getFCMToken,
+  getJWTToken,
+} from 'components/utils/api/Recruit';
 import {refreshAPI} from 'components/utils/api/Login';
 import {
   getBrand,
@@ -63,7 +67,7 @@ export async function saveTokenToDatabase(token) {
   console.log(uniqueId);
 
   try {
-    const result = axios
+    const result = await axios
       .post(
         FCMURL,
         {},
@@ -81,13 +85,14 @@ export async function saveTokenToDatabase(token) {
       })
       .catch(function (error) {
         console.log(error);
-        return false;
+        return error;
       });
     return result;
   } catch (error) {
     console.log(error);
     return false;
   }
+
   // Assume user is already signed in
   // const userId = auth().currentUser.uid;
   // Add the token to the users datastore
@@ -141,21 +146,28 @@ function Login({navigation}: LoginProps): React.ReactElement {
       if (value[0][1]) {
         console.log(value);
         const FCMToken = await getFCMToken();
-
+        // const APNSToken = await getAPNSToken();
         saveTokenToDatabase(FCMToken);
-        navigation.navigate('BoardStackComponent', {
-          token: value,
-        });
-        navigation.reset({
-          index: 0,
-          routes: [{name: 'BoardStackComponent'}],
-        });
+        // const result = saveTokenToDatabase(FCMToken);
+        // console.log(result);
+        if (value) {
+          navigation.navigate('BoardStackComponent', {
+            token: value,
+          });
+          navigation.reset({
+            index: 0,
+            routes: [{name: 'BoardStackComponent'}],
+          });
+        }
       } else {
         getJWTTokens_server();
         const value = await getJWTToken();
         const FCMToken = await getFCMToken();
-
         saveTokenToDatabase(FCMToken);
+        // const APNSToken = await getAPNSToken();
+        // const result = saveTokenToDatabase(FCMToken);
+        // console.log(result);
+        // await saveTokenToDatabase(APNSToken);
         if (value) {
           console.log(value);
           navigation.navigate('BoardStackComponent', {
