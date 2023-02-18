@@ -28,7 +28,6 @@ import {
 import messaging from '@react-native-firebase/messaging';
 
 import {dormitoryList} from './CreateRecuit/second';
-import {saveTokenToDatabase} from './login';
 export const userURL = url + '/api/v1/user';
 export const recruitListURL = url + '/api/v1/recruit/list';
 export const mainRecruitListURL = url + '/api/v1/recruit/main/list';

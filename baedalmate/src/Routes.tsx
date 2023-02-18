@@ -27,7 +27,10 @@ import CreateRecruit3 from 'components/pages/CreateRecuit/third';
 import CreateRecruit4 from 'components/pages/CreateRecuit/fourth';
 import PlaceSearch from 'components/pages/CreateRecuit/PlaceSearch';
 import SelectCategoryPage from 'components/pages/CreateRecuit/CategorySelect';
-import {useNavigation} from '@react-navigation/native';
+import {
+  createNavigationContainerRef,
+  useNavigation,
+} from '@react-navigation/native';
 import DetailChatRoom from 'components/pages/DetailChatRoom';
 import Chat from 'components/pages/ChatList';
 import {Map} from 'components/molecules/Detail/Map';
@@ -770,6 +773,14 @@ export const ChatStackComponent = () => {
 //     </SettingStack.Navigator>
 //   );
 // };
+export const navigationRef = createNavigationContainerRef();
+export function navigate(name: never, params?: never) {
+  if (navigationRef.isReady()) {
+    params
+      ? navigationRef.navigate(name, params)
+      : navigationRef.navigate(name);
+  }
+}
 
 export const RootNavigator = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

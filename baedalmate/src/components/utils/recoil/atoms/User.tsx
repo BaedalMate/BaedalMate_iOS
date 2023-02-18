@@ -1,6 +1,14 @@
 import {atom} from 'recoil';
 import {DEFAULT_PROFILE_IMG} from 'themes/theme';
 
+export const JWTAccessTokenState = atom({
+  key: 'JWTAccessTokenState',
+  default: '',
+});
+export const JWTRefreshTokenState = atom({
+  key: 'JWTRefreshTokenState',
+  default: '',
+});
 export const FCMTokenState = atom({
   key: 'FCMTokenState',
   default: '',

@@ -46,64 +46,25 @@ import {
   NotificationNoticeAllowState,
 } from 'components/utils/recoil/atoms/FCMNotificationAllowList';
 import {useRecoilState} from 'recoil';
+import {
+  FCMTokenState,
+  JWTAccessTokenState,
+  JWTRefreshTokenState,
+} from 'components/utils/recoil/atoms/User';
 
 const loginURL = url + '/login/oauth2/kakao';
 
 interface LoginProps {
   navigation: NavigationProp<any, any>;
 }
-export async function saveTokenToDatabase(token) {
-  const JWTAccessToken = await getJWTToken();
 
-  console.log(token);
-  // const apiLevel = await getApiLevel(); // only android
-  const brand = await getBrand(); // apple samsung
-  const version = await getVersion(); // 1.0
-  const buildNumber = await getBuildNumber(); // 1
-  const systemVersion = await getSystemVersion(); // iOS 13.4, Android 9
-  const uniqueId = await getUniqueId(); // 휴대폰마다 고유 id가 있음. ex) iOS: 59C63C5F-0776-4E4B-8AEF-D27AAF79BCFA
-  const model = await getModel(); // 기종 SM-G960N or iPhone 8
-
-  console.log(uniqueId);
-
-  try {
-    const result = await axios
-      .post(
-        FCMURL,
-        {},
-        {
-          headers: {
-            Authorization: 'Bearer ' + JWTAccessToken,
-            'Fcm-Token': token,
-            'Device-Code': uniqueId,
-          },
-        },
-      )
-      .then(function (response) {
-        console.log(response);
-        return response.data;
-      })
-      .catch(function (error) {
-        console.log(error);
-        return error;
-      });
-    return result;
-  } catch (error) {
-    console.log(error);
-    return false;
-  }
-
-  // Assume user is already signed in
-  // const userId = auth().currentUser.uid;
-  // Add the token to the users datastore
-  // await firestore()
-  //   .collection('users')
-  //   .doc(userId)
-  //   .update({
-  //     tokens: firestore.FieldValue.arrayUnion(token),
-  //   });
-}
 function Login({navigation}: LoginProps): React.ReactElement {
+  const [JWTAccessToken, setJWTAccessToken] =
+    useRecoilState(JWTAccessTokenState);
+  const [JWTRefreshToken, setJWTRefreshToken] =
+    useRecoilState(JWTRefreshTokenState);
+  const [FCMToken, setFCMToken] = useRecoilState(FCMTokenState);
+
   const [isEnabledAll, setIsEnabledAll] = useRecoilState(
     NotificationAllAllowState,
   );
@@ -126,7 +87,65 @@ function Login({navigation}: LoginProps): React.ReactElement {
     getJWTTokens_server();
     getProfile();
   }, [kakaoAccessToken]);
+  const saveTokenToDatabase = async () =>
+    // uniqueId,
+    // JWTAccessToken,
+    // FCMToken,
+    {
+      const FCMToken = await getFCMToken();
 
+      const uniqueId = await getUniqueId(); // 휴대폰마다 고유 id가 있음. ex) iOS: 59C63C5F-0776-4E4B-8AEF-D27AAF79BCFA
+
+      // const values = await AsyncStorage.multiGet([
+      //   '@BaedalMate_JWTAccessToken',
+      //   '@BaedalMate_JWTRefreshToken',
+      // ]);
+      const JWTAccessToken = await getJWTToken();
+      // // const apiLevel = await getApiLevel(); // only android
+      // const brand = await getBrand(); // apple samsung
+      // const version = await getVersion(); // 1.0
+      // const buildNumber = await getBuildNumber(); // 1
+      // const systemVersion = await getSystemVersion(); // iOS 13.4, Android 9
+      // const uniqueId = await getUniqueId(); // 휴대폰마다 고유 id가 있음. ex) iOS: 59C63C5F-0776-4E4B-8AEF-D27AAF79BCFA
+      // const model = await getModel(); // 기종 SM-G960N or iPhone 8
+
+      console.log('saveTokenToDatabase 호출');
+
+      const result = await axios
+        .post(
+          FCMURL,
+          {},
+          {
+            headers: {
+              Authorization: 'Bearer ' + JWTAccessToken,
+              'Fcm-Token': FCMToken,
+              'Device-Code': uniqueId,
+            },
+          },
+        )
+        .then(function (response) {
+          console.log('FCM 등록', response);
+          return response;
+        })
+        .catch(function (error) {
+          console.log('FCM 등록 실패', error);
+          return error;
+        });
+
+      if (result) {
+        console.log('FCM 등록', result);
+      }
+      return result;
+      // Assume user is already signed in
+      // const userId = auth().currentUser.uid;
+      // Add the token to the users datastore
+      // await firestore()
+      //   .collection('users')
+      //   .doc(userId)
+      //   .update({
+      //     tokens: firestore.FieldValue.arrayUnion(token),
+      //   });
+    };
   // 로그인
   const signInWithKakao = async (): Promise<void> => {
     try {
@@ -137,23 +156,24 @@ function Login({navigation}: LoginProps): React.ReactElement {
       // setResult(JSON.stringify(token));
 
       // JWTtoken 받아온 후 메인 페이지 이동
-      const value = await getJWTTokens_localdb();
+      // const value = await getJWTTokens_localdb();
+      const FCMToken = await getFCMToken();
+      const uniqueId = await getUniqueId(); // 휴대폰마다 고유 id가 있음. ex) iOS: 59C63C5F-0776-4E4B-8AEF-D27AAF79BCFA
+
       // const values = await AsyncStorage.multiGet([
       //   '@BaedalMate_JWTAccessToken',
       //   '@BaedalMate_JWTRefreshToken',
       // ]);
-      // const value = await getJWTToken();
-      if (value[0][1]) {
-        console.log(value);
-        const FCMToken = await getFCMToken();
+      const value = await getJWTToken();
+      if (value) {
+        // console.log(value);
         // const APNSToken = await getAPNSToken();
-        saveTokenToDatabase(FCMToken);
         // const result = saveTokenToDatabase(FCMToken);
         // console.log(result);
-        if (value) {
-          navigation.navigate('BoardStackComponent', {
-            token: value,
-          });
+        if (value && FCMToken && uniqueId) {
+          // saveTokenToDatabase(uniqueId, value, FCMToken);
+          saveTokenToDatabase();
+          navigation.navigate('BoardStackComponent');
           navigation.reset({
             index: 0,
             routes: [{name: 'BoardStackComponent'}],
@@ -161,18 +181,23 @@ function Login({navigation}: LoginProps): React.ReactElement {
         }
       } else {
         getJWTTokens_server();
-        const value = await getJWTToken();
-        const FCMToken = await getFCMToken();
-        saveTokenToDatabase(FCMToken);
+        // const value = await getJWTToken();
         // const APNSToken = await getAPNSToken();
         // const result = saveTokenToDatabase(FCMToken);
         // console.log(result);
         // await saveTokenToDatabase(APNSToken);
-        if (value) {
-          console.log(value);
-          navigation.navigate('BoardStackComponent', {
-            token: value,
+        if (value && FCMToken && uniqueId) {
+          saveTokenToDatabase();
+          // console.log(value);
+          navigation.navigate('BoardStackComponent');
+          navigation.reset({
+            index: 0,
+            routes: [{name: 'BoardStackComponent'}],
           });
+        } else {
+          // const FCMToken = await getFCMToken();
+          saveTokenToDatabase();
+          navigation.navigate('BoardStackComponent');
           navigation.reset({
             index: 0,
             routes: [{name: 'BoardStackComponent'}],
@@ -235,11 +260,18 @@ function Login({navigation}: LoginProps): React.ReactElement {
         ['@BaedalMate_JWTAccessToken', token],
         ['@BaedalMate_JWTRefreshToken', refToken],
       ]);
+      setJWTAccessToken(token);
+      setJWTRefreshToken(refToken);
       return response;
     } catch (error) {
       console.log(error);
       const result = await refreshAPI();
       console.log(result);
+      const tokens = await result.data;
+      const token = tokens.accessToken;
+      const refToken = tokens.refreshToken;
+      setJWTAccessToken(token);
+      setJWTRefreshToken(refToken);
       // if (result.status === 200) {
       //   navigation.navigate('BoardStackComponent');
       //   navigation.reset({
@@ -267,6 +299,22 @@ function Login({navigation}: LoginProps): React.ReactElement {
     }
   };
 
+  useEffect(() => {
+    //  const FCMToken = await getFCMToken();
+    //  const uniqueId = await getUniqueId(); // 휴대폰마다 고유 id가 있음. ex) iOS: 59C63C5F-0776-4E4B-8AEF-D27AAF79BCFA
+    //  const value = await getJWTToken();
+    const result = saveTokenToDatabase();
+    // console.log(value);
+    result.then(res => {
+      if (res.status == 200) {
+        navigation.navigate('BoardStackComponent');
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'BoardStackComponent'}],
+        });
+      }
+    });
+  }, [JWTAccessToken]);
   return (
     <View
       style={{

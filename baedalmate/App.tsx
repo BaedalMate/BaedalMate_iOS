@@ -18,9 +18,9 @@ import PushNotification from 'react-native-push-notification';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import VersionCheck from 'react-native-version-check';
-import {saveTokenToDatabase} from 'components/pages/login';
 export const url = 'http://3.35.27.107:8080';
 export const FCMURL = url + '/api/v1/fcm';
+
 RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
 // const Tab = createBottomTa fbNavigator();
 // async function requestUserPermission() {
