@@ -9,7 +9,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import {RootNavigator} from './src/Routes';
+import {RootNavigator, navigate, navigationRef} from './src/Routes';
 import {RecoilEnv, RecoilRoot} from 'recoil';
 import {RootSiblingParent} from 'react-native-root-siblings';
 import messaging from '@react-native-firebase/messaging';
@@ -153,7 +153,14 @@ const App = () => {
         remoteMessage.data.title,
         remoteMessage.data.body,
         remoteMessage.data.image,
+        remoteMessage.data.chatRoomId,
       );
+    // navigate(
+    //   '채팅방' as never,
+    //   {
+    //     id: remoteMessage.data?.chatRoomId,
+    //   } as never,
+    // );
     // remoteMessage &&
     //   remoteMessage.data &&
     //   remoteMessage.messageId &&
@@ -177,15 +184,21 @@ const App = () => {
   React.useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       console.log('A new FCM message arrived!', JSON.stringify(remoteMessage));
-      PushNotification.localNotification(remoteMessage);
+      // PushNotification.localNotification(remoteMessage);
       remoteMessage.data &&
         sendLocalNotificationWithSound(
           remoteMessage.messageId,
           remoteMessage.data.title,
           remoteMessage.data.body,
-
           remoteMessage.data.image,
+          remoteMessage.data.chatRoomId,
         );
+      // navigate(
+      //   '채팅방' as never,
+      //   {
+      //     id: remoteMessage.data?.chatRoomId,
+      //   } as never,
+      // );
       // remoteMessage &&
       //   remoteMessage.notification &&
       //   remoteMessage.messageId &&
@@ -245,17 +258,17 @@ const App = () => {
         remoteMessage.notification,
       );
 
-      remoteMessage &&
-        remoteMessage.data &&
-        remoteMessage.messageId &&
-        PushNotificationIOS.addNotificationRequest({
-          id: remoteMessage.messageId,
-          body: remoteMessage.data.body,
-          title: remoteMessage.data.title,
-          userInfo: {
-            image: url + '/images/' + remoteMessage.data.image,
-          },
-        });
+      // remoteMessage &&
+      //   remoteMessage.data &&
+      //   remoteMessage.messageId &&
+      //   PushNotificationIOS.addNotificationRequest({
+      //     id: remoteMessage.messageId,
+      //     body: remoteMessage.data.body,
+      //     title: remoteMessage.data.title,
+      //     userInfo: {
+      //       image: url + '/images/' + remoteMessage.data.image,
+      //     },
+      //   });
       // navigation.navigate(remoteMessage.data.type);
     });
 
@@ -268,6 +281,7 @@ const App = () => {
             'Notification caused app to open from quit state:',
             remoteMessage.notification,
           );
+
           remoteMessage &&
             remoteMessage.data &&
             remoteMessage.messageId &&
@@ -277,6 +291,7 @@ const App = () => {
               title: remoteMessage.data.title,
               userInfo: remoteMessage.data,
             });
+
           // setInitialRoute(remoteMessage.data.type); // e.g. "Settings"
         }
         setLoading(false);
@@ -356,7 +371,13 @@ const App = () => {
   //   });
   // };
 
-  const sendLocalNotificationWithSound = (id, title, body, image) => {
+  const sendLocalNotificationWithSound = (
+    id,
+    title,
+    body,
+    image,
+    chatRoomId,
+  ) => {
     PushNotificationIOS.addNotificationRequest({
       id: id,
       title: title,
@@ -364,6 +385,7 @@ const App = () => {
       sound: 'default',
       userInfo: {
         image: url + '/images/' + image,
+        chatRoomId: chatRoomId,
       },
       // badge: 1,
     });
@@ -723,7 +745,7 @@ const App = () => {
     <RecoilRoot>
       <RootSiblingParent>
         {/* <FCMContainer> */}
-        <NavigationContainer>
+        <NavigationContainer ref={navigationRef}>
           <RootNavigator></RootNavigator>
         </NavigationContainer>
         {/* </FCMContainer> */}

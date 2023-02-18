@@ -267,11 +267,14 @@ function Login({navigation}: LoginProps): React.ReactElement {
       console.log(error);
       const result = await refreshAPI();
       console.log(result);
-      const tokens = await result.data;
-      const token = tokens.accessToken;
-      const refToken = tokens.refreshToken;
-      setJWTAccessToken(token);
-      setJWTRefreshToken(refToken);
+      if (result.status == 200) {
+        const tokens = await result.data;
+        const token = tokens.accessToken;
+        const refToken = tokens.refreshToken;
+        setJWTAccessToken(token);
+        setJWTRefreshToken(refToken);
+        return result;
+      }
       // if (result.status === 200) {
       //   navigation.navigate('BoardStackComponent');
       //   navigation.reset({
@@ -279,7 +282,7 @@ function Login({navigation}: LoginProps): React.ReactElement {
       //     routes: [{name: 'BoardStackComponent'}],
       //   });
       // }
-      return false;
+      return error;
     }
   };
 
@@ -303,17 +306,19 @@ function Login({navigation}: LoginProps): React.ReactElement {
     //  const FCMToken = await getFCMToken();
     //  const uniqueId = await getUniqueId(); // 휴대폰마다 고유 id가 있음. ex) iOS: 59C63C5F-0776-4E4B-8AEF-D27AAF79BCFA
     //  const value = await getJWTToken();
-    const result = saveTokenToDatabase();
-    // console.log(value);
-    result.then(res => {
-      if (res.status == 200) {
-        navigation.navigate('BoardStackComponent');
-        navigation.reset({
-          index: 0,
-          routes: [{name: 'BoardStackComponent'}],
-        });
-      }
-    });
+    if (JWTAccessToken !== '') {
+      const result = saveTokenToDatabase();
+      // console.log(value);
+      result.then(res => {
+        if (res.status == 200) {
+          navigation.navigate('BoardStackComponent');
+          navigation.reset({
+            index: 0,
+            routes: [{name: 'BoardStackComponent'}],
+          });
+        }
+      });
+    }
   }, [JWTAccessToken]);
   return (
     <View

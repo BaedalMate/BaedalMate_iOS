@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {Linking, Platform, ScrollView, Switch, View} from 'react-native';
-import {DARK_GRAY_COLOR, PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
+import {Linking, Platform, ScrollView, View} from 'react-native';
+import {DARK_GRAY_COLOR, WHITE_COLOR} from 'themes/theme';
 import MypageUserInfo from 'components/atoms/Setting/MyPageUserInfo';
 import MyPageListItem from 'components/atoms/Setting/MyPageListItem';
 import MyPageBar from 'components/atoms/Setting/MyPageBar';

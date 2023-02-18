@@ -8,6 +8,7 @@ import {name as appName} from './app.json';
 import messaging from '@react-native-firebase/messaging';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import PushNotification from 'react-native-push-notification';
+import {navigate} from 'Routes';
 
 async function requestUserPermission() {
   const authStatus = await messaging().requestPermission();
@@ -30,20 +31,32 @@ PushNotification.configure({
   // (required) Called when a remote is received or opened, or local notification is opened
   onNotification: function (notification) {
     console.log('NOTIFICATION:', notification);
-
+    // navigate(
+    //   '채팅방' as never,
+    //   {
+    //     id: notification.data?.chatRoomId,
+    //   } as never,
+    // );
     // process the notification
+    if (notification.userInteraction || notification.remote) {
+      navigate(
+        '채팅방' as never,
+        {
+          id: notification.data?.chatRoomId,
+        } as never,
+      );
+    }
     if (
       notification.foreground &&
       (notification.userInteraction || notification.remote)
     ) {
-      PushNotification.localNotification(notification);
-
-      PushNotificationIOS.addNotificationRequest({
-        id: notification.messageId,
-        body: notification.data.body,
-        title: notification.data.title,
-        userInfo: notification.data,
-      });
+      // PushNotification.localNotification(notification);
+      // PushNotificationIOS.addNotificationRequest({
+      //   id: notification.messageId,
+      //   body: notification.data.body,
+      //   title: notification.data.title,
+      //   userInfo: notification.data,
+      // });
     }
     // (required) Called when a remote is received or opened, or local notification is opened
     notification.finish(PushNotificationIOS.FetchResult.NoData);
