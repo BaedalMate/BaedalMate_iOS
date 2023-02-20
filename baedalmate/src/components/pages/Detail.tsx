@@ -53,6 +53,8 @@ import MenuItem from 'components/atoms/CreateRecruit/MenuItem';
 import {UsePopup, popupProps} from 'components/utils/usePopup';
 import {postBlockAPI, postUnBlockAPI} from 'components/utils/api/Block';
 import Toast from 'react-native-root-toast';
+import {getChatRoomAPI} from 'components/utils/api/Chat';
+import {refreshAPI} from 'components/utils/api/Login';
 export interface RecruitItemProps {
   recruitId: number;
   image: string;
@@ -95,8 +97,21 @@ export interface DetailProps {
 }
 
 const BoardItemDetail = props => {
+  // console.log(props.route.params, props.route.params.id);
+  // const [recruitId, setRecruitId] = useState(-1);
   const navigation = useNavigation();
+  // const [detailURL, setDetailURL] = useState(
+  //   url + `/api/v1/recruit/${props.route.params.id}`,
+  // );
   const detailURL = url + `/api/v1/recruit/${props.route.params.id}`;
+
+  useEffect(() => {
+    // setRecruitId(props.route.params.id);
+    // setDetailURL(url + `/api/v1/recruit/${recruitId}`);
+    console.log(props.route.params.id);
+    getDetailData();
+  }, [props.route.params.id]);
+
   const [itemDetaildata, setItemDetailData] = useState<RecruitItemProps>();
   const [modal, setModal] = useState(false);
   const [popupModal, setPopupModal] = useState(false);
@@ -297,6 +312,12 @@ const BoardItemDetail = props => {
     );
   };
   const getDetailData = async () => {
+    // const [accessToken, setJWTAccessToken] =
+    //   useRecoilState(JWTAccessTokenState);
+    // const [refreshToken, setJWTRefreshToken] =
+    //   useRecoilState(JWTRefreshTokenState);
+    // const [FCMToken, setFCMToken] = useRecoilState(FCMTokenState);
+
     const JWTAccessToken = await getJWTToken();
     try {
       const DetailData = axios
@@ -305,9 +326,27 @@ const BoardItemDetail = props => {
             Authorization: 'Bearer ' + JWTAccessToken,
           },
         })
-        .then(function (response) {
-          response.data && setItemDetailData(response.data);
-          return response.data;
+        .then(async function (response) {
+          if (response.status === 200) {
+            response.data && setItemDetailData(response.data);
+            return response.data;
+          } else if (response.status === 401) {
+            const result = await refreshAPI();
+            console.log(result);
+            if (result.status == 200) {
+              const tokens = await result.data;
+              const token = tokens.accessToken;
+              const refToken = tokens.refreshToken;
+              // setJWTAccessToken(token);
+              // setJWTRefreshToken(refToken);
+
+              if (result.status === 200) {
+                getChatRoomAPI();
+              }
+              return result;
+            }
+          }
+          return response;
         })
         .catch(function (error) {
           console.log(error);

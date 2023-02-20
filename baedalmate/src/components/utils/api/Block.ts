@@ -1,6 +1,8 @@
 import {url} from '../../../../App';
 import axios from 'axios';
 import {getJWTToken} from './Recruit';
+import {refreshAPI} from './Login';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const blockURL = url + '/api/v1/block';
 export const unblockURL = url + '/api/v1/unblock';
@@ -14,7 +16,6 @@ export interface reviewI {
 }
 export const getBlockUserListAPI = async () => {
   const JWTAccessToken = await getJWTToken();
-  console.log(JWTAccessToken);
   try {
     const result = axios
       .get(blockURL, {
@@ -22,8 +23,26 @@ export const getBlockUserListAPI = async () => {
           Authorization: 'Bearer ' + JWTAccessToken,
         },
       })
-      .then(function (response) {
+      .then(async function (response) {
         console.log(response);
+        if (response.status === 401) {
+          const result = await refreshAPI();
+          console.log(result);
+          if (result.status == 200) {
+            const tokens = await result.data;
+            const token = tokens.accessToken;
+            const refToken = tokens.refreshToken;
+            AsyncStorage.multiSet([
+              ['@BaedalMate_JWTAccessToken', token],
+              ['@BaedalMate_JWTRefreshToken', refToken],
+            ]);
+
+            if (result.status === 200) {
+              getBlockUserListAPI();
+            }
+            return result.data.blockList;
+          }
+        }
         return response.data.blockList;
       })
       .catch(function (error) {
@@ -51,8 +70,26 @@ export const postBlockAPI = async (userId: number) => {
           },
         },
       )
-      .then(function (response) {
+      .then(async function (response) {
         console.log(response);
+        if (response.status === 401) {
+          const result = await refreshAPI();
+          console.log(result);
+          if (result.status == 200) {
+            const tokens = await result.data;
+            const token = tokens.accessToken;
+            const refToken = tokens.refreshToken;
+            AsyncStorage.multiSet([
+              ['@BaedalMate_JWTAccessToken', token],
+              ['@BaedalMate_JWTRefreshToken', refToken],
+            ]);
+
+            if (result.status === 200) {
+              getBlockUserListAPI();
+            }
+            return result.data;
+          }
+        }
         return response.data;
       })
       .catch(function (error) {
@@ -80,8 +117,26 @@ export const postUnBlockAPI = async (userId: number) => {
           },
         },
       )
-      .then(function (response) {
+      .then(async function (response) {
         console.log(response);
+        if (response.status === 401) {
+          const result = await refreshAPI();
+          console.log(result);
+          if (result.status == 200) {
+            const tokens = await result.data;
+            const token = tokens.accessToken;
+            const refToken = tokens.refreshToken;
+            AsyncStorage.multiSet([
+              ['@BaedalMate_JWTAccessToken', token],
+              ['@BaedalMate_JWTRefreshToken', refToken],
+            ]);
+
+            if (result.status === 200) {
+              postUnBlockAPI(userId);
+            }
+            return result.data;
+          }
+        }
         return response.data;
       })
       .catch(function (error) {

@@ -18,6 +18,8 @@ import {
 } from 'components/utils/recoil/atoms/User';
 import {useNavigation} from '@react-navigation/native';
 import Toast from 'react-native-root-toast';
+import {refreshAPI} from 'components/utils/api/Login';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 export const dormitoryURL = userURL + '/dormitory';
 export const DORMITORY_SUNGLIM_LOCATION = {
   longitude: 127.07597,
@@ -57,19 +59,6 @@ const DormitoryDropDown = ({
   target: {id: number; name: string; value: string};
   setTarget: any;
 }) => {
-  // const [dormIndex, setDormIndex] = useState<number>();
-  // useEffect(() => {
-  //   target === 'NURI' || target === '누리학사'
-  //     ? setDormIndex(0)
-  //     : target === 'SUNGLIM' || target === '성림학사'
-  //     ? setDormIndex(1)
-  //     : target === 'KB' || target === 'KB학사'
-  //     ? setDormIndex(2)
-  //     : target === 'BURAM' || target === '불암학사'
-  //     ? setDormIndex(3)
-  //     : setDormIndex(4);
-  // }, [target]);
-
   return (
     <View
       style={{
@@ -142,19 +131,6 @@ const DormitoryDropDown = ({
   );
 };
 
-// const changeTargetToDormitory = target => {
-//   let changedDormitory =
-//     target === 'KB' || target === 'KB학사'
-//       ? 'KB학사'
-//       : target === 'SUNGLIM' || target === '성림학사'
-//       ? '성림학사'
-//       : target === 'SULIM' || target === '수림학사'
-//       ? '수림학사'
-//       : target === 'BURAM' || target === '불암학사'
-//       ? '불암학사'
-//       : '누리학사';
-//   return changedDormitory;
-// };
 const GPS = props => {
   const navigation = useNavigation();
   const [location, setLocation] = useState<LocationI>();
@@ -213,7 +189,7 @@ const GPS = props => {
             },
           },
         )
-        .then(function (response) {
+        .then(async function (response) {
           console.log('put dormitory', response);
           console.log(response);
           // AsyncStorage에 유저 이름과 배달 거점 저장
@@ -233,13 +209,50 @@ const GPS = props => {
               index: 0,
               routes: [{name: 'BoardStackComponent' as never}],
             });
+          } else if (response.status === 401) {
+            const result = await refreshAPI();
+            console.log(result);
+            if (result.status == 200) {
+              const tokens = await result.data;
+              const token = tokens.accessToken;
+              const refToken = tokens.refreshToken;
+              AsyncStorage.multiSet([
+                ['@BaedalMate_JWTAccessToken', token],
+                ['@BaedalMate_JWTRefreshToken', refToken],
+              ]);
+
+              if (result.status === 200) {
+                putUserDormitory();
+              }
+              return result;
+            }
           }
 
           return response;
         })
-        .catch(function (error) {
+        .catch(async function (error) {
           console.log('put dormitory', error);
-          Toast.show('거점 인증에 실패했습니다.');
+          if (error.response.status === 401) {
+            const result = await refreshAPI();
+            console.log(result);
+            if (result.status == 200) {
+              const tokens = await result.data;
+              const token = tokens.accessToken;
+              const refToken = tokens.refreshToken;
+              AsyncStorage.multiSet([
+                ['@BaedalMate_JWTAccessToken', token],
+                ['@BaedalMate_JWTRefreshToken', refToken],
+              ]);
+
+              if (result.status === 200) {
+                putUserDormitory();
+              }
+              return result;
+            }
+          } else {
+            Toast.show('거점 인증에 실패했습니다.');
+          }
+
           return false;
         });
       return data;

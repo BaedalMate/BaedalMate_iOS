@@ -226,7 +226,7 @@ export const CntInput = ({name, control, rules, setValue}) => {
     name,
     rules,
   });
-  const [minPeople, setMinPeople] = useState(1);
+  const [minPeople, setMinPeople] = useState(field.value);
   return (
     <View
       style={{

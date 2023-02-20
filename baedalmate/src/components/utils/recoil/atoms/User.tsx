@@ -1,3 +1,4 @@
+import {getJWTToken} from 'components/utils/api/Recruit';
 import {atom} from 'recoil';
 import {DEFAULT_PROFILE_IMG} from 'themes/theme';
 

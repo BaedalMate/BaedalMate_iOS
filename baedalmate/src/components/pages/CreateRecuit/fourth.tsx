@@ -17,9 +17,11 @@ import {
   postRecruitAPI,
   postRecruitI,
   shippingFeeI,
+  updateRecruitAPI,
 } from 'components/utils/api/Recruit';
 import Toast from 'react-native-root-toast';
-import {CommonActions} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {refreshAPI} from 'components/utils/api/Login';
 
 export interface RecruitItemProps {
   createDate: string;
@@ -55,6 +57,9 @@ export interface menuProps {
 // ];
 
 const CreateRecruit4 = props => {
+  const defaultItem = props.route.params.defaultItem;
+
+  console.log(props.route.params);
   const [menuList, setMenuList] = useState<menuI[]>();
   const [menuTotalPrice, setMemuTotalPrice] = useState(0);
   const [deliveryFee, setDeliveryFee] = useState<shippingFeeI[]>(
@@ -95,6 +100,9 @@ const CreateRecruit4 = props => {
       props.route.params.shippingFee &&
       setShippingFee(props.route.params.shippingFee[0].shippingFee);
   }, []);
+  useEffect(() => {
+    defaultItem && defaultItem.tags && setMenuList(defaultItem.menu);
+  }, [defaultItem]);
 
   return (
     <View
@@ -334,80 +342,173 @@ const CreateRecruit4 = props => {
               );
               return;
             } else {
-              let data: postRecruitI = {
-                categoryId: props.route.params.categoryId,
-                criteria: props.route.params.criteria,
-                coupon: Number(props.route.params.data.coupon),
-                dormitory: props.route.params.data.dormitory,
-                deadlineDate: props.route.params.deadlineDate,
-                description: props.route.params.description,
-                freeShipping: props.route.params.freeShipping,
-                menu: menuList ? menuList : [],
-                place: props.route.params.data.place,
-                platform: props.route.params.data.platform,
-                title: props.route.params.title,
-                tags: props.route.params.tags,
-                shippingFee: props.route.params.shippingFee,
-                minPrice: props.route.params.minPrice,
-                minPeople: props.route.params.minPeople,
-              };
-              console.log('data', data);
-              const result = await postRecruitAPI(
-                data,
-                // props.route.params.categoryId,
-                // props.route.params.data.place,
-                // props.route.params.data.dormitory,
-                // props.route.params.criteria,
-                // props.route.params.minPrice,
-                // props.route.params.minPeople,
-                // props.route.params.shippingFee,
-                // Number(props.route.params.data.coupon),
-                // props.route.params.data.platform,
-                // props.route.params.deadlineDate,
-                // props.route.params.title,
-                // props.route.params.description,
-                // props.route.params.freeShipping,
-                // menuList ? menuList : [],
-                // props.route.params.tags,
-              );
-              console.log('post new recruit', result);
-              if (result.status == 200) {
-                Toast.show('모집글을 성공적으로 올렸습니다.');
-
-                // props.navigation.dispatch(
-                //   CommonActions.reset({
-                //     index: 0,
-                //     routes: [{name: '홈' as never}],
-                //   }),
-                // );
-                props.navigation.reset({
-                  index: 0,
-                  routes: [{name: '홈' as never}],
-                }),
-                  // props.navigation.navigate(
-                  //   '글 상세 보기' as never,
-                  //   {
-                  //     id: result.data.recruitId,
-                  //   } as never,
-                  // );
-
+              if (props.route.params.type === 'UPDATE') {
+                let data: postRecruitI = {
+                  categoryId: props.route.params.categoryId,
+                  criteria: props.route.params.criteria,
+                  coupon: Number(props.route.params.data.coupon),
+                  dormitory: props.route.params.data.dormitory,
+                  deadlineDate: props.route.params.deadlineDate,
+                  description: props.route.params.description,
+                  freeShipping: props.route.params.freeShipping,
+                  menu: menuList ? menuList : [],
+                  place: props.route.params.data.place,
+                  platform: props.route.params.data.platform,
+                  title: props.route.params.title,
+                  tags: props.route.params.tags,
+                  shippingFee: props.route.params.shippingFee,
+                  minPrice: props.route.params.minPrice,
+                  minPeople: props.route.params.minPeople,
+                };
+                console.log('data', data);
+                const result = await updateRecruitAPI(
+                  defaultItem.recruitId,
+                  data,
+                );
+                console.log('update recruit', result);
+                if (result.status == 200) {
+                  Toast.show('모집글을 성공적으로 수정했습니다.');
                   props.navigation.reset({
-                    index: 1,
-                    routes: [
-                      {
-                        name: '글 상세 보기' as never,
-                        params: {id: result.data.recruitId},
-                      },
-                    ],
-                  });
+                    index: 0,
+                    routes: [{name: '홈' as never}],
+                  }),
+                    props.navigation.reset({
+                      index: 1,
+                      routes: [
+                        {
+                          name: '글 상세 보기' as never,
+                          params: {id: result.data.id},
+                        },
+                      ],
+                    });
+                } else if (result.status == 401) {
+                  const result = await refreshAPI();
+                  console.log(result);
+                  const tokens = await result.data;
+                  const token = tokens.accessToken;
+                  const refToken = tokens.refreshToken;
+
+                  AsyncStorage.multiSet([
+                    ['@BaedalMate_JWTAccessToken', token],
+                    ['@BaedalMate_JWTRefreshToken', refToken],
+                  ]);
+                  // setJWTAccessToken(token);
+                  // setJWTRefreshToken(refToken);
+                  const reResult = await updateRecruitAPI(
+                    defaultItem.recruitId,
+                    data,
+                  );
+                  console.log(reResult);
+                  if (reResult.status == 200) {
+                    Toast.show('모집글을 성공적으로 수정했습니다.');
+                    props.navigation.reset({
+                      index: 0,
+                      routes: [{name: '홈' as never}],
+                    }),
+                      props.navigation.reset({
+                        index: 1,
+                        routes: [
+                          {
+                            name: '글 상세 보기' as never,
+                            params: {id: reResult.data.recruitId},
+                          },
+                        ],
+                      });
+                  } else {
+                    Toast.show('모집글 수정에 실패하였습니다.');
+                    return;
+                  }
+                } else {
+                  Toast.show('모집글 수정에 실패하였습니다.');
+                  return;
+                }
               } else {
-                Toast.show('모집글 올리기에 실패하였습니다.');
-                return;
+                let data: postRecruitI = {
+                  categoryId: props.route.params.categoryId,
+                  criteria: props.route.params.criteria,
+                  coupon: Number(props.route.params.data.coupon),
+                  dormitory: props.route.params.data.dormitory,
+                  deadlineDate: props.route.params.deadlineDate,
+                  description: props.route.params.description,
+                  freeShipping: props.route.params.freeShipping,
+                  menu: menuList ? menuList : [],
+                  place: props.route.params.data.place,
+                  platform: props.route.params.data.platform,
+                  title: props.route.params.title,
+                  tags: props.route.params.tags,
+                  shippingFee: props.route.params.shippingFee,
+                  minPrice: props.route.params.minPrice,
+                  minPeople: props.route.params.minPeople,
+                };
+                console.log('data', data);
+                const result = await postRecruitAPI(data);
+                console.log('post new recruit', result);
+                if (result.status == 200) {
+                  Toast.show('모집글을 성공적으로 올렸습니다.');
+                  props.navigation.reset({
+                    index: 0,
+                    routes: [{name: '홈' as never}],
+                  }),
+                    props.navigation.reset({
+                      index: 1,
+                      routes: [
+                        {
+                          name: '글 상세 보기' as never,
+                          params: {id: result.data.recruitId},
+                        },
+                      ],
+                    });
+                } else if (result.status == 401) {
+                  const result = await refreshAPI();
+                  console.log(result);
+                  const tokens = await result.data;
+                  const token = tokens.accessToken;
+                  const refToken = tokens.refreshToken;
+
+                  AsyncStorage.multiSet([
+                    ['@BaedalMate_JWTAccessToken', token],
+                    ['@BaedalMate_JWTRefreshToken', refToken],
+                  ]);
+                  // setJWTAccessToken(token);
+                  // setJWTRefreshToken(refToken);
+                  const reResult = await updateRecruitAPI(
+                    defaultItem.recruitId,
+                    data,
+                  );
+                  console.log(reResult);
+                  if (reResult.status == 200) {
+                    Toast.show('모집글을 성공적으로 수정했습니다.');
+                    props.navigation.reset({
+                      index: 0,
+                      routes: [{name: '홈' as never}],
+                    }),
+                      props.navigation.reset({
+                        index: 1,
+                        routes: [
+                          {
+                            name: '글 상세 보기' as never,
+                            params: {id: reResult.data.recruitId},
+                          },
+                        ],
+                      });
+                  } else {
+                    Toast.show('모집글 수정에 실패하였습니다.');
+                    return;
+                  }
+                } else {
+                  Toast.show('모집글 올리기에 실패하였습니다.');
+                  return;
+                }
               }
             }
+
             // props.navigation.navigate('홈');
           }}
-          text={'모집글 올리기'}
+          text={
+            props.route.params.type === 'UPDATE'
+              ? '모집글 수정하기'
+              : '모집글 올리기'
+          }
           id={4}
         />
       </View>

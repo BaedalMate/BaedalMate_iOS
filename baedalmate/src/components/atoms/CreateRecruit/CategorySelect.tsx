@@ -37,15 +37,20 @@ export interface CategoryProps {
 const SelectCategoryItem = ({
   item,
   defaultItem,
+  selectedCategoryId,
+  setSelectedCategoryId,
 }: {
   item: CategoryProps;
   defaultItem?: detailRecruitI;
+  selectedCategoryId?;
+  setSelectedCategoryId?;
   type?;
 }) => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
       onPress={() => {
+        setSelectedCategoryId(item.categoryId);
         navigation.navigate(
           '상세 설정1' as never,
           {item, defaultItem} as never,
@@ -64,7 +69,7 @@ const SelectCategoryItem = ({
             height: 124,
             borderRadius: 62,
             backgroundColor: WHITE_COLOR,
-            opacity: item.categoryId === defaultItem?.categoryId ? 0.3 : 1,
+            opacity: item.categoryId === selectedCategoryId ? 0.3 : 1,
 
             // tintColor: 'gray',
             // borderWidth: 1,

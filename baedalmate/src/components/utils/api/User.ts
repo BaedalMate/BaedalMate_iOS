@@ -19,6 +19,7 @@ const updateUserInfoURL = userURL;
 // User Api 를 받아옴
 export const getUserAPI = async () => {
   const JWTAccessToken = await getJWTToken();
+  console.log(JWTAccessToken);
   try {
     const UserData = axios
       .get(userURL, {
@@ -26,7 +27,7 @@ export const getUserAPI = async () => {
           Authorization: 'Bearer ' + JWTAccessToken,
         },
       })
-      .then(function (response) {
+      .then(async function (response) {
         console.log(response);
         if (response.status === 200) {
           // setNickname(response.data.nickname);
@@ -50,10 +51,45 @@ export const getUserAPI = async () => {
           // );
 
           return response.data;
+        } else if (response.status === 401) {
+          const result = await refreshAPI();
+          console.log(result);
+          if (result.status == 200) {
+            const tokens = await result.data;
+            const token = tokens.accessToken;
+            const refToken = tokens.refreshToken;
+            AsyncStorage.multiSet([
+              ['@BaedalMate_JWTAccessToken', token],
+              ['@BaedalMate_JWTRefreshToken', refToken],
+            ]);
+
+            if (result.status === 200) {
+              getUserAPI();
+            }
+            return result.data;
+          }
         }
       })
-      .catch(function (error) {
+      .catch(async function (error) {
         console.log(error);
+        if (error.response.status === 401) {
+          const result = await refreshAPI();
+          console.log(result);
+          if (result.status == 200) {
+            const tokens = await result.data;
+            const token = tokens.accessToken;
+            const refToken = tokens.refreshToken;
+            AsyncStorage.multiSet([
+              ['@BaedalMate_JWTAccessToken', token],
+              ['@BaedalMate_JWTRefreshToken', refToken],
+            ]);
+
+            if (result.status === 200) {
+              getUserAPI();
+            }
+            return result.data;
+          }
+        }
         return false;
       });
     return UserData;
@@ -72,9 +108,26 @@ export const getParticipatedRecruitAPI = async () => {
           Authorization: 'Bearer ' + JWTAccessToken,
         },
       })
-      .then(function (response) {
+      .then(async function (response) {
         console.log(response);
+        if (response.status === 401) {
+          const result = await refreshAPI();
+          console.log(result);
+          if (result.status == 200) {
+            const tokens = await result.data;
+            const token = tokens.accessToken;
+            const refToken = tokens.refreshToken;
+            AsyncStorage.multiSet([
+              ['@BaedalMate_JWTAccessToken', token],
+              ['@BaedalMate_JWTRefreshToken', refToken],
+            ]);
 
+            if (result.status === 200) {
+              getParticipatedRecruitAPI();
+            }
+            return result.data.recruitList;
+          }
+        }
         return response.data.recruitList;
       })
       .catch(function (error) {
@@ -82,14 +135,33 @@ export const getParticipatedRecruitAPI = async () => {
         return false;
       });
     return result;
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
+    if (error.response.status === 401) {
+      const result = await refreshAPI();
+      console.log(result);
+      if (result.status == 200) {
+        const tokens = await result.data;
+        const token = tokens.accessToken;
+        const refToken = tokens.refreshToken;
+        AsyncStorage.multiSet([
+          ['@BaedalMate_JWTAccessToken', token],
+          ['@BaedalMate_JWTRefreshToken', refToken],
+        ]);
+
+        if (result.status === 200) {
+          getParticipatedRecruitAPI();
+        }
+        return result.data.recruitList;
+      }
+    }
     return false;
   }
 };
 
 export const getHostedRecruitAPI = async () => {
   const JWTAccessToken = await getJWTToken();
+
   try {
     const result = axios
       .get(hostedRecruitURL, {
@@ -97,13 +169,48 @@ export const getHostedRecruitAPI = async () => {
           Authorization: 'Bearer ' + JWTAccessToken,
         },
       })
-      .then(function (response) {
+      .then(async function (response) {
         console.log(response);
+        if (response.status === 401) {
+          const result = await refreshAPI();
+          console.log(result);
+          if (result.status == 200) {
+            const tokens = await result.data;
+            const token = tokens.accessToken;
+            const refToken = tokens.refreshToken;
+            AsyncStorage.multiSet([
+              ['@BaedalMate_JWTAccessToken', token],
+              ['@BaedalMate_JWTRefreshToken', refToken],
+            ]);
 
+            if (result.status === 200) {
+              getHostedRecruitAPI();
+            }
+            return result.data.recruitList;
+          }
+        }
         return response.data.recruitList;
       })
-      .catch(function (error) {
+      .catch(async function (error) {
         console.log(error);
+        if (error.response.status === 401) {
+          const result = await refreshAPI();
+          console.log(result);
+          if (result.status == 200) {
+            const tokens = await result.data;
+            const token = tokens.accessToken;
+            const refToken = tokens.refreshToken;
+            AsyncStorage.multiSet([
+              ['@BaedalMate_JWTAccessToken', token],
+              ['@BaedalMate_JWTRefreshToken', refToken],
+            ]);
+
+            if (result.status === 200) {
+              getHostedRecruitAPI();
+            }
+            return result.data.recruitList;
+          }
+        }
         return false;
       });
     return result;
@@ -147,9 +254,26 @@ export const updateUserInfoAPI = async (
               return data;
             },
           })
-          .then(function (response) {
+          .then(async function (response) {
             console.log(response);
+            if (response.status === 401) {
+              const result = await refreshAPI();
+              console.log(result);
+              if (result.status == 200) {
+                const tokens = await result.data;
+                const token = tokens.accessToken;
+                const refToken = tokens.refreshToken;
+                AsyncStorage.multiSet([
+                  ['@BaedalMate_JWTAccessToken', token],
+                  ['@BaedalMate_JWTRefreshToken', refToken],
+                ]);
 
+                if (result.status === 200) {
+                  updateUserInfoAPI(default_image, nickname, file);
+                }
+                return result;
+              }
+            }
             return response;
           })
           .catch(async function (error) {
@@ -157,6 +281,24 @@ export const updateUserInfoAPI = async (
             if (error.response.data.code === 401) {
               const result = await refreshAPI();
               console.log(result);
+              if (error.response.status === 401) {
+                const result = await refreshAPI();
+                console.log(result);
+                if (result.status == 200) {
+                  const tokens = await result.data;
+                  const token = tokens.accessToken;
+                  const refToken = tokens.refreshToken;
+                  AsyncStorage.multiSet([
+                    ['@BaedalMate_JWTAccessToken', token],
+                    ['@BaedalMate_JWTRefreshToken', refToken],
+                  ]);
+
+                  if (result.status === 200) {
+                    updateUserInfoAPI(default_image, nickname, file);
+                  }
+                  return result;
+                }
+              }
               // if (result.status === 200)
               //   return putUpdateUserInfoAPI(nickname, file);
               return error;
@@ -178,12 +320,48 @@ export const updateUserInfoAPI = async (
               },
             },
           )
-          .then(function (response) {
+          .then(async function (response) {
             console.log(response);
+            if (response.status === 401) {
+              const result = await refreshAPI();
+              console.log(result);
+              if (result.status == 200) {
+                const tokens = await result.data;
+                const token = tokens.accessToken;
+                const refToken = tokens.refreshToken;
+                AsyncStorage.multiSet([
+                  ['@BaedalMate_JWTAccessToken', token],
+                  ['@BaedalMate_JWTRefreshToken', refToken],
+                ]);
+
+                if (result.status === 200) {
+                  updateUserInfoAPI(default_image, nickname, file);
+                }
+                return result;
+              }
+            }
             return response;
           })
-          .catch(function (error) {
+          .catch(async function (error) {
             console.log(error);
+            if (error.response.status === 401) {
+              const result = await refreshAPI();
+              console.log(result);
+              if (result.status == 200) {
+                const tokens = await result.data;
+                const token = tokens.accessToken;
+                const refToken = tokens.refreshToken;
+                AsyncStorage.multiSet([
+                  ['@BaedalMate_JWTAccessToken', token],
+                  ['@BaedalMate_JWTRefreshToken', refToken],
+                ]);
+
+                if (result.status === 200) {
+                  updateUserInfoAPI(default_image, nickname, file);
+                }
+                return result;
+              }
+            }
             return error;
           });
     return result;

@@ -1,6 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {url} from '../../../../App';
 import axios from 'axios';
+import {useRecoilState} from 'recoil';
+// import {JWTAccessTokenState, JWTRefreshTokenState} from '../recoil/atoms/User';
+import {refreshAPI} from './Login';
 export const cancelRecruitURL = url + '/api/v1/recruit/cancel';
 export const closeRecruitURL = url + '/api/v1/recruit/close';
 export const createRecruitURL = url + '/api/v1/recruit/new';
@@ -104,6 +107,10 @@ export interface detailRecruitI {
   tags: tagI[];
 }
 export const postRecruitAPI = async data => {
+  // const [JWTAccessToken, setJWTAccessToken] =
+  //   useRecoilState(JWTAccessTokenState);
+  // const [JWTRefreshToken, setJWTRefreshToken] =
+  //   useRecoilState(JWTRefreshTokenState);
   const JWTAccessToken = await getJWTToken();
   console.log(JWTAccessToken);
   try {
@@ -113,8 +120,26 @@ export const postRecruitAPI = async data => {
           Authorization: 'Bearer ' + JWTAccessToken,
         },
       })
-      .then(function (response) {
+      .then(async function (response) {
         console.log(response);
+        if (response.status === 401) {
+          const result = await refreshAPI();
+          console.log(result);
+          if (result.status == 200) {
+            const tokens = await result.data;
+            const token = tokens.accessToken;
+            const refToken = tokens.refreshToken;
+            AsyncStorage.multiSet([
+              ['@BaedalMate_JWTAccessToken', token],
+              ['@BaedalMate_JWTRefreshToken', refToken],
+            ]);
+
+            if (result.status === 200) {
+              postRecruitAPI(data);
+            }
+            return result;
+          }
+        }
         return response;
       })
       .catch(function (error) {
@@ -127,8 +152,57 @@ export const postRecruitAPI = async data => {
     return error;
   }
 };
+export const updateRecruitAPI = async (recruidId, data) => {
+  const JWTAccessToken = await getJWTToken();
+  // const [JWTAccessToken, setJWTAccessToken] =
+  //   useRecoilState(JWTAccessTokenState);
+  // const [JWTRefreshToken, setJWTRefreshToken] =
+  //   useRecoilState(JWTRefreshTokenState);
+  console.log(JWTAccessToken);
+  try {
+    const result = await axios
+      .put(recruitURL + `/${recruidId}`, data, {
+        headers: {
+          Authorization: 'Bearer ' + JWTAccessToken,
+        },
+      })
+      .then(async function (response) {
+        console.log(response);
+        if (response.status === 401) {
+          const result = await refreshAPI();
+          console.log(result);
+          if (result.status == 200) {
+            const tokens = await result.data;
+            const token = tokens.accessToken;
+            const refToken = tokens.refreshToken;
+            AsyncStorage.multiSet([
+              ['@BaedalMate_JWTAccessToken', token],
+              ['@BaedalMate_JWTRefreshToken', refToken],
+            ]);
 
+            if (result.status === 200) {
+              updateRecruitAPI(recruidId, data);
+            }
+            return result.data;
+          }
+        }
+        return response;
+      })
+      .catch(function (error) {
+        console.log(error);
+        return error;
+      });
+    return result;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
 export const getRecruitDetailDataForUpdateAPI = async id => {
+  // const [JWTAccessToken, setJWTAccessToken] =
+  //   useRecoilState(JWTAccessTokenState);
+  // const [JWTRefreshToken, setJWTRefreshToken] =
+  //   useRecoilState(JWTRefreshTokenState);
   const JWTAccessToken = await getJWTToken();
   console.log(JWTAccessToken);
   const result = await axios.get<detailRecruitI>(recruitURL + `/${id}/detail`, {
@@ -136,11 +210,34 @@ export const getRecruitDetailDataForUpdateAPI = async id => {
       Authorization: 'Bearer ' + JWTAccessToken,
     },
   });
+
   console.log(result);
+  if (result.status === 401) {
+    const result = await refreshAPI();
+    console.log(result);
+    if (result.status == 200) {
+      const tokens = await result.data;
+      const token = tokens.accessToken;
+      const refToken = tokens.refreshToken;
+      AsyncStorage.multiSet([
+        ['@BaedalMate_JWTAccessToken', token],
+        ['@BaedalMate_JWTRefreshToken', refToken],
+      ]);
+
+      if (result.status === 200) {
+        getRecruitDetailDataForUpdateAPI(id);
+      }
+      return result.data;
+    }
+  }
   return result.data;
 };
 
 export const cancelRecruitAPI = async (id: number) => {
+  // const [JWTAccessToken, setJWTAccessToken] =
+  //   useRecoilState(JWTAccessTokenState);
+  // const [JWTRefreshToken, setJWTRefreshToken] =
+  //   useRecoilState(JWTRefreshTokenState);
   const JWTAccessToken = await getJWTToken();
   console.log(JWTAccessToken);
   const result = await axios.get(cancelRecruitURL + `/${id}`, {
@@ -148,9 +245,31 @@ export const cancelRecruitAPI = async (id: number) => {
       Authorization: 'Bearer ' + JWTAccessToken,
     },
   });
+  if (result.status === 401) {
+    const result = await refreshAPI();
+    console.log(result);
+    if (result.status == 200) {
+      const tokens = await result.data;
+      const token = tokens.accessToken;
+      const refToken = tokens.refreshToken;
+      AsyncStorage.multiSet([
+        ['@BaedalMate_JWTAccessToken', token],
+        ['@BaedalMate_JWTRefreshToken', refToken],
+      ]);
+
+      if (result.status === 200) {
+        cancelRecruitAPI(id);
+      }
+      return result.data;
+    }
+  }
   return result.data;
 };
 export const closeRecruitAPI = async (id: number) => {
+  // const [JWTAccessToken, setJWTAccessToken] =
+  //   useRecoilState(JWTAccessTokenState);
+  // const [JWTRefreshToken, setJWTRefreshToken] =
+  //   useRecoilState(JWTRefreshTokenState);
   const JWTAccessToken = await getJWTToken();
   console.log(JWTAccessToken);
   const result = await axios.get(closeRecruitURL + `/${id}`, {
@@ -158,6 +277,23 @@ export const closeRecruitAPI = async (id: number) => {
       Authorization: 'Bearer ' + JWTAccessToken,
     },
   });
+  if (result.status === 401) {
+    const result = await refreshAPI();
+    console.log(result);
+    if (result.status == 200) {
+      const tokens = await result.data;
+      const token = tokens.accessToken;
+      const refToken = tokens.refreshToken;
+      AsyncStorage.multiSet([
+        ['@BaedalMate_JWTAccessToken', token],
+        ['@BaedalMate_JWTRefreshToken', refToken],
+      ]);
+      if (result.status === 200) {
+        closeRecruitAPI(id);
+      }
+      return result.data;
+    }
+  }
   return result.data;
 };
 
@@ -165,6 +301,10 @@ export const postParticipateRecruitAPI = async (
   menu: menuI[],
   recruitId: number,
 ) => {
+  // const [JWTAccessToken, setJWTAccessToken] =
+  //   useRecoilState(JWTAccessTokenState);
+  // const [JWTRefreshToken, setJWTRefreshToken] =
+  //   useRecoilState(JWTRefreshTokenState);
   const JWTAccessToken = await getJWTToken();
   console.log(JWTAccessToken);
   try {
@@ -181,7 +321,25 @@ export const postParticipateRecruitAPI = async (
           },
         },
       )
-      .then(function (response) {
+      .then(async function (response) {
+        if (response.status === 401) {
+          const result = await refreshAPI();
+          console.log(result);
+          if (result.status == 200) {
+            const tokens = await result.data;
+            const token = tokens.accessToken;
+            const refToken = tokens.refreshToken;
+            AsyncStorage.multiSet([
+              ['@BaedalMate_JWTAccessToken', token],
+              ['@BaedalMate_JWTRefreshToken', refToken],
+            ]);
+
+            if (result.status === 200) {
+              postParticipateRecruitAPI(menu, recruitId);
+            }
+            return result;
+          }
+        }
         return response;
       })
       .catch(function (error) {
@@ -199,6 +357,10 @@ export const updateParticipateRecruitAPI = async (
   menu: menuI[],
   recruitId: number,
 ) => {
+  // const [JWTAccessToken, setJWTAccessToken] =
+  //   useRecoilState(JWTAccessTokenState);
+  // const [JWTRefreshToken, setJWTRefreshToken] =
+  //   useRecoilState(JWTRefreshTokenState);
   const JWTAccessToken = await getJWTToken();
   console.log(JWTAccessToken);
   try {
@@ -215,7 +377,24 @@ export const updateParticipateRecruitAPI = async (
           },
         },
       )
-      .then(function (response) {
+      .then(async function (response) {
+        if (response.status === 401) {
+          const result = await refreshAPI();
+          console.log(result);
+          if (result.status == 200) {
+            const tokens = await result.data;
+            const token = tokens.accessToken;
+            const refToken = tokens.refreshToken;
+            AsyncStorage.multiSet([
+              ['@BaedalMate_JWTAccessToken', token],
+              ['@BaedalMate_JWTRefreshToken', refToken],
+            ]);
+            if (result.status === 200) {
+              updateParticipateRecruitAPI(menu, recruitId);
+            }
+            return result;
+          }
+        }
         return response;
       })
       .catch(function (error) {
@@ -230,6 +409,10 @@ export const updateParticipateRecruitAPI = async (
 };
 
 export const deleteRecruitOrderAPI = async (recruitId: number) => {
+  // const [JWTAccessToken, setJWTAccessToken] =
+  //   useRecoilState(JWTAccessTokenState);
+  // const [JWTRefreshToken, setJWTRefreshToken] =
+  //   useRecoilState(JWTRefreshTokenState);
   const JWTAccessToken = await getJWTToken();
   console.log(JWTAccessToken);
   const result = await axios.delete(ParticipateRecruitURL, {
@@ -238,10 +421,32 @@ export const deleteRecruitOrderAPI = async (recruitId: number) => {
       Authorization: 'Bearer ' + JWTAccessToken,
     },
   });
+  if (result.status === 401) {
+    const result = await refreshAPI();
+    console.log(result);
+    if (result.status == 200) {
+      const tokens = await result.data;
+      const token = tokens.accessToken;
+      const refToken = tokens.refreshToken;
+      AsyncStorage.multiSet([
+        ['@BaedalMate_JWTAccessToken', token],
+        ['@BaedalMate_JWTRefreshToken', refToken],
+      ]);
+
+      if (result.status === 200) {
+        deleteRecruitOrderAPI(recruitId);
+      }
+      return result.data;
+    }
+  }
   return result.data;
 };
 
 export const searchRecruitAPI = async (keyword: string) => {
+  // const [JWTAccessToken, setJWTAccessToken] =
+  //   useRecoilState(JWTAccessTokenState);
+  // const [JWTRefreshToken, setJWTRefreshToken] =
+  //   useRecoilState(JWTRefreshTokenState);
   const JWTAccessToken = await getJWTToken();
   const result = await axios.get(searchRecruitURL, {
     headers: {
@@ -251,10 +456,31 @@ export const searchRecruitAPI = async (keyword: string) => {
       keyword,
     },
   });
+  if (result.status === 401) {
+    const result = await refreshAPI();
+    console.log(result);
+    if (result.status == 200) {
+      const tokens = await result.data;
+      const token = tokens.accessToken;
+      const refToken = tokens.refreshToken;
+      AsyncStorage.multiSet([
+        ['@BaedalMate_JWTAccessToken', token],
+        ['@BaedalMate_JWTRefreshToken', refToken],
+      ]);
+      if (result.status === 200) {
+        searchRecruitAPI(keyword);
+      }
+      return result.data;
+    }
+  }
   return result.data;
 };
 
 export const getUserMenuAPI = async (recruitId: number) => {
+  // const [JWTAccessToken, setJWTAccessToken] =
+  //   useRecoilState(JWTAccessTokenState);
+  // const [JWTRefreshToken, setJWTRefreshToken] =
+  //   useRecoilState(JWTRefreshTokenState);
   const JWTAccessToken = await getJWTToken();
   console.log(JWTAccessToken);
   try {
@@ -264,8 +490,26 @@ export const getUserMenuAPI = async (recruitId: number) => {
           Authorization: 'Bearer ' + JWTAccessToken,
         },
       })
-      .then(function (response) {
+      .then(async function (response) {
         console.log(response);
+        if (response.status === 401) {
+          const result = await refreshAPI();
+          console.log(result);
+          if (result.status == 200) {
+            const tokens = await result.data;
+            const token = tokens.accessToken;
+            const refToken = tokens.refreshToken;
+            AsyncStorage.multiSet([
+              ['@BaedalMate_JWTAccessToken', token],
+              ['@BaedalMate_JWTRefreshToken', refToken],
+            ]);
+
+            if (result.status === 200) {
+              getUserMenuAPI(recruitId);
+            }
+            return result.data;
+          }
+        }
         return response.data;
       })
       .catch(function (error) {

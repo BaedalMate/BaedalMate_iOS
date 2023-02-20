@@ -2,7 +2,6 @@ import React, {useEffect, useRef, useState} from 'react';
 import {
   Image,
   KeyboardAvoidingView,
-  Platform,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
@@ -34,6 +33,7 @@ import {
   chatRecruitURL,
   recruitParticipantsI,
   participantI,
+  getChatRoomAPI,
 } from 'components/utils/api/Chat';
 import SockJS from 'sockjs-client';
 import {Stomp} from '@stomp/stompjs';
@@ -47,6 +47,8 @@ import {UsePopup, popupProps} from 'components/utils/usePopup';
 import {postBlockAPI, postUnBlockAPI} from 'components/utils/api/Block';
 import Toast from 'react-native-root-toast';
 import {getUserAPI} from 'components/utils/api/User';
+import {refreshAPI} from 'components/utils/api/Login';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export interface sendI {
   senderId: number;
@@ -70,6 +72,11 @@ let ws = Stomp.over(function () {
   return new SockJS(url + '/ws/chat');
 });
 export const DetailChatRoom = props => {
+  // const [JWTAccessToken, setJWTAccessToken] =
+  //   useRecoilState(JWTAccessTokenState);
+  // const [JWTRefreshToken, setJWTRefreshToken] =
+  //   useRecoilState(JWTRefreshTokenState);
+
   ws.configure({});
   const [recv, setRecv] = useState<recvI>();
   const [messageText, setMessageText] = useState<string>('');
@@ -85,16 +92,51 @@ export const DetailChatRoom = props => {
             Authorization: 'Bearer ' + JWTAccessToken,
           },
         })
-        .then(function (response) {
+        .then(async function (response) {
           if (response.status === 200) {
             setDetailChat(response.data);
             console.log(response);
             return response.data;
+          } else if (response.status === 401) {
+            const result = await refreshAPI();
+            console.log(result);
+            if (result.status == 200) {
+              const tokens = await result.data;
+              const token = tokens.accessToken;
+              const refToken = tokens.refreshToken;
+              AsyncStorage.multiSet([
+                ['@BaedalMate_JWTAccessToken', token],
+                ['@BaedalMate_JWTRefreshToken', refToken],
+              ]);
+
+              if (result.status === 200) {
+                getChatRoomAPI();
+              }
+              return result.data;
+            }
           }
           return false;
         })
-        .catch(function (error) {
+        .catch(async function (error) {
           console.log(error);
+          if (error.response.status === 401) {
+            const result = await refreshAPI();
+            console.log(result);
+            if (result.status == 200) {
+              const tokens = await result.data;
+              const token = tokens.accessToken;
+              const refToken = tokens.refreshToken;
+              AsyncStorage.multiSet([
+                ['@BaedalMate_JWTAccessToken', token],
+                ['@BaedalMate_JWTRefreshToken', refToken],
+              ]);
+
+              if (result.status === 200) {
+                getChatRoomAPI();
+              }
+              return result.data;
+            }
+          }
           return false;
         });
       return chatRooms;

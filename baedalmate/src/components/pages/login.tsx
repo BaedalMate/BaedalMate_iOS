@@ -263,17 +263,25 @@ function Login({navigation}: LoginProps): React.ReactElement {
       setJWTAccessToken(token);
       setJWTRefreshToken(refToken);
       return response;
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
-      const result = await refreshAPI();
-      console.log(result);
-      if (result.status == 200) {
-        const tokens = await result.data;
-        const token = tokens.accessToken;
-        const refToken = tokens.refreshToken;
-        setJWTAccessToken(token);
-        setJWTRefreshToken(refToken);
-        return result;
+      if (error.response.status === 401) {
+        const result = await refreshAPI();
+        console.log(result);
+        if (result.status == 200) {
+          const tokens = await result.data;
+          const token = tokens.accessToken;
+          const refToken = tokens.refreshToken;
+          AsyncStorage.multiSet([
+            ['@BaedalMate_JWTAccessToken', token],
+            ['@BaedalMate_JWTRefreshToken', refToken],
+          ]);
+          setJWTAccessToken(token);
+          setJWTRefreshToken(refToken);
+          // setJWTAccessToken(token);
+          // setJWTRefreshToken(refToken);
+          return result;
+        }
       }
       // if (result.status === 200) {
       //   navigation.navigate('BoardStackComponent');

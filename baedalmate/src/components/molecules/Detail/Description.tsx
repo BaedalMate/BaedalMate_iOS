@@ -34,7 +34,7 @@ const Description = ({
           }}>
           상세설명
         </TextKRBold>
-        {/* {item?.host && (
+        {item?.host && (
           <TouchableOpacity
             style={{borderBottomWidth: 1, borderColor: DARK_GRAY_COLOR}}
             onPress={() => {
@@ -55,7 +55,7 @@ const Description = ({
               모집글 수정하기
             </Text>
           </TouchableOpacity>
-        )} */}
+        )}
       </View>
       <View style={{marginTop: 16}}>
         <Text

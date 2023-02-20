@@ -123,15 +123,13 @@ const CreateRecruit1 = props => {
   } = useFieldArray({
     control,
     name: 'shippingFeeRange',
-    rules: {
-      validate: {},
-    },
   });
   useEffect(() => {
     if (defaultItem) {
       const defaultShippingFee = defaultItem.shippingFee;
       shippingFeeRemove();
       shippingFeeRangeRemove();
+
       defaultShippingFee.map((item, idx) => {
         shippingFeeAppend({
           name: `${item.shippingFee}`,
@@ -142,6 +140,9 @@ const CreateRecruit1 = props => {
           value: '',
         });
       });
+      setValue(`shippingFee.${defaultShippingFee.length}.name`, '');
+      setValue(`shippingFeeRange.${defaultShippingFee.length}.name`, '');
+      setShippingFeeCnt(defaultShippingFee.length);
     }
     defaultItem &&
       defaultItem.criteria &&
@@ -553,16 +554,16 @@ const CreateRecruit1 = props => {
                                 name={`shippingFeeRange[${index}].name`}
                                 control={control}
                                 rules={{
+                                  required: checked === 'false' && true,
                                   validate: v =>
                                     shippingFeeRangeFields.length > 0
-                                      ? Number(v) > 0
+                                      ? Number(v) >= 0
                                       : Number(v) >
                                         Number(
                                           shippingFeeRangeFields[
                                             shippingFeeRangeFields.length - 1
                                           ],
                                         ),
-                                  required: checked === 'false' && true,
                                 }}
                                 isLast={
                                   shippingFeeRangeFields.length - 1 === index
@@ -619,17 +620,10 @@ const CreateRecruit1 = props => {
                     </View>
                     <BtnAddDeliveryFee
                       onPress={() => {
-                        console.log(shippingFeeRangeFields, shippingFeeFields);
                         const values = getValues([
                           `shippingFee`,
                           `shippingFeeRange`,
                         ]);
-                        console.log(values[0][shippingFeeCnt].name);
-                        shippingFeeCnt > 0 &&
-                          console.log(
-                            values[1][shippingFeeCnt - 1].name,
-                            values[1][shippingFeeCnt].name,
-                          );
                         if (
                           values[0][shippingFeeCnt].name && shippingFeeCnt > 0
                             ? values[1][shippingFeeCnt].name >
@@ -654,20 +648,14 @@ const CreateRecruit1 = props => {
                             '',
                           );
                           setShippingFeeCnt(shippingFeeCnt + 1);
-
-                          console.log(
-                            shippingFeeFields,
-                            shippingFeeRangeFields,
-                            shippingFeeCnt,
-                          );
-                          if (
-                            shippingFeeRangeFields[shippingFeeCnt].name &&
-                            shippingFeeFields[shippingFeeCnt].name
-                          ) {
-                            setShippingFeeCnt(shippingFeeCnt - 1);
-                            shippingFeeRemove(shippingFeeCnt);
-                            shippingFeeRangeRemove(shippingFeeCnt);
-                          }
+                          // if (
+                          //   shippingFeeRangeFields[shippingFeeCnt].name &&
+                          //   shippingFeeFields[shippingFeeCnt].name
+                          // ) {
+                          //   setShippingFeeCnt(shippingFeeCnt - 1);
+                          //   shippingFeeRemove(shippingFeeCnt);
+                          //   shippingFeeRangeRemove(shippingFeeCnt);
+                          // }
                         }
                       }}
                     />

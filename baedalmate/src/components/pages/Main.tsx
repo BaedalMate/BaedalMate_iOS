@@ -1,7 +1,7 @@
 import {NavigationProp} from '@react-navigation/native';
 import Category from 'components/molecules/Main/Category';
 import React, {useEffect, useState} from 'react';
-import {View, Platform, StatusBar, Alert} from 'react-native';
+import {View, Platform, StatusBar} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {LINE_GRAY_COLOR, PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
 import {TextKRBold} from 'themes/text';
@@ -17,7 +17,6 @@ import {refreshAPI} from 'components/utils/api/Login';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useRecoilState} from 'recoil';
 import {
-  FCMTokenState,
   selectDormitoryState,
   userDormitoryState,
   userIdState,
@@ -25,7 +24,6 @@ import {
   userProfileImageState,
   userScoreState,
 } from 'components/utils/recoil/atoms/User';
-import messaging from '@react-native-firebase/messaging';
 
 import {dormitoryList} from './CreateRecuit/second';
 export const userURL = url + '/api/v1/user';
@@ -88,6 +86,10 @@ export interface MainProps {
 const Main: React.FunctionComponent<MainProps> = props => {
   const [yOffset, setYOffset] = useState(0);
   const [StatusBGColor, setStatusBGColor] = useState(PRIMARY_COLOR);
+  // const [JWTAccessToken, setJWTAccessToken] =
+  //   useRecoilState(JWTAccessTokenState);
+  // const [JWTRefreshToken, setJWTRefreshToken] =
+  //   useRecoilState(JWTRefreshTokenState);
 
   // const [FCMToken, setFCMToken] = useRecoilState(FCMTokenState);
   //user 관련 state
@@ -135,14 +137,20 @@ const Main: React.FunctionComponent<MainProps> = props => {
           } else if (response.status === 401) {
             const result = await refreshAPI();
             console.log(result);
-            const tokens = await result.data;
-            const token = tokens.accessToken;
-            const refToken = tokens.refreshToken;
+            if (result.status == 200) {
+              const tokens = await result.data;
+              const token = tokens.accessToken;
+              const refToken = tokens.refreshToken;
+              AsyncStorage.multiSet([
+                ['@BaedalMate_JWTAccessToken', token],
+                ['@BaedalMate_JWTRefreshToken', refToken],
+              ]);
 
-            AsyncStorage.multiSet([
-              ['@BaedalMate_JWTAccessToken', token],
-              ['@BaedalMate_JWTRefreshToken', refToken],
-            ]);
+              if (result.status === 200) {
+                getMainRecruitList();
+              }
+              return result;
+            }
           } else if (response.status === 403) {
             // props.navigation.navigate('거점 인증');
             if (nickname !== '') {
@@ -166,14 +174,19 @@ const Main: React.FunctionComponent<MainProps> = props => {
           } else if (error.response.status === 401) {
             const result = await refreshAPI();
             console.log(result);
-            const tokens = await result.data;
-            const token = tokens.accessToken;
-            const refToken = tokens.refreshToken;
-
-            AsyncStorage.multiSet([
-              ['@BaedalMate_JWTAccessToken', token],
-              ['@BaedalMate_JWTRefreshToken', refToken],
-            ]);
+            if (result.status == 200) {
+              const tokens = await result.data;
+              const token = tokens.accessToken;
+              const refToken = tokens.refreshToken;
+              AsyncStorage.multiSet([
+                ['@BaedalMate_JWTAccessToken', token],
+                ['@BaedalMate_JWTRefreshToken', refToken],
+              ]);
+              if (result.status === 200) {
+                getMainRecruitList();
+              }
+              return result;
+            }
           }
           return error;
         });
@@ -217,14 +230,20 @@ const Main: React.FunctionComponent<MainProps> = props => {
           } else if (response.status === 401) {
             const result = await refreshAPI();
             console.log(result);
-            const tokens = await result.data;
-            const token = tokens.accessToken;
-            const refToken = tokens.refreshToken;
+            if (result.status == 200) {
+              const tokens = await result.data;
+              const token = tokens.accessToken;
+              const refToken = tokens.refreshToken;
+              AsyncStorage.multiSet([
+                ['@BaedalMate_JWTAccessToken', token],
+                ['@BaedalMate_JWTRefreshToken', refToken],
+              ]);
 
-            AsyncStorage.multiSet([
-              ['@BaedalMate_JWTAccessToken', token],
-              ['@BaedalMate_JWTRefreshToken', refToken],
-            ]);
+              if (result.status === 200) {
+                getMainRecruitList();
+              }
+              return result;
+            }
           }
           return false;
         })
@@ -241,14 +260,20 @@ const Main: React.FunctionComponent<MainProps> = props => {
           } else if (error.response.status === 401) {
             const result = await refreshAPI();
             console.log(result);
-            const tokens = await result.data;
-            const token = tokens.accessToken;
-            const refToken = tokens.refreshToken;
+            if (result.status == 200) {
+              const tokens = await result.data;
+              const token = tokens.accessToken;
+              const refToken = tokens.refreshToken;
+              AsyncStorage.multiSet([
+                ['@BaedalMate_JWTAccessToken', token],
+                ['@BaedalMate_JWTRefreshToken', refToken],
+              ]);
 
-            AsyncStorage.multiSet([
-              ['@BaedalMate_JWTAccessToken', token],
-              ['@BaedalMate_JWTRefreshToken', refToken],
-            ]);
+              if (result.status === 200) {
+                getMainRecruitList();
+              }
+              return result;
+            }
           }
           return false;
         });

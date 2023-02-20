@@ -1,6 +1,8 @@
 import {url} from '../../../../App';
 import axios from 'axios';
 import {getJWTToken} from './Recruit';
+import {refreshAPI} from './Login';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export interface eachChatRoomI {
   chatRoomId: number;
@@ -98,6 +100,10 @@ export const chatRoomURL = url + '/api/v1/rooms';
 export const eachChatRoomURL = url + `/api/v1/room/`;
 export const chatRecruitURL = url + `/api/v1/recruit/`;
 export const getChatRoomAPI = async () => {
+  // const [JWTAccessToken, setJWTAccessToken] =
+  //   useRecoilState(JWTAccessTokenState);
+  // const [JWTRefreshToken, setJWTRefreshToken] =
+  //   useRecoilState(JWTRefreshTokenState);
   const JWTAccessToken = await getJWTToken();
   console.log(JWTAccessToken);
   const result = await axios.get(chatRoomURL, {
@@ -105,6 +111,24 @@ export const getChatRoomAPI = async () => {
       Authorization: 'Bearer ' + JWTAccessToken,
     },
   });
+  if (result.status === 401) {
+    const result = await refreshAPI();
+    console.log(result);
+    if (result.status == 200) {
+      const tokens = await result.data;
+      const token = tokens.accessToken;
+      const refToken = tokens.refreshToken;
+      AsyncStorage.multiSet([
+        ['@BaedalMate_JWTAccessToken', token],
+        ['@BaedalMate_JWTRefreshToken', refToken],
+      ]);
+
+      if (result.status === 200) {
+        getChatRoomAPI();
+      }
+      return result;
+    }
+  }
   return result;
 };
 

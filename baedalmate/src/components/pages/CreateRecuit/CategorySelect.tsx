@@ -32,65 +32,20 @@ export interface deliveryFeeProps {
 
 const SelectCategoryPage = props => {
   console.log(props);
-  // const defaultItem = props.route.params.defaultItem;
-  // const [defaultItem, setDefaultItem] = useState({
-  //   recruitId: -1,
-  //   categoryId: -1,
-  //   place: {
-  //     name: '',
-  //     addressName: '',
-  //     roadAddressName: '-1',
-  //     x: 0,
-  //     y: 0,
-  //   },
-  //   dormitory: '',
-  //   criteria: '',
-  //   minPrice: -1,
-  //   minPeople: -1,
-  //   shippingFee: [
-  //     {
-  //       shippingFee: -1,
-  //       lowerPrice: -1,
-  //       upperPrice: -1,
-  //     },
-  //   ],
-  //   coupon: -1,
-  //   platform: '',
-  //   deadlineDate: '',
-  //   title: '',
-  //   description: '',
-  //   freeShipping: false,
-  //   menu: [
-  //     {
-  //       name: '',
-  //       price: -1,
-  //       quantity: -1,
-  //     },
-  //   ],
-  //   tags: [
-  //     {
-  //       tagname: '',
-  //     },
-  //   ],
-  // });
+
   const defaultItem = props.route.params
     ? props.route.params.defaultItem
     : undefined;
-  // const id = props.route.params
-  //   ? props.route.params.defaultItem.recruitId
-  //   : null;
-  // const getDefaultItem = async () => {
-  //   const result = await getRecruitDetailDataForUpdateAPI(id);
-  //   console.log(result);
-  //   setDefaultItem(result);
-  // };
+
   const type = props.route.params ? props.route.params.type : 'CREATE';
-  // console.log(defaultItem, type);
 
-  // useEffect(() => {
-  //   getDefaultItem();
-  // }, []);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(-1);
 
+  useEffect(() => {
+    defaultItem &&
+      defaultItem.categoryId &&
+      setSelectedCategoryId(defaultItem.categoryId);
+  }, [defaultItem]);
   return (
     <View
       style={{
@@ -111,6 +66,8 @@ const SelectCategoryPage = props => {
                   item={v}
                   defaultItem={defaultItem}
                   type={type}
+                  selectedCategoryId={selectedCategoryId}
+                  setSelectedCategoryId={setSelectedCategoryId}
                   key={i}
                 />
               ),

@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {
   Image,
   KeyboardAvoidingView,
-  NativeModules,
   Platform,
   ScrollView,
   StyleSheet,
@@ -24,10 +23,7 @@ import {
 import BtnCreateFloating from 'components/atoms/Button/BtnCreateFloating';
 import SelectDropdown from 'react-native-select-dropdown';
 import {Controller, useForm} from 'react-hook-form';
-import {
-  DormitoryDescriptionInput,
-  PriceInput,
-} from 'components/atoms/CreateRecruit/Input';
+import {PriceInput} from 'components/atoms/CreateRecruit/Input';
 import PlatformSelect from 'components/atoms/Button/BtnPlatform';
 import {userDormitoryState} from 'components/utils/recoil/atoms/User';
 import {useRecoilState} from 'recoil';
@@ -66,6 +62,15 @@ const CreateRecruit2 = props => {
   const defaultItem = props.route.params.defaultItem;
   const [dormitory, setDormitory] = useRecoilState(userDormitoryState);
 
+  const getDormitoryIdx = dormitory => {
+    let idx = -1;
+    dormitoryList.forEach(element => {
+      if (element.value === dormitory) {
+        idx = element.id;
+      }
+    });
+    return idx;
+  };
   const [platform, setPlatform] = useState('BAEMIN');
   const {
     control,
@@ -110,22 +115,43 @@ const CreateRecruit2 = props => {
     defaultItem
       ? props.navigation.navigate('상세 설정3', {
           data,
-          name: defaultItem.place.name ? defaultItem.place.name : '',
-          addressName: defaultItem.place.addressName
-            ? defaultItem.place.addressName
-            : '',
-          roadAddressName: defaultItem.place.roadAddressName
-            ? defaultItem.place.roadAddressName
-            : '',
-          x: defaultItem.place.x ? defaultItem.place.x : 0,
-          y: defaultItem.place.y ? defaultItem.place.y : 0,
-          categoryId: props.route.params.categoryId,
-          criteria: props.route.params.data.criteria,
-          freeShipping: props.route.params.data.freeShipping,
-          minPeople: props.route.params.data.minPeople,
-          minPrice: Number(props.route.params.data.minPrice),
-          deadlineDate: props.route.params.deadlineDate,
-          shippingFee: props.route.params.shippingFee,
+          name:
+            data.place && data.place.name
+              ? data.place.name
+              : defaultItem.place.name
+              ? defaultItem.place.name
+              : '',
+          addressName:
+            data.place && data.place.addressName
+              ? data.place.addressName
+              : defaultItem.place.addressName
+              ? defaultItem.place.addressName
+              : '',
+          roadAddressName:
+            data.place && data.place.roadAddressName
+              ? data.place.roadAddressName
+              : defaultItem.place.roadAddressName
+              ? defaultItem.place.roadAddressName
+              : '',
+          x:
+            data.place && data.place.x
+              ? data.place.x
+              : defaultItem.place.x
+              ? defaultItem.place.x
+              : 0,
+          y:
+            data.place && data.place.y
+              ? data.place.y
+              : defaultItem.place.y
+              ? defaultItem.place.y
+              : 0,
+          categoryId: props.route.params.data.data.categoryId,
+          criteria: props.route.params.data.data.data.criteria,
+          freeShipping: props.route.params.data.data.data.freeShipping,
+          minPeople: props.route.params.data.data.data.minPeople,
+          minPrice: Number(props.route.params.data.data.data.minPrice),
+          deadlineDate: props.route.params.data.data.deadlineDate,
+          shippingFee: props.route.params.data.data.shippingFee,
         })
       : props.navigation.navigate('상세 설정3', {
           data,
@@ -138,56 +164,8 @@ const CreateRecruit2 = props => {
           shippingFee: props.route.params.data.shippingFee,
         });
   };
-  // useEffect(() => {
-  //   setValue('place.name', defaultItem.place.name);
-  //   setValue('place.addressName', defaultItem.place.addressName);
-  //   setValue('place.roadAddressName', defaultItem.place.roadAddressName);
-  //   setValue('place.x', defaultItem.place.x);
-  //   setValue('place.y', defaultItem.place.y);
-  // }, [defaultItem]);
-  // const getPlace = async () => {
-  //   // const place_name = await AsyncStorage.getItem('place_name');
-  //   // const address_name = await AsyncStorage.getItem('address_name');
-  //   // const road_address_name = await AsyncStorage.getItem('road_address_name');
-  //   // const x = await AsyncStorage.getItem('x');
-  //   // const y = await AsyncStorage.getItem('y');
-  //   // console.log(location);
-  //   const place = {
-  //     addressName: address_name,
-  //     name: place_name,
-  //     roadAddressName: road_address_name,
-  //     x: x,
-  //     y: y,
-  //   };
-  //   console.log(place);
-  //   return place;
-  // };
 
-  // useEffect(() => {
-  //   getPlace();
-  // });
   const [locationObj, setLocationObj] = useState();
-  // const [location, setLocation] = useState();
-  // const getLocalAPI = () => {
-  //   const place = axios
-  //     .get(`https://dapi.kakao.com/v2/local/search/keyword.${location}`, {
-  //       headers: {Authorization: `KakaoAK ${RESTAPI_KEY}`},
-  //     })
-  //     .then(res => {
-  //       const location = res.data.documents[0];
-  //       console.log(location);
-  //       setLocationObj({
-  //         id: location.id,
-  //         address_name: location.address_name,
-  //         place_name: location.place_name,
-  //         x: location.x,
-  //         y: location.y,
-  //       });
-  //       return location;
-  //     });
-  //   console.log(place);
-  // };
-  // const
 
   useEffect(() => {
     setValue('place.name', props.route.params.name);
@@ -275,7 +253,11 @@ const CreateRecruit2 = props => {
                         fontWeight: '400',
                       }}
                       data={dormitoryList}
-                      defaultValueByIndex={dormitory.id}
+                      defaultValueByIndex={
+                        defaultItem && defaultItem.dormitory
+                          ? getDormitoryIdx(defaultItem.dormitory)
+                          : dormitory.id
+                      }
                       renderDropdownIcon={() => {
                         return <Image source={BOTTOM_ARROW} />;
                       }}

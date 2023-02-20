@@ -20,7 +20,6 @@ const BaedalMateRecommendation = ({
   setOption;
 }) => {
   // const [option, setOption] = useState(null);
-
   // const [mainRecruitSortList, setMainRecruitSortList] = useState<
   //   eachMainRecruitListI[]
   // >([]);
@@ -41,7 +40,7 @@ const BaedalMateRecommendation = ({
               sort: option,
             },
           })
-          .then(response => {
+          .then(async response => {
             if (response.status === 200) {
               console.log(response);
               response.data &&

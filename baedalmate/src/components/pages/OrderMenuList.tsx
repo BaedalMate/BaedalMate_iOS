@@ -19,6 +19,8 @@ import {
 } from 'components/utils/api/Chat';
 import {formPrice, getJWTToken} from 'components/utils/api/Recruit';
 import {url} from '../../../App';
+import {refreshAPI} from 'components/utils/api/Login';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export interface RecruitItemProps {
   createDate: string;
@@ -232,6 +234,12 @@ const OrderMenuItem = ({
     image: string;
     name: string;
   }>();
+  // const [JWTAccessToken, setJWTAccessToken] =
+  //   useRecoilState(JWTAccessTokenState);
+  // const [JWTRefreshToken, setJWTRefreshToken] =
+  //   useRecoilState(JWTRefreshTokenState);
+  // const [FCMToken, setFCMToken] = useRecoilState(FCMTokenState);
+
   const getParticipants = async id => {
     try {
       const JWTAccessToken = await getJWTToken();
@@ -241,15 +249,50 @@ const OrderMenuItem = ({
             Authorization: 'Bearer ' + JWTAccessToken,
           },
         })
-        .then(function (response) {
+        .then(async function (response) {
           if (response.status === 200) {
             setParticipantsInfo(response.data);
             return response.data.recruitList;
+          } else if (response.status === 401) {
+            const result = await refreshAPI();
+            console.log(result);
+            if (result.status == 200) {
+              const tokens = await result.data;
+              const token = tokens.accessToken;
+              const refToken = tokens.refreshToken;
+              AsyncStorage.multiSet([
+                ['@BaedalMate_JWTAccessToken', token],
+                ['@BaedalMate_JWTRefreshToken', refToken],
+              ]);
+
+              if (result.status === 200) {
+                getParticipants(id);
+              }
+              return result;
+            }
           }
           return false;
         })
-        .catch(function (error) {
+        .catch(async function (error) {
           console.log(error);
+          if (error.response.status === 401) {
+            const result = await refreshAPI();
+            console.log(result);
+            if (result.status == 200) {
+              const tokens = await result.data;
+              const token = tokens.accessToken;
+              const refToken = tokens.refreshToken;
+              AsyncStorage.multiSet([
+                ['@BaedalMate_JWTAccessToken', token],
+                ['@BaedalMate_JWTRefreshToken', refToken],
+              ]);
+
+              if (result.status === 200) {
+                getParticipants(id);
+              }
+              return result;
+            }
+          }
           return false;
         });
       return chatParticipants;
@@ -324,6 +367,12 @@ const OrderMenuItem = ({
 };
 
 const OrderMenuList = props => {
+  // const [JWTAccessToken, setJWTAccessToken] =
+  //   useRecoilState(JWTAccessTokenState);
+  // const [JWTRefreshToken, setJWTRefreshToken] =
+  //   useRecoilState(JWTRefreshTokenState);
+  // const [FCMToken, setFCMToken] = useRecoilState(FCMTokenState);
+
   const id = props.route.params.id;
   const [recruitMenuInfo, setRecruitMenuInfo] = useState<recruitMenuI>();
   const getMenu = async id => {
@@ -335,10 +384,26 @@ const OrderMenuList = props => {
             Authorization: 'Bearer ' + JWTAccessToken,
           },
         })
-        .then(function (response) {
+        .then(async function (response) {
           if (response.status === 200) {
             setRecruitMenuInfo(response.data);
             return response.data.recruitList;
+          } else if (response.status === 401) {
+            const result = await refreshAPI();
+            console.log(result);
+            if (result.status == 200) {
+              const tokens = await result.data;
+              const token = tokens.accessToken;
+              const refToken = tokens.refreshToken;
+              AsyncStorage.multiSet([
+                ['@BaedalMate_JWTAccessToken', token],
+                ['@BaedalMate_JWTRefreshToken', refToken],
+              ]);
+              if (result.status === 200) {
+                getMenu(id);
+              }
+              return result;
+            }
           }
           return false;
         })

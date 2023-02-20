@@ -22,6 +22,8 @@ import {
   // totalRecruitListState,
 } from 'components/utils/recoil/atoms/RecruitList';
 import SwiperView from 'components/molecules/BoardList/SwiperView';
+import {refreshAPI} from 'components/utils/api/Login';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const sortData = [
   {name: '최신순', value: 'createDate'},
@@ -66,7 +68,7 @@ const BoardListPage = ({route, navigation}) => {
                   },
                 },
               )
-              .then(function (response) {
+              .then(async function (response) {
                 if (response.status === 200) {
                   console.log(selectedSort);
                   console.log(response);
@@ -78,6 +80,23 @@ const BoardListPage = ({route, navigation}) => {
                     : setRecruitList(response.data.recruitList as never);
                   setLast(response.data.last);
                   return response.data.recruitList;
+                } else if (response.status === 401) {
+                  const result = await refreshAPI();
+                  console.log(result);
+                  if (result.status == 200) {
+                    const tokens = await result.data;
+                    const token = tokens.accessToken;
+                    const refToken = tokens.refreshToken;
+                    AsyncStorage.multiSet([
+                      ['@BaedalMate_JWTAccessToken', token],
+                      ['@BaedalMate_JWTRefreshToken', refToken],
+                    ]);
+
+                    if (result.status === 200) {
+                      getBoardListData(pageCnt);
+                    }
+                    return result;
+                  }
                 }
                 return false;
               })
@@ -98,7 +117,7 @@ const BoardListPage = ({route, navigation}) => {
                   except_close: exceptClose,
                 },
               })
-              .then(function (response) {
+              .then(async function (response) {
                 if (response.status === 200) {
                   console.log(selectedSort);
                   console.log(response);
@@ -113,17 +132,67 @@ const BoardListPage = ({route, navigation}) => {
                   // setTotalList(response.data.recruitList);
                   // setRecruitList(response.data.recruitList);
                   return response.data.recruitList;
+                } else if (response.status === 401) {
+                  const result = await refreshAPI();
+                  console.log(result);
+                  if (result.status == 200) {
+                    const tokens = await result.data;
+                    const token = tokens.accessToken;
+                    const refToken = tokens.refreshToken;
+                    AsyncStorage.multiSet([
+                      ['@BaedalMate_JWTAccessToken', token],
+                      ['@BaedalMate_JWTRefreshToken', refToken],
+                    ]);
+                    if (result.status === 200) {
+                      getBoardListData(pageCnt);
+                    }
+                    return result;
+                  }
                 }
                 return false;
               })
-              .catch(function (error) {
+              .catch(async function (error) {
                 console.log(error);
+                if (error.response.status === 401) {
+                  const result = await refreshAPI();
+                  console.log(result);
+                  if (result.status == 200) {
+                    const tokens = await result.data;
+                    const token = tokens.accessToken;
+                    const refToken = tokens.refreshToken;
+                    AsyncStorage.multiSet([
+                      ['@BaedalMate_JWTAccessToken', token],
+                      ['@BaedalMate_JWTRefreshToken', refToken],
+                    ]);
+                    if (result.status === 200) {
+                      getBoardListData(pageCnt);
+                    }
+                    return result;
+                  }
+                }
                 console.log(categoryId);
                 return false;
               });
       return BoardListData;
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
+      if (error.response.status === 401) {
+        const result = await refreshAPI();
+        console.log(result);
+        if (result.status == 200) {
+          const tokens = await result.data;
+          const token = tokens.accessToken;
+          const refToken = tokens.refreshToken;
+          AsyncStorage.multiSet([
+            ['@BaedalMate_JWTAccessToken', token],
+            ['@BaedalMate_JWTRefreshToken', refToken],
+          ]);
+          if (result.status === 200) {
+            getBoardListData(pageCnt);
+          }
+          return result;
+        }
+      }
       return false;
     }
   };

@@ -59,7 +59,7 @@ const CreateRecruit3 = props => {
       tags: [{tagname: ''}],
     },
   });
-  console.log('098765432', props.route.params);
+  console.log(props.route.params);
 
   const onSubmit = data => {
     console.log(data);
