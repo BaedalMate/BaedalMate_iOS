@@ -183,7 +183,7 @@ const SearchInput = ({error, name, control, rules}) => {
       }}
       value={field.value}
       onChangeText={field.onChange}
-      placeholder={'검색할 키워드를 입력해주세요                       '}
+      placeholder={'검색할 태그를 입력해주세요                       '}
       placeholderTextColor={MAIN_GRAY_COLOR}
     />
   );
@@ -505,7 +505,7 @@ export const BoardStackComponent = () => {
         })}
       />
       <BoardScreenStack.Screen
-        name="거점 인증"
+        name="내 위치 인증"
         component={GPS}
         options={({navigation, route}) => ({
           headerBackVisible: false,
