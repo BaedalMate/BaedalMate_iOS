@@ -89,7 +89,7 @@ const TodayMenuItemCompleted = ({item}: {item: eachMainTagRecruitListI}) => {
                 {formPrice(item.minPrice)}원
               </TextKRBold>
             </TextKRBold>
-            <TextKRBold style={{fontWeight: 'bold'}}>모집마감</TextKRBold>
+            <TextKRBold style={{fontWeight: 'bold'}}>모집 완료</TextKRBold>
           </View>
           <View style={styles.imageSliderInactiveWrapper}>
             <Text

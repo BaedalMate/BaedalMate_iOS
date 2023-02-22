@@ -9,7 +9,7 @@ export type TagProps = {
 const Tag = ({text}) => {
   return (
     <View style={styles.tagWrapper}>
-      <TextKRBold style={styles.tagText}>{text}</TextKRBold>
+      <TextKRBold style={styles.tagText}>#{text}</TextKRBold>
     </View>
   );
 };

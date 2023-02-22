@@ -392,7 +392,6 @@ const Main: React.FunctionComponent<MainProps> = props => {
             setYOffset(event.nativeEvent.contentOffset.y);
           }}>
           <TodayMenu
-            dormitory={selectDormitory}
             nickname={nickname}
             mainTagRecruitList={mainTagRecruitList}
           />

@@ -8,13 +8,11 @@ import Header from '../../atoms/Header/Header';
 import UserInfoTitle from '../../atoms/Main/UserInfoTitle';
 
 interface UserDataProps {
-  dormitory: {id: number; name: string; value: string};
   nickname: string;
   mainTagRecruitList: mainTagRecruitListI;
 }
 
 const TodayMenu: React.FunctionComponent<UserDataProps> = ({
-  dormitory,
   nickname,
   mainTagRecruitList,
 }) => {
@@ -23,11 +21,11 @@ const TodayMenu: React.FunctionComponent<UserDataProps> = ({
       style={{
         backgroundColor: PRIMARY_COLOR,
         width: '100%',
-        height: 387,
+        height: 280 + 44,
         paddingHorizontal: '5%',
       }}>
       <Header />
-      <UserInfoTitle userName={nickname} userAddress={dormitory} />
+      <UserInfoTitle userName={nickname} />
 
       <Slider mainTagRecruitList={mainTagRecruitList} />
     </View>
