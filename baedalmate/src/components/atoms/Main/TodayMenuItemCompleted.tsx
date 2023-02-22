@@ -78,7 +78,7 @@ const TodayMenuItemCompleted = ({item}: {item: eachMainTagRecruitListI}) => {
               {item?.userScore ? Math.round(item?.userScore * 10) / 10 : 0}
             </TextKRBold>
             <TextKRBold>
-              배달팁{' '}
+              배달비{' '}
               <TextKRBold style={{fontWeight: 'bold'}}>
                 {formPrice(item.shippingFee)}원
               </TextKRBold>

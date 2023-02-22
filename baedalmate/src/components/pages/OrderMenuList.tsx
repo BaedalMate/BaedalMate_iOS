@@ -73,7 +73,7 @@ const MyOrderPriceInfo = ({item}: {item: recruitMenuI}) => {
           </TextKRBold>
         </View>
         <Text style={styles.Description}>
-          배달팁과 쿠폰 사용금액 더치페이 계산 시, 나누어 떨어지지 않는 경우
+          배달비과 쿠폰 사용금액 더치페이 계산 시, 나누어 떨어지지 않는 경우
           각각 1원이 가감하여 계산됩니다.
         </Text>
         <View
@@ -122,7 +122,7 @@ const MyOrderPriceInfo = ({item}: {item: recruitMenuI}) => {
                   display: 'flex',
                   alignItems: 'center',
                 }}>
-                배달팁
+                배달비
               </TextKRReg>
               <TextKRReg
                 style={{

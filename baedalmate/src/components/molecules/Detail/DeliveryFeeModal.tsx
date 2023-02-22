@@ -127,7 +127,7 @@ const DeliveryFeeModal = ({item}: {item: RecruitItemProps | undefined}) => {
                   배달비 상세정보
                 </TextKRBold>
                 <TextKRReg style={styles.Description}>
-                  해당 모집글의 총 주문금액에 따른 배달팁 구간이 강조되어
+                  해당 모집글의 총 주문금액에 따른 배달비 구간이 강조되어
                   표시됩니다.
                 </TextKRReg>
               </View>
@@ -140,7 +140,7 @@ const DeliveryFeeModal = ({item}: {item: RecruitItemProps | undefined}) => {
                       marginBottom: 10,
                     }}>
                     <TextKRReg style={styles.Label}>주문금액</TextKRReg>
-                    <TextKRReg style={styles.Label}>배달팁</TextKRReg>
+                    <TextKRReg style={styles.Label}>배달비</TextKRReg>
                   </View>
                 )}
 

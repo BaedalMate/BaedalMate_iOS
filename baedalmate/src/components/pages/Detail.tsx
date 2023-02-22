@@ -568,7 +568,6 @@ const BoardItemDetail = props => {
                           name="price"
                           control={control}
                           rules={{}}
-                          isLast={true}
                         />
                       </View>
                     </View>

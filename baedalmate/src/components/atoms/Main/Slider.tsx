@@ -39,7 +39,7 @@ export enum status {
 //       maxPeople: 4,
 //     },
 //     tag1: '간편식',
-//     tag2: '배달팁 무료',
+//     tag2: '배달비 무료',
 //     imgUrl:
 //       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSt559x4ig-wTTMPcj3W9LD0dLvY6Ggi1E4L0WAP3IWcQ&s',
 //     state: status.ONGOING,
@@ -60,7 +60,7 @@ export enum status {
 //       maxPeople: 4,
 //     },
 //     tag1: '1인분',
-//     tag2: '배달팁 반값',
+//     tag2: '배달비 반값',
 //     imgUrl:
 //       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ6yI5v-1UCyMx8CdTpABg9QzItPHcPLZh7_1ZnzOpTg&s',
 //     state: status.COMPLETED,
@@ -126,7 +126,7 @@ export enum status {
 //       maxPeople: 4,
 //     },
 //     tag1: '1인분',
-//     tag2: '배달팁 무료',
+//     tag2: '배달비 무료',
 //     imgUrl:
 //       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ6yI5v-1UCyMx8CdTpABg9QzItPHcPLZh7_1ZnzOpTg&s',
 //     state: status.COMPLETED,

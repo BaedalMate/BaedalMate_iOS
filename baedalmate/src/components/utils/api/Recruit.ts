@@ -72,7 +72,7 @@ export interface tagI {
 
 export interface postRecruitI {
   categoryId: number;
-  coupon: number;
+  // coupon: number;
   criteria: string;
   deadlineDate: string;
   description: string;
@@ -83,7 +83,7 @@ export interface postRecruitI {
   minPrice: number;
   place: placeI;
   platform: string;
-  shippingFee: shippingFeeI[];
+  shippingFee: number;
   tags: tagI[];
   title: string;
 }
@@ -96,8 +96,8 @@ export interface detailRecruitI {
   criteria: string;
   minPrice: number;
   minPeople: number;
-  shippingFee: shippingFeeI[];
-  coupon: number;
+  shippingFee: number;
+  // coupon: number;
   platform: string;
   deadlineDate: string;
   title: string;

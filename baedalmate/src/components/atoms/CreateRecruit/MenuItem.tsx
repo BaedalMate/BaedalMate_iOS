@@ -22,6 +22,14 @@ export type MenuType = {
 const MenuItem = (props: MenuType) => {
   return (
     <View style={{height: 100, marginRight: 20}}>
+      <TouchableOpacity
+        onPress={props.onPress}
+        style={{zIndex: 10, position: 'absolute', left: 10, top: -5}}>
+        <Image
+          source={DELETE_ICON}
+          style={{width: 20, height: 20, top: 0, left: 0}}
+        />
+      </TouchableOpacity>
       <View style={styles.menuItemWrapper}>
         <View>
           <Text style={styles.menuItemTitle}>{props.menu}</Text>
@@ -30,14 +38,6 @@ const MenuItem = (props: MenuType) => {
           </Text>
         </View>
       </View>
-      <TouchableOpacity
-        onPress={props.onPress}
-        style={{position: 'relative', left: 210, bottom: 100}}>
-        <Image
-          source={DELETE_ICON}
-          style={{width: 20, height: 20, top: 0, right: 0}}
-        />
-      </TouchableOpacity>
     </View>
   );
 };

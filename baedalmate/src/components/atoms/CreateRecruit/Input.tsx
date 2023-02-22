@@ -210,7 +210,7 @@ export const DormitoryDescriptionInput = ({error, name, control, rules}) => {
       }}
       placeholder={
         name === 'name'
-          ? '추가할 메뉴를 적어주세요'
+          ? '추가할 메뉴 이름을 적어주세요'
           : '배달을 받을 장소에 대한 설명을 적어주세요'
       }
       onChangeText={field.onChange}
@@ -292,7 +292,7 @@ export const CntInput = ({name, control, rules, setValue}) => {
   );
 };
 
-export const PriceInput = ({error, name, control, rules, isLast}) => {
+export const PriceInput = ({error, name, control, rules}) => {
   const {field} = useController({
     control,
     defaultValue: '',
@@ -302,7 +302,7 @@ export const PriceInput = ({error, name, control, rules, isLast}) => {
   return (
     <>
       <TextInput
-        editable={isLast ? true : false}
+        // editable={isLast ? true : false}
         style={{
           borderWidth:
             name === 'price'
@@ -315,23 +315,17 @@ export const PriceInput = ({error, name, control, rules, isLast}) => {
               ? error.shippingFee
                 ? 1
                 : 0
-              : name === 'coupon'
-              ? error.coupon
-                ? 1
-                : 0
-              : 0,
+              : // : name === 'coupon'
+                // ? error.coupon
+                //   ? 1
+                //   : 0
+                0,
           borderRightWidth: 0,
           borderColor: name === 'price' ? LINE_GRAY_COLOR : ERROR_COLOR,
-          backgroundColor: isLast ? WHITE_COLOR : LINE_GRAY_COLOR,
-          color: isLast ? BLACK_COLOR : MAIN_GRAY_COLOR,
-          width:
-            name === 'price'
-              ? 260
-              : name.indexOf('shippingFeeRange') !== -1
-              ? 178
-              : name.indexOf('shippingFee') !== -1
-              ? 210
-              : 300,
+          backgroundColor: WHITE_COLOR,
+          color: BLACK_COLOR,
+          flex: 1,
+          marginLeft: 10,
           height: 45,
           borderTopLeftRadius: 10,
           borderBottomLeftRadius: 10,
@@ -339,7 +333,7 @@ export const PriceInput = ({error, name, control, rules, isLast}) => {
           textAlign: 'right',
           fontFamily: Fonts.Ko,
           fontStyle: 'normal',
-          fontWeight: name.indexOf('shippingFeeRange') !== -1 ? '400' : '700',
+          fontWeight: '400',
           fontSize: 16,
           // lineHeight: 19,
           textAlignVertical: 'center',
@@ -361,14 +355,14 @@ export const PriceInput = ({error, name, control, rules, isLast}) => {
               ? error.shippingFee
                 ? 1
                 : 0
-              : name === 'coupon'
-              ? error.coupon
-                ? 1
-                : 0
-              : 0,
+              : // : name === 'coupon'
+                // ? error.coupon
+                //   ? 1
+                //   : 0
+                0,
           borderLeftWidth: 0,
           borderColor: name === 'price' ? LINE_GRAY_COLOR : ERROR_COLOR,
-          backgroundColor: isLast ? WHITE_COLOR : LINE_GRAY_COLOR,
+          backgroundColor: WHITE_COLOR,
           height: 45,
           padding: 0,
           borderTopRightRadius: 10,
@@ -389,7 +383,7 @@ export const PriceInput = ({error, name, control, rules, isLast}) => {
             fontSize: 16,
             lineHeight: 19,
             textAlignVertical: 'center',
-            color: isLast ? BLACK_COLOR : MAIN_GRAY_COLOR,
+            color: BLACK_COLOR,
           }}>
           {name.indexOf('shippingFeeRange') !== -1 ? '원 이상' : '원'}
         </Text>

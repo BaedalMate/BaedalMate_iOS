@@ -148,7 +148,7 @@ const BaedalMateRecommendationItem = ({item}: {item: eachMainRecruitListI}) => {
           </View>
 
           <TextKRReg>
-            배달팁{' '}
+            배달비{' '}
             <TextKRBold style={{fontWeight: 'bold'}}>
               {formPrice(item?.shippingFee)}원
             </TextKRBold>

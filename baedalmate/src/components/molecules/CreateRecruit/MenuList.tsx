@@ -51,8 +51,6 @@ const MenuList = (props: menuListProps) => {
   };
 
   const [modal, setModal] = useState(false);
-  // const [newMenu, setNewMenu] = useState();
-  // const [menuList, setMenuList] = useState<menuListI[]>();
   const onSubmit = (data: menuListI) => {
     if (data.name === '' && data.price === 0) return;
     console.log(data);
@@ -130,7 +128,6 @@ const MenuList = (props: menuListProps) => {
                   alignItems: 'center',
                 }}></View>
               <KeyboardAvoidingView
-                // style={styles.avoidingView}
                 behavior={Platform.select({ios: 'padding'})}
                 keyboardVerticalOffset={statusBarHeight}>
                 <View
@@ -158,7 +155,7 @@ const MenuList = (props: menuListProps) => {
                           lineHeight: 22,
                           color: PRIMARY_COLOR,
                         }}>
-                        메뉴 추가하기
+                        주문할 메뉴 추가하기
                       </TextKRBold>
                     </View>
                     <View>
@@ -168,8 +165,7 @@ const MenuList = (props: menuListProps) => {
                           lineHeight: 24,
                           color: DARK_GRAY_COLOR,
                         }}>
-                        모집 인원에 도달하면 모집이 추가할 메뉴를 적고 메뉴의
-                        금액을 하단에 적어주세요
+                        내가 시키고 싶은 메뉴들의 이름과 각 금액을 작성해주세요!
                       </TextKRReg>
                     </View>
                     <View
@@ -216,7 +212,6 @@ const MenuList = (props: menuListProps) => {
                             name="price"
                             control={control}
                             rules={{}}
-                            isLast={true}
                             // rules={{required: true}}
                           />
                         </View>

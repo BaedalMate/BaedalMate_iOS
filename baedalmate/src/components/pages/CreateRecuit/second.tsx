@@ -16,23 +16,16 @@ import {
   BOTTOM_ARROW,
   DARK_GRAY_COLOR,
   ERROR_COLOR,
-  MAP_GRAY,
   PRIMARY_COLOR,
   WHITE_COLOR,
 } from 'themes/theme';
 import BtnCreateFloating from 'components/atoms/Button/BtnCreateFloating';
 import SelectDropdown from 'react-native-select-dropdown';
 import {Controller, useForm} from 'react-hook-form';
-import {PriceInput} from 'components/atoms/CreateRecruit/Input';
 import PlatformSelect from 'components/atoms/Button/BtnPlatform';
 import {userDormitoryState} from 'components/utils/recoil/atoms/User';
 import {useRecoilState} from 'recoil';
-// export type dormitory =
-//   | '누리학사'
-//   | '성림학사'
-//   | 'KB학사'
-//   | '불암학사'
-//   | '수림학사';
+
 export interface RecruitItemProps {
   createDate: string;
   deadlineDate: string;
@@ -87,7 +80,6 @@ const CreateRecruit2 = props => {
         defaultItem && defaultItem.description ? defaultItem.description : '',
       platform:
         defaultItem && defaultItem.platform ? defaultItem.platform : 'BAEMIN',
-      coupon: defaultItem && defaultItem.coupon ? defaultItem.coupon : 0,
       place: {
         name:
           defaultItem && defaultItem.place.name ? defaultItem.place.name : '',
@@ -165,7 +157,7 @@ const CreateRecruit2 = props => {
         });
   };
 
-  const [locationObj, setLocationObj] = useState();
+  // const [locationObj, setLocationObj] = useState();
 
   useEffect(() => {
     setValue('place.name', props.route.params.name);
@@ -183,10 +175,12 @@ const CreateRecruit2 = props => {
     <View
       style={{
         backgroundColor: WHITE_COLOR,
+        height: '100%',
       }}>
       <KeyboardAvoidingView
         behavior={Platform.select({ios: 'padding'})}
-        keyboardVerticalOffset={statusBarHeight + 44}>
+        keyboardVerticalOffset={statusBarHeight + 44}
+        style={{height: '100%'}}>
         <ScrollView
           style={{
             backgroundColor: WHITE_COLOR,
@@ -198,7 +192,7 @@ const CreateRecruit2 = props => {
                 padding: 15,
                 display: 'flex',
               }}>
-              <TextKRBold style={styles.Title}>주문 조건</TextKRBold>
+              <TextKRBold style={styles.Title}>배달 내용 작성하기</TextKRBold>
             </View>
             <View
               style={{
@@ -208,9 +202,9 @@ const CreateRecruit2 = props => {
                 borderBottomWidth: 5,
                 borderBottomColor: WHITE_COLOR,
               }}>
-              <TextKRBold style={styles.Label}>배달 거점</TextKRBold>
+              <TextKRBold style={styles.Label}>모이는 곳</TextKRBold>
               <TextKRReg style={styles.Description}>
-                모집 인원에 도달하면 모집이 완료됩니다
+                배달 받고 다른 사람들과 만날 건물을 선택해 주세요
               </TextKRReg>
               <View
                 style={{
@@ -218,18 +212,15 @@ const CreateRecruit2 = props => {
                   justifyContent: 'space-between',
                 }}>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <Text
-                    style={{
-                      marginRight: 30,
-                    }}>
-                    서울과기대
-                  </Text>
+                  <Text style={{}}>서울과기대</Text>
                   <View
                     style={{
+                      marginLeft: 30,
                       backgroundColor: WHITE_COLOR,
                       borderRadius: 10,
                       height: 45,
                       flex: 1,
+                      // width: 50,
                       alignItems: 'flex-end',
                     }}>
                     <SelectDropdown
@@ -284,9 +275,7 @@ const CreateRecruit2 = props => {
                 borderBottomWidth: 5,
                 borderBottomColor: WHITE_COLOR,
               }}>
-              <TextKRBold style={styles.Label}>
-                배달 가게 <Image source={MAP_GRAY} />
-              </TextKRBold>
+              <TextKRBold style={styles.Label}>배달 가게</TextKRBold>
               <View>
                 <Controller
                   name="place.name"
@@ -339,15 +328,8 @@ const CreateRecruit2 = props => {
                 borderBottomColor: WHITE_COLOR,
                 width: '100%',
               }}>
-              <TextKRBold style={styles.Label}>배달 플랫폼</TextKRBold>
-              <View
-                style={
-                  {
-                    // width: '100%',
-                    // justifyContent: 'space-between',
-                    // flexDirection: 'row',
-                  }
-                }>
+              <TextKRBold style={styles.Label}>이용할 배달 플랫폼</TextKRBold>
+              <View style={{}}>
                 <PlatformSelect
                   platform={platform}
                   setPlatform={setPlatform}
@@ -358,66 +340,12 @@ const CreateRecruit2 = props => {
                 />
               </View>
             </View>
-            <View
-              style={{
-                padding: 15,
-                display: 'flex',
-                backgroundColor: '#F7F8FA',
-                borderBottomWidth: 5,
-                borderBottomColor: WHITE_COLOR,
-              }}>
-              <TextKRBold style={styles.Label}>쿠폰 입력</TextKRBold>
-              <TextKRReg style={styles.Description}>
-                기존 금액에서 주최자의 쿠폰 사용금액만큼 할인된 후 배달비가
-                나누기 됩니다.
-              </TextKRReg>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }}>
-                <TextKRReg
-                  style={{
-                    fontSize: 14,
-                    lineHeight: 24,
-                    fontStyle: 'normal',
-                    display: 'flex',
-                    alignItems: 'center',
-                  }}>
-                  금액
-                </TextKRReg>
-                <PriceInput
-                  error={errors}
-                  name={'coupon'}
-                  control={control}
-                  rules={{required: true}}
-                  isLast={true}
-                />
-                {/* <TextInput
-                style={{
-                  backgroundColor: WHITE_COLOR,
-                  width: 300,
-                  height: 45,
-                  borderRadius: 10,
-                  padding: 15,
-                  textAlign: 'right',
-                }}
-                keyboardType={'number-pad'}
-                // ref={ref}
-                value={
-                  minPrice.toString().split('원')[0]
-                  // priceFormat(minPrice.toString().split('원')[0])
-                  // .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-                }>
-                원
-              </TextInput> */}
-              </View>
-            </View>
           </View>
         </ScrollView>
         <View
           style={{
+            position: 'absolute',
+            bottom: 0,
             marginHorizontal: 15,
           }}>
           <BtnCreateFloating

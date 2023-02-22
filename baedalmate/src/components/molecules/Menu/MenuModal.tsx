@@ -215,7 +215,6 @@ const MenuModal = ({id, defaultMenuList, modal, handleModal}) => {
                         name="price"
                         control={control}
                         rules={{}}
-                        isLast={true}
                       />
                     </View>
                   </View>

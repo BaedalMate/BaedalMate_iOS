@@ -54,24 +54,29 @@ const SelectCategoryPage = props => {
       <ScrollView>
         <View
           style={{
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'space-evenly',
-            alignItems: 'center',
+            paddingHorizontal: '10%',
+            alignSelf: 'center',
           }}>
-          {categoryData.map(
-            (v, i) =>
-              i !== 0 && (
-                <SelectCategoryItem
-                  item={v}
-                  defaultItem={defaultItem}
-                  type={type}
-                  selectedCategoryId={selectedCategoryId}
-                  setSelectedCategoryId={setSelectedCategoryId}
-                  key={i}
-                />
-              ),
-          )}
+          <View
+            style={{
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              justifyContent: 'space-between',
+            }}>
+            {categoryData.map(
+              (v, i) =>
+                i !== 0 && (
+                  <SelectCategoryItem
+                    item={v}
+                    defaultItem={defaultItem}
+                    type={type}
+                    selectedCategoryId={selectedCategoryId}
+                    setSelectedCategoryId={setSelectedCategoryId}
+                    key={i}
+                  />
+                ),
+            )}
+          </View>
         </View>
       </ScrollView>
     </View>

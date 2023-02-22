@@ -70,7 +70,7 @@ const CreateRecruit3 = props => {
       ...props.route.params,
     });
   };
-  const [text, setText] = useState('');
+  // const [text, setText] = useState('');
   const [newTag, setNewTag] = useState('');
   const [tagList, setTagList] = useState<{tagname: string}[]>([]);
   useEffect(() => {
@@ -97,7 +97,7 @@ const CreateRecruit3 = props => {
                 padding: 15,
                 display: 'flex',
               }}>
-              <TextKRBold style={styles.Title}>주문글 쓰기</TextKRBold>
+              <TextKRBold style={styles.Title}>모집글 작성하기</TextKRBold>
             </View>
             <View
               style={{
@@ -107,7 +107,7 @@ const CreateRecruit3 = props => {
                 borderBottomColor: WHITE_COLOR,
               }}>
               <View style={{flexDirection: 'row'}}>
-                <TextKRBold style={styles.Label}>제목</TextKRBold>
+                <TextKRBold style={styles.Label}>모집글 제목</TextKRBold>
                 {errors.title && (
                   <Text style={styles.Validation}>제목을 적어주세요</Text>
                 )}
@@ -168,7 +168,7 @@ const CreateRecruit3 = props => {
                   onChangeText={text => {
                     setNewTag(text);
                   }}
-                  placeholder="#태그를 입력해주세요"></TextInput>
+                  placeholder="태그를 입력해주세요"></TextInput>
                 <BtnTag
                   text={'태그입력'}
                   onPress={() => {

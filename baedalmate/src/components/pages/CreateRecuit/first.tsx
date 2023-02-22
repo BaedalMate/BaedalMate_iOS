@@ -22,9 +22,7 @@ import {BtnActive, BtnDeactive} from 'components/atoms/Button/BtnEndStandard';
 import BtnCreateFloating from 'components/atoms/Button/BtnCreateFloating';
 import {RadioButton} from 'react-native-paper';
 
-import {useFieldArray, useForm} from 'react-hook-form';
-import BtnRemoveDeliveryFee from 'components/atoms/Button/BtnRemoveDeliveryFee';
-import BtnAddDeliveryFee from 'components/atoms/Button/BtnAddDeliveryFee';
+import {useForm} from 'react-hook-form';
 import {
   endStandardType,
   CntInput,
@@ -65,7 +63,7 @@ const CreateRecruit1 = props => {
   const [endStandard, setEndStandard] = useState<endStandardType>('NUMBER');
   const [checked, setChecked] = useState('true');
   const [statusBarHeight, setStatusBarHeight] = useState(0);
-  const [shippingFeeCnt, setShippingFeeCnt] = useState<number>(0);
+  const [shippingFee, setShippingFee] = useState<number>(0);
   const now = new Date();
   useEffect(() => {
     defaultItem &&
@@ -79,8 +77,6 @@ const CreateRecruit1 = props => {
     setTimePicker(false);
   };
   const handleConfirm = data => {
-    // time.getHours() < data.getHours() && data.setDate(data.getDate() + 1);
-
     setTime(data);
     console.log(time.getTime(), now.getTime());
     time.getTime() < now.getTime() && time.setDate(time.getDate() + 1);
@@ -102,48 +98,14 @@ const CreateRecruit1 = props => {
         defaultItem && defaultItem.criteria ? defaultItem.criteria : 'NUMBER',
       freeShipping:
         defaultItem && defaultItem.freeShipping === true ? true : false,
-      shippingFeeRange: [{name: ``, value: ''}],
-      shippingFee: [{name: '', value: ''}],
+      shippingFee:
+        defaultItem && defaultItem.shippingFee ? defaultItem.shippingFee : '',
     },
     mode: 'onSubmit',
     shouldUnregister: false,
   });
-  const {
-    fields: shippingFeeFields,
-    append: shippingFeeAppend,
-    remove: shippingFeeRemove,
-  } = useFieldArray({
-    control,
-    name: 'shippingFee',
-  });
-  const {
-    fields: shippingFeeRangeFields,
-    append: shippingFeeRangeAppend,
-    remove: shippingFeeRangeRemove,
-  } = useFieldArray({
-    control,
-    name: 'shippingFeeRange',
-  });
-  useEffect(() => {
-    if (defaultItem) {
-      const defaultShippingFee = defaultItem.shippingFee;
-      shippingFeeRemove();
-      shippingFeeRangeRemove();
 
-      defaultShippingFee.map((item, idx) => {
-        shippingFeeAppend({
-          name: `${item.shippingFee}`,
-          value: '',
-        });
-        shippingFeeRangeAppend({
-          name: `${item.lowerPrice}`,
-          value: '',
-        });
-      });
-      setValue(`shippingFee.${defaultShippingFee.length}.name`, '');
-      setValue(`shippingFeeRange.${defaultShippingFee.length}.name`, '');
-      setShippingFeeCnt(defaultShippingFee.length);
-    }
+  useEffect(() => {
     defaultItem &&
       defaultItem.criteria &&
       setEndStandard(
@@ -153,32 +115,12 @@ const CreateRecruit1 = props => {
           ? 'PRICE'
           : 'TIME',
       );
+    defaultItem && setShippingFee(Number(defaultItem.shippingFee));
   }, [defaultItem]);
   const onSubmit = data => {
     console.log(data);
     const deadline = time;
 
-    const shippingFee: {
-      lowerPrice: number;
-      shippingFee: number;
-      upperPrice: number;
-    }[] = [];
-    if (!data.freeShipping) {
-      for (let i = 0; i < data.shippingFee.length - 1; i++) {
-        shippingFee.push({
-          lowerPrice: Number(data.shippingFeeRange[i].name),
-          shippingFee: Number(data.shippingFee[i].name),
-          upperPrice: Number(data.shippingFeeRange[i + 1].name),
-        });
-      }
-      shippingFee.push({
-        lowerPrice: Number(
-          data.shippingFeeRange[data.shippingFee.length - 1].name,
-        ),
-        shippingFee: Number(data.shippingFee[data.shippingFee.length - 1].name),
-        upperPrice: Number(0),
-      });
-    }
     props.navigation.navigate('상세 설정2', {
       data,
       deadlineDate: new Date(
@@ -197,9 +139,6 @@ const CreateRecruit1 = props => {
       : null;
   }, []);
 
-  useEffect(() => {
-    console.log(shippingFeeFields, shippingFeeRangeFields);
-  }, [shippingFeeFields, shippingFeeRangeFields]);
   return (
     <View
       style={{
@@ -220,32 +159,39 @@ const CreateRecruit1 = props => {
                 padding: 15,
                 display: 'flex',
               }}>
-              <TextKRBold style={styles.Title}>주문 조건</TextKRBold>
+              <TextKRBold style={styles.Title}>모집 조건 작성하기</TextKRBold>
             </View>
-            {errors.minPeople && (
-              <Text style={styles.Validation}>
-                모집 인원이 마감 기준인 경우 2명 이상이어야 합니다.
-              </Text>
-            )}
             <View
               style={{
-                padding: 15,
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
                 backgroundColor: '#F7F8FA',
-                borderBottomWidth: 5,
                 borderBottomColor: WHITE_COLOR,
-                justifyContent: 'space-between',
-                paddingBottom: 30,
+
+                borderBottomWidth: 5,
+                paddingBottom: errors.minPeople ? 6 : 30,
               }}>
-              <TextKRBold style={styles.Label}>최소 모집 인원</TextKRBold>
-              <CntInput
-                name={'minPeople'}
-                control={control}
-                rules={{required: true, min: endStandard === 'NUMBER' ? 2 : 1}}
-                setValue={setValue}
-              />
+              <View
+                style={{
+                  padding: 15,
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                }}>
+                <TextKRBold style={styles.Label}>최소 모집 인원</TextKRBold>
+                <CntInput
+                  name={'minPeople'}
+                  control={control}
+                  rules={{
+                    required: true,
+                    min: endStandard === 'NUMBER' ? 2 : 1,
+                  }}
+                  setValue={setValue}
+                />
+              </View>
+              {errors.minPeople && (
+                <Text style={styles.Validation}>
+                  모집 인원이 마감 기준인 경우 2명 이상이어야 합니다
+                </Text>
+              )}
             </View>
             <View
               style={{
@@ -265,12 +211,15 @@ const CreateRecruit1 = props => {
                   </Text>
                 )}
               </View>
+              <TextKRReg style={styles.Description}>
+                내가 배달 시키려는 금액보다 높게 설정해주세요
+              </TextKRReg>
               <View
                 style={{
                   flexDirection: 'row',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  paddingTop: 15,
+                  // paddingTop: 15,
                 }}>
                 <TextKRReg
                   style={{
@@ -287,7 +236,6 @@ const CreateRecruit1 = props => {
                   name="minPrice"
                   control={control}
                   rules={{required: true}}
-                  isLast={true}
                 />
               </View>
             </View>
@@ -301,11 +249,10 @@ const CreateRecruit1 = props => {
                 paddingBottom: 30,
               }}>
               <TextKRBold style={styles.Label}>마감 시간 설정</TextKRBold>
-
               <TextKRReg style={styles.Description}>
-                마감시간이 되면 모집이 완료됩니다
+                모집 시간에 도달하면 모집이 종료됩니다. 현재 시각 이전으로
+                설정시, 다음 날 해당 시각으로 마감시간이 설정됩니다.{' '}
               </TextKRReg>
-
               <View
                 style={{
                   flexDirection: 'row',
@@ -458,15 +405,15 @@ const CreateRecruit1 = props => {
                 style={{
                   flexDirection: 'row',
                 }}>
-                <TextKRBold style={styles.Label}>배달비 구간 설정</TextKRBold>
-                {(errors.shippingFee || errors.shippingFeeRange) && (
+                <TextKRBold style={styles.Label}>예상 배달비</TextKRBold>
+                {errors.shippingFee && (
                   <Text style={styles.Validation}>
-                    올바른 구간 설정이 아닙니다
+                    예상 배달비를 작성해주세요
                   </Text>
                 )}
               </View>
               <TextKRReg style={styles.Description}>
-                주문금액 별 배달금액을 설정해주세요
+                최소 주문금액이상 주문시, 예상되는 배달비를 작성해주세요{' '}
               </TextKRReg>
               <View style={{}}>
                 <RadioButton.Group
@@ -492,7 +439,7 @@ const CreateRecruit1 = props => {
                         color={PRIMARY_COLOR}
                         uncheckedColor={MAIN_GRAY_COLOR}
                       />
-                      <Text>무료배송</Text>
+                      <Text>무료배달</Text>
                     </View>
                     <View
                       style={{
@@ -504,7 +451,7 @@ const CreateRecruit1 = props => {
                         color={PRIMARY_COLOR}
                         uncheckedColor={MAIN_GRAY_COLOR}
                       />
-                      <Text>무료배송이 아니에요</Text>
+                      <Text>무료배달이 아니에요</Text>
                     </View>
                   </View>
                 </RadioButton.Group>
@@ -517,148 +464,33 @@ const CreateRecruit1 = props => {
                         padding: 15,
                         width: '100%',
                       }}>
-                      {shippingFeeRangeFields.map((data, index) => (
-                        <View
-                          key={index}
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          paddingTop: 15,
+                        }}>
+                        <TextKRReg
                           style={{
-                            width: '90%',
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
+                            fontSize: 14,
+                            lineHeight: 24,
+                            fontStyle: 'normal',
+                            display: 'flex',
                             alignItems: 'center',
-                            paddingBottom: 15,
                           }}>
-                          <View
-                            style={{
-                              width: '100%',
-                            }}>
-                            <View
-                              style={{
-                                width: '95%',
-                                flexDirection: 'row',
-                                alignItems: 'center',
-                                justifyContent: 'space-between',
-                              }}>
-                              <TextKRReg
-                                style={{
-                                  width: '20%',
-                                  fontSize: 14,
-                                  lineHeight: 24,
-                                  fontStyle: 'normal',
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                }}>
-                                구간 {index + 1}
-                              </TextKRReg>
-                              <PriceInput
-                                error={errors}
-                                name={`shippingFeeRange[${index}].name`}
-                                control={control}
-                                rules={{
-                                  required: checked === 'false' && true,
-                                  validate: v =>
-                                    shippingFeeRangeFields.length > 0
-                                      ? Number(v) >= 0
-                                      : Number(v) >
-                                        Number(
-                                          shippingFeeRangeFields[
-                                            shippingFeeRangeFields.length - 1
-                                          ],
-                                        ),
-                                }}
-                                isLast={
-                                  shippingFeeRangeFields.length - 1 === index
-                                    ? true
-                                    : false
-                                }
-                              />
-                            </View>
-                            <View
-                              style={{
-                                width: '95%',
-                                flexDirection: 'row',
-                                alignItems: 'center',
-                                justifyContent: 'space-between',
-                                paddingTop: 15,
-                              }}>
-                              <TextKRReg
-                                style={{
-                                  width: '20%',
-                                  fontSize: 14,
-                                  lineHeight: 20,
-                                  fontStyle: 'normal',
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                }}>
-                                배달비
-                              </TextKRReg>
-                              <PriceInput
-                                error={errors}
-                                name={`shippingFee[${index}].name`}
-                                control={control}
-                                rules={{
-                                  required: checked === 'false' && true,
-                                }}
-                                isLast={
-                                  shippingFeeRangeFields.length - 1 === index
-                                    ? true
-                                    : false
-                                }
-                              />
-                            </View>
-                          </View>
-                          {shippingFeeCnt > 0 && index > 0 && (
-                            <BtnRemoveDeliveryFee
-                              onPress={() => {
-                                setShippingFeeCnt(shippingFeeCnt - 1);
-                                shippingFeeRemove(shippingFeeCnt);
-                                shippingFeeRangeRemove(shippingFeeCnt);
-                              }}
-                            />
-                          )}
-                        </View>
-                      ))}
+                          예상 배달비
+                        </TextKRReg>
+                        <PriceInput
+                          error={errors}
+                          name="shippingFee"
+                          control={control}
+                          rules={{
+                            required: checked === 'false' && true,
+                          }}
+                        />
+                      </View>
                     </View>
-                    <BtnAddDeliveryFee
-                      onPress={() => {
-                        const values = getValues([
-                          `shippingFee`,
-                          `shippingFeeRange`,
-                        ]);
-                        if (
-                          values[0][shippingFeeCnt].name && shippingFeeCnt > 0
-                            ? values[1][shippingFeeCnt].name >
-                              values[1][shippingFeeCnt - 1].name
-                            : values[1][shippingFeeCnt].name
-                        ) {
-                          shippingFeeAppend({
-                            name: `shippingFee.${shippingFeeCnt + 1}.name`,
-                            value: '',
-                          });
-                          shippingFeeRangeAppend({
-                            name: `shippingFeeRange.${shippingFeeCnt + 1}.name`,
-                            value: '',
-                          });
-
-                          setValue(
-                            `shippingFee.${shippingFeeCnt + 1}.name`,
-                            '',
-                          );
-                          setValue(
-                            `shippingFeeRange.${shippingFeeCnt + 1}.name`,
-                            '',
-                          );
-                          setShippingFeeCnt(shippingFeeCnt + 1);
-                          // if (
-                          //   shippingFeeRangeFields[shippingFeeCnt].name &&
-                          //   shippingFeeFields[shippingFeeCnt].name
-                          // ) {
-                          //   setShippingFeeCnt(shippingFeeCnt - 1);
-                          //   shippingFeeRemove(shippingFeeCnt);
-                          //   shippingFeeRangeRemove(shippingFeeCnt);
-                          // }
-                        }
-                      }}
-                    />
                   </View>
                 )}
               </View>
@@ -689,7 +521,7 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     textAlignVertical: 'center',
     color: ERROR_COLOR,
-    marginLeft: 20,
+    marginLeft: 15,
   },
   margin: {
     marginLeft: 10,

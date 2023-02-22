@@ -48,14 +48,6 @@ export interface menuProps {
   cnt: number;
 }
 
-// const dummyMenu = [
-//   {
-//     name: '하와이안 피자 (L, 콜라 500ml 추가)',
-//     price: 12400,
-//     quantity: 1,
-//   },
-// ];
-
 const CreateRecruit4 = props => {
   const defaultItem = props.route.params.defaultItem;
 
@@ -66,9 +58,9 @@ const CreateRecruit4 = props => {
     props.route.params.shippingFee,
   );
   const [shippingFee, setShippingFee] = useState(0);
-  const [couponPrice, setCouponPrice] = useState(
-    props.route.params.data.coupon,
-  );
+  // const [couponPrice, setCouponPrice] = useState(
+  //   props.route.params.data.coupon,
+  // );
 
   useEffect(() => {
     let price = 0;
@@ -76,29 +68,15 @@ const CreateRecruit4 = props => {
       price += v.price * v.quantity;
     });
     setMemuTotalPrice(price);
-    // setShippingFee(
-    //   props.route.params.shippingFee[props.route.params.shippingFee - 1]
-    //     .shippingFee,
-    // );
-    props.route.params.shippingFee?.map((v, i) => {
-      if (
-        (v.upperPrice > price && price >= v.lowerPrice) ||
-        (v.upperPrice === 0 && price >= v.lowerPrice)
-      ) {
-        setShippingFee(Number(v.shippingFee));
-      }
-    });
-    setCouponPrice(props.route.params.data.coupon);
+    setShippingFee(props.route.params.shippingFee);
+    // setCouponPrice(props.route.params.data.coupon);
   }, [menuList, deliveryFee]);
   console.log(menuList);
 
   useEffect(() => {
-    props.route.params.shippingFee?.sort((a, b) => {
-      return a.lowerPrice - b.lowerPrice;
-    });
     !props.route.params.freeShipping &&
       props.route.params.shippingFee &&
-      setShippingFee(props.route.params.shippingFee[0].shippingFee);
+      setShippingFee(props.route.params.shippingFee);
   }, []);
   useEffect(() => {
     defaultItem && defaultItem.tags && setMenuList(defaultItem.menu);
@@ -108,10 +86,8 @@ const CreateRecruit4 = props => {
     <View
       style={{
         backgroundColor: WHITE_COLOR,
+        height: '100%',
       }}>
-      {/* <KeyboardAvoidingView
-        behavior={Platform.select({ios: 'padding'})}
-        keyboardVerticalOffset={statusBarHeight + 44}> */}
       <ScrollView
         style={{
           backgroundColor: WHITE_COLOR,
@@ -124,7 +100,7 @@ const CreateRecruit4 = props => {
                 padding: 15,
                 display: 'flex',
               }}>
-              <TextKRBold style={styles.Title}>추가 메뉴</TextKRBold>
+              <TextKRBold style={styles.Title}>주문할 메뉴 고르기</TextKRBold>
             </View>
             <View
               style={{
@@ -134,7 +110,10 @@ const CreateRecruit4 = props => {
                 borderBottomWidth: 5,
                 borderBottomColor: WHITE_COLOR,
               }}>
-              <TextKRBold style={styles.Label}>배달 메뉴</TextKRBold>
+              <TextKRBold style={styles.Label}>내가 주문할 메뉴들</TextKRBold>
+              <TextKRReg style={styles.Description}>
+                내가 시킬 메뉴들을 작성해주세요!
+              </TextKRReg>
               <View>
                 <MenuList menuList={menuList} setMenuList={setMenuList} />
               </View>
@@ -146,7 +125,7 @@ const CreateRecruit4 = props => {
                 padding: 15,
                 display: 'flex',
               }}>
-              <TextKRBold style={styles.Title}>합산 금액</TextKRBold>
+              <TextKRBold style={styles.Title}>주문 예정 금액</TextKRBold>
             </View>
             <View
               style={{
@@ -157,7 +136,7 @@ const CreateRecruit4 = props => {
                 borderBottomWidth: 5,
                 borderBottomColor: WHITE_COLOR,
               }}>
-              <TextKRBold style={styles.Label}>현재 금액</TextKRBold>
+              <TextKRBold style={styles.Label}>현재 주문예정 금액</TextKRBold>
               <View
                 style={{
                   justifyContent: 'space-between',
@@ -200,7 +179,7 @@ const CreateRecruit4 = props => {
                       display: 'flex',
                       alignItems: 'center',
                     }}>
-                    배달팁
+                    배달비
                   </TextKRReg>
                   <TextKRReg
                     style={{
@@ -227,53 +206,7 @@ const CreateRecruit4 = props => {
                   </TextKRBold>
                 </View>
               </View>
-              <View
-                style={{
-                  justifyContent: 'space-between',
-                  paddingVertical: 15,
-                  borderBottomWidth: 1,
-                  borderColor: LINE_GRAY_COLOR,
-                }}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                  }}>
-                  <TextKRReg
-                    style={{
-                      fontSize: 16,
-                      lineHeight: 24,
-                      fontStyle: 'normal',
-                      display: 'flex',
-                      alignItems: 'center',
-                    }}>
-                    쿠폰 사용 금액
-                  </TextKRReg>
-                  <TextKRReg
-                    style={{
-                      fontSize: 16,
-                      lineHeight: 24,
-                      fontStyle: 'normal',
-                      display: 'flex',
-                      alignItems: 'center',
-                    }}>
-                    - {formPrice(couponPrice)} 원
-                  </TextKRReg>
-                </View>
-                <View
-                  style={{
-                    alignItems: 'flex-end',
-                  }}>
-                  <TextKRBold
-                    style={{
-                      fontSize: 16,
-                      lineHeight: 19,
-                      fontStyle: 'normal',
-                    }}>
-                    {formPrice(menuTotalPrice + shippingFee - couponPrice)} 원
-                  </TextKRBold>
-                </View>
-              </View>
+
               <View
                 style={{
                   justifyContent: 'space-between',
@@ -284,9 +217,7 @@ const CreateRecruit4 = props => {
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                   }}>
-                  <TextKRBold style={styles.Label}>
-                    현재 결제 예정 금액
-                  </TextKRBold>
+                  <TextKRBold style={styles.Label}>결제 예정 금액</TextKRBold>
 
                   <TextKRBold
                     style={{
@@ -302,7 +233,7 @@ const CreateRecruit4 = props => {
                         fontSize: 24,
                         lineHeight: 29,
                       }}>
-                      {formPrice(menuTotalPrice + shippingFee - couponPrice)}
+                      {formPrice(menuTotalPrice + shippingFee)}
                     </TextKRBold>
                     원
                   </TextKRBold>
@@ -346,7 +277,7 @@ const CreateRecruit4 = props => {
                 let data: postRecruitI = {
                   categoryId: props.route.params.categoryId,
                   criteria: props.route.params.criteria,
-                  coupon: Number(props.route.params.data.coupon),
+                  // coupon: 주Number(props.route.params.data.coupon),
                   dormitory: props.route.params.data.dormitory,
                   deadlineDate: props.route.params.deadlineDate,
                   description: props.route.params.description,
@@ -426,7 +357,7 @@ const CreateRecruit4 = props => {
                 let data: postRecruitI = {
                   categoryId: props.route.params.categoryId,
                   criteria: props.route.params.criteria,
-                  coupon: Number(props.route.params.data.coupon),
+                  // coupon: Number(props.route.params.data.coupon),
                   dormitory: props.route.params.data.dormitory,
                   deadlineDate: props.route.params.deadlineDate,
                   description: props.route.params.description,
@@ -501,8 +432,6 @@ const CreateRecruit4 = props => {
                 }
               }
             }
-
-            // props.navigation.navigate('홈');
           }}
           text={
             props.route.params.type === 'UPDATE'
@@ -512,7 +441,6 @@ const CreateRecruit4 = props => {
           id={4}
         />
       </View>
-      {/* </KeyboardAvoidingView> */}
     </View>
   );
 };
@@ -547,7 +475,7 @@ const styles = StyleSheet.create({
     lineHeight: 19,
     // textAlign: 'center',
     textAlignVertical: 'center',
-    paddingBottom: 15,
+    // paddingBottom: 15,
   },
   Description: {
     fontFamily: Fonts.Ko,

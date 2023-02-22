@@ -662,7 +662,7 @@ export const CreateRecruitStackComponent = props => {
         options={({navigation, route}) => ({
           headerBackVisible: false,
           headerShadowVisible: false,
-
+          title: '상세 설정',
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
@@ -680,6 +680,7 @@ export const CreateRecruitStackComponent = props => {
         options={({navigation, route}) => ({
           headerBackVisible: false,
           headerShadowVisible: false,
+          title: '상세 설정',
 
           headerLeft: () => (
             <TouchableOpacity
@@ -698,6 +699,7 @@ export const CreateRecruitStackComponent = props => {
         options={({navigation, route}) => ({
           headerBackVisible: false,
           headerShadowVisible: false,
+          title: '상세 설정',
 
           headerLeft: () => (
             <TouchableOpacity
@@ -716,6 +718,7 @@ export const CreateRecruitStackComponent = props => {
         options={({navigation, route}) => ({
           headerBackVisible: false,
           headerShadowVisible: false,
+          title: '상세 설정',
 
           headerLeft: () => (
             <TouchableOpacity
