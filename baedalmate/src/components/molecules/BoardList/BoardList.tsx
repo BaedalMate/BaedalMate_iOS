@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import BoardItem from 'components/atoms/BoardList/BoardItem';
 import {FlatList, ScrollView, Text, View} from 'react-native';
 import {DARK_GRAY_COLOR, PRIMARY_COLOR} from 'themes/theme';
@@ -9,7 +9,7 @@ import {
   searchRecruitListState,
   totalRecruitListState,
 } from 'components/utils/recoil/atoms/RecruitList';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useResetRecoilState} from 'recoil';
 import {RecruitListInfinityScroll} from 'components/animations/RecruitListInfinityScroll';
 
 export interface BoardListProps {

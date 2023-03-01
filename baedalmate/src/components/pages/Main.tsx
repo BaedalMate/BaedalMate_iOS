@@ -152,9 +152,8 @@ const Main: React.FunctionComponent<MainProps> = props => {
               return result;
             }
           } else if (response.status === 403) {
-            // props.navigation.navigate('거점 인증');
             if (nickname !== '') {
-              props.navigation.navigate('거점 인증');
+              props.navigation.navigate('내 위치 인증');
             } else {
               props.navigation.navigate('프로필 설정');
             }
@@ -165,9 +164,8 @@ const Main: React.FunctionComponent<MainProps> = props => {
           console.log(error);
           console.log(error.response.status);
           if (error.response.status === 403) {
-            // props.navigation.navigate('거점 인증');
             if (nickname !== '') {
-              props.navigation.navigate('거점 인증');
+              props.navigation.navigate('내 위치 인증');
             } else {
               props.navigation.navigate('프로필 설정');
             }
@@ -221,9 +219,8 @@ const Main: React.FunctionComponent<MainProps> = props => {
             response.data && setMainTagRecruitList(response.data);
             return response.data;
           } else if (response.status === 403) {
-            // props.navigation.navigate('거점 인증');
             if (nickname !== '') {
-              props.navigation.navigate('거점 인증');
+              props.navigation.navigate('내 위치 인증');
             } else {
               props.navigation.navigate('프로필 설정');
             }
@@ -251,12 +248,10 @@ const Main: React.FunctionComponent<MainProps> = props => {
           console.log(error);
           if (error.response.status === 403) {
             if (nickname !== '') {
-              props.navigation.navigate('거점 인증');
+              props.navigation.navigate('내 위치 인증');
             } else {
               props.navigation.navigate('프로필 설정');
             }
-
-            // props.navigation.navigate('거점 인증');
           } else if (error.response.status === 401) {
             const result = await refreshAPI();
             console.log(result);

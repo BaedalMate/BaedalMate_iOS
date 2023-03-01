@@ -131,7 +131,7 @@ const DormitoryDropDown = ({
   );
 };
 
-const GPS = props => {
+const changeGPS = props => {
   const navigation = useNavigation();
   const [location, setLocation] = useState<LocationI>();
   const [dormitory, setDormitory] = useRecoilState(userDormitoryState);
@@ -386,9 +386,9 @@ const GPS = props => {
                 onPress={() => {
                   putUserDormitory();
                 }}
-                text={'내 위치 인증하기'}></BtnVerticalOrange>
+                text={'내 위치 변경하기'}></BtnVerticalOrange>
             ) : (
-              <BtnVerticalDeactive text="내 위치 인증하기" onPress={() => {}} />
+              <BtnVerticalDeactive text="내 위치 변경하기" onPress={() => {}} />
             )}
           </View>
         </View>
@@ -405,4 +405,4 @@ const GPS = props => {
   );
 };
 
-export default GPS;
+export default changeGPS;

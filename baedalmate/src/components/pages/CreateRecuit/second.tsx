@@ -276,7 +276,7 @@ const CreateRecruit2 = props => {
                 borderBottomColor: WHITE_COLOR,
               }}>
               <TextKRBold style={styles.Label}>배달 가게</TextKRBold>
-              <View>
+              <View style={{paddingVertical: 15}}>
                 <Controller
                   name="place.name"
                   control={control}
@@ -289,6 +289,7 @@ const CreateRecruit2 = props => {
                     return (
                       <View style={{}}>
                         <TextInput
+                          placeholder="어디서 시킬까요?"
                           style={{
                             borderWidth: errors.place?.name ? 1 : 0,
                             borderColor: errors.place?.name
@@ -397,7 +398,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 16,
     lineHeight: 19,
-    marginBottom: 15,
+    // marginBottom: 15,
     // textAlign: 'center',
     textAlignVertical: 'center',
   },

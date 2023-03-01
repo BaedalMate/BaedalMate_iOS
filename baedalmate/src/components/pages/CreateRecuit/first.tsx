@@ -91,15 +91,14 @@ const CreateRecruit1 = props => {
     formState: {errors},
   } = useForm({
     defaultValues: {
-      minPeople:
-        defaultItem && defaultItem.minPeople ? defaultItem.minPeople : 1,
+      minPeople: 2,
       minPrice: defaultItem && defaultItem.minPrice ? defaultItem.minPrice : '',
       criteria:
         defaultItem && defaultItem.criteria ? defaultItem.criteria : 'NUMBER',
       freeShipping:
         defaultItem && defaultItem.freeShipping === true ? true : false,
       shippingFee:
-        defaultItem && defaultItem.shippingFee ? defaultItem.shippingFee : '',
+        defaultItem && defaultItem.shippingFee ? defaultItem.shippingFee : 0,
     },
     mode: 'onSubmit',
     shouldUnregister: false,
@@ -182,7 +181,7 @@ const CreateRecruit1 = props => {
                   control={control}
                   rules={{
                     required: true,
-                    min: endStandard === 'NUMBER' ? 2 : 1,
+                    min: 2,
                   }}
                   setValue={setValue}
                 />
@@ -272,16 +271,20 @@ const CreateRecruit1 = props => {
                     justifyContent: 'center',
                   }}
                   onPress={showTimePicker}>
-                  <Text style={{fontSize: 16}}>
-                    <Text style={{color: MAIN_GRAY_COLOR}}>
+                  <TextKRBold style={{fontSize: 16}}>
+                    <TextKRBold
+                    // style={{ color: MAIN_GRAY_COLOR }}
+                    >
                       {formDigitTwo(time.getHours())}
-                    </Text>{' '}
-                    시{' '}
-                    <Text style={{color: MAIN_GRAY_COLOR}}>
+                    </TextKRBold>{' '}
+                    시{'    '}
+                    <TextKRBold
+                    // style={{ color: MAIN_GRAY_COLOR }}
+                    >
                       {formDigitTwo(time.getMinutes())}
-                    </Text>{' '}
+                    </TextKRBold>{' '}
                     분
-                  </Text>
+                  </TextKRBold>
                 </TouchableOpacity>
                 <DateTimePickerModal
                   isVisible={timePicker}

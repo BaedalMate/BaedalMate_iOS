@@ -56,6 +56,7 @@ import Toast from 'react-native-root-toast';
 import {getChatRoomAPI} from 'components/utils/api/Chat';
 import {refreshAPI} from 'components/utils/api/Login';
 export interface RecruitItemProps {
+  chatRoomId: number;
   recruitId: number;
   image: string;
   title: string;
@@ -268,35 +269,55 @@ const BoardItemDetail = props => {
 
   useEffect(() => {
     if (dropdownModal) {
-      ActionSheetIOS.showActionSheetWithOptions(
-        {
-          options: ['취소', '차단하기', '신고하기'],
-          // destructiveButtonIndex: 2,
-          cancelButtonIndex: 0,
-          userInterfaceStyle: 'light',
-          tintColor: BLACK_COLOR,
-        },
-        buttonIndex => {
-          if (buttonIndex === 0) {
-            handleDropdownModal();
-          } else if (buttonIndex === 1) {
-            setModalData(blockModalData);
-            handlePopupModal();
-            handleDropdownModal();
-          } else if (buttonIndex === 2) {
-            navigation.navigate(
-              '게시글 신고하기' as never,
-              {
-                item: itemDetaildata,
-                userInfo: itemDetaildata?.userInfo,
-              } as never,
-            );
-            handleDropdownModal();
-          } else {
-            handleDropdownModal();
-          }
-        },
-      );
+      itemDetaildata?.host
+        ? ActionSheetIOS.showActionSheetWithOptions(
+            {
+              options: ['취소', '모집 취소하기'],
+              // destructiveButtonIndex: 2,
+              cancelButtonIndex: 0,
+              userInterfaceStyle: 'light',
+              tintColor: BLACK_COLOR,
+            },
+            buttonIndex => {
+              if (buttonIndex === 0) {
+                handleDropdownModal();
+              } else if (buttonIndex === 1) {
+                setModalData(cancelRecruitModalData);
+                handlePopupModal();
+              } else {
+                handleDropdownModal();
+              }
+            },
+          )
+        : ActionSheetIOS.showActionSheetWithOptions(
+            {
+              options: ['취소', '차단하기', '신고하기'],
+              // destructiveButtonIndex: 2,
+              cancelButtonIndex: 0,
+              userInterfaceStyle: 'light',
+              tintColor: BLACK_COLOR,
+            },
+            buttonIndex => {
+              if (buttonIndex === 0) {
+                handleDropdownModal();
+              } else if (buttonIndex === 1) {
+                setModalData(blockModalData);
+                handlePopupModal();
+                handleDropdownModal();
+              } else if (buttonIndex === 2) {
+                navigation.navigate(
+                  '게시글 신고하기' as never,
+                  {
+                    item: itemDetaildata,
+                    userInfo: itemDetaildata?.userInfo,
+                  } as never,
+                );
+                handleDropdownModal();
+              } else {
+                handleDropdownModal();
+              }
+            },
+          );
     }
   }, [dropdownModal]);
   useEffect(() => {
@@ -397,11 +418,16 @@ const BoardItemDetail = props => {
       )}
       <DetailImage item={itemDetaildata} />
       <PlatformImage item={itemDetaildata} />
-      <BtnMap item={itemDetaildata} />
+      {/* <BtnMap item={itemDetaildata} /> */}
       <UserInfo item={itemDetaildata} />
       <Title item={itemDetaildata} />
       <ItemInfo item={itemDetaildata} />
       <Description item={itemDetaildata} defaultItem={defaultItem} />
+      {/* <View style={{flexDirection: 'row', marginVertical: 15}}>
+        {tagList.map((data, index) => (
+          <RecruitTag text={data.tagname} key={index} />
+        ))}
+      </View> */}
       <View
         style={{
           marginHorizontal: 15,
@@ -412,36 +438,64 @@ const BoardItemDetail = props => {
           itemDetaildata?.host === true ? (
             <View style={{flexDirection: 'row', width: '100%'}}>
               <View style={{flex: 1}}>
+                {/* <BtnVerticalWhite
+              onPress={() => {
+                setModalData(cancelParticipateModalData);
+                handlePopupModal();
+                // cancelRecruit();
+              }}
+              text="모집 취소"
+            /> */}
                 <BtnVerticalWhite
                   onPress={() => {
                     setModalData(cancelParticipateModalData);
                     handlePopupModal();
-                    // cancelRecruit();
                   }}
-                  text="모집 취소"
+                  text="채팅방 이동"
                 />
               </View>
-              <View style={{width: 10}} />
-              <View style={{flex: 3}}>
+              <View style={{width: 10}}></View>
+
+              <View style={{flex: 1}}>
                 <BtnVerticalOrange
                   onPress={() => {
                     setModalData(closeRecruitModalData);
                     handlePopupModal();
-                    // closeRecruit();
                   }}
                   text="모집 마감하기"
                 />
               </View>
             </View>
           ) : itemDetaildata?.participate ? (
-            <BtnVerticalOrange
-              onPress={() => {
-                setModalData(cancelParticipateModalData);
-                handlePopupModal();
-                // cancelParticipate();
-              }}
-              text="모집 나가기"
-            />
+            <View
+              style={{
+                flexDirection: 'row',
+                width: '100%',
+              }}>
+              <View style={{flex: 1}}>
+                <BtnVerticalWhite
+                  onPress={() => {
+                    navigation.navigate(
+                      '채팅방' as never,
+                      {
+                        id: itemDetaildata?.chatRoomId,
+                      } as never,
+                    );
+                  }}
+                  text="채팅방 이동"
+                />
+              </View>
+              <View style={{width: 10}}></View>
+              <View style={{flex: 1}}>
+                <BtnVerticalOrange
+                  onPress={() => {
+                    setModalData(cancelParticipateModalData);
+                    handlePopupModal();
+                  }}
+                  text="모집 나가기"
+                />
+              </View>
+            </View>
           ) : (
             <BtnVerticalOrange
               onPress={() => {
@@ -450,6 +504,23 @@ const BoardItemDetail = props => {
               text="모집 참여하기"
             />
           )
+        ) : itemDetaildata?.participate || itemDetaildata?.host ? (
+          <View
+            style={{
+              flexDirection: 'row',
+              width: '100%',
+            }}>
+            <View style={{flex: 1}}>
+              <BtnVerticalWhite
+                onPress={() => {
+                  setModalData(cancelParticipateModalData);
+                  handlePopupModal();
+                  // cancelParticipate();
+                }}
+                text="채팅방 이동"
+              />
+            </View>
+          </View>
         ) : (
           <BtnVerticalGray onPress={() => {}} text="마감된 모집글입니다" />
         )}
@@ -488,7 +559,7 @@ const BoardItemDetail = props => {
                   position: 'relative',
                   bottom: 0,
                   width: '100%',
-                  height: menuList && menuList?.length > 0 ? 620 : 420,
+                  height: menuList && menuList?.length > 0 ? 650 : 450,
                   backgroundColor: WHITE_COLOR,
                   borderTopLeftRadius: 10,
                   borderTopRightRadius: 10,
@@ -507,7 +578,7 @@ const BoardItemDetail = props => {
                         lineHeight: 22,
                         color: PRIMARY_COLOR,
                       }}>
-                      주문 메뉴 추가
+                      주문할 메뉴 추가하기
                     </TextKRBold>
                   </View>
                   <View>
@@ -518,8 +589,8 @@ const BoardItemDetail = props => {
                         color: DARK_GRAY_COLOR,
                         paddingHorizontal: 15,
                       }}>
-                      추가할 메뉴와 금액을 작성하여, 모든 메뉴를 추가한 뒤{'\n'}
-                      모집에 참여하세요
+                      내가 시키고 싶은 메뉴들의 이름과 각 금액을 작성하고,
+                      모집에 참여하세요!
                     </TextKRReg>
                   </View>
                   <View
@@ -650,7 +721,7 @@ const BoardItemDetail = props => {
                   <View style={{paddingHorizontal: 15}}>
                     <BtnVerticalOrange
                       onPress={handleSubmit(onSubmit)}
-                      text={'모집참여 완료하기'}></BtnVerticalOrange>
+                      text={'모집 참여하기'}></BtnVerticalOrange>
                   </View>
                 </ScrollView>
               </View>

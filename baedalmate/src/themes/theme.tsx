@@ -168,9 +168,12 @@ const MARKER_GRAY_4X_ICON = require('../assets/icons/location/marker_gray_4x.png
 
 const LOADING_PRIMARY_ICON = require('../assets/icons/loading/loading_primary.png');
 
+const X_PRIMARY_ICON = require('../assets/icons/X/x_primary.png');
+
 const DEFAULT_PROFILE_IMG = require('../assets/images/defaultProfileImage/default_profile_image.png');
 
 export {
+  X_PRIMARY_ICON,
   BAEMIN_LOGO,
   COUPANGEATS_LOGO,
   DDANGYO_LOGO,

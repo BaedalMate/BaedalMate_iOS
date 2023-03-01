@@ -208,11 +208,7 @@ export const ReviewModal = ({
               marginTop: 40,
             }}>
             <BtnVerticalOrange
-              onPress={
-                handleSubmit(onSubmit)
-                // handleModal();
-                // navigation.navigate('거점 인증' as never);
-              }
+              onPress={handleSubmit(onSubmit)}
               text={'평가 완료'}
             />
           </View>

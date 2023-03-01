@@ -51,9 +51,9 @@ const MyPage = ({route, navigation}) => {
       },
     },
     {
-      name: '거점 변경',
+      name: '내 위치 인증',
       onPress: () => {
-        navigation.navigate('거점 인증' as never);
+        navigation.navigate('내 위치 변경' as never);
       },
     },
     {

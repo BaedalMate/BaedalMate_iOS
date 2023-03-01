@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 
 import {TextKRBold, TextKRReg} from 'themes/text';
 import {Fonts} from 'assets/Fonts';
 import {
   DARK_GRAY_COLOR,
+  ERROR_COLOR,
   LINE_GRAY_COLOR,
   PRIMARY_COLOR,
   WHITE_COLOR,
@@ -110,7 +111,16 @@ const CreateRecruit4 = props => {
                 borderBottomWidth: 5,
                 borderBottomColor: WHITE_COLOR,
               }}>
-              <TextKRBold style={styles.Label}>내가 주문할 메뉴들</TextKRBold>
+              <View style={{flexDirection: 'row'}}>
+                <TextKRBold style={styles.Label}>내가 주문할 메뉴들</TextKRBold>
+                {props.route.params.criteria === 'PRICE' &&
+                  menuTotalPrice >= props.route.params.minPrice && (
+                    <Text style={styles.Validation}>
+                      {formPrice(props.route.params.minPrice)} 원 보다 적게
+                      시켜야 해요
+                    </Text>
+                  )}
+              </View>
               <TextKRReg style={styles.Description}>
                 내가 시킬 메뉴들을 작성해주세요!
               </TextKRReg>
@@ -261,16 +271,20 @@ const CreateRecruit4 = props => {
             //     : props.route.params.data.dormitory === '불암학사'
             //     ? 'BURAM'
             //     : 'KB';
-            if (menuList?.length === 0) {
+            console.log(
+              props.route.params.criteria === 'PRICE',
+              menuTotalPrice >= props.route.params.minPrice,
+            );
+            if (!menuList || (menuList && menuList?.length <= 0)) {
               Toast.show('메뉴를 추가해 주세요.');
               return;
             } else if (
-              // props.route.params.criteria === 'PRICE' &&
+              props.route.params.criteria === 'PRICE' &&
               menuTotalPrice >= props.route.params.minPrice
             ) {
-              Toast.show(
-                '모집기준이 금액인 경우, 메뉴의 총 금액이 최소금액보다 작아야 합니다.',
-              );
+              // Toast.show(
+              //   '모집기준이 금액인 경우, 메뉴의 총 금액이 최소금액보다 작아야 합니다.',
+              // );
               return;
             } else {
               if (props.route.params.type === 'UPDATE') {
@@ -446,6 +460,16 @@ const CreateRecruit4 = props => {
 };
 
 const styles = StyleSheet.create({
+  Validation: {
+    fontFamily: Fonts.Ko,
+    fontStyle: 'normal',
+    fontWeight: '400',
+    fontSize: 14,
+    lineHeight: 24,
+    textAlignVertical: 'center',
+    color: ERROR_COLOR,
+    marginLeft: 15,
+  },
   margin: {
     marginLeft: 10,
   },

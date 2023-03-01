@@ -168,7 +168,7 @@ const WhiteTag = () => {
           lineHeight: 18,
           color: DARK_GRAY_COLOR,
         }}>
-        현재 거점
+        내 위치
       </TextKRReg>
     </View>
   );

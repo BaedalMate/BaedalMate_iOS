@@ -14,6 +14,7 @@ import {
   COUPANGEATS_LOGO,
   DDANGYO_LOGO,
   ETC_LOGO,
+  PRIMARY_COLOR,
   YOGIYO_LOGO,
 } from 'themes/theme';
 import {Grayscale} from 'react-native-color-matrix-image-filters';
@@ -58,6 +59,8 @@ const BtnPlatform = ({platform, setPlatform, data, onSelect}) => {
                   width: 60,
                   height: 60,
                   borderRadius: 30,
+                  borderWidth: 2,
+                  borderColor: PRIMARY_COLOR,
                 }}
               />
             ) : (

@@ -1,12 +1,35 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {TextKRReg} from 'themes/text';
-import {LINE_GRAY_COLOR, PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
+import {
+  LINE_GRAY_COLOR,
+  PRIMARY_COLOR,
+  WHITE_COLOR,
+  X_PRIMARY_ICON,
+} from 'themes/theme';
 
-const RecruitTag = ({text}: {text: string}) => {
+const RecruitTag = ({
+  tagList,
+  setTagList,
+  text,
+  id,
+}: {
+  tagList: {tagname: string}[];
+  setTagList: Function;
+  text: string;
+  id: number;
+}) => {
+  const deleteTag = id => {
+    setTagList(
+      tagList.filter((v, i) => {
+        return id !== i;
+      }),
+    );
+  };
   return (
     <View
       style={{
+        height: 24,
         display: 'flex',
         flexDirection: 'row',
         paddingHorizontal: 7,
@@ -15,6 +38,9 @@ const RecruitTag = ({text}: {text: string}) => {
         borderColor: PRIMARY_COLOR,
         borderRadius: 11,
         marginRight: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginVertical: 5,
       }}>
       <TextKRReg
         style={{
@@ -23,8 +49,19 @@ const RecruitTag = ({text}: {text: string}) => {
           lineHeight: 24,
           color: PRIMARY_COLOR,
         }}>
-        {text[0] === '#' ? text : '#' + text}
+        {text[0] === '#' ? text : '#' + text}{' '}
       </TextKRReg>
+      <TouchableOpacity
+        style={{justifyContent: 'center'}}
+        onPress={() => deleteTag(id)}>
+        <Image
+          source={X_PRIMARY_ICON}
+          style={{
+            width: 10,
+            height: 10,
+          }}
+        />
+      </TouchableOpacity>
     </View>
   );
 };

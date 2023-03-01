@@ -64,15 +64,16 @@ const CreateRecruit3 = props => {
   const onSubmit = data => {
     console.log(data);
     console.log(tagList);
-    props.navigation.navigate('상세 설정4', {
-      ...data,
-      tags: tagList,
-      ...props.route.params,
-    });
+    tagList.length > 0 &&
+      props.navigation.navigate('상세 설정4', {
+        ...data,
+        tags: tagList,
+        ...props.route.params,
+      });
   };
   // const [text, setText] = useState('');
   const [newTag, setNewTag] = useState('');
-  const [tagList, setTagList] = useState<{tagname: string}[]>([]);
+  const [tagList, setTagList] = useState<{tagname: string; id: number}[]>([]);
   useEffect(() => {
     defaultItem && defaultItem.tags && setTagList(defaultItem.tags);
   }, [defaultItem]);
@@ -164,6 +165,7 @@ const CreateRecruit3 = props => {
                     borderRadius: 10,
                     padding: 15,
                   }}
+                  maxLength={8}
                   value={newTag}
                   onChangeText={text => {
                     setNewTag(text);
@@ -175,7 +177,10 @@ const CreateRecruit3 = props => {
                     if (newTag !== '') {
                       if (tagList.length < 4) {
                         if (newTag.length <= 8) {
-                          setTagList([...tagList, {tagname: newTag}]);
+                          setTagList([
+                            ...tagList,
+                            {tagname: newTag, id: tagList.length},
+                          ]);
                           setNewTag('');
                         }
                       }
@@ -183,9 +188,20 @@ const CreateRecruit3 = props => {
                   }}
                 />
               </View>
-              <View style={{flexDirection: 'row', marginVertical: 15}}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  marginVertical: 15,
+                  flexWrap: 'wrap',
+                }}>
                 {tagList.map((data, index) => (
-                  <RecruitTag text={data.tagname} key={index} />
+                  <RecruitTag
+                    tagList={tagList}
+                    setTagList={setTagList}
+                    text={data.tagname}
+                    id={index}
+                    key={index}
+                  />
                 ))}
               </View>
             </View>

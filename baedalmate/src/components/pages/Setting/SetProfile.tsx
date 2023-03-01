@@ -171,7 +171,7 @@ const SetProfile = ({route, navigation}) => {
     }
   };
   useEffect(() => {
-    if (nickname !== '') navigation.navigate('거점 인증');
+    if (nickname !== '') navigation.navigate('내 위치 인증');
   }, [nickname]);
 
   return (

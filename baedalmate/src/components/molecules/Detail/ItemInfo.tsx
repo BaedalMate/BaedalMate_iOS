@@ -132,7 +132,7 @@ const ItemInfo = ({item}: {item: RecruitItemProps | undefined}) => {
               lineHeight: 24,
               textAlign: 'center',
             }}>
-            배달거점
+            모이는 곳
           </Text>
           <TextKRBold
             style={{

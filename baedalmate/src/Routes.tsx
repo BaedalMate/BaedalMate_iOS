@@ -51,6 +51,7 @@ import NoticeList from 'components/pages/Setting/NoticeList';
 import DetailNotice from 'components/pages/Setting/DetailNotice';
 import SetProfile from 'components/pages/Setting/SetProfile';
 import Notification from 'components/pages/Setting/Notification';
+import changeGPS from 'components/pages/Setting/changeGPS';
 
 const AuthStack = createNativeStackNavigator();
 const MainScreenTab = createBottomTabNavigator();
@@ -190,6 +191,7 @@ const SearchInput = ({error, name, control, rules}) => {
 };
 export const BoardStackComponent = () => {
   const useFormReturn = useForm({defaultValues: {keyword: ''}});
+  const {setValue} = useFormReturn;
   const {
     control,
     handleSubmit,
@@ -316,7 +318,8 @@ export const BoardStackComponent = () => {
               error={errors}
               name={'keyword'}
               control={control}
-              rules={{}}
+              rules={{required: true}}
+
               // rules={{required: true}}
             />
           ),
@@ -328,6 +331,7 @@ export const BoardStackComponent = () => {
             <TouchableOpacity
               onPress={() => {
                 navigation.goBack();
+                setValue('keyword', '');
               }}
               // style={{ borderWidth: 1 }}
             >
@@ -511,6 +515,23 @@ export const BoardStackComponent = () => {
           headerBackVisible: false,
           headerShadowVisible: false,
 
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image source={BACK_GRAY} />
+            </TouchableOpacity>
+          ),
+        })}
+      />
+      <BoardScreenStack.Screen
+        name="내 위치 변경"
+        component={changeGPS}
+        options={({navigation, route}) => ({
+          headerBackVisible: false,
+          headerShadowVisible: false,
+          title: '내 위치 인증',
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {

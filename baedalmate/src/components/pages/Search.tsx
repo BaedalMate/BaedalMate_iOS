@@ -9,7 +9,7 @@ import {
 import BoardList from 'components/molecules/BoardList/BoardList';
 import {TextKRBold, TextKRReg} from 'themes/text';
 import BtnVerticalOrange from 'components/atoms/Button/BtnVerticalOrange';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useResetRecoilState} from 'recoil';
 import {searchRecruitListState} from 'components/utils/recoil/atoms/RecruitList';
 
 export const sortData = [
@@ -18,8 +18,9 @@ export const sortData = [
   {name: '인기순', value: 'view'},
 ];
 const SearchPage = ({route, navigation}) => {
-  const [keyword, setKeword] = useState('키워드');
+  const [keyword, setKeword] = useState('');
   const [recruitList, setRecruitList] = useRecoilState(searchRecruitListState);
+  const resetSearchList = useResetRecoilState(searchRecruitListState);
   useEffect(() => {
     console.log('result', route.params);
     route.params &&
@@ -33,6 +34,10 @@ const SearchPage = ({route, navigation}) => {
   useEffect(() => {
     console.log(keyword);
   }, [keyword]);
+  useEffect(() => {
+    setKeword('');
+    resetSearchList();
+  }, []);
   return (
     <View
       style={{
@@ -50,7 +55,7 @@ const SearchPage = ({route, navigation}) => {
         </TextKRBold>
       </View>
       {recruitList && recruitList.length > 0 ? (
-        <BoardList />
+        <BoardList search onEndReached={undefined} loading={undefined} />
       ) : (
         <View
           style={{
@@ -71,8 +76,10 @@ const SearchPage = ({route, navigation}) => {
               textAlign: 'center',
               color: DARK_GRAY_COLOR,
             }}>
-            <Text style={{color: PRIMARY_COLOR}}> '{keyword}'</Text> 검색 결과가
-            없어요.
+            <Text style={{color: PRIMARY_COLOR}}>
+              '{keyword === '' ? '키워드' : keyword}'
+            </Text>{' '}
+            검색 결과가 없어요.
           </TextKRBold>
           <TextKRReg
             style={{
