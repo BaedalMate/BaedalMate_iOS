@@ -133,7 +133,7 @@ const MenuModal = ({id, defaultMenuList, modal, handleModal}) => {
                 position: 'relative',
                 bottom: 0,
                 width: '100%',
-                height: menuList && menuList?.length > 0 ? 620 : 450,
+                height: menuList && menuList?.length > 0 ? 650 : 450,
                 backgroundColor: WHITE_COLOR,
                 borderTopLeftRadius: 10,
                 borderTopRightRadius: 10,
@@ -155,7 +155,7 @@ const MenuModal = ({id, defaultMenuList, modal, handleModal}) => {
                       lineHeight: 22,
                       color: PRIMARY_COLOR,
                     }}>
-                    주문 메뉴 추가
+                    주문할 메뉴 추가하기
                   </TextKRBold>
                 </View>
                 <View>
@@ -166,8 +166,8 @@ const MenuModal = ({id, defaultMenuList, modal, handleModal}) => {
                       color: DARK_GRAY_COLOR,
                       paddingHorizontal: 15,
                     }}>
-                    추가할 메뉴와 금액을 작성하여, 모든 메뉴를 추가한 뒤{'\n'}
-                    모집에 참여하세요
+                    내가 시키고 싶은 메뉴들의 이름과 각 금액을 작성하고, 모집에
+                    참여하세요!
                   </TextKRReg>
                 </View>
                 <View

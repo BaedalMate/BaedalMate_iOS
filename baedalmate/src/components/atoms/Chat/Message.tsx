@@ -16,6 +16,8 @@ export const ChatProfileImage = ({image}: {image: string}) => {
           height: 30,
           backgroundColor: '#ffffff',
           borderRadius: 30 / 2,
+          borderColor: PRIMARY_COLOR,
+          borderWidth: 1,
         }}></Image>
     </View>
   );
@@ -37,7 +39,7 @@ const MessageOrange = ({text}: {text: string}) => {
 const MessageGray = ({text}: {text: string}) => {
   return (
     <View style={styles.messageGrayWrapper}>
-      <Text>{text}</Text>
+      <Text style={{}}>{text}</Text>
     </View>
   );
 };
@@ -56,6 +58,7 @@ const styles = StyleSheet.create({
     color: WHITE_COLOR,
   },
   messageGrayWrapper: {
+    // minWidth: 5,
     maxWidth: 250,
     paddingHorizontal: 15,
     paddingVertical: 10,

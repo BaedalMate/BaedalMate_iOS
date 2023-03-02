@@ -301,7 +301,9 @@ const CreateRecruit4 = props => {
                   platform: props.route.params.data.platform,
                   title: props.route.params.title,
                   tags: props.route.params.tags,
-                  shippingFee: props.route.params.shippingFee,
+                  shippingFee: props.route.params.freeShipping
+                    ? props.route.params.shippingFee
+                    : null,
                   minPrice: props.route.params.minPrice,
                   minPeople: props.route.params.minPeople,
                 };

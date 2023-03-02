@@ -448,8 +448,12 @@ const BoardItemDetail = props => {
             /> */}
                 <BtnVerticalWhite
                   onPress={() => {
-                    setModalData(cancelParticipateModalData);
-                    handlePopupModal();
+                    navigation.navigate(
+                      '채팅방' as never,
+                      {
+                        id: itemDetaildata?.chatRoomId,
+                      } as never,
+                    );
                   }}
                   text="채팅방 이동"
                 />
@@ -513,9 +517,12 @@ const BoardItemDetail = props => {
             <View style={{flex: 1}}>
               <BtnVerticalWhite
                 onPress={() => {
-                  setModalData(cancelParticipateModalData);
-                  handlePopupModal();
-                  // cancelParticipate();
+                  navigation.navigate(
+                    '채팅방' as never,
+                    {
+                      id: itemDetaildata?.chatRoomId,
+                    } as never,
+                  );
                 }}
                 text="채팅방 이동"
               />

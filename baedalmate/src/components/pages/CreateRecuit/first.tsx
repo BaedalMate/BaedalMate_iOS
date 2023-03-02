@@ -64,7 +64,8 @@ const CreateRecruit1 = props => {
   const [checked, setChecked] = useState('true');
   const [statusBarHeight, setStatusBarHeight] = useState(0);
   const [shippingFee, setShippingFee] = useState<number>(0);
-  const now = new Date();
+  const [now, setNow] = useState(new Date());
+
   useEffect(() => {
     defaultItem &&
       (setTime(new Date(defaultItem.deadlineDate)),
@@ -78,7 +79,12 @@ const CreateRecruit1 = props => {
   };
   const handleConfirm = data => {
     setTime(data);
-    console.log(time.getTime(), now.getTime());
+    console.log(
+      time.toISOString(),
+      now.toISOString(),
+      time.getTime(),
+      now.getTime(),
+    );
     time.getTime() < now.getTime() && time.setDate(time.getDate() + 1);
     hideTimePicker();
   };
@@ -91,7 +97,8 @@ const CreateRecruit1 = props => {
     formState: {errors},
   } = useForm({
     defaultValues: {
-      minPeople: 2,
+      minPeople:
+        defaultItem && defaultItem.minPeople ? defaultItem.minPeople : 2,
       minPrice: defaultItem && defaultItem.minPrice ? defaultItem.minPrice : '',
       criteria:
         defaultItem && defaultItem.criteria ? defaultItem.criteria : 'NUMBER',

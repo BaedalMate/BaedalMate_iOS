@@ -592,7 +592,7 @@ export const DetailChatRoom = props => {
             width: '100%',
             height: `100%`,
           }}>
-          <View style={{paddingBottom: 400}}>
+          <View style={{paddingBottom: 300}}>
             <View
               style={{
                 paddingHorizontal: 15,

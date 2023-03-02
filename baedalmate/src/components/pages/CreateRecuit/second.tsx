@@ -137,13 +137,13 @@ const CreateRecruit2 = props => {
               : defaultItem.place.y
               ? defaultItem.place.y
               : 0,
-          categoryId: props.route.params.data.data.categoryId,
-          criteria: props.route.params.data.data.data.criteria,
-          freeShipping: props.route.params.data.data.data.freeShipping,
-          minPeople: props.route.params.data.data.data.minPeople,
-          minPrice: Number(props.route.params.data.data.data.minPrice),
-          deadlineDate: props.route.params.data.data.deadlineDate,
-          shippingFee: props.route.params.data.data.shippingFee,
+          categoryId: props.route.params.data.categoryId,
+          criteria: props.route.params.data.criteria,
+          freeShipping: props.route.params.data.freeShipping,
+          minPeople: props.route.params.data.minPeople,
+          minPrice: Number(props.route.params.data.minPrice),
+          deadlineDate: props.route.params.deadlineDate,
+          shippingFee: props.route.params.shippingFee,
         })
       : props.navigation.navigate('상세 설정3', {
           data,
