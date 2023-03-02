@@ -51,7 +51,7 @@ import NoticeList from 'components/pages/Setting/NoticeList';
 import DetailNotice from 'components/pages/Setting/DetailNotice';
 import SetProfile from 'components/pages/Setting/SetProfile';
 import Notification from 'components/pages/Setting/Notification';
-import changeGPS from 'components/pages/Setting/changeGPS';
+import ChangeGPS from 'components/pages/Setting/ChangeGPS';
 
 const AuthStack = createNativeStackNavigator();
 const MainScreenTab = createBottomTabNavigator();
@@ -527,7 +527,7 @@ export const BoardStackComponent = () => {
       />
       <BoardScreenStack.Screen
         name="내 위치 변경"
-        component={changeGPS}
+        component={ChangeGPS}
         options={({navigation, route}) => ({
           headerBackVisible: false,
           headerShadowVisible: false,

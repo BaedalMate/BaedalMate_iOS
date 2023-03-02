@@ -131,7 +131,7 @@ const DormitoryDropDown = ({
   );
 };
 
-const changeGPS = props => {
+const ChangeGPS = props => {
   const navigation = useNavigation();
   const [location, setLocation] = useState<LocationI>();
   const [dormitory, setDormitory] = useRecoilState(userDormitoryState);
@@ -405,4 +405,4 @@ const changeGPS = props => {
   );
 };
 
-export default changeGPS;
+export default ChangeGPS;
