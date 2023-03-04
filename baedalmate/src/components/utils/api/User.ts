@@ -93,8 +93,26 @@ export const getUserAPI = async () => {
         return false;
       });
     return UserData;
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
+    if (error.response.status === 401) {
+      const result = await refreshAPI();
+      console.log(result);
+      if (result.status == 200) {
+        const tokens = await result.data;
+        const token = tokens.accessToken;
+        const refToken = tokens.refreshToken;
+        AsyncStorage.multiSet([
+          ['@BaedalMate_JWTAccessToken', token],
+          ['@BaedalMate_JWTRefreshToken', refToken],
+        ]);
+
+        if (result.status === 200) {
+          getUserAPI();
+        }
+        return result.data;
+      }
+    }
     return false;
   }
 };
@@ -214,8 +232,26 @@ export const getHostedRecruitAPI = async () => {
         return false;
       });
     return result;
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
+    if (error.response.status === 401) {
+      const result = await refreshAPI();
+      console.log(result);
+      if (result.status == 200) {
+        const tokens = await result.data;
+        const token = tokens.accessToken;
+        const refToken = tokens.refreshToken;
+        AsyncStorage.multiSet([
+          ['@BaedalMate_JWTAccessToken', token],
+          ['@BaedalMate_JWTRefreshToken', refToken],
+        ]);
+
+        if (result.status === 200) {
+          getHostedRecruitAPI();
+        }
+        return result.data.recruitList;
+      }
+    }
     return false;
   }
 };
@@ -365,8 +401,26 @@ export const updateUserInfoAPI = async (
             return error;
           });
     return result;
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
+    if (error.response.status === 401) {
+      const result = await refreshAPI();
+      console.log(result);
+      if (result.status == 200) {
+        const tokens = await result.data;
+        const token = tokens.accessToken;
+        const refToken = tokens.refreshToken;
+        AsyncStorage.multiSet([
+          ['@BaedalMate_JWTAccessToken', token],
+          ['@BaedalMate_JWTRefreshToken', refToken],
+        ]);
+
+        if (result.status === 200) {
+          updateUserInfoAPI(default_image, nickname, file);
+        }
+        return result;
+      }
+    }
     return error;
   }
 };

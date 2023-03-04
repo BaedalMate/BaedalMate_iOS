@@ -110,8 +110,26 @@ export const logoutAPI = async () => {
         return error;
       });
     return result;
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
+    if (error.response.status === 401) {
+      const result = await refreshAPI();
+      console.log(result);
+      if (result.status == 200) {
+        const tokens = await result.data;
+        const token = tokens.accessToken;
+        const refToken = tokens.refreshToken;
+        AsyncStorage.multiSet([
+          ['@BaedalMate_JWTAccessToken', token],
+          ['@BaedalMate_JWTRefreshToken', refToken],
+        ]);
+
+        if (result.status === 200) {
+          logoutAPI();
+        }
+        return result;
+      }
+    }
     return error;
   }
 };
@@ -128,16 +146,70 @@ export const withdrawalAPI = async () => {
           'Refresh-Token': 'Bearer ' + JWTRefreshToken,
         },
       })
-      .then(function (response) {
+      .then(async function (response) {
+        if (response.status === 401) {
+          const result = await refreshAPI();
+          console.log(result);
+          if (result.status == 200) {
+            const tokens = await result.data;
+            const token = tokens.accessToken;
+            const refToken = tokens.refreshToken;
+            AsyncStorage.multiSet([
+              ['@BaedalMate_JWTAccessToken', token],
+              ['@BaedalMate_JWTRefreshToken', refToken],
+            ]);
+
+            if (result.status === 200) {
+              withdrawalAPI();
+            }
+            return result;
+          }
+        }
         return response;
       })
-      .catch(function (error) {
+      .catch(async function (error) {
         console.log(error);
+        if (error.response.status === 401) {
+          const result = await refreshAPI();
+          console.log(result);
+          if (result.status == 200) {
+            const tokens = await result.data;
+            const token = tokens.accessToken;
+            const refToken = tokens.refreshToken;
+            AsyncStorage.multiSet([
+              ['@BaedalMate_JWTAccessToken', token],
+              ['@BaedalMate_JWTRefreshToken', refToken],
+            ]);
+
+            if (result.status === 200) {
+              withdrawalAPI();
+            }
+            return result;
+          }
+        }
         return error;
       });
     return result;
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
+    if (error.response.status === 401) {
+      const result = await refreshAPI();
+      console.log(result);
+      if (result.status == 200) {
+        const tokens = await result.data;
+        const token = tokens.accessToken;
+        const refToken = tokens.refreshToken;
+        AsyncStorage.multiSet([
+          ['@BaedalMate_JWTAccessToken', token],
+          ['@BaedalMate_JWTRefreshToken', refToken],
+        ]);
+
+        if (result.status === 200) {
+          withdrawalAPI();
+        }
+        return result;
+      }
+    }
     return error;
   }
 };

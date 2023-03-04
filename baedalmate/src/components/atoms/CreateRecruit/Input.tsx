@@ -222,7 +222,7 @@ export const DormitoryDescriptionInput = ({error, name, control, rules}) => {
 export const CntInput = ({name, control, rules, setValue}) => {
   const {field} = useController({
     control,
-    defaultValue: 2,
+    defaultValue: name === 'quantity' ? 1 : 2,
     name,
     rules,
   });
@@ -238,12 +238,43 @@ export const CntInput = ({name, control, rules, setValue}) => {
       <TouchableOpacity
         style={{}}
         onPress={() => {
-          if (minPeople > 2) {
-            setValue(name, minPeople - 1);
-            setMinPeople(minPeople - 1);
+          if (name === 'quantity') {
+            if (minPeople > 1) {
+              setValue(name, minPeople - 1);
+              setMinPeople(minPeople - 1);
+            }
+          } else {
+            if (minPeople > 2) {
+              setValue(name, minPeople - 1);
+              setMinPeople(minPeople - 1);
+            }
           }
         }}>
-        {minPeople <= 2 ? (
+        {name === 'quantity' ? (
+          minPeople <= 1 ? (
+            <Image
+              source={DECREASE_DEACTIVE}
+              style={{
+                width: 30,
+                height: 30,
+                marginRight: 38,
+              }}
+            />
+          ) : (
+            <Image
+              source={DECREASE_ACTIVE}
+              style={{
+                width: 30,
+                height: 30,
+                marginRight: 38,
+                borderWidth: name === 'quantity' ? 1 : 0,
+                borderColor:
+                  name === 'quantity' ? LINE_GRAY_COLOR : WHITE_COLOR,
+                borderRadius: 15,
+              }}
+            />
+          )
+        ) : minPeople <= 2 ? (
           <Image
             source={DECREASE_DEACTIVE}
             style={{

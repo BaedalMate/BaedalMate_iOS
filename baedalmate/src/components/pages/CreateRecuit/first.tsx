@@ -63,7 +63,7 @@ const CreateRecruit1 = props => {
   const [endStandard, setEndStandard] = useState<endStandardType>('NUMBER');
   const [checked, setChecked] = useState('true');
   const [statusBarHeight, setStatusBarHeight] = useState(0);
-  const [shippingFee, setShippingFee] = useState<number>(0);
+  // const [shippingFee, setShippingFee] = useState<number>(0);
   const [now, setNow] = useState(new Date());
 
   useEffect(() => {
@@ -79,13 +79,15 @@ const CreateRecruit1 = props => {
   };
   const handleConfirm = data => {
     setTime(data);
+    time.getTime() < now.getTime() && time.setDate(time.getDate() + 1);
     console.log(
       time.toISOString(),
       now.toISOString(),
+      // time.getDate(),
+      // now.getDate(),
       time.getTime(),
       now.getTime(),
     );
-    time.getTime() < now.getTime() && time.setDate(time.getDate() + 1);
     hideTimePicker();
   };
 
@@ -103,7 +105,7 @@ const CreateRecruit1 = props => {
       criteria:
         defaultItem && defaultItem.criteria ? defaultItem.criteria : 'NUMBER',
       freeShipping:
-        defaultItem && defaultItem.freeShipping === true ? true : false,
+        defaultItem && defaultItem.freeShipping === false ? false : true,
       shippingFee:
         defaultItem && defaultItem.shippingFee ? defaultItem.shippingFee : 0,
     },
@@ -121,7 +123,7 @@ const CreateRecruit1 = props => {
           ? 'PRICE'
           : 'TIME',
       );
-    defaultItem && setShippingFee(Number(defaultItem.shippingFee));
+    // defaultItem && setShippingFee(Number(defaultItem.shippingFee));
   }, [defaultItem]);
   const onSubmit = data => {
     console.log(data);
@@ -132,7 +134,6 @@ const CreateRecruit1 = props => {
       deadlineDate: new Date(
         deadline.getTime() - deadline.getTimezoneOffset() * 60000,
       ).toISOString(),
-      shippingFee: shippingFee,
       categoryId: props.route.params.item.categoryId,
     });
   };
@@ -257,7 +258,7 @@ const CreateRecruit1 = props => {
               <TextKRBold style={styles.Label}>마감 시간 설정</TextKRBold>
               <TextKRReg style={styles.Description}>
                 모집 시간에 도달하면 모집이 종료됩니다. 현재 시각 이전으로
-                설정시, 다음 날 해당 시각으로 마감시간이 설정됩니다.{' '}
+                설정시, 다음 날 해당 시각으로 마감시간이 설정됩니다.
               </TextKRReg>
               <View
                 style={{
@@ -433,6 +434,9 @@ const CreateRecruit1 = props => {
                         'freeShipping',
                         newCheck === 'true' ? true : false,
                       );
+                    if (newCheck === 'true') {
+                      setValue('shippingFee', 0);
+                    }
                   }}
                   value={checked}>
                   <View

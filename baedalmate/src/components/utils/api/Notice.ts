@@ -75,8 +75,26 @@ export const getNoticeListAPI = async () => {
         return false;
       });
     return result;
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
+    if (error.response.status === 401) {
+      const result = await refreshAPI();
+      console.log(result);
+      if (result.status == 200) {
+        const tokens = await result.data;
+        const token = tokens.accessToken;
+        const refToken = tokens.refreshToken;
+        AsyncStorage.multiSet([
+          ['@BaedalMate_JWTAccessToken', token],
+          ['@BaedalMate_JWTRefreshToken', refToken],
+        ]);
+
+        if (result.status === 200) {
+          getNoticeListAPI();
+        }
+        return result.data.noticeList;
+      }
+    }
     return false;
   }
 };
@@ -139,8 +157,26 @@ export const getDetailNoticeAPI = async id => {
         return false;
       });
     return result;
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
+    if (error.response.status === 401) {
+      const result = await refreshAPI();
+      console.log(result);
+      if (result.status == 200) {
+        const tokens = await result.data;
+        const token = tokens.accessToken;
+        const refToken = tokens.refreshToken;
+        AsyncStorage.multiSet([
+          ['@BaedalMate_JWTAccessToken', token],
+          ['@BaedalMate_JWTRefreshToken', refToken],
+        ]);
+
+        if (result.status === 200) {
+          getDetailNoticeAPI(id);
+        }
+        return result.data;
+      }
+    }
     return false;
   }
 };

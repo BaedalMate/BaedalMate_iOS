@@ -83,7 +83,7 @@ export interface postRecruitI {
   minPrice: number;
   place: placeI;
   platform: string;
-  shippingFee: number;
+  shippingFee: number | null;
   tags: tagI[];
   title: string;
 }
@@ -142,13 +142,49 @@ export const postRecruitAPI = async data => {
         }
         return response;
       })
-      .catch(function (error) {
+      .catch(async function (error) {
         console.log(error);
+        if (error.response.status === 401) {
+          const result = await refreshAPI();
+          console.log(result);
+          if (result.status == 200) {
+            const tokens = await result.data;
+            const token = tokens.accessToken;
+            const refToken = tokens.refreshToken;
+            AsyncStorage.multiSet([
+              ['@BaedalMate_JWTAccessToken', token],
+              ['@BaedalMate_JWTRefreshToken', refToken],
+            ]);
+
+            if (result.status === 200) {
+              postRecruitAPI(data);
+            }
+            return result;
+          }
+        }
         return error;
       });
     return result;
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
+    if (error.response.status === 401) {
+      const result = await refreshAPI();
+      console.log(result);
+      if (result.status == 200) {
+        const tokens = await result.data;
+        const token = tokens.accessToken;
+        const refToken = tokens.refreshToken;
+        AsyncStorage.multiSet([
+          ['@BaedalMate_JWTAccessToken', token],
+          ['@BaedalMate_JWTRefreshToken', refToken],
+        ]);
+
+        if (result.status === 200) {
+          postRecruitAPI(data);
+        }
+        return result;
+      }
+    }
     return error;
   }
 };
@@ -183,18 +219,52 @@ export const updateRecruitAPI = async (recruidId, data) => {
             if (result.status === 200) {
               updateRecruitAPI(recruidId, data);
             }
-            return result.data;
+            return result;
           }
         }
         return response;
       })
-      .catch(function (error) {
+      .catch(async function (error) {
         console.log(error);
+        if (error.response.status === 401) {
+          const result = await refreshAPI();
+          console.log(result);
+          if (result.status == 200) {
+            const tokens = await result.data;
+            const token = tokens.accessToken;
+            const refToken = tokens.refreshToken;
+            AsyncStorage.multiSet([
+              ['@BaedalMate_JWTAccessToken', token],
+              ['@BaedalMate_JWTRefreshToken', refToken],
+            ]);
+            if (result.status === 200) {
+              updateRecruitAPI(recruidId, data);
+            }
+            return result;
+          }
+        }
         return error;
       });
     return result;
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
+    if (error.response.status === 401) {
+      const result = await refreshAPI();
+      console.log(result);
+      if (result.status == 200) {
+        const tokens = await result.data;
+        const token = tokens.accessToken;
+        const refToken = tokens.refreshToken;
+        AsyncStorage.multiSet([
+          ['@BaedalMate_JWTAccessToken', token],
+          ['@BaedalMate_JWTRefreshToken', refToken],
+        ]);
+        if (result.status === 200) {
+          updateRecruitAPI(recruidId, data);
+        }
+        return result;
+      }
+    }
     return error;
   }
 };
@@ -342,13 +412,50 @@ export const postParticipateRecruitAPI = async (
         }
         return response;
       })
-      .catch(function (error) {
+      .catch(async function (error) {
         console.log(error);
+        if (error.response.status === 401) {
+          const result = await refreshAPI();
+          console.log(result);
+          if (result.status == 200) {
+            const tokens = await result.data;
+            const token = tokens.accessToken;
+            const refToken = tokens.refreshToken;
+            AsyncStorage.multiSet([
+              ['@BaedalMate_JWTAccessToken', token],
+              ['@BaedalMate_JWTRefreshToken', refToken],
+            ]);
+
+            if (result.status === 200) {
+              postParticipateRecruitAPI(menu, recruitId);
+            }
+            return result;
+          }
+        }
         return false;
       });
     return result;
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
+    if (error.response.status === 401) {
+      const result = await refreshAPI();
+      console.log(result);
+      if (result.status == 200) {
+        const tokens = await result.data;
+        const token = tokens.accessToken;
+        const refToken = tokens.refreshToken;
+        AsyncStorage.multiSet([
+          ['@BaedalMate_JWTAccessToken', token],
+          ['@BaedalMate_JWTRefreshToken', refToken],
+        ]);
+
+        if (result.status === 200) {
+          postParticipateRecruitAPI(menu, recruitId);
+        }
+        return result;
+      }
+    }
+
     return false;
   }
 };
@@ -397,13 +504,47 @@ export const updateParticipateRecruitAPI = async (
         }
         return response;
       })
-      .catch(function (error) {
+      .catch(async function (error) {
         console.log(error);
+        if (error.response.status === 401) {
+          const result = await refreshAPI();
+          console.log(result);
+          if (result.status == 200) {
+            const tokens = await result.data;
+            const token = tokens.accessToken;
+            const refToken = tokens.refreshToken;
+            AsyncStorage.multiSet([
+              ['@BaedalMate_JWTAccessToken', token],
+              ['@BaedalMate_JWTRefreshToken', refToken],
+            ]);
+            if (result.status === 200) {
+              updateParticipateRecruitAPI(menu, recruitId);
+            }
+            return result;
+          }
+        }
         return false;
       });
     return result;
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
+    if (error.response.status === 401) {
+      const result = await refreshAPI();
+      console.log(result);
+      if (result.status == 200) {
+        const tokens = await result.data;
+        const token = tokens.accessToken;
+        const refToken = tokens.refreshToken;
+        AsyncStorage.multiSet([
+          ['@BaedalMate_JWTAccessToken', token],
+          ['@BaedalMate_JWTRefreshToken', refToken],
+        ]);
+        if (result.status === 200) {
+          updateParticipateRecruitAPI(menu, recruitId);
+        }
+        return result;
+      }
+    }
     return false;
   }
 };
@@ -512,13 +653,47 @@ export const getUserMenuAPI = async (recruitId: number) => {
         }
         return response.data;
       })
-      .catch(function (error) {
+      .catch(async function (error) {
         console.log(error);
+        if (error.response.status === 401) {
+          const result = await refreshAPI();
+          console.log(result);
+          if (result.status == 200) {
+            const tokens = await result.data;
+            const token = tokens.accessToken;
+            const refToken = tokens.refreshToken;
+            AsyncStorage.multiSet([
+              ['@BaedalMate_JWTAccessToken', token],
+              ['@BaedalMate_JWTRefreshToken', refToken],
+            ]);
+            if (result.status === 200) {
+              getUserMenuAPI(recruitId);
+            }
+            return result;
+          }
+        }
         return false;
       });
     return result;
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
+    if (error.response.status === 401) {
+      const result = await refreshAPI();
+      console.log(result);
+      if (result.status == 200) {
+        const tokens = await result.data;
+        const token = tokens.accessToken;
+        const refToken = tokens.refreshToken;
+        AsyncStorage.multiSet([
+          ['@BaedalMate_JWTAccessToken', token],
+          ['@BaedalMate_JWTRefreshToken', refToken],
+        ]);
+        if (result.status === 200) {
+          getUserMenuAPI(recruitId);
+        }
+        return result;
+      }
+    }
     return false;
   }
 };

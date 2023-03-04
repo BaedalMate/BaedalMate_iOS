@@ -100,10 +100,14 @@ const CreateRecruit2 = props => {
   });
 
   console.log(props.route.params);
-
+  console.log(
+    props.route.params.data.data && props.route.params.data.data.criteria,
+    props.route.params.data.criteria,
+  );
   const onSubmit = data => {
     console.log(data);
     console.log(props.route.params);
+
     defaultItem
       ? props.navigation.navigate('상세 설정3', {
           data,
@@ -137,13 +141,38 @@ const CreateRecruit2 = props => {
               : defaultItem.place.y
               ? defaultItem.place.y
               : 0,
-          categoryId: props.route.params.data.categoryId,
-          criteria: props.route.params.data.criteria,
-          freeShipping: props.route.params.data.freeShipping,
-          minPeople: props.route.params.data.minPeople,
-          minPrice: Number(props.route.params.data.minPrice),
-          deadlineDate: props.route.params.deadlineDate,
-          shippingFee: props.route.params.shippingFee,
+          categoryId: props.route.params.data.categoryId
+            ? props.route.params.data.categoryId
+            : props.route.params.categoryId,
+          criteria:
+            props.route.params.data.data &&
+            props.route.params.data.data.criteria
+              ? props.route.params.data.data.criteria
+              : props.route.params.data.criteria,
+          freeShipping:
+            props.route.params.data.data &&
+            props.route.params.data.data.freeShipping !== undefined
+              ? props.route.params.data.data.freeShipping
+              : props.route.params.data.freeShipping,
+          minPeople:
+            props.route.params.data.data &&
+            props.route.params.data.data.minPeople
+              ? props.route.params.data.data.minPeople
+              : props.route.params.data.minPeople,
+          minPrice:
+            props.route.params.data.data &&
+            Number(props.route.params.data.data.minPrice)
+              ? Number(props.route.params.data.data.minPrice)
+              : Number(props.route.params.data.minPrice),
+          deadlineDate:
+            props.route.params.data.data && props.route.params.data.deadlineDate
+              ? props.route.params.data.deadlineDate
+              : props.route.params.deadlineDate,
+          shippingFee:
+            props.route.params.data.data &&
+            props.route.params.data.data.shippingFee
+              ? props.route.params.data.data.shippingFee
+              : props.route.params.data.shippingFee,
         })
       : props.navigation.navigate('상세 설정3', {
           data,
@@ -153,7 +182,7 @@ const CreateRecruit2 = props => {
           minPeople: props.route.params.data.data.minPeople,
           minPrice: Number(props.route.params.data.data.minPrice),
           deadlineDate: props.route.params.data.deadlineDate,
-          shippingFee: props.route.params.data.shippingFee,
+          shippingFee: props.route.params.data.data.shippingFee,
         });
   };
 

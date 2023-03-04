@@ -187,7 +187,7 @@ const MenuList = (props: menuListProps) => {
                             error={errors}
                             name="name"
                             control={control}
-                            rules={{}}
+                            rules={{required: true}}
                           />
                         </View>
                       </View>

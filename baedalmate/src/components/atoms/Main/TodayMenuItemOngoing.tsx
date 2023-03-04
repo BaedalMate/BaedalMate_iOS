@@ -35,7 +35,7 @@ const TodayMenuItemOngoing = ({item}: {item: eachMainTagRecruitListI}) => {
       ? durationHour + '시간'
       : durationMinutes > 0
       ? durationMinutes + '분'
-      : time.toString();
+      : '마감 임박';
 
   // console.log('asdf', url + '/' + item.image);
   // let convertedImg;

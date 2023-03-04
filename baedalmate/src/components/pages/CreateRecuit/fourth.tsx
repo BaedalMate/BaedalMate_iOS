@@ -69,7 +69,7 @@ const CreateRecruit4 = props => {
       price += v.price * v.quantity;
     });
     setMemuTotalPrice(price);
-    setShippingFee(props.route.params.shippingFee);
+    setShippingFee(Number(props.route.params.shippingFee));
     // setCouponPrice(props.route.params.data.coupon);
   }, [menuList, deliveryFee]);
   console.log(menuList);
@@ -77,7 +77,7 @@ const CreateRecruit4 = props => {
   useEffect(() => {
     !props.route.params.freeShipping &&
       props.route.params.shippingFee &&
-      setShippingFee(props.route.params.shippingFee);
+      setShippingFee(Number(props.route.params.shippingFee));
   }, []);
   useEffect(() => {
     defaultItem && defaultItem.tags && setMenuList(defaultItem.menu);
@@ -113,13 +113,15 @@ const CreateRecruit4 = props => {
               }}>
               <View style={{flexDirection: 'row'}}>
                 <TextKRBold style={styles.Label}>내가 주문할 메뉴들</TextKRBold>
-                {props.route.params.criteria === 'PRICE' &&
+                {
+                  // props.route.params.criteria === 'PRICE' &&
                   menuTotalPrice >= props.route.params.minPrice && (
                     <Text style={styles.Validation}>
                       {formPrice(props.route.params.minPrice)} 원 보다 적게
                       시켜야 해요
                     </Text>
-                  )}
+                  )
+                }
               </View>
               <TextKRReg style={styles.Description}>
                 내가 시킬 메뉴들을 작성해주세요!
@@ -260,26 +262,15 @@ const CreateRecruit4 = props => {
         }}>
         <BtnCreateFloating
           onPress={async () => {
-            // const result = await postRecruitAPI();
-            // let dorm =
-            //   props.route.params.data.dormitory === '누리학사'
-            //     ? 'NURI'
-            //     : props.route.params.data.dormitory === '성림학사'
-            //     ? 'SUNGLIM'
-            //     : props.route.params.data.dormitory === '수림학사'
-            //     ? 'SULIM'
-            //     : props.route.params.data.dormitory === '불암학사'
-            //     ? 'BURAM'
-            //     : 'KB';
             console.log(
-              props.route.params.criteria === 'PRICE',
+              // props.route.params.criteria === 'PRICE',
               menuTotalPrice >= props.route.params.minPrice,
             );
             if (!menuList || (menuList && menuList?.length <= 0)) {
               Toast.show('메뉴를 추가해 주세요.');
               return;
             } else if (
-              props.route.params.criteria === 'PRICE' &&
+              // props.route.params.criteria === 'PRICE' &&
               menuTotalPrice >= props.route.params.minPrice
             ) {
               // Toast.show(
@@ -291,19 +282,26 @@ const CreateRecruit4 = props => {
                 let data: postRecruitI = {
                   categoryId: props.route.params.categoryId,
                   criteria: props.route.params.criteria,
-                  // coupon: 주Number(props.route.params.data.coupon),
+                  // coupon: Number(props.route.params.data.coupon),
                   dormitory: props.route.params.data.dormitory,
                   deadlineDate: props.route.params.deadlineDate,
                   description: props.route.params.description,
                   freeShipping: props.route.params.freeShipping,
                   menu: menuList ? menuList : [],
-                  place: props.route.params.data.place,
+                  place: {
+                    name: props.route.params.name,
+                    addressName: props.route.params.addressName,
+                    roadAddressName: props.route.params.roadAddressName,
+                    x: props.route.params.x,
+                    y: props.route.params.y,
+                  },
                   platform: props.route.params.data.platform,
                   title: props.route.params.title,
                   tags: props.route.params.tags,
-                  shippingFee: props.route.params.freeShipping
-                    ? props.route.params.shippingFee
-                    : null,
+                  shippingFee:
+                    props.route.params.freeShipping === true
+                      ? null
+                      : Number(props.route.params.shippingFee),
                   minPrice: props.route.params.minPrice,
                   minPeople: props.route.params.minPeople,
                 };
@@ -379,11 +377,20 @@ const CreateRecruit4 = props => {
                   description: props.route.params.description,
                   freeShipping: props.route.params.freeShipping,
                   menu: menuList ? menuList : [],
-                  place: props.route.params.data.place,
+                  place: {
+                    name: props.route.params.name,
+                    addressName: props.route.params.addressName,
+                    roadAddressName: props.route.params.roadAddressName,
+                    x: props.route.params.x,
+                    y: props.route.params.y,
+                  },
                   platform: props.route.params.data.platform,
                   title: props.route.params.title,
                   tags: props.route.params.tags,
-                  shippingFee: props.route.params.shippingFee,
+                  shippingFee:
+                    props.route.params.freeShipping === true
+                      ? null
+                      : Number(props.route.params.shippingFee),
                   minPrice: props.route.params.minPrice,
                   minPeople: props.route.params.minPeople,
                 };

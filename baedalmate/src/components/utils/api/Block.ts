@@ -45,13 +45,49 @@ export const getBlockUserListAPI = async () => {
         }
         return response.data.blockList;
       })
-      .catch(function (error) {
+      .catch(async function (error) {
         console.log(error);
+        if (error.response.status === 401) {
+          const result = await refreshAPI();
+          console.log(result);
+          if (result.status == 200) {
+            const tokens = await result.data;
+            const token = tokens.accessToken;
+            const refToken = tokens.refreshToken;
+            AsyncStorage.multiSet([
+              ['@BaedalMate_JWTAccessToken', token],
+              ['@BaedalMate_JWTRefreshToken', refToken],
+            ]);
+
+            if (result.status === 200) {
+              getBlockUserListAPI();
+            }
+            return result.data.blockList;
+          }
+        }
         return false;
       });
     return result;
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
+    if (error.response.status === 401) {
+      const result = await refreshAPI();
+      console.log(result);
+      if (result.status == 200) {
+        const tokens = await result.data;
+        const token = tokens.accessToken;
+        const refToken = tokens.refreshToken;
+        AsyncStorage.multiSet([
+          ['@BaedalMate_JWTAccessToken', token],
+          ['@BaedalMate_JWTRefreshToken', refToken],
+        ]);
+
+        if (result.status === 200) {
+          getBlockUserListAPI();
+        }
+        return result.data.blockList;
+      }
+    }
     return false;
   }
 };
@@ -85,20 +121,56 @@ export const postBlockAPI = async (userId: number) => {
             ]);
 
             if (result.status === 200) {
-              getBlockUserListAPI();
+              postBlockAPI(userId);
             }
             return result.data;
           }
         }
         return response.data;
       })
-      .catch(function (error) {
+      .catch(async function (error) {
         console.log(error);
+        if (error.response.status === 401) {
+          const result = await refreshAPI();
+          console.log(result);
+          if (result.status == 200) {
+            const tokens = await result.data;
+            const token = tokens.accessToken;
+            const refToken = tokens.refreshToken;
+            AsyncStorage.multiSet([
+              ['@BaedalMate_JWTAccessToken', token],
+              ['@BaedalMate_JWTRefreshToken', refToken],
+            ]);
+
+            if (result.status === 200) {
+              postBlockAPI(userId);
+            }
+            return result.data;
+          }
+        }
         return false;
       });
     return result;
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
+    if (error.response.status === 401) {
+      const result = await refreshAPI();
+      console.log(result);
+      if (result.status == 200) {
+        const tokens = await result.data;
+        const token = tokens.accessToken;
+        const refToken = tokens.refreshToken;
+        AsyncStorage.multiSet([
+          ['@BaedalMate_JWTAccessToken', token],
+          ['@BaedalMate_JWTRefreshToken', refToken],
+        ]);
+
+        if (result.status === 200) {
+          postBlockAPI(userId);
+        }
+        return result.data;
+      }
+    }
     return false;
   }
 };
@@ -139,13 +211,49 @@ export const postUnBlockAPI = async (userId: number) => {
         }
         return response.data;
       })
-      .catch(function (error) {
+      .catch(async function (error) {
         console.log(error);
-        return false;
+        if (error.response.status === 401) {
+          const result = await refreshAPI();
+          console.log(result);
+          if (result.status == 200) {
+            const tokens = await result.data;
+            const token = tokens.accessToken;
+            const refToken = tokens.refreshToken;
+            AsyncStorage.multiSet([
+              ['@BaedalMate_JWTAccessToken', token],
+              ['@BaedalMate_JWTRefreshToken', refToken],
+            ]);
+
+            if (result.status === 200) {
+              postUnBlockAPI(userId);
+            }
+            return result.data;
+          }
+        }
+        return error;
       });
     return result;
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
+    if (error.response.status === 401) {
+      const result = await refreshAPI();
+      console.log(result);
+      if (result.status == 200) {
+        const tokens = await result.data;
+        const token = tokens.accessToken;
+        const refToken = tokens.refreshToken;
+        AsyncStorage.multiSet([
+          ['@BaedalMate_JWTAccessToken', token],
+          ['@BaedalMate_JWTRefreshToken', refToken],
+        ]);
+
+        if (result.status === 200) {
+          postUnBlockAPI(userId);
+        }
+        return result.data;
+      }
+    }
     return false;
   }
 };

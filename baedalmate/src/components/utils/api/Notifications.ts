@@ -68,8 +68,25 @@ export const getNotificationAPI = async () => {
         return false;
       });
     return result;
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
+    if (error.response.status === 401) {
+      const result = await refreshAPI();
+      console.log(result);
+      if (result.status == 200) {
+        const tokens = await result.data;
+        const token = tokens.accessToken;
+        const refToken = tokens.refreshToken;
+        AsyncStorage.multiSet([
+          ['@BaedalMate_JWTAccessToken', token],
+          ['@BaedalMate_JWTRefreshToken', refToken],
+        ]);
+        if (result.status === 200) {
+          getNotificationAPI();
+        }
+        return result.data.notifications;
+      }
+    }
     return false;
   }
 };
@@ -133,8 +150,25 @@ export const getNotificationAllowAPI = async () => {
         return false;
       });
     return result;
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
+    if (error.response.status === 401) {
+      const result = await refreshAPI();
+      console.log(result);
+      if (result.status == 200) {
+        const tokens = await result.data;
+        const token = tokens.accessToken;
+        const refToken = tokens.refreshToken;
+        AsyncStorage.multiSet([
+          ['@BaedalMate_JWTAccessToken', token],
+          ['@BaedalMate_JWTRefreshToken', refToken],
+        ]);
+        if (result.status === 200) {
+          getNotificationAllowAPI();
+        }
+        return result.data;
+      }
+    }
     return false;
   }
 };
@@ -217,8 +251,30 @@ export const putNotificationAllowAPI = async ({
         return false;
       });
     return result;
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
+    if (error.response.status === 401) {
+      const result = await refreshAPI();
+      console.log(result);
+      if (result.status == 200) {
+        const tokens = await result.data;
+        const token = tokens.accessToken;
+        const refToken = tokens.refreshToken;
+        AsyncStorage.multiSet([
+          ['@BaedalMate_JWTAccessToken', token],
+          ['@BaedalMate_JWTRefreshToken', refToken],
+        ]);
+
+        if (result.status === 200) {
+          putNotificationAllowAPI({
+            allow_chat,
+            allow_recruit,
+          });
+        }
+        return result.data;
+      }
+    }
+
     return false;
   }
 };

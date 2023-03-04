@@ -64,10 +64,14 @@ const CreateRecruit3 = props => {
   const onSubmit = data => {
     console.log(data);
     console.log(tagList);
+    const newTagList = tagList.map((v, i) => {
+      return {tagname: v.tagname};
+    });
+
     tagList.length > 0 &&
       props.navigation.navigate('상세 설정4', {
         ...data,
-        tags: tagList,
+        tags: newTagList,
         ...props.route.params,
       });
   };

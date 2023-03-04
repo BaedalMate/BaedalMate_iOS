@@ -87,8 +87,25 @@ export const postReportUserAPI = async (
         return error;
       });
     return result;
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
+    if (error.response.status === 401) {
+      const result = await refreshAPI();
+      console.log(result);
+      if (result.status == 200) {
+        const tokens = await result.data;
+        const token = tokens.accessToken;
+        const refToken = tokens.refreshToken;
+        AsyncStorage.multiSet([
+          ['@BaedalMate_JWTAccessToken', token],
+          ['@BaedalMate_JWTRefreshToken', refToken],
+        ]);
+        if (result.status === 200) {
+          postReportUserAPI(targetUserId, reason, detail);
+        }
+        return result;
+      }
+    }
     return error;
   }
 };
@@ -160,8 +177,26 @@ export const postReportRecruitAPI = async (
         return error;
       });
     return result;
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
+    if (error.response.status === 401) {
+      const result = await refreshAPI();
+      console.log(result);
+      if (result.status == 200) {
+        const tokens = await result.data;
+        const token = tokens.accessToken;
+        const refToken = tokens.refreshToken;
+        AsyncStorage.multiSet([
+          ['@BaedalMate_JWTAccessToken', token],
+          ['@BaedalMate_JWTRefreshToken', refToken],
+        ]);
+
+        if (result.status === 200) {
+          postReportRecruitAPI(targetRecruitId, reason, detail);
+        }
+        return result;
+      }
+    }
     return error;
   }
 };
