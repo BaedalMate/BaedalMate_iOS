@@ -73,7 +73,8 @@ const NicknameInput = ({nickname, name, control, rules, setValue}) => {
 const SetProfile = ({route, navigation}) => {
   const [nickname, setNickname] = useRecoilState(userNicknameState);
   const [profileImage, setProfileImage] = useRecoilState(userProfileImageState);
-  const [isDefaultImage, setIsDefaultImage] = useState(false);
+  const [isDefaultImage, setIsDefaultImage] = useState(true);
+
   const useFormReturn = useForm({
     defaultValues: {
       nickname: nickname,

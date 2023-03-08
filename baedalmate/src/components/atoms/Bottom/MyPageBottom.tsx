@@ -5,6 +5,13 @@ import {TextKRReg} from 'themes/text';
 import {UsePopup} from 'components/utils/usePopup';
 import {logoutAPI, withdrawalAPI} from 'components/utils/api/Login';
 import {useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+  JWTAccessTokenState,
+  JWTRefreshTokenState,
+  FCMTokenState,
+} from 'components/utils/recoil/atoms/User';
+import {useRecoilState} from 'recoil';
 
 export type BtnWithoutTextProps = {
   onPress(): void;
@@ -16,6 +23,11 @@ const MyPageBottom = () => {
   const handleModal = () => {
     modal ? setModal(false) : setModal(true);
   };
+  const [JWTAccessToken, setJWTAccessToken] =
+    useRecoilState(JWTAccessTokenState);
+  const [JWTRefreshToken, setJWTRefreshToken] =
+    useRecoilState(JWTRefreshTokenState);
+  const [FCMToken, setFCMToken] = useRecoilState(FCMTokenState);
 
   const [modalData, setModalData] = useState<{
     title: string;
@@ -30,6 +42,13 @@ const MyPageBottom = () => {
     console.log(result);
     if (result.status == 200) {
       // handleModal();
+      AsyncStorage.multiSet([
+        ['@BaedalMate_JWTAccessToken', ''],
+        ['@BaedalMate_JWTRefreshToken', ''],
+      ]);
+      setJWTAccessToken('');
+      setJWTRefreshToken('');
+      setFCMToken('');
       setTimeout(() => {
         navigation.navigate('Login' as never);
         navigation.reset({
@@ -45,6 +64,13 @@ const MyPageBottom = () => {
     console.log(result);
     if (result.status == 200) {
       // handleModal();
+      AsyncStorage.multiSet([
+        ['@BaedalMate_JWTAccessToken', ''],
+        ['@BaedalMate_JWTRefreshToken', ''],
+      ]);
+      setJWTAccessToken('');
+      setJWTRefreshToken('');
+      setFCMToken('');
       setTimeout(() => {
         navigation.navigate('Login' as never);
         navigation.reset({

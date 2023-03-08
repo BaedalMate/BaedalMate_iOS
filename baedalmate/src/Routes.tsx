@@ -601,14 +601,14 @@ export const BoardStackComponent = () => {
         options={({navigation, route}) => ({
           headerBackVisible: false,
           headerShadowVisible: false,
-
           headerLeft: () => (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.goBack();
-              }}>
-              <Image source={BACK_GRAY} />
-            </TouchableOpacity>
+            <></>
+            // <TouchableOpacity
+            //   onPress={() => {
+            //     navigation.goBack();
+            //   }}>
+            //   <Image source={BACK_GRAY} />
+            // </TouchableOpacity>
           ),
         })}
       />

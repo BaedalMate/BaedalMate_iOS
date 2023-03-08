@@ -38,7 +38,6 @@ import {
 } from 'themes/theme';
 import {Fonts} from 'assets/Fonts';
 import PlatformImage from 'components/atoms/Image/PlatformImage';
-import BtnMap from 'components/atoms/Button/BtnMap';
 import {useNavigation} from '@react-navigation/native';
 import BtnVerticalWhite from 'components/atoms/Button/BtnVerticalWhite';
 import BtnVerticalGray from 'components/atoms/Button/BtnVerticalGray';
@@ -53,7 +52,6 @@ import MenuItem from 'components/atoms/CreateRecruit/MenuItem';
 import {UsePopup, popupProps} from 'components/utils/usePopup';
 import {postBlockAPI, postUnBlockAPI} from 'components/utils/api/Block';
 import Toast from 'react-native-root-toast';
-import {getChatRoomAPI} from 'components/utils/api/Chat';
 import {refreshAPI} from 'components/utils/api/Login';
 export interface RecruitItemProps {
   chatRoomId: number;
@@ -362,7 +360,7 @@ const BoardItemDetail = props => {
               // setJWTRefreshToken(refToken);
 
               if (result.status === 200) {
-                getChatRoomAPI();
+                getDetailData();
               }
               return result;
             }
