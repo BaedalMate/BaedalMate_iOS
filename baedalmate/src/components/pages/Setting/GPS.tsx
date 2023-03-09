@@ -1,11 +1,12 @@
-import Geolocation from '@react-native-community/geolocation';
+// import Geolocation from '@react-native-community/geolocation';
+import Geolocation from 'react-native-geolocation-service';
 import axios from 'axios';
 import BtnVerticalDeactive from 'components/atoms/Button/BtnVerticalDeactive';
 import BtnVerticalOrange from 'components/atoms/Button/BtnVerticalOrange';
 import {Map} from 'components/molecules/Setting/Map';
 import {getJWTToken} from 'components/utils/api/Recruit';
-import React, {useEffect, useState} from 'react';
-import {Image, Text, View} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {Button, Image, Text, View} from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import {WHITE_COLOR, BOTTOM_ARROW, LINE_ORANGE_COLOR} from 'themes/theme';
 import {dormitoryList} from '../CreateRecuit/second';
@@ -107,17 +108,6 @@ const DormitoryDropDown = ({
           onSelect={(selectedItem, index) => {
             console.log(selectedItem, index);
             setTarget(selectedItem);
-            // if (selectedItem === '누리학사') {
-            //   setTarget('NURI');
-            // } else if (selectedItem === '성림학사') {
-            //   setTarget('SUNGLIM');
-            // } else if (selectedItem === 'KB학사') {
-            //   setTarget('KB');
-            // } else if (selectedItem === '불암학사') {
-            //   setTarget('BURAM');
-            // } else if (selectedItem === '수림학사') {
-            //   setTarget('SULIM');
-            // }
           }}
           buttonTextAfterSelection={selectedItem => {
             return selectedItem.name;
@@ -133,11 +123,12 @@ const DormitoryDropDown = ({
 
 const GPS = props => {
   const navigation = useNavigation();
-  const [location, setLocation] = useState<LocationI>();
+  const [location, setLocation] = useState<LocationI | null>(null);
   const [dormitory, setDormitory] = useRecoilState(userDormitoryState);
   const [target, setTarget] = useRecoilState(selectDormitoryState);
   const [targetLocation, setTargetLocation] = useState<LocationI>();
   const [distance, setDistance] = useState<number>();
+  const watchId = useRef<number | null>(null);
 
   const getTarget = () => {
     props.route.params && props.route.params.target
@@ -149,8 +140,10 @@ const GPS = props => {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
     setLocation({latitude, longitude});
+    console.log(position);
   };
   const error = error => {
+    setLocation(null);
     console.error(error);
   };
   const deg2rad = deg => {
@@ -199,6 +192,7 @@ const GPS = props => {
             setDormitory(target);
             // setTarget(dormitory);
             Toast.show('위치 인증이 완료되었습니다.');
+            clearWatch();
             navigation.navigate(
               'BoardStackComponent' as never,
               {
@@ -227,7 +221,6 @@ const GPS = props => {
               return result;
             }
           }
-
           return response;
         })
         .catch(async function (error) {
@@ -298,24 +291,39 @@ const GPS = props => {
   useEffect(() => {
     console.log('distance', distance);
   }, [distance]);
+  const watchPosition = () => {
+    try {
+      const watchId = Geolocation.watchPosition(success, error, {
+        accuracy: {
+          ios: 'best',
+        },
+        enableHighAccuracy: true,
+        distanceFilter: 0,
+        interval: 5000,
+        fastestInterval: 2000,
+      });
+    } catch (error) {
+      console.log('WatchPosition Error', error);
+    }
+  };
+  const clearWatch = () => {
+    if (watchId.current !== null) {
+      Geolocation.clearWatch(watchId.current);
+      watchId.current = null;
+      setLocation(null);
+    }
+  };
   useEffect(() => {
-    const getCurrentPosition = Geolocation.getCurrentPosition(success, error, {
-      enableHighAccuracy: true,
-    });
-    const watchId = Geolocation.watchPosition(success, error, {
-      enableHighAccuracy: true,
-    });
-
+    watchPosition();
     return () => {
-      if (watchId) {
-        Geolocation.clearWatch(watchId);
-      }
+      clearWatch();
     };
-  }, [location]);
-
+  }, []);
   useEffect(() => {
+    console.log(watchId.current);
     console.log(location);
-  }, [location]);
+  }, [watchId.current]);
+
   const [modal, setModal] = useState(true);
   const handleModal = () => {
     modal ? setModal(false) : setModal(true);

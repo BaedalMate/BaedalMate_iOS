@@ -43,6 +43,7 @@
     "react-native": "^0.68.1",
     "react-native-color-matrix-image-filters": "^6.0.3",
     "react-native-device-info": "^10.3.0",
+    "react-native-geolocation-service": "^5.3.1",
     "react-native-gesture-handler": "^2.4.1",
     "react-native-image-picker": "^5.0.0",
     "react-native-modal": "^13.0.1",

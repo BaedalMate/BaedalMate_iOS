@@ -169,6 +169,7 @@ const SetProfile = ({route, navigation}) => {
       console.log(result);
       setNickname(result.nickname);
       setProfileImage(result.profileImage);
+      navigation.navigate('내 위치 인증');
     }
   };
   useEffect(() => {
