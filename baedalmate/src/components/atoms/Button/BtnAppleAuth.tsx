@@ -10,8 +10,17 @@ import {
 } from '@invertase/react-native-apple-authentication';
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
-import {url} from '../../../../App';
+import {FCMURL, url} from '../../../../App';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {NotificationNoticeAllowState} from 'components/utils/recoil/atoms/FCMNotificationAllowList';
+import {
+  JWTAccessTokenState,
+  JWTRefreshTokenState,
+} from 'components/utils/recoil/atoms/User';
+import {useRecoilState} from 'recoil';
+import {callApiSubscribeTopic} from 'components/utils/FCMSubscribeTopic';
+import {getFCMToken, getJWTToken} from 'components/utils/api/Recruit';
+import {getUniqueId} from 'react-native-device-info';
 const loginURL = url + '/login/oauth2/apple';
 
 /**
@@ -35,107 +44,56 @@ async function fetchAndUpdateCredentialState(updateCredentialStateForUser) {
   }
 }
 
-/**
- * Starts the Sign In flow.
- */
-async function onAppleButtonPress(updateCredentialStateForUser) {
-  console.log('Beginning Apple Authentication');
+// /**
+//  * Starts the Sign In flow.
+//  */
+// async function onAppleButtonPress(updateCredentialStateForUser) {
+//   console.log('Beginning Apple Authentication');
 
-  // start a login request
-  try {
-    const appleAuthRequestResponse = await appleAuth.performRequest({
-      requestedOperation: appleAuth.Operation.LOGIN,
-      requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
-    });
+//   // start a login request
+//   try {
+//     const appleAuthRequestResponse = await appleAuth.performRequest({
+//       requestedOperation: appleAuth.Operation.LOGIN,
+//       requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+//     });
 
-    console.log('appleAuthRequestResponse', appleAuthRequestResponse);
+//     console.log('appleAuthRequestResponse', appleAuthRequestResponse);
 
-    const {
-      user: newUser,
-      email,
-      nonce,
-      identityToken,
-      realUserStatus /* etc */,
-    } = appleAuthRequestResponse;
+//     const {
+//       user: newUser,
+//       email,
+//       nonce,
+//       identityToken,
+//       realUserStatus /* etc */,
+//     } = appleAuthRequestResponse;
 
-    user = newUser;
+//     user = newUser;
 
-    fetchAndUpdateCredentialState(updateCredentialStateForUser).catch(error =>
-      updateCredentialStateForUser(`Error: ${error.code}`),
-    );
+//     fetchAndUpdateCredentialState(updateCredentialStateForUser).catch(error =>
+//       updateCredentialStateForUser(`Error: ${error.code}`),
+//     );
 
-    if (identityToken) {
-      // e.g. sign in with Firebase Auth using `nonce` & `identityToken`
-      console.log(nonce, identityToken);
-    } else {
-      // no token - failed sign-in?
-    }
+//     if (identityToken) {
+//       // e.g. sign in with Firebase Auth using `nonce` & `identityToken`
+//       console.log(nonce, identityToken);
+//     } else {
+//       // no token - failed sign-in?
+//     }
 
-    if (realUserStatus === appleAuth.UserStatus.LIKELY_REAL) {
-      console.log("I'm a real person!");
-    }
+//     if (realUserStatus === appleAuth.UserStatus.LIKELY_REAL) {
+//       console.log("I'm a real person!");
+//     }
 
-    console.warn(`Apple Authentication Completed, ${user}, ${email}`);
-  } catch (error: any) {
-    if (error.code === appleAuth.Error.CANCELED) {
-      console.warn('User canceled Apple Sign in.');
-    } else {
-      console.error(error);
-    }
-  }
-}
+//     console.warn(`Apple Authentication Completed, ${user}, ${email}`);
+//   } catch (error: any) {
+//     if (error.code === appleAuth.Error.CANCELED) {
+//       console.warn('User canceled Apple Sign in.');
+//     } else {
+//       console.error(error);
+//     }
+//   }
+// }
 const BtnAppleAuth = ({navigation}) => {
-  // v1 - fail
-  // const onAppleButtonPress = async () => {
-  //   try {
-  //     const responseObject = await appleAuth.performRequest({
-  //       requestedOperation: AppleRequestOperation.LOGIN,
-  //       requestedScopes: [AppleRequestScope.EMAIL],
-  //     });
-  //     console.log('responseObject:::', responseObject);
-  //     const credentialState = await appleAuth.getCredentialStateForUser(
-  //       responseObject.user,
-  //     );
-  //     if (credentialState === AppleCredentialState.AUTHORIZED) {
-  //       console.log('user is authenticated');
-  //     }
-  //   } catch (error: any) {
-  //     console.log(error);
-  //     if (error.code === AppleError.CANCELED) {
-  //       console.log('canceled');
-  //     } else {
-  //       console.log('error');
-  //     }
-  //   }
-  // };
-  //v2
-  // const [credentialStateForUser, updateCredentialStateForUser] = useState(-1);
-  // useEffect(() => {
-  //   if (!appleAuth.isSupported) return;
-
-  //   fetchAndUpdateCredentialState(updateCredentialStateForUser).catch(
-  //     (error: any) => updateCredentialStateForUser(error.code),
-  //   );
-  // }, []);
-
-  // useEffect(() => {
-  //   if (!appleAuth.isSupported) return;
-
-  //   return appleAuth.onCredentialRevoked(async () => {
-  //     console.warn('Credential Revoked');
-  //     fetchAndUpdateCredentialState(updateCredentialStateForUser).catch(error =>
-  //       updateCredentialStateForUser(error.code),
-  //     );
-  //   });
-  // }, []);
-
-  // if (!appleAuth.isSupported) {
-  //   return (
-  //     <View style={[styles.container, styles.horizontal]}>
-  //       <Text>Apple Authentication is not supported on this device.</Text>
-  //     </View>
-  //   );
-  // }
   interface tokenType {
     aud: string;
     auth_time: number;
@@ -151,8 +109,54 @@ const BtnAppleAuth = ({navigation}) => {
     sub: string;
   }
 
-  // 2021년 01월 30일 수정되었습니다.
   const appleLogin = async () => {
+    const [JWTAccessToken, setJWTAccessToken] =
+      useRecoilState(JWTAccessTokenState);
+    const [JWTRefreshToken, setJWTRefreshToken] =
+      useRecoilState(JWTRefreshTokenState);
+
+    const [isEnabledNotice, setIsEnabledNotice] = useRecoilState(
+      NotificationNoticeAllowState,
+    );
+    useEffect(() => {
+      if (isEnabledNotice) {
+        callApiSubscribeTopic();
+      }
+    }, [isEnabledNotice]);
+    const saveTokenToDatabase = async token => {
+      const FCMToken = await getFCMToken();
+      const uniqueId = await getUniqueId(); // 휴대폰마다 고유 id가 있음. ex) iOS: 59C63C5F-0776-4E4B-8AEF-D27AAF79BCFA
+      // const JWTAccessToken = await getJWTToken();
+      console.log('saveTokenToDatabase 호출');
+
+      if (token && token !== '') {
+        const result = await axios
+          .post(
+            FCMURL,
+            {},
+            {
+              headers: {
+                Authorization: 'Bearer ' + token,
+                'Fcm-Token': FCMToken,
+                'Device-Code': uniqueId,
+              },
+            },
+          )
+          .then(function (response) {
+            console.log('FCM 등록', response);
+            return response;
+          })
+          .catch(function (error) {
+            console.log('FCM 등록 실패', error);
+            return error;
+          });
+
+        if (result) {
+          console.log('FCM 등록', result);
+        }
+        return result;
+      }
+    };
     try {
       // performs login request
       const appleAuthRequestResponse = await appleAuth.performRequest({
@@ -183,7 +187,8 @@ const BtnAppleAuth = ({navigation}) => {
             userName: userFullName,
             email: email,
           };
-
+          // const FCMToken = await getFCMToken();
+          // const uniqueId = await getUniqueId();
           const response = await axios.post(loginURL, appleLoginRequest);
           const tokens = await response.data;
           const token = tokens.accessToken;
@@ -193,17 +198,18 @@ const BtnAppleAuth = ({navigation}) => {
             ['@BaedalMate_JWTAccessToken', token],
             ['@BaedalMate_JWTRefreshToken', refToken],
           ]);
-          // const values = await AsyncStorage.multiGet([
-          //   '@BaedalMate_JWTAccessToken',
-          //   '@BaedalMate_JWTRefreshToken',
-          // ]);
-          if (token) {
-            console.log(token);
 
-            navigation.navigate('BoardStackComponent');
-            navigation.reset({
-              index: 0,
-              routes: [{name: 'BoardStackComponent'}],
+          if (token && token !== '') {
+            console.log(token);
+            const result = saveTokenToDatabase(token);
+            result.then(res => {
+              if (res.status == 200) {
+                navigation.navigate('BoardStackComponent');
+                navigation.reset({
+                  index: 0,
+                  routes: [{name: 'BoardStackComponent'}],
+                });
+              }
             });
           }
           return response;
@@ -222,15 +228,12 @@ const BtnAppleAuth = ({navigation}) => {
     }
   };
   return (
-    // <SafeAreaView style={styles.container}>
     <AppleButton
       buttonStyle={AppleButton.Style.BLACK}
       buttonType={AppleButton.Type.SIGN_IN}
       style={styles.appleButton}
       onPress={() => appleLogin()}
-      // onPress={() => onAppleButtonPress(updateCredentialStateForUser)}
     />
-    // </SafeAreaView>
   );
 };
 

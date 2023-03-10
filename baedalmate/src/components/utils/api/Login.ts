@@ -4,16 +4,13 @@ import {getJWTRefreshToken, getJWTToken} from './Recruit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getUniqueId} from 'react-native-device-info';
 import {useRecoilState} from 'recoil';
+import {JWTAccessTokenState, JWTRefreshTokenState} from '../recoil/atoms/User';
 // import {JWTAccessTokenState, JWTRefreshTokenState} from '../recoil/atoms/User';
 export const refreshURL = url + '/api/v1/refresh';
 export const logoutURL = url + '/logout';
 export const withdrawalURL = url + '/api/v1/user/withdrawal';
 
 export const refreshAPI = async () => {
-  // const [accesssToken, setJWTAccessToken] = useRecoilState(JWTAccessTokenState);
-  // const [refreshToken, setJWTRefreshToken] =
-  //   useRecoilState(JWTRefreshTokenState);
-
   const JWTAccessToken = await getJWTToken();
   const JWTRefreshToken = await getJWTRefreshToken();
   console.log(JWTAccessToken);
@@ -50,6 +47,9 @@ export const refreshAPI = async () => {
 };
 
 export const logoutAPI = async () => {
+  // const [accessToken, setJWTAccessToken] = useRecoilState(JWTAccessTokenState);
+  // const [refreshToken, setJWTRefreshToken] =
+  //   useRecoilState(JWTRefreshTokenState);
   const JWTAccessToken = await getJWTToken();
   const uniqueId = await getUniqueId();
   console.log(JWTAccessToken);
@@ -66,7 +66,14 @@ export const logoutAPI = async () => {
         },
       )
       .then(async function (response) {
-        if (response.status === 401) {
+        if (response.status === 200) {
+          AsyncStorage.multiSet([
+            ['@BaedalMate_JWTAccessToken', ''],
+            ['@BaedalMate_JWTRefreshToken', ''],
+          ]);
+          // setJWTAccessToken('');
+          // setJWTRefreshToken('');
+        } else if (response.status === 401) {
           const result = await refreshAPI();
           console.log(result);
           if (result.status == 200) {
@@ -135,6 +142,9 @@ export const logoutAPI = async () => {
 };
 
 export const withdrawalAPI = async () => {
+  // const [accessToken, setJWTAccessToken] = useRecoilState(JWTAccessTokenState);
+  // const [refreshToken, setJWTRefreshToken] =
+  //   useRecoilState(JWTRefreshTokenState);
   const JWTAccessToken = await getJWTToken();
   const JWTRefreshToken = await getJWTRefreshToken();
   console.log(JWTAccessToken);
@@ -147,7 +157,14 @@ export const withdrawalAPI = async () => {
         },
       })
       .then(async function (response) {
-        if (response.status === 401) {
+        if (response.status === 200) {
+          AsyncStorage.multiSet([
+            ['@BaedalMate_JWTAccessToken', ''],
+            ['@BaedalMate_JWTRefreshToken', ''],
+          ]);
+          // setJWTAccessToken('');
+          // setJWTRefreshToken('');
+        } else if (response.status === 401) {
           const result = await refreshAPI();
           console.log(result);
           if (result.status == 200) {

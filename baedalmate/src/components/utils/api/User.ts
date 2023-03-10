@@ -6,11 +6,11 @@ import {refreshAPI} from './Login';
 import {Platform} from 'react-native';
 
 export interface UserInfoI {
+  userId: number;
   nickname: string;
   profileImage: string;
+  dormitory: string;
   score: number;
-  userDormitory: string;
-  userId: number;
 }
 const participatedRecruitURL = userURL + '/participated-recruit';
 const hostedRecruitURL = userURL + '/hosted-recruit';
