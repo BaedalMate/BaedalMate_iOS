@@ -7,7 +7,7 @@ import {TextKRBold, TextKRReg} from 'themes/text';
 import {DARK_GRAY_COLOR, LINE_GRAY_COLOR} from 'themes/theme';
 
 export const ChatListItem = ({item}: {item: eachChatRoomI}) => {
-  console.log(item);
+  // console.log(item);
   const navigation = useNavigation();
   let duration = '';
   const dateString = item.lastMessage.sendDate;

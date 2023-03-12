@@ -6,7 +6,16 @@ import BtnVerticalOrange from 'components/atoms/Button/BtnVerticalOrange';
 import {Map} from 'components/molecules/Setting/Map';
 import {getJWTToken} from 'components/utils/api/Recruit';
 import React, {useEffect, useRef, useState} from 'react';
-import {Button, Image, Text, View} from 'react-native';
+import {
+  Alert,
+  Image,
+  Linking,
+  PermissionsAndroid,
+  Platform,
+  Text,
+  ToastAndroid,
+  View,
+} from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import {WHITE_COLOR, BOTTOM_ARROW, LINE_ORANGE_COLOR} from 'themes/theme';
 import {dormitoryList} from '../CreateRecuit/second';
@@ -21,6 +30,7 @@ import {useNavigation} from '@react-navigation/native';
 import Toast from 'react-native-root-toast';
 import {refreshAPI} from 'components/utils/api/Login';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {getApplicationName} from 'react-native-device-info';
 export const dormitoryURL = userURL + '/dormitory';
 export const DORMITORY_SUNGLIM_LOCATION = {
   longitude: 127.07597,
@@ -129,7 +139,76 @@ const GPS = props => {
   const [targetLocation, setTargetLocation] = useState<LocationI>();
   const [distance, setDistance] = useState<number>();
   const watchId = useRef<number | null>(null);
+  const hasPermissionIOS = async () => {
+    const openSetting = () => {
+      Linking.openSettings().catch(() => {
+        Alert.alert('Unable to open settings');
+      });
+    };
+    const status = await Geolocation.requestAuthorization('whenInUse');
 
+    if (status === 'granted') {
+      return true;
+    }
+
+    if (status === 'denied') {
+      Alert.alert('Location permission denied');
+    }
+
+    if (status === 'disabled') {
+      Alert.alert(
+        `Turn on Location Services to allow "${getApplicationName.name}" to determine your location.`,
+        '',
+        [
+          {text: 'Go to Settings', onPress: openSetting},
+          {text: "Don't Use Location", onPress: () => {}},
+        ],
+      );
+    }
+
+    return false;
+  };
+
+  const hasLocationPermission = async () => {
+    if (Platform.OS === 'ios') {
+      const hasPermission = await hasPermissionIOS();
+      return hasPermission;
+    }
+
+    if (Platform.OS === 'android' && Platform.Version < 23) {
+      return true;
+    }
+
+    const hasPermission = await PermissionsAndroid.check(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+    );
+
+    if (hasPermission) {
+      return true;
+    }
+
+    const status = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+    );
+
+    if (status === PermissionsAndroid.RESULTS.GRANTED) {
+      return true;
+    }
+
+    if (status === PermissionsAndroid.RESULTS.DENIED) {
+      ToastAndroid.show(
+        'Location permission denied by user.',
+        ToastAndroid.LONG,
+      );
+    } else if (status === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
+      ToastAndroid.show(
+        'Location permission revoked by user.',
+        ToastAndroid.LONG,
+      );
+    }
+
+    return false;
+  };
   const getTarget = () => {
     props.route.params && props.route.params.target
       ? setTarget(props.route.params.target)
@@ -291,9 +370,14 @@ const GPS = props => {
   useEffect(() => {
     console.log('distance', distance);
   }, [distance]);
-  const watchPosition = () => {
+  const watchPosition = async () => {
+    const hasPermission = await hasLocationPermission();
+
+    if (!hasPermission) {
+      return;
+    }
     try {
-      const watchId = Geolocation.watchPosition(success, error, {
+      watchId.current = Geolocation.watchPosition(success, error, {
         accuracy: {
           ios: 'best',
         },
@@ -344,7 +428,15 @@ const GPS = props => {
     choiceCnt: number;
     description?: string;
   }>(loadingModalData);
-
+  useEffect(() => {
+    console.log(location);
+    if (location === null) {
+      if (watchId.current) {
+        clearWatch();
+      }
+      watchPosition();
+    }
+  }, [location]);
   return (
     <View>
       {location ? (

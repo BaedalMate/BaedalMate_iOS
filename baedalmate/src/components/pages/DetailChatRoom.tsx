@@ -33,7 +33,6 @@ import {
   chatRecruitURL,
   recruitParticipantsI,
   participantI,
-  getChatRoomAPI,
 } from 'components/utils/api/Chat';
 import SockJS from 'sockjs-client';
 import {Stomp} from '@stomp/stompjs';
@@ -55,12 +54,23 @@ export interface sendI {
   roomId: number;
   message: string;
 }
-export interface recvI {
+export interface talkEnterRecvI {
   senderId: number;
   sender: string;
   senderImage: string;
+  messageId: number;
   roomId: number;
   message: string;
+  type: 'TALK' | 'ENTER';
+  sendDate: string;
+}
+export interface readRecvI {
+  senderId: number;
+  sender: string;
+  messageId: number;
+  readMessageId: number;
+  type: 'READ';
+  sendDate: string;
 }
 
 export interface messageProps {
@@ -78,7 +88,7 @@ export const DetailChatRoom = props => {
   //   useRecoilState(JWTRefreshTokenState);
 
   ws.configure({});
-  const [recv, setRecv] = useState<recvI>();
+  const [recv, setRecv] = useState<talkEnterRecvI | readRecvI>();
   const [messageText, setMessageText] = useState<string>('');
   const [detailChat, setDetailChat] = useState<eachDetailChatRoomI>();
   const [participantsInfo, setParticipantsInfo] =
@@ -110,7 +120,7 @@ export const DetailChatRoom = props => {
               ]);
 
               if (result.status === 200) {
-                getChatRoomAPI();
+                getEachChatRoom();
               }
               return result.data;
             }
@@ -132,7 +142,7 @@ export const DetailChatRoom = props => {
               ]);
 
               if (result.status === 200) {
-                getChatRoomAPI();
+                getEachChatRoom();
               }
               return result.data;
             }
@@ -197,8 +207,8 @@ export const DetailChatRoom = props => {
     );
     addMessages(messageText);
   };
-  const recvMessage = ({recv}: {recv: recvI}) => {
-    recv && messages
+  const recvMessage = ({recv}: {recv: talkEnterRecvI | readRecvI}) => {
+    recv && recv.type !== 'READ' && messages
       ? setMessages([
           ...messages,
           {
@@ -207,6 +217,7 @@ export const DetailChatRoom = props => {
           },
         ])
       : recv &&
+        recv.type !== 'READ' &&
         setMessages([
           {
             sender: recv.sender,

@@ -108,21 +108,21 @@ const BtnAppleAuth = ({navigation}) => {
     nonce_supported: boolean;
     sub: string;
   }
+  const [JWTAccessToken, setJWTAccessToken] =
+    useRecoilState(JWTAccessTokenState);
+  const [JWTRefreshToken, setJWTRefreshToken] =
+    useRecoilState(JWTRefreshTokenState);
+
+  const [isEnabledNotice, setIsEnabledNotice] = useRecoilState(
+    NotificationNoticeAllowState,
+  );
+  useEffect(() => {
+    if (isEnabledNotice) {
+      callApiSubscribeTopic();
+    }
+  }, [isEnabledNotice]);
 
   const appleLogin = async () => {
-    const [JWTAccessToken, setJWTAccessToken] =
-      useRecoilState(JWTAccessTokenState);
-    const [JWTRefreshToken, setJWTRefreshToken] =
-      useRecoilState(JWTRefreshTokenState);
-
-    const [isEnabledNotice, setIsEnabledNotice] = useRecoilState(
-      NotificationNoticeAllowState,
-    );
-    useEffect(() => {
-      if (isEnabledNotice) {
-        callApiSubscribeTopic();
-      }
-    }, [isEnabledNotice]);
     const saveTokenToDatabase = async token => {
       const FCMToken = await getFCMToken();
       const uniqueId = await getUniqueId(); // 휴대폰마다 고유 id가 있음. ex) iOS: 59C63C5F-0776-4E4B-8AEF-D27AAF79BCFA
@@ -198,10 +198,12 @@ const BtnAppleAuth = ({navigation}) => {
             ['@BaedalMate_JWTAccessToken', token],
             ['@BaedalMate_JWTRefreshToken', refToken],
           ]);
-
+          setJWTAccessToken(token);
+          setJWTRefreshToken(refToken);
           if (token && token !== '') {
             console.log(token);
-            const result = saveTokenToDatabase(token);
+            const result = await saveTokenToDatabase(token);
+
             result.then(res => {
               if (res.status == 200) {
                 navigation.navigate('BoardStackComponent');

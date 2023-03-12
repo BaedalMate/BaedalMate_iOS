@@ -5,9 +5,9 @@ import {
   MessageOrange,
 } from 'components/atoms/Chat/Message';
 import {StyleSheet, Text, View} from 'react-native';
-import {DARK_GRAY_COLOR, PRIMARY_COLOR, WHITE_COLOR} from 'themes/theme';
+import {DARK_GRAY_COLOR, PRIMARY_COLOR} from 'themes/theme';
 import {formTime, messageI} from 'components/utils/api/Chat';
-import {messageProps, recvI, sendI} from 'components/pages/DetailChatRoom';
+import {messageProps} from 'components/pages/DetailChatRoom';
 
 export const MAX_USERNAME_LIMIT = 5;
 export const MyMessage = ({message}: {message: messageI}) => {
