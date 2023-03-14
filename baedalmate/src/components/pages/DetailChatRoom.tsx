@@ -208,7 +208,7 @@ export const DetailChatRoom = props => {
     addMessages(messageText);
   };
   const recvMessage = ({recv}: {recv: talkEnterRecvI | readRecvI}) => {
-    recv && recv.type !== 'READ' && messages
+    recv && recv.type === 'TALK' && messages
       ? setMessages([
           ...messages,
           {
@@ -217,7 +217,7 @@ export const DetailChatRoom = props => {
           },
         ])
       : recv &&
-        recv.type !== 'READ' &&
+        recv.type === 'TALK' &&
         setMessages([
           {
             sender: recv.sender,
@@ -578,7 +578,7 @@ export const DetailChatRoom = props => {
     detailChat?.recruit.deactivateDate?.split(' ')[1];
   const deactivateDate = new Date(text);
   deactivateDate.setHours(deactivateDate.getHours() + 3);
-
+  let prevTime;
   return (
     <>
       <MemberListModal>
@@ -602,6 +602,7 @@ export const DetailChatRoom = props => {
             backgroundColor: WHITE_COLOR,
             width: '100%',
             height: `100%`,
+            paddingTop: 30,
           }}>
           <View style={{paddingBottom: 300}}>
             <View
@@ -609,35 +610,46 @@ export const DetailChatRoom = props => {
                 paddingHorizontal: 15,
               }}>
               <View style={{width: '100%'}}>
-                {detailChat?.messages.map((v, i) => (
-                  <View key={i}>
-                    {i === 0 && <ChatDate item={v} key={i} />}
-                    {i > 0 &&
-                      (v.sendDate.split(' ')[0].split('-')[0] !==
-                        detailChat.messages[i - 1].sendDate
-                          .split(' ')[0]
-                          .split('-')[0] ||
-                        v.sendDate.split(' ')[0].split('-')[1] !==
-                          detailChat.messages[i - 1].sendDate
-                            .split(' ')[0]
-                            .split('-')[1] ||
-                        v.sendDate.split(' ')[0].split('-')[2] !==
-                          detailChat.messages[i - 1].sendDate
-                            .split(' ')[0]
-                            .split('-')[2]) && <ChatDate item={v} key={i} />}
-                    {v.message !== '' && (
-                      <Text key={`text-${v.messageId}`}>
-                        {v.senderId === userId ? (
-                          <MyMessage message={v} key={v.messageId} />
-                        ) : (
-                          <>
-                            <OpponentMessage message={v} key={v.messageId} />
-                          </>
+                {detailChat?.messages.map(
+                  (v, i) =>
+                    v.type === 'TALK' &&
+                    v.message !== '' && (
+                      <View key={i}>
+                        {!prevTime
+                          ? (prevTime = v.sendDate && (
+                              <ChatDate item={v} key={i} />
+                            ))
+                          : (v.sendDate.split(' ')[0].split('-')[0] !==
+                              detailChat.messages[i - 1].sendDate
+                                .split(' ')[0]
+                                .split('-')[0] ||
+                              v.sendDate.split(' ')[0].split('-')[1] !==
+                                detailChat.messages[i - 1].sendDate
+                                  .split(' ')[0]
+                                  .split('-')[1] ||
+                              v.sendDate.split(' ')[0].split('-')[2] !==
+                                detailChat.messages[i - 1].sendDate
+                                  .split(' ')[0]
+                                  .split('-')[2]) && (
+                              <ChatDate item={v} key={i} />
+                            )}
+                        {v.message !== '' && (
+                          <Text key={`text-${v.messageId}`}>
+                            {v.senderId === userId ? (
+                              <MyMessage message={v} key={v.messageId} />
+                            ) : (
+                              <>
+                                <OpponentMessage
+                                  message={v}
+                                  key={v.messageId}
+                                />
+                              </>
+                            )}
+                          </Text>
                         )}
-                      </Text>
-                    )}
-                  </View>
-                ))}
+                      </View>
+                    ),
+                )}
               </View>
             </View>
           </View>

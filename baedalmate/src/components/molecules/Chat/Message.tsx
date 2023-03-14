@@ -21,7 +21,6 @@ export const MyMessage = ({message}: {message: messageI}) => {
         width: '100%',
         alignItems: 'flex-end',
         justifyContent: 'flex-end',
-        // marginBottom: 10,
         paddingBottom: 20,
       }}>
       <Text
@@ -70,25 +69,34 @@ export const OpponentMessage = ({message}: {message: messageI}) => {
         <View style={{maxWidth: '62%'}}>
           <Text
             style={{
-              // width: '100%',
               marginBottom: 5,
             }}>
-            {message.sender.length >= MAX_USERNAME_LIMIT
+            {message.sender.length > MAX_USERNAME_LIMIT
               ? message.sender.substring(0, MAX_USERNAME_LIMIT) + '...'
               : message.sender}
           </Text>
-          <MessageGray text={message.message} />
+
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'flex-end',
+            }}>
+            <MessageGray text={message.message} />
+            <View style={{}}>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  textAlignVertical: 'bottom',
+                  marginLeft: 15,
+                  alignSelf: 'flex-end',
+                  color: DARK_GRAY_COLOR,
+                  flexShrink: 1,
+                }}>
+                {formTime(timeText)}
+              </Text>
+            </View>
+          </View>
         </View>
-        <Text
-          style={{
-            textAlign: 'center',
-            textAlignVertical: 'bottom',
-            marginLeft: 15,
-            alignSelf: 'flex-end',
-            color: DARK_GRAY_COLOR,
-          }}>
-          {formTime(timeText)}
-        </Text>
       </View>
     </View>
   );
