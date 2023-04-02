@@ -46,31 +46,19 @@
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
-		<!-- <key>NSAllowsArbitraryLoadsInWebContent</key>
-		<true/>
-		<key>NSAllowsLocalNetworking</key>
-		<true/>
-		<key>NSExceptionDomains</key>
-		<dict>
-			<key>localhost</key>
-			<dict>
-				<key>NSExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-			</dict>
-		</dict> -->
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like to use your camera</string>
+	<string>$(PRODUCT_NAME) 이(가) 사용자의 사진에 접근하려고 합니다. 프로필 사진을 사용자 정의 사진으로 할 경우 필요합니다.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Program requires GPS to track cars and job orders</string>
+	<string>$(PRODUCT_NAME) 이(가) 사용자의 위치를 사용하도록 허용하겠습니까? 위치 인증을 진행하기 위해 필요합니다.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Program requires GPS to track cars and job orders</string>
+	<string>$(PRODUCT_NAME) 이(가) 사용자의 위치를 사용하도록 허용하겠습니까? 위치 인증을 진행하기 위해 필요합니다.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Program requires GPS to track cars and job orders</string>
+	<string>$(PRODUCT_NAME) 이(가) 사용자의 위치를 사용하도록 허용하겠습니까? 위치 인증을 진행하기 위해 필요합니다.</string>
 	<key>NSPhotoLibraryAppUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like to save photos to your photo gallery</string>
+	<string>$(PRODUCT_NAME) 이(가) 사용자의 사진에 접근하려고 합니다. 프로필 사진을 사용자 정의 사진으로 할 경우 필요합니다.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like access to your photo gallery</string>
+	<string>$(PRODUCT_NAME) 이(가) 사용자의 사진에 접근하려고 합니다. 프로필 사진을 사용자 정의 사진으로 할 경우 필요합니다.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AppleSDGothicNeo.ttc</string>

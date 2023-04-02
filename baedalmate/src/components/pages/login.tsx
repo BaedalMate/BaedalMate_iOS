@@ -320,17 +320,18 @@ function Login({navigation}: LoginProps): React.ReactElement {
       <Image
         source={LOGO_WITH_TEXT}
         style={{
-          marginTop: 55,
-          marginBottom: 90,
+          // marginTop: 55,
+          // marginBottom: 90,
           width: 400,
           height: 400,
           justifyContent: 'center',
         }}
       />
       {/* </View> */}
+      {/* <View style={{bottom: 20}}> */}
       <BtnKakaoLoginWrapper onPress={() => signInWithKakao()} />
       <BtnAppleAuth navigation={navigation} />
-      <View style={{position: 'absolute', bottom: 20, flexDirection: 'row'}}>
+      <View style={{flexDirection: 'row'}}>
         <TextKRBold
           style={{
             fontSize: 12,
@@ -387,6 +388,7 @@ function Login({navigation}: LoginProps): React.ReactElement {
         </TextKRBold>
       </View>
     </View>
+    // </View>
   );
 }
 
