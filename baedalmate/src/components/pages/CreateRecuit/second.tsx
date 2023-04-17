@@ -176,6 +176,36 @@ const CreateRecruit2 = props => {
         })
       : props.navigation.navigate('상세 설정3', {
           data,
+          name:
+            data.place && data.place.name
+              ? data.place.name
+              : defaultItem.place.name
+              ? defaultItem.place.name
+              : '',
+          addressName:
+            data.place && data.place.addressName
+              ? data.place.addressName
+              : defaultItem.place.addressName
+              ? defaultItem.place.addressName
+              : '',
+          roadAddressName:
+            data.place && data.place.roadAddressName
+              ? data.place.roadAddressName
+              : defaultItem.place.roadAddressName
+              ? defaultItem.place.roadAddressName
+              : '',
+          x:
+            data.place && data.place.x
+              ? data.place.x
+              : defaultItem.place.x
+              ? defaultItem.place.x
+              : 0,
+          y:
+            data.place && data.place.y
+              ? data.place.y
+              : defaultItem.place.y
+              ? defaultItem.place.y
+              : 0,
           categoryId: props.route.params.data.categoryId,
           criteria: props.route.params.data.data.criteria,
           freeShipping: props.route.params.data.data.freeShipping,

@@ -79,14 +79,21 @@ const CreateRecruit1 = props => {
   };
   const handleConfirm = data => {
     setTime(data);
+    // let offset = 1000 * 60 * 60 * 9;
     time.getTime() < now.getTime() && time.setDate(time.getDate() + 1);
     console.log(
-      time.toISOString(),
-      now.toISOString(),
+      // new Date(time.getTime() + offset),
+      // new Date(now.getTime() + offset),
+      // time.getTimezoneOffset(),
+      // now.getTimezoneOffset(),
+      // time.toISOString(),
+      // now.toISOString(),
       // time.getDate(),
       // now.getDate(),
-      time.getTime(),
-      now.getTime(),
+      // time.getTime(),
+      // now.getTime(),
+      time,
+      now,
     );
     hideTimePicker();
   };
