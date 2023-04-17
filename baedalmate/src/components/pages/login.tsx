@@ -331,7 +331,7 @@ function Login({navigation}: LoginProps): React.ReactElement {
       {/* <View style={{bottom: 20}}> */}
       <BtnKakaoLoginWrapper onPress={() => signInWithKakao()} />
       <BtnAppleAuth navigation={navigation} />
-      <View style={{flexDirection: 'row'}}>
+      <View style={{flexDirection: 'row', marginTop: 10}}>
         <TextKRBold
           style={{
             fontSize: 12,
