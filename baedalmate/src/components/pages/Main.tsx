@@ -133,7 +133,7 @@ const Main: React.FunctionComponent<MainProps> = props => {
               response.data.recruitList &&
               (await setMainRecruitList(response.data.recruitList));
 
-            return response.data.recruitList;
+            return await response.data.recruitList;
           } else if (response.status === 401) {
             const result = await refreshAPI();
             console.log(result);
@@ -149,25 +149,25 @@ const Main: React.FunctionComponent<MainProps> = props => {
               if (result.status === 200) {
                 getMainRecruitList();
               }
-              return result;
+              return await result;
             }
           } else if (response.status === 403) {
             if (nickname !== '') {
-              props.navigation.navigate('내 위치 인증');
+              return props.navigation.navigate('내 위치 인증');
             } else {
-              props.navigation.navigate('프로필 설정');
+              return props.navigation.navigate('프로필 설정');
             }
           }
-          return response;
+          return await response;
         })
         .catch(async function (error) {
           console.log(error);
           console.log(error.response.status);
           if (error.response.status === 403) {
             if (nickname !== '') {
-              props.navigation.navigate('내 위치 인증');
+              return props.navigation.navigate('내 위치 인증');
             } else {
-              props.navigation.navigate('프로필 설정');
+              return props.navigation.navigate('프로필 설정');
             }
           } else if (error.response.status === 401) {
             const result = await refreshAPI();

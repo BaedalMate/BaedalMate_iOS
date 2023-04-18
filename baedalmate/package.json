@@ -66,6 +66,8 @@
     "stomp-websockets": "^1.0.8",
     "stompjs": "^2.3.3",
     "swr": "^2.0.1",
+    "text-encoding": "^0.7.0",
+    "text-encoding-polyfill": "^0.6.7",
     "websocket": "^1.0.34"
   },
   "devDependencies": {

@@ -1,6 +1,13 @@
 /**
  * @format
  */
+import TextEncoding from 'text-encoding';
+const TextEncodingPolyfill = TextEncoding;
+
+Object.assign(global, {
+  TextEncoder: TextEncodingPolyfill.TextEncoder,
+  TextDecoder: TextEncodingPolyfill.TextDecoder,
+});
 
 import {AppRegistry, Linking, Platform} from 'react-native';
 import App from './App';

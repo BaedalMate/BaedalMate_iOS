@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 
 import {View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import BtnSelectSort from '../Button/BtnSelectSort';
 import BaedalMateRecommendationItem from 'components/atoms/Main/BaedalMateRecommendationItem';
-import {eachMainRecruitListI, mainRecruitListURL} from 'components/pages/Main';
+import {mainRecruitListURL} from 'components/pages/Main';
 import axios from 'axios';
 import {getJWTToken} from 'components/utils/api/Recruit';
 
@@ -45,8 +45,8 @@ const BaedalMateRecommendation = ({
               console.log(response);
               response.data &&
                 response.data.recruitList &&
-                setMainRecruitSortList(response.data.recruitList);
-              return response.data.recruitList;
+                setMainRecruitSortList(await response.data.recruitList);
+              return await response.data.recruitList;
             }
             return response;
           })
@@ -64,6 +64,9 @@ const BaedalMateRecommendation = ({
   useEffect(() => {
     getMainRecruitSortList();
   }, [option]);
+  useEffect(() => {
+    return () => setMainRecruitSortList([]);
+  }, []);
 
   return (
     <View style={{}}>

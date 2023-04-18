@@ -8,6 +8,8 @@ import {
   Platform,
   StyleSheet,
 } from 'react-native';
+import * as Sentry from '@sentry/react-native';
+
 import {NavigationContainer} from '@react-navigation/native';
 import {RootNavigator, navigate, navigationRef} from './src/Routes';
 import {RecoilEnv, RecoilRoot} from 'recoil';
@@ -34,10 +36,15 @@ RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
 //     if (Platform.OS === 'ios') Linking.openURL('App-Prefs:root');
 //   }
 // }
-
+Sentry.init({
+  dsn: 'https://6ac948be86df43608e87ef273051dbfc@o4504463006171136.ingest.sentry.io/4505029527994368',
+  // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
+  // We recommend adjusting this value in production.
+  tracesSampleRate: 1.0,
+});
 const App = () => {
-  LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
-  LogBox.ignoreAllLogs();
+  // LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+  // LogBox.ignoreAllLogs();
 
   useEffect(() => {
     checkVersion();
@@ -761,4 +768,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default Sentry.wrap(App);

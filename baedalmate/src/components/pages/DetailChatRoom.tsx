@@ -78,16 +78,12 @@ export interface messageProps {
   sender: string;
   message: string;
 }
-let ws = Stomp.over(function () {
-  return new SockJS(url + '/ws/chat');
-});
+let ws;
 export const DetailChatRoom = props => {
   // const [JWTAccessToken, setJWTAccessToken] =
   //   useRecoilState(JWTAccessTokenState);
   // const [JWTRefreshToken, setJWTRefreshToken] =
   //   useRecoilState(JWTRefreshTokenState);
-
-  ws.configure({});
   const [recv, setRecv] = useState<talkEnterRecvI | readRecvI>();
   const [messageText, setMessageText] = useState<string>('');
   const [detailChat, setDetailChat] = useState<eachDetailChatRoomI>();
@@ -196,15 +192,22 @@ export const DetailChatRoom = props => {
   const [messages, setMessages] = useState<messageProps[]>([]);
 
   const sendMessage = messageText => {
-    ws.send(
-      '/app/chat/message',
-      {},
-      JSON.stringify({
-        roomId: props.route.params.id,
-        senderId: userId,
-        message: messageText,
-      }),
-    );
+    try {
+      ws &&
+        ws.send(
+          '/app/chat/message',
+          {},
+          JSON.stringify({
+            roomId: props.route.params.id,
+            senderId: userId,
+            message: messageText,
+          }),
+        );
+    } catch (error) {
+      console.log(error);
+      throw new Error('sendMessage error' + error);
+    }
+
     addMessages(messageText);
   };
   const recvMessage = ({recv}: {recv: talkEnterRecvI | readRecvI}) => {
@@ -229,30 +232,31 @@ export const DetailChatRoom = props => {
   let reconnect = 0;
   function connect() {
     // pub/sub event
-    ws.connect(
-      {},
-      function (frame) {
-        ws.subscribe(
-          '/topic/chat/room/' + props.route.params.id,
-          function (message) {
-            const recv = JSON.parse(message.body);
-            recvMessage(recv);
-            setRecv(recv);
-          },
-        );
-      },
-      function (error) {
-        if (reconnect++ <= 5) {
-          setTimeout(function () {
-            console.log('connection reconnect');
-            ws = Stomp.over(function () {
-              return new SockJS(url + '/ws/chat');
-            });
-            connect();
-          }, 0.5 * 1000);
-        }
-      },
-    );
+    ws &&
+      ws.connect(
+        {},
+        function (frame) {
+          ws.subscribe(
+            '/topic/chat/room/' + props.route.params.id,
+            function (message) {
+              const recv = JSON.parse(message.body);
+              recvMessage(recv);
+              setRecv(recv);
+            },
+          );
+        },
+        function (error) {
+          if (reconnect++ <= 5) {
+            setTimeout(function () {
+              console.log('connection reconnect');
+              ws = Stomp.over(function () {
+                return new SockJS(url + '/ws/chat');
+              });
+              connect();
+            }, 0.5 * 1000);
+          }
+        },
+      );
   }
 
   const MemberListModal = props => {
@@ -522,6 +526,10 @@ export const DetailChatRoom = props => {
 
   useEffect(() => {
     // findRoom();
+    ws = Stomp.over(function () {
+      return new SockJS(url + '/ws/chat');
+    });
+    ws.configure({});
     getEachChatRoom();
     getMyInfo();
     connect();
@@ -712,9 +720,13 @@ export const DetailChatRoom = props => {
             />
             <TouchableOpacity
               onPress={handleSubmit(d => {
-                setMessageText(d.message);
-                sendMessage(d.message);
-                setValue('message', '');
+                try {
+                  setMessageText(d.message);
+                  sendMessage(d.message);
+                  setValue('message', '');
+                } catch (error) {
+                  throw new Error('sendMessage error' + error);
+                }
 
                 // sendMessage(d.message);
               })}>
